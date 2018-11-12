@@ -1,0 +1,8 @@
+{
+  "name": "Expert Opinions on Stock Trading — Stockchase",
+  "short_name": "Stockchase",
+  "start_url": "/",
+  "background_color": "#fff",
+  "display": "standalone",
+  "theme_color": "#EC4D4B"
+}

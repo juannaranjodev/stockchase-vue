@@ -1,0 +1,11 @@
+**/.git/**
+**/dist/**
+**/public/**
+**/src/**
+**/tmp/**
+docker-compose.*
+npm-debug.log
+tmp-*.json
+README.md
+LICENSE
+manifest.json

@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    mem_limit: 2048m
+    image: node:8
+    working_dir: /home/node/app
+    command: node_modules/.bin/forever -f -w server.js
+    ports:
+      - "127.0.0.1:8181:8080"
+    volumes:
+      - .:/home/node/app
