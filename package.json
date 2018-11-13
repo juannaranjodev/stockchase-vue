@@ -1,7 +1,7 @@
 {
-  "name": "vue-hackernews-2.0",
-  "description": "A Vue.js project",
-  "author": "Evan You <yyx990803@gmail.com>",
+  "name": "stockchase-site-v2",
+  "description": "Stockchase Site V2",
+  "author": "Wealthica Financial Technology Inc. <hello@wealthica.com> (https://wealthica.com/)",
   "private": true,
   "scripts": {
     "build": "rimraf dist && npm run build:client && npm run build:server",
