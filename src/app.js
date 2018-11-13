@@ -10,7 +10,7 @@ import * as filters from './util/filters'
 // import {
 //   Modal,
 // } from 'bootstrap-vue/es/components'
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue'
 // Vue.use(Modal)
 Vue.use(BootstrapVue)
 

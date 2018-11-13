@@ -44,8 +44,9 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [
-          resolve('src'), // white-list app source files
-          resolve('node_modules/bootstrap-vue')
+          resolve('src'),
+          resolve('models'),
+          resolve('node_modules/bootstrap-vue'),
         ],
       },
       {
@@ -92,7 +93,7 @@ module.exports = {
       ? [
           new VueLoaderPlugin(),
           new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
+            compress: { warnings: false },
           }),
           new webpack.optimize.ModuleConcatenationPlugin(),
           new ExtractTextPlugin({
