@@ -1,10 +1,16 @@
 import {
   fetchUser,
   fetchItems,
-  fetchIdsByType
+  fetchIdsByType,
+  fetchDailyOpinions
 } from '../api'
 
 export default {
+  FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date }) => {
+    return fetchDailyOpinions(date)
+      .then(({opinions, date, nextDate, prevDate}) => commit('SET_OPINIONS', { opinions, date, nextDate, prevDate }))
+  },
+
   // ensure data for rendering given list type
   FETCH_LIST_DATA: ({ commit, dispatch, state }, { type }) => {
     commit('SET_ACTIVE_TYPE', { type })

@@ -41,6 +41,12 @@ function fetch (child) {
   }
 }
 
+export function fetchDailyOpinions (date) {
+  return date === 'recent'
+    ? api.getRecentOpinions()
+    : api.getDailyOpinions(date)
+}
+
 export function fetchIdsByType (type) {
   return api.cachedIds && api.cachedIds[type]
     ? Promise.resolve(api.cachedIds[type])

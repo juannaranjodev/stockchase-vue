@@ -9,6 +9,10 @@ export default {
     state.lists[type] = ids
   },
 
+  SET_OPINIONS: (state, { opinions, date, nextDate, prevDate }) => {
+    state.opinions = { opinions, date, nextDate, prevDate }
+  },
+
   SET_ITEMS: (state, { items }) => {
     items.forEach(item => {
       if (item) {

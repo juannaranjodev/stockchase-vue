@@ -7,8 +7,6 @@ const env = require('./env');
 
 const isProd = process.env.NODE_ENV === 'production'
 
-console.log('---------------', env)
-
 module.exports = {
   devtool: isProd
     ? false
@@ -22,6 +20,7 @@ module.exports = {
     alias: {
       'public': path.resolve(__dirname, '../public'),
       'assets': path.resolve(__dirname, '../src/assets'),
+      'models': path.resolve(__dirname, '../models'),
     }
   },
   module: {

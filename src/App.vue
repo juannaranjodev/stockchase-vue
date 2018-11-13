@@ -6,13 +6,16 @@
           <img class="logo" src="~assets/svgs/stockchase_white_logo.svg" alt="logo">
         </a>
         <input type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Search for Company, Expert, or keyword...">
-
-        <router-link to="/new">New</router-link>
-        <router-link to="/show">Show</router-link>
-        <router-link to="/ask">Ask</router-link>
-        <router-link to="/job">Jobs</router-link>
       </nav>
     </header>
+    <div class="navigation">
+      <nav class="inner">
+        <a :href="appUrl">
+          <img class="home" src="~assets/images/stockchase-home-icon.png" alt="logo">
+        </a>
+        <a :href="appUrl + '/opinions/recent'">All Opinions</a>
+      </nav>
+    </div>
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -61,25 +64,45 @@ a
     transition color .15s ease
     display inline-block
     vertical-align middle
-    font-weight 300
+    font-weight 400
     letter-spacing .075em
     margin-right 1.8em
     &:hover
       color #fff
     &.router-link-active
       color #fff
-      font-weight 400
-    &:nth-child(6)
-      margin-right 0
-  .github
-    color #fff
-    font-size .9em
-    margin 0
-    float right
 
 .logo
   width 40px
   margin-right 10px
+  display inline-block
+  vertical-align middle
+
+.navigation
+  background-color #fff
+  border-bottom 1px solid #D9D9D9
+  height 70px
+  display flex
+  align-items center
+  .inner
+    box-sizing border-box
+    width 1140px
+    max-width 100%
+    padding 0 20px
+    margin 0 auto
+  a
+    font-size 16px
+    line-height 24px
+    transition color .15s ease
+    display inline-block
+    vertical-align middle
+    font-weight 400
+    margin-right 1.8em
+    &:hover
+      text-decoration none
+
+.home
+  width 20px
   display inline-block
   vertical-align middle
 

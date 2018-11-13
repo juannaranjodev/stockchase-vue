@@ -41,7 +41,7 @@ router.onReady(() => {
     // TODO return next() here to disable asyncData hooks altogether, meaning
     // we don't want to use client routing & don't want the client app to fetch
     // data on route change.
-    // return next()
+    return next()
 
     const matched = router.getMatchedComponents(to)
     const prevMatched = router.getMatchedComponents(from)
