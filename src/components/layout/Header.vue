@@ -10,8 +10,8 @@
       <div class="inner-right">
         <a class="link" href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
         <a class="link" href="https://app.monstercampaigns.com/c/pyfvvozlgjmvfiny48bx/">Free 72 rules eBook</a>
-        <a class="button button-white button-white-login button-login" href="https://stockchase.com/member/login">Login</a>
-        <a class="button button-orange button-orange-signup button-signup" href="https://stockchase.com/member/signup">Sign Up</a>
+        <a class="button button-white button-white-login button-login" :href="appUrl + '/member/login'">Login</a>
+        <a class="button button-orange button-orange-signup button-signup" :href="appUrl + '/member/signup'">Sign Up</a>
       </div>
     </nav>
   </header>

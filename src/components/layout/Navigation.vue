@@ -1,10 +1,37 @@
 <template>
   <div class="navigation">
     <nav class="inner">
-      <a :href="appUrl">
-        <img class="home" src="~assets/images/stockchase-home-icon.png" alt="logo">
-      </a>
-      <a :href="appUrl + '/opinions/recent'" class='active'>All Opinions</a>
+      <div class="inner-left">
+        <div class="link">
+          <a :href="appUrl">
+            <img class="home" src="~assets/images/stockchase-home-icon.png" alt="logo">
+          </a>
+        </div>
+        <div class="link active">
+          <a :href="appUrl + '/opinions/recent'">All Opinions</a>
+        </div>
+        <div class="link">
+          <a :href="appUrl + '/market/'">Answers</a>
+        </div>
+        <div class="link">
+          <a :href="appUrl + '/opinions/recenttop'">Top Picks</a>
+        </div>
+        <div class="link">
+          <a :href="appUrl + '/discover/'">Discover</a>
+        </div>
+        <div class="link">
+          <a :href="appUrl + '/company'">Companies</a>
+        </div>
+        <div class="link">
+          <a :href="appUrl + '/expert'">Experts</a>
+        </div>
+      </div>
+      <div class="inner-right">
+        <a class="watchlist" href="/portfolio">
+          <img src="~assets/svgs/watch_list_icon.svg">
+          watch list
+        </a>
+      </div>
     </nav>
   </div>
 </template>
@@ -33,6 +60,7 @@ export default {
 
   .home
     width 20px
+    margin-top -8px
 
   .inner
     box-sizing border-box
@@ -40,18 +68,34 @@ export default {
     max-width 100%
     padding 0 20px
     margin 0 auto
-  a
-    font-size 16px
-    line-height 24px
-    transition color .15s ease
-    display inline-block
-    vertical-align middle
-    font-weight 400
-    margin-right 1.8em
-    &:hover
-      text-decoration none
+    display flex
+    align-items center
+    justify-content space-between
+
+  .link
+    font-size 14pt
+    line-height 1.6
+    font-weight 500
+    display inline
+
+    &:first-child
+      margin-left 2px
+    &:not(:first-child)
+      margin-left 25px
+
     &.active
       color #EC4D4B
       border-bottom: 2px solid #EC4D4B
+
+    a
+      font-size 16px
+      color inherit
+      &:hover
+        text-decoration none
+
+  .watchlist
+    margin-top 9px
+    color black
+    text-transform uppercase
 
 </style>

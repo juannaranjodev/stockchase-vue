@@ -32,10 +32,6 @@ body
   padding 0
   color #555
 
-a
-  color #34495e
-  text-decoration none
-
 .view
   max-width 800px
   margin 0 auto
