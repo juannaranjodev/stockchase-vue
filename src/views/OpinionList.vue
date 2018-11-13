@@ -1,6 +1,17 @@
 <template>
-  <div class="news-view">
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <h2 class="title">Latest Expert Opinions</h2>
+        <span class="link active">Stocks</span>
+        <a class="link" href="/opinions/market">Stocks</a>
+      </div>
+      <div class="header-right">
+        <a href="https://stockchase.recurly.com/subscribe/adfree" class="subscribe">Too many ads? Remove ads !</a>
+      </div>
+    </div>
     <h1>{{$route.params.date}}</h1>
+
     <div class="news-list-nav">
       <a v-if="newerDate" :href="'/opinions/' + newerDate">&lt; {{ newerDate }}</a>
       <a v-else class="disabled">&lt; No Newer</a>
@@ -8,18 +19,17 @@
       <a v-if="olderDate" :href="'/opinions/' + olderDate">{{ olderDate }} &gt;</a>
       <a v-else class="disabled">No Older &gt;</a>
     </div>
-    <transition :name="transition">
-      <div class="news-list" :key="date">
-        <transition-group tag="ul" name="item">
-          <item
-            v-for="item in displayedItems"
-            :key="item.id"
-            :item="item"
-            @showComments="showComments"
-          ></item>
-        </transition-group>
-      </div>
-    </transition>
+
+    <div class="news-list" :key="date">
+      <ul>
+        <item
+          v-for="item in displayedItems"
+          :key="item.id"
+          :item="item"
+          @showComments="showComments"
+        ></item>
+      </ul>
+    </div>
     <comments-modal ref="commentsModal" />
   </div>
 </template>
@@ -43,15 +53,6 @@ export default {
     CommentsModal,
   },
 
-  data () {
-    return {
-      type: 'top',
-      transition: 'slide-right',
-      // displayedPage: Number(this.$route.params.page) || 1,
-      // displayedItems: this.$store.getters.opinions.opinions,
-    }
-  },
-
   computed: {
     olderDate () {
       return this.$store.getters.opinions.olderDate
@@ -67,57 +68,62 @@ export default {
     }
   },
 
-  beforeMount () {
-    // if (this.$root._isMounted) {
-    //   this.loadItems(this.page)
-    // }
-    // // watch the current list for realtime updates
-    // this.unwatchList = watchList(this.type, ids => {
-    //   this.$store.commit('SET_LIST', { type: this.type, ids })
-    //   this.$store.dispatch('ENSURE_ACTIVE_ITEMS').then(() => {
-    //     this.displayedItems = this.$store.getters.activeItems
-    //   })
-    // })
-  },
-
-  beforeDestroy () {
-    // this.unwatchList()
-  },
-
-  watch: {
-    page (to, from) {
-      this.loadItems(to, from)
-    }
-  },
-
   methods: {
     showComments(opinion) {
       this.$refs.commentsModal.setupComments(opinion)
       this.$root.$emit('bv::show::modal', 'modal_comments')
     },
-
-    loadItems (to = this.page, from = -1) {
-      this.$bar.start()
-      this.$store.dispatch('FETCH_LIST_DATA', {
-        type: this.type
-      }).then(() => {
-        if (this.page < 0 || this.page > this.maxPage) {
-          this.$router.replace(`/${this.type}/1`)
-          return
-        }
-        this.transition = from === -1
-          ? null
-          : to > from ? 'slide-left' : 'slide-right'
-        this.displayedPage = to
-        this.displayedItems = this.$store.getters.activeItems
-        this.$bar.finish()
-      })
-    }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+
+.container
+  box-sizing border-box
+  width 1140px
+  max-width 100%
+  padding 0 20px
+  margin 0 auto
+
+.header
+  height 58px
+  display flex
+  align-items center
+  justify-content space-between
+  border-bottom 2px solid #E9E9EA
+
+  .title
+    font-size 1.6em
+    color #111
+    line-height 1.1
+    margin-bottom 0
+
+  .link
+    padding 5px 20px
+    font-size 16px
+    border-radius 15px
+    margin-left 10px
+    color black
+    line-height 1.1
+
+    &.active
+      background #A3A2A2
+      color white
+
+  .title + .link
+    margin-left 30px
+
+  &-left, &-right
+    display flex
+    align-items center
+
+  .subscribe
+    color black
+    text-decoration underline
+    font-size 15px
+    margin-top 5px
+
 .news-view
   padding-top 0
 
@@ -141,26 +147,6 @@ export default {
     list-style-type none
     padding 0
     margin 0
-
-.slide-left-enter, .slide-right-leave-to
-  opacity 0
-  transform translate(30px, 0)
-
-.slide-left-leave-to, .slide-right-enter
-  opacity 0
-  transform translate(-30px, 0)
-
-.item-move, .item-enter-active, .item-leave-active
-  transition all .5s cubic-bezier(.55,0,.1,1)
-
-.item-enter
-  opacity 0
-  transform translate(30px, 0)
-
-.item-leave-active
-  position absolute
-  opacity 0
-  transform translate(30px, 0)
 
 @media (max-width 600px)
   .news-list
