@@ -7,21 +7,26 @@ const env = require('./env');
 
 const isProd = process.env.NODE_ENV === 'production'
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir);
+}
+
 module.exports = {
   devtool: isProd
     ? false
     : '#cheap-module-source-map',
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: resolve('dist'),
     publicPath: '/dist/',
     filename: '[name].[chunkhash].js'
   },
   resolve: {
+    extensions: ['.js', '.vue', '.json'],
     alias: {
-      'public': path.resolve(__dirname, '../public'),
-      'assets': path.resolve(__dirname, '../src/assets'),
-      'models': path.resolve(__dirname, '../models'),
-    }
+      'public': resolve('public'),
+      'assets': resolve('src/assets'),
+      '@': resolve('src'),
+    },
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process
@@ -38,7 +43,17 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        include: [
+          resolve('src'), // white-list app source files
+          resolve('node_modules/bootstrap-vue')
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

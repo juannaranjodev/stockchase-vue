@@ -6,6 +6,14 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
+// Vue Bootstrap modules
+// import {
+//   Modal,
+// } from 'bootstrap-vue/es/components'
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue'
+// Vue.use(Modal)
+Vue.use(BootstrapVue)
+
 // mixin for handling title
 Vue.mixin(titleMixin)
 
