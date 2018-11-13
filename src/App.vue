@@ -5,17 +5,20 @@
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
+    <site-footer />
   </div>
 </template>
 
 <script>
-import Header from './components/layout/Header.vue'
-import Navigation from './components/layout/Navigation.vue'
+import SiteHeader from './components/layout/Header.vue'
+import SiteNavigation from './components/layout/Navigation.vue'
+import SiteFooter from './components/layout/Footer.vue'
 
 export default {
   components: {
-    'site-header': Header,
-    'site-navigation': Navigation
+    SiteHeader,
+    SiteNavigation,
+    SiteFooter
   },
 }
 </script>
