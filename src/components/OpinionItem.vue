@@ -3,6 +3,7 @@
     <h3>{{ item.company.name }} ({{ item.company.symbol }})</h3>
     <div>{{ item.date }}</div>
     <p v-html="item.content"></p>
+    <a @click="showComments">Comments</a>
   </li>
 </template>
 
@@ -15,6 +16,12 @@ export default {
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: ({ item: { id }}) => {
     return `opinion::${id}`
+  },
+
+  methods: {
+    showComments() {
+      this.$emit('showComments', this.item)
+    }
   }
 }
 </script>

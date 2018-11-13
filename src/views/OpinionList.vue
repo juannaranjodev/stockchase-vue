@@ -11,17 +11,23 @@
     <transition :name="transition">
       <div class="news-list" :key="date">
         <transition-group tag="ul" name="item">
-          <item v-for="item in displayedItems" :key="item.id" :item="item">
-          </item>
+          <item
+            v-for="item in displayedItems"
+            :key="item.id"
+            :item="item"
+            @showComments="showComments"
+          ></item>
         </transition-group>
       </div>
     </transition>
+    <comments-modal ref="commentsModal" />
   </div>
 </template>
 
 <script>
 import { watchList } from '../api'
 import Item from '../components/OpinionItem.vue'
+import CommentsModal from '../components/CommentsModal.vue'
 
 export default {
   name: 'opinion-list',
@@ -33,7 +39,8 @@ export default {
   title: 'Recent Opinions',
 
   components: {
-    Item
+    Item,
+    CommentsModal,
   },
 
   data () {
@@ -84,6 +91,11 @@ export default {
   },
 
   methods: {
+    showComments(opinion) {
+      this.$refs.commentsModal.setupComments(opinion)
+      this.$root.$emit('bv::show::modal', 'modal_comments')
+    },
+
     loadItems (to = this.page, from = -1) {
       this.$bar.start()
       this.$store.dispatch('FETCH_LIST_DATA', {
