@@ -8,7 +8,7 @@ import {
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date }) => {
     return fetchDailyOpinions(date)
-      .then(({opinions, date, nextDate, prevDate}) => commit('SET_OPINIONS', { opinions, date, nextDate, prevDate }))
+      .then(opinions => commit('SET_OPINIONS', opinions))
   },
 
   // ensure data for rendering given list type

@@ -1,6 +1,7 @@
 <template>
   <li class="news-item">
     <h3>{{ item.company.name }} ({{ item.company.symbol }})</h3>
+    <div>{{ item.date }}</div>
     <p v-html="item.content"></p>
   </li>
 </template>

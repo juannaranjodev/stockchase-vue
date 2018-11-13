@@ -1,11 +1,43 @@
-const opinions = require('./opinions.json')
+const allOpinions = require('./opinions.json')
+import moment from 'moment'
+import _ from 'lodash'
 
-module.exports = {
-  getRecentOpinions() {
-    return Promise.resolve({ opinions, date: '2011-11-10', prevDate: '2011-11-9', nextDate: '2011-11-11' })
-  },
+const sortedOpinions = _.sortBy(allOpinions, (o) => {
+  return -moment.utc(o.date, 'LL')
+})
 
-  getDailyOpinions(date) {
-    return Promise.resolve({ opinions, date, prevDate: '2011-11-9', nextDate: '2011-11-11' })
-  }
+const getRecentOpinions = (date) => {
+  const latestOpinion = sortedOpinions[0];
+  return getDailyOpinions(moment.utc(latestOpinion.date, 'LL').format('YYYY-MM-DD'))
+}
+
+const getDailyOpinions = (date) => {
+  // TODO use better date validation & move 404 logic out of this model
+  if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) return Promise.reject({ code: 404 })
+
+  const items = _.filter(sortedOpinions, (o) => {
+    return moment.utc(o.date, 'LL').format('YYYY-MM-DD') === date
+  })
+
+  const numOpinions = items.length
+  const firstOpinionIndex = numOpinions && _.findIndex(sortedOpinions, (o) => {
+    return o.id === items[0].id
+  })
+  const lastOpinionIndex = numOpinions && _.findIndex(sortedOpinions, (o) => {
+    return o.id === items[numOpinions - 1].id
+  })
+  const firstNewerOpinion = sortedOpinions[firstOpinionIndex - 1]
+  const firstOlderOpinion = sortedOpinions[lastOpinionIndex + 1]
+
+  return Promise.resolve({
+    items,
+    date: numOpinions && moment.utc(items[0].date, 'LL').format('YYYY-MM-DD'),
+    olderDate: firstOlderOpinion && moment.utc(firstOlderOpinion.date, 'LL').format('YYYY-MM-DD'),
+    newerDate: firstNewerOpinion && moment.utc(firstNewerOpinion.date, 'LL').format('YYYY-MM-DD'),
+  })
+}
+
+export default {
+  getRecentOpinions,
+  getDailyOpinions
 }

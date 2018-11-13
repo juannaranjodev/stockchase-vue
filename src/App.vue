@@ -13,7 +13,7 @@
         <a :href="appUrl">
           <img class="home" src="~assets/images/stockchase-home-icon.png" alt="logo">
         </a>
-        <a :href="appUrl + '/opinions/recent'">All Opinions</a>
+        <a :href="appUrl + '/opinions/recent'" class='active'>All Opinions</a>
       </nav>
     </div>
     <transition name="fade" mode="out-in">
@@ -100,11 +100,12 @@ a
     margin-right 1.8em
     &:hover
       text-decoration none
+    &.active
+      color #EC4D4B
+      border-bottom: 2px solid #EC4D4B;
 
 .home
   width 20px
-  display inline-block
-  vertical-align middle
 
 .view
   max-width 800px

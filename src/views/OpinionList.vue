@@ -2,11 +2,11 @@
   <div class="news-view">
     <h1>{{$route.params.date}}</h1>
     <div class="news-list-nav">
-      <a v-if="prevDate" :href="'/opinions/' + prevDate">&lt; {{ prevDate }}</a>
-      <a v-else class="disabled">&lt; prev</a>
+      <a v-if="newerDate" :href="'/opinions/' + newerDate">&lt; {{ newerDate }}</a>
+      <a v-else class="disabled">&lt; No Newer</a>
       <span>{{ date }}</span>
-      <a v-if="nextDate" :href="'/opinions/' + nextDate">{{ nextDate }} &gt;</a>
-      <a v-else class="disabled">more &gt;</a>
+      <a v-if="olderDate" :href="'/opinions/' + olderDate">{{ olderDate }} &gt;</a>
+      <a v-else class="disabled">No Older &gt;</a>
     </div>
     <transition :name="transition">
       <div class="news-list" :key="date">
@@ -27,7 +27,6 @@ export default {
   name: 'opinion-list',
 
   asyncData ({ store, route }) {
-    console.log('------fetching date', route.params.date)
     return store.dispatch('FETCH_DAILY_OPINIONS', { date: route.params.date })
   },
 
@@ -47,17 +46,17 @@ export default {
   },
 
   computed: {
-    prevDate () {
-      return this.$store.getters.opinions.prevDate
+    olderDate () {
+      return this.$store.getters.opinions.olderDate
     },
-    nextDate () {
-      return this.$store.getters.opinions.nextDate
+    newerDate () {
+      return this.$store.getters.opinions.newerDate
     },
     date () {
       return this.$store.getters.opinions.date
     },
     displayedItems () {
-      return this.$store.getters.opinions.opinions
+      return this.$store.getters.opinions.items
     }
   },
 

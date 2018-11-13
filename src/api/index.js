@@ -1,5 +1,6 @@
 // this is aliased in webpack config based on server/client build
 import { createAPI } from 'create-api'
+import moment from 'moment'
 
 const logRequests = !!process.env.DEBUG_API
 
@@ -43,7 +44,7 @@ function fetch (child) {
 
 export function fetchDailyOpinions (date) {
   return date === 'recent'
-    ? api.getRecentOpinions()
+    ? api.getRecentOpinions(moment.utc().format('YYYY-MM-DD'))
     : api.getDailyOpinions(date)
 }
 
