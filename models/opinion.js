@@ -12,9 +12,6 @@ const getRecentOpinions = (date) => {
 }
 
 const getDailyOpinions = (date) => {
-  // TODO use better date validation & move 404 logic out of this model
-  if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) return Promise.reject({ code: 404 })
-
   const items = _.filter(sortedOpinions, (o) => {
     return moment.utc(o.date, 'LL').format('YYYY-MM-DD') === date
   })

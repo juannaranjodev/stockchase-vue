@@ -43,9 +43,14 @@ function fetch (child) {
 }
 
 export function fetchDailyOpinions (date) {
-  return date === 'recent'
-    ? api.getRecentOpinions(moment.utc().format('YYYY-MM-DD'))
-    : api.getDailyOpinions(date)
+  if (date === 'recent') {
+    return api.getRecentOpinions(moment.utc().format('YYYY-MM-DD'))
+  } else {
+    // TODO use better date validation
+    if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) return Promise.reject({ code: 404 })
+
+    return api.getDailyOpinions(date)
+  }
 }
 
 export function fetchIdsByType (type) {
