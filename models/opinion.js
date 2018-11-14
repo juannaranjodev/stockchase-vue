@@ -1,40 +1,92 @@
-const allOpinions = require('./opinions.json')
-import moment from 'moment'
-import _ from 'lodash'
+'use strict'
 
-const sortedOpinions = _.sortBy(allOpinions, (o) => {
-  return -moment.utc(o.date, 'LL')
-})
+module.exports = (sequelize, DataTypes) => {
+  var Opinion = sequelize.define('Opinion', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    company_id: {
+      type: DataTypes.INTEGER,
+    },
+    source_id: {
+      type: DataTypes.INTEGER,
+    },
+    date: {
+      type: DataTypes.DATEONLY,
+      field: 'Date',
+    },
+    price: {
+      type: DataTypes.DECIMAL(19,3),
+      field: 'PRICE',
+    },
+    comment: {
+      type: DataTypes.TEXT('medium'),
+    },
+    expert_id: {
+      type: DataTypes.INTEGER,
+    },
+    subject_id: {
+      type: DataTypes.INTEGER,
+    },
+    signal_id: {
+      type: DataTypes.INTEGER,
+    },
+    ownership_id: {
+      type: DataTypes.INTEGER,
+    },
+  }, {
+    timestamps: false,
+    underscored: true,
+    tableName: 'New_opinion',
+  });
 
-const getRecentOpinions = (date) => {
-  const latestOpinion = sortedOpinions[0];
-  return getDailyOpinions(moment.utc(latestOpinion.date, 'LL').format('YYYY-MM-DD'))
-}
+  Opinion.associate = function(models) {
+    Opinion.belongsTo(models.Company);
+    Opinion.belongsTo(models.Source);
+    Opinion.belongsTo(models.Expert);
+    Opinion.belongsTo(models.Subject);
+    Opinion.belongsTo(models.Signal);
+  };
 
-const getDailyOpinions = (date) => {
-  const items = _.filter(sortedOpinions, (o) => {
-    return moment.utc(o.date, 'LL').format('YYYY-MM-DD') === date
-  })
+  // Get the date of the most recent opinion
+  Opinion.getRecentOpinionDate = async function() {
+    var recentOpinion = await Opinion.findOne({ order: [['date', 'DESC'], ['id', 'ASC']] });
+    return recentOpinion.date;
+  };
 
-  const numOpinions = items.length
-  const firstOpinionIndex = numOpinions && _.findIndex(sortedOpinions, (o) => {
-    return o.id === items[0].id
-  })
-  const lastOpinionIndex = numOpinions && _.findIndex(sortedOpinions, (o) => {
-    return o.id === items[numOpinions - 1].id
-  })
-  const firstNewerOpinion = sortedOpinions[firstOpinionIndex - 1]
-  const firstOlderOpinion = sortedOpinions[lastOpinionIndex + 1]
+  // Retrieve the most recent opinions
+  Opinion.getRecentOpinions = async function() {
+    var date = await Opinion.getRecentOpinionDate();
+    return Opinion.getOpinionsByDate(date);
+  };
 
-  return Promise.resolve({
-    items,
-    date: numOpinions && moment.utc(items[0].date, 'LL').format('YYYY-MM-DD'),
-    olderDate: firstOlderOpinion && moment.utc(firstOlderOpinion.date, 'LL').format('YYYY-MM-DD'),
-    newerDate: firstNewerOpinion && moment.utc(firstNewerOpinion.date, 'LL').format('YYYY-MM-DD'),
-  })
-}
+  // Retrieve opinions for a given date
+  Opinion.getOpinionsByDate = function(date) {
+    return Opinion.findAll({
+      where: { date: date },
+      order: [['date', 'DESC'], ['id', 'ASC']],
+      include: [ { all: true } ],
+    });
+  };
 
-export default {
-  getRecentOpinions,
-  getDailyOpinions
-}
+  Opinion.prototype.getNewerOpinionDate = async function() {
+    var newerOpinion = await Opinion.findOne({
+      where: { date: { $gt: this.date }},
+      order: [['date', 'ASC']],
+    });
+
+    return (newerOpinion) ? newerOpinion.date : undefined;
+  };
+
+  Opinion.prototype.getOlderOpinionDate = async function() {
+    var olderOpinion = await Opinion.findOne({
+      where: { date: { $lt: this.date }},
+      order: [['date', 'DESC']],
+    });
+
+    return (olderOpinion) ? olderOpinion.date : undefined;
+  };
+
+  return Opinion;
+};
