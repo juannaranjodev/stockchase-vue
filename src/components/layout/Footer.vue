@@ -6,7 +6,7 @@
       </div>
       <div class="footer__center">
         <div style="width: 87%;">
-          <p>Stockchase,  in its reporting on what has been discussed by indviduals on business television programs (in particular Business News Network), neither recommends nor promotes any investment strategies.</p>
+          <p>Stockchase,  in its reporting on what has been discussed by individuals on business television programs (in particular Business News Network), neither recommends nor promotes any investment strategies.</p>
 
           <p>We paraphrase the experts by hand, we watch the shows and write down what we understood from the experts’ comments. <span style="font-weight: bold;">We are human and can make mistakes</span>, help us fix any errors. If you see something that you know is not right or if there is a problem with the site, feel free to email us at : <a href="mailto:hello@stockchase.com" style="color: #FFFFFF;">hello@stockchase.com</a>.</p>
         </div>

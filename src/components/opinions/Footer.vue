@@ -28,16 +28,16 @@ export default {
       lists: [
         {
           label: "Top Picks",
-          items: ['ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T'],
+          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F'],
           link: `${c.APP_URL}/opinions/recenttop`
         },
         {
           label: "Trending",
-          items: ['ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T'],
+          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F', 'ALA-G', 'ALA-H'],
         },
         {
           label: "Today",
-          items: ['ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T', 'ALA-T'],
+          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F', 'ALA-G', 'ALA-H'],
         }
       ]
     }

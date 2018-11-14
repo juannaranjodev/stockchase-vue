@@ -1,37 +1,66 @@
 <template>
   <div class="container">
     <opinions-header />
+    <opinions-slider />
 
-    <h1>{{$route.params.date}}</h1>
-    <div class="news-list-nav">
-      <a v-if="newerDate" :href="'/opinions/' + newerDate">&lt; {{ newerDate }}</a>
-      <a v-else class="disabled">&lt; No Newer</a>
-      <span>{{ date }}</span>
-      <a v-if="olderDate" :href="'/opinions/' + olderDate">{{ olderDate }} &gt;</a>
-      <a v-else class="disabled">No Older &gt;</a>
+    <div class="opinions-container">
+      <div class="pagination">
+        <div class="pagination-left">
+          {{ date | formatDate }}
+        </div>
+        <div class="pagination-right">
+          <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
+            <span>{{ olderDate | formatDate }}</span>
+            <img src="~assets/images/arrow-right.png" width="20">
+          </a>
+        </div>
+      </div>
+
+      <table class="opinions-table" :key="date">
+        <thead>
+          <tr>
+            <th><span>Signal</span></th>
+            <th><span>Opinion</span></th>
+            <th><span>Expert</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <item
+            v-for="item in displayedItems"
+            :key="item.id"
+            :item="item"
+            @showComments="showComments"
+          />
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <div class="pagination-left">
+          <a class="btn-navigate" v-if="newerDate" :href="'/opinions/' + newerDate">
+            <img src="~assets/images/arrow-left.png" width="20">
+            <span>{{ newerDate | formatDate }}</span>
+          </a>
+        </div>
+        <div class="pagination-right">
+          <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
+            <span>{{ olderDate | formatDate }}</span>
+            <img src="~assets/images/arrow-right.png" width="20">
+          </a>
+        </div>
+      </div>
     </div>
-
-    <div class="news-list" :key="date">
-      <ul>
-        <item
-          v-for="item in displayedItems"
-          :key="item.id"
-          :item="item"
-          @showComments="showComments"
-        ></item>
-      </ul>
-    </div>
-
-    <comments-modal ref="commentsModal" />
 
     <opinions-footer />
+    <comments-modal ref="commentsModal" />
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import { watchList } from '../api'
 import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsFooter from '../components/opinions/Footer.vue'
+import OpinionsSlider from '../components/opinions/Slider.vue'
 import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
 
@@ -47,6 +76,7 @@ export default {
   components: {
     OpinionsHeader,
     OpinionsFooter,
+    OpinionsSlider,
     Item,
     CommentsModal,
   },
@@ -71,6 +101,13 @@ export default {
       this.$refs.commentsModal.setupComments(opinion)
       this.$root.$emit('bv::show::modal', 'modal_comments')
     },
+  },
+
+  filters: {
+    formatDate (date) {
+      console.log('formatDate', date)
+      return moment(date, 'YYYY-MM-DD').format('LL')
+    },
   }
 }
 </script>
@@ -84,21 +121,57 @@ export default {
   padding 0 20px
   margin 0 auto
 
+.pagination
+  display flex
+  align-items center
+  justify-content space-between
+  margin 10px 0
+
+.btn-navigate
+  background-color red
+  border-radius 5px
+  padding 7px 10px
+  color white
+  display inline-flex
+  align-items center
+  text-decoration none
+
+  img
+    &:first-child
+      margin-right 3px
+    &:last-child
+      margin-left 3px
+
+.opinions-table
+  font-size 16px
+  line-height 160%
+  border 1px solid #ccc
+  border-top 3px solid #474747
+  border-radius 0
+  border-collapse collapse
+  border-spacing 0
+  color #444
+  background #fff
+  width 100%
+
+  th
+    border 1px solid #ccc
+    padding 10px
+    text-align left
+
+  th
+    background #F7F7F7
+    font-weight normal
+
+    span
+      color #FF4135
+
 .news-view
   padding-top 0
 
-.news-list-nav, .news-list
+.news-list
   background-color #fff
   border-radius 2px
-
-.news-list-nav
-  padding 15px 30px
-  text-align center
-  box-shadow 0 1px 2px rgba(0,0,0,.1)
-  a
-    margin 0 1em
-  .disabled
-    color #ccc
 
 .news-list
   margin 30px 0
