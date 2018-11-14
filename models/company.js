@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     logo: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return 'https://data.wealthica.com/securities/NASDAQ:FB/logo';
+        return `https://data.wealthica.com/api/securities/${this.symbol}/logo`;
       },
     },
     sector_id: {

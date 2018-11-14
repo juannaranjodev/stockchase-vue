@@ -6,7 +6,7 @@
     <div class="opinions-container">
       <div class="pagination">
         <div class="pagination-left">
-          {{ date | formatDate }} {{ displayedItems.length }}
+          {{ date | formatDate }}
         </div>
         <div class="pagination-right">
           <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
@@ -102,13 +102,6 @@ export default {
       this.$root.$emit('bv::show::modal', 'modal_comments')
     },
   },
-
-  filters: {
-    formatDate (date) {
-      console.log('formatDate', date)
-      return moment(date, 'YYYY-MM-DD').format('LL')
-    },
-  }
 }
 </script>
 

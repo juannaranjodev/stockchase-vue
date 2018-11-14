@@ -1,18 +1,87 @@
 <template>
-  <tr class="opinions-item">
-    <td>{{ item.Signal.name }}</td>
-    <td>
-      <h3>{{ item.Company.name }} ({{ item.Company.symbol }})</h3>
-      <div>{{ item.date }}</div>
-      <p v-html="item.comment"></p>
-      <a @click="showComments">Comments</a>
+  <tr class="opinions-row">
+    <td class="signal-cell">
+      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
+        <div class="signal-badge">
+          <div :class="`${signalClassName}-border`" style="border-radius: 5px;">
+            {{ item.Signal.name.toUpperCase() }}
+          </div>
+        </div>
+      </div>
     </td>
-    <td>{{ item.Expert.name }}</td>
+
+    <td class="opinion-cell">
+      <div class="opinion">
+        <div class="opinion-main">
+          <div class="company">
+            <a class="company-logo" :href="companyUrl">
+              <img :src="item.Company.logo">
+            </a>
+            <div class="company-meta">
+              <a class="company-name-symbol" :href="companyUrl">
+                <span class="company-name">{{ item.Company.name }}</span>
+                <span class="company-symbol">({{ item.Company.symbol }})</span>
+              </a>
+              <div class="opinion-date">
+                {{ item.date | formatDate }}
+              </div>
+            </div>
+            <div class="company-share">
+              <a class="btn-share" href="#">
+                <img src="~assets/svgs/share.svg">
+              </a>
+            </div>
+          </div>
+          <div class="opinion-comment" v-html="item.comment"></div>
+        </div>
+        <div class="opinion-footer">
+          <div class="opinion-footer-left">
+            <div v-if="item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
+          </div>
+          <div class="opinion-footer-right">
+            <div class="opinion-rating">
+              <img src="~assets/images/smileys/smiley-glasses.png" width="25">
+            </div>
+            <a class="btn-comment" href="#" @click="showComments">
+              <img src="~assets/svgs/comment_icon.svg">
+              <span>0 Comments</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </td>
+
+    <td class="expert-cell">
+      <a :href="expertUrl" class="expert-name">
+        {{ item.Expert.name }}
+      </a>
+      <div class="expert-title">
+        {{ item.Expert.title }}
+      </div>
+
+      <div class="expert-meta">
+        <div v-b-tooltip.hover title="Price">
+          <img src="~assets/images/price_icon@2x.png" width="18" alt="Price">
+        </div>
+        <div>
+          ${{ item.price }}
+        </div>
+      </div>
+      <div class="expert-meta">
+        <div v-b-tooltip.hover title="Owned">
+          <img src="~assets/images/owned_icon@2x.png" width="18" alt="Owned">
+        </div>
+        <div>
+          {{ item.Ownership.name }}
+        </div>
+      </div>
+    </td>
   </tr>
 </template>
 
 <script>
 import { timeAgo } from '../../util/filters'
+import _ from 'lodash'
 
 export default {
   name: 'opinions-item',
@@ -22,20 +91,190 @@ export default {
     return `opinion::${id}`
   },
 
+  computed: {
+    signalClassName() {
+      return this.toClassName(this.item.Signal.name)
+    },
+    expertSlug() {
+      return _.startCase(this.item.Expert.name).replace(/\s/, '-')
+    },
+    expertUrl() {
+      return `/expert/view/${this.item.Expert.id}/${this.expertSlug}`
+    },
+    companySlug() {
+      return _.startCase(this.item.Company.name).replace(/\s/, '-')
+    },
+    companyUrl() {
+      return `/company/view/${this.item.Company.id}/${this.companySlug}-referenced-by-${this.expertSlug}`
+    }
+  },
+
   methods: {
     showComments() {
       this.$emit('showComments', this.item)
+    },
+
+    toClassName(signal) {
+      return _.snakeCase(signal)
+    }
+  },
+
+  filters: {
+    toClassName (signal) {
+      return this.toClassName(signal)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.opinions-item
+.opinions-row
   td
     border 1px solid #ccc
     padding 10px
     text-align left
     background #fcfcfc
+    height 230px
+  &hover td
+    background #FFFAF1
+
+  .signal
+    &-cell
+      text-align center
+      position relative
+      padding 0
+      width 80px
+    &-wrapper
+      width 100%
+      min-height 50px
+      padding 0
+      text-align center
+      font-size 10.5px
+      position absolute
+      top 0
+      height 100%
+    &-badge
+      padding 5px
+      position relative
+      top 50%
+      transform translateY(-45%)
+
+  .expert
+    &-cell
+      vertical-align top
+      position relative
+      padding-top 10px
+      width 170px
+    &-name
+      color #4366D0
+      font-size 16px
+      font-weight normal
+      text-decoration none
+    &-title
+      margin-bottom 10px
+      font-size 14px
+      font-weight normal
+      line-height 1.4
+      color #ABB3B9
+    &-meta
+      display flex
+      align-items center
+      img
+        margin-right 3px
+        margin-top -2px
+
+  .company
+    display flex
+    align-items center
+
+    &-logo
+      width 74px
+      height 74px
+      border-radius 5px
+      margin 0 10px 0 0
+      border 1px solid #ccc
+      background white
+      position relative
+      display block
+
+      img
+        position absolute
+        top 0
+        left 0
+        right 0
+        bottom 0
+        margin auto
+        width 85%
+        height auto
+    &-meta
+      flex 1
+
+    &-share
+      margin-left 10px
+
+    &-name-symbol
+      font-size 21px
+      font-weight bold
+      text-decoration none
+      color #000
+
+    &-name-symbolhover
+      color #09f
+    &-name
+      color inherit
+    &-symbol
+      color #ABB3B9
+      margin-left 3px
+
+  .opinion
+    display flex
+    flex-direction column
+    align-items stretch
+    justify-content space-between
+    height 100%
+    &-cell
+      position relative
+    &-date
+      color #ABB3B9
+      font-size 16px
+    &-comment
+      margin-top 5px
+      margin-bottom 20px
+    &-footer
+      display flex
+      align-items center
+      justify-content space-between
+      &-left, &-right
+        display flex
+        align-items center
+    &-sector-badge
+      background-color #E0EFFD
+      border 1px solid #C5E7F6
+      color #55638D
+      padding 5px 10px 5px 10px
+      font-size 13px
+      font-weight bold
+      border-radius 5px
+      text-transform uppercase
+      line-height 1.4
+    &-rating
+      margin-right 30px
+      opacity 0.6
+      &hover
+        opacity 1
+
+  .btn-share
+    img
+      width 65px
+  .btn-comment
+    display inline-flex
+    align-items center
+    color #06c
+    text-decoration none
+    &hover
+      color #09f
+    img
+      margin-top 5px
+      margin-right 3px
 
 </style>

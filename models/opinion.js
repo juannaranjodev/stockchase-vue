@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
   // Retrieve opinions for a given date
   Opinion.getOpinionsByDate = function(date) {
     return Opinion.findAll({
-      where: { date: date },
+      where: { date: date, company_id: { $ne: 1970 } }, // ignore market comment
       order: [['date', 'DESC'], ['id', 'ASC']],
       include: [ { all: true, nested: true } ],
     });
