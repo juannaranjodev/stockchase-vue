@@ -96,13 +96,13 @@ export default {
       return this.toClassName(this.item.Signal.name)
     },
     expertSlug() {
-      return _.startCase(this.item.Expert.name).replace(/\s/, '-')
+      return _.startCase(this.item.Expert.name).replace(/\s/g, '-')
     },
     expertUrl() {
       return `/expert/view/${this.item.Expert.id}/${this.expertSlug}`
     },
     companySlug() {
-      return _.startCase(this.item.Company.name).replace(/\s/, '-')
+      return _.startCase(this.item.Company.name).replace(/\s/g, '-')
     },
     companyUrl() {
       return `/company/view/${this.item.Company.id}/${this.companySlug}-referenced-by-${this.expertSlug}`
@@ -135,7 +135,7 @@ export default {
     text-align left
     background #fcfcfc
     height 230px
-  &hover td
+  &:hover td
     background #FFFAF1
 
   .signal
@@ -260,7 +260,7 @@ export default {
     &-rating
       margin-right 30px
       opacity 0.6
-      &hover
+      &:hover
         opacity 1
 
   .btn-share
