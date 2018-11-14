@@ -1,14 +1,27 @@
-require('dotenv').load();
+require('dotenv').load()
+const merge = require('webpack-merge')
 
-const env = {
+const baseEnv = {
   APP_URL: process.env.APP_URL,
 }
+const serverEnv = merge(baseEnv, {
+  DATABASE_URL: process.env.DATABASE_URL,
+})
+const clientEnv = merge(baseEnv, {})
 
-for (var k in env) {
-  // ENV variables need to be stringified in order to be passed to the app.
-  if (env.hasOwnProperty(k)) {
-    env[k] = JSON.stringify(env[k])
+const stringify = (env) => {
+  for (var k in env) {
+    // ENV variables need to be stringified in order to be passed to the app.
+    if (env.hasOwnProperty(k)) {
+      env[k] = JSON.stringify(env[k])
+    }
   }
+  return env
+}
+
+const env = {
+  client: stringify(clientEnv),
+  server: stringify(serverEnv),
 }
 
 module.exports = env

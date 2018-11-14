@@ -6,14 +6,18 @@ const logRequests = !!process.env.DEBUG_API
 
 const api = createAPI()
 
-export function fetchDailyOpinions (date) {
+export async function fetchDailyOpinions (date) {
   if (date === 'recent') {
-    return api.getRecentOpinions(moment.utc().format('YYYY-MM-DD'))
-  } else {
-    // TODO use better date validation
-    if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) return Promise.reject({ code: 404 })
+    date = await api.getRecentOpinionDate()
+  } else if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) {
+    return Promise.reject({ code: 404 })
+  }
 
-    return api.getDailyOpinions(date)
+  return {
+    items: await api.getOpinionsByDate(date),
+    date: date,
+    olderDate: await api.getOlderOpinionDate(date),
+    newerDate: await api.getNewerOpinionDate(date),
   }
 }
 

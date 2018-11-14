@@ -3,7 +3,6 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
-const env = require('./env');
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -86,9 +85,6 @@ module.exports = {
     hints: isProd ? 'warning' : false
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': env
-    }),
     ...(isProd
       ? [
           new VueLoaderPlugin(),

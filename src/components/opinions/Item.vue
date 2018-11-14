@@ -1,13 +1,13 @@
 <template>
   <tr class="opinions-item">
-    <td>{{ item.signal }}</td>
+    <td>{{ item.Signal.name }}</td>
     <td>
-      <h3>{{ item.company.name }} ({{ item.company.symbol }})</h3>
+      <h3>{{ item.Company.name }} ({{ item.Company.symbol }})</h3>
       <div>{{ item.date }}</div>
-      <p v-html="item.content"></p>
+      <p v-html="item.comment"></p>
       <a @click="showComments">Comments</a>
     </td>
-    <td>{{ item.expert.name }}</td>
+    <td>{{ item.Expert.name }}</td>
   </tr>
 </template>
 

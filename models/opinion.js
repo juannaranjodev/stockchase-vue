@@ -47,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Expert);
     Opinion.belongsTo(models.Subject);
     Opinion.belongsTo(models.Signal);
+    Opinion.belongsTo(models.Ownership);
   };
 
   // Get the date of the most recent opinion
@@ -66,22 +67,22 @@ module.exports = (sequelize, DataTypes) => {
     return Opinion.findAll({
       where: { date: date },
       order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true } ],
+      include: [ { all: true, nested: true } ],
     });
   };
 
-  Opinion.prototype.getNewerOpinionDate = async function() {
+  Opinion.getNewerOpinionDate = async function(date) {
     var newerOpinion = await Opinion.findOne({
-      where: { date: { $gt: this.date }},
+      where: { date: { $gt: date }},
       order: [['date', 'ASC']],
     });
 
     return (newerOpinion) ? newerOpinion.date : undefined;
   };
 
-  Opinion.prototype.getOlderOpinionDate = async function() {
+  Opinion.getOlderOpinionDate = async function(date) {
     var olderOpinion = await Opinion.findOne({
-      where: { date: { $lt: this.date }},
+      where: { date: { $lt: date }},
       order: [['date', 'DESC']],
     });
 

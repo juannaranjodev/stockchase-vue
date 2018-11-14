@@ -1,22 +1,18 @@
 'use strict';
 
-var fs        = require('fs');
-var path      = require('path');
 var Sequelize = require('sequelize');
-var basename  = path.basename(__filename);
-var db        = {};
-
 var sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'mysql' });
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    var model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
+var db = {
+  Company: sequelize['import']('company', require('./company')),
+  Expert: sequelize['import']('expert', require('./expert')),
+  Opinion: sequelize['import']('opinion', require('./opinion')),
+  Ownership: sequelize['import']('ownership', require('./ownership')),
+  Sector: sequelize['import']('sector', require('./sector')),
+  Signal: sequelize['import']('signal', require('./signal')),
+  Source: sequelize['import']('source', require('./source')),
+  Subject: sequelize['import']('subject', require('./subject')),
+};
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

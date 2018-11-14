@@ -18,11 +18,18 @@ module.exports = (sequelize, DataTypes) => {
         return 'https://data.wealthica.com/securities/NASDAQ:FB/logo';
       },
     },
+    sector_id: {
+      type: DataTypes.INTEGER,
+    },
   }, {
     timestamps: false,
     underscored: true,
     tableName: 'New_company',
   });
+
+  Company.associate = function(models) {
+    Company.belongsTo(models.Sector);
+  };
 
   return Company;
 };

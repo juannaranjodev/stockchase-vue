@@ -1,4 +1,4 @@
-import Opinion from '../../models/opinion'
+import db from '../../models'
 import LRU from 'lru-cache'
 
 export function createAPI () {
@@ -8,7 +8,7 @@ export function createAPI () {
   if (process.__API__) {
     api = process.__API__
   } else {
-    api = process.__API__ = Opinion
+    api = process.__API__ = db.Opinion
   }
   return api
 }

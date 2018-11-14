@@ -6,7 +6,7 @@
     <div class="opinions-container">
       <div class="pagination">
         <div class="pagination-left">
-          {{ date | formatDate }}
+          {{ date | formatDate }} {{ displayedItems.length }}
         </div>
         <div class="pagination-right">
           <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
