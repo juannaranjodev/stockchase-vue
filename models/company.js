@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING(54),
-     },
+    },
+    sector_id: {
+      type: DataTypes.INTEGER,
+    },
     logo: {
       type: DataTypes.VIRTUAL,
       get: function() {
@@ -24,8 +27,12 @@ module.exports = (sequelize, DataTypes) => {
         return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=https://stockchase.com/images/no logo icon @2x.png`;
       },
     },
-    sector_id: {
-      type: DataTypes.INTEGER,
+    url: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        // TODO: Update template to use this so we have a single place to manage URL
+        return `/company/view/${this.id}/${this.symbol}`;
+      },
     },
   }, {
     timestamps: false,
