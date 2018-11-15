@@ -57,7 +57,7 @@
 
 <script>
 import moment from 'moment'
-import { watchList } from '../api'
+import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
@@ -92,7 +92,9 @@ export default {
       return this.$store.getters.opinions.date
     },
     items () {
-      return this.$store.getters.opinions.items
+      const items = this.$store.getters.opinions.items;
+      if (this.$route.params.id) return _.filter(items, { id: +this.$route.params.id })
+      return items
     },
     recentItems () {
       return this.$store.getters.opinions.recentItems
