@@ -46,6 +46,7 @@ module.exports = {
           resolve('src'),
           resolve('models'),
           resolve('node_modules/bootstrap-vue'),
+          resolve('node_modules/vue-disqus'),
         ],
       },
       {
