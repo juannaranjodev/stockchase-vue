@@ -44,7 +44,7 @@
             </div>
             <a class="btn-comment" @click="showComments">
               <img src="~assets/svgs/comment_icon.svg">
-              <span>0 Comments</span>
+              <span class="disqus-comment-count" :data-disqus-identifier="disqusIdentifier">0 Comments</span>
             </a>
           </div>
         </div>
@@ -82,6 +82,7 @@
 <script>
 import { timeAgo } from '../../util/filters'
 import _ from 'lodash'
+import md5 from 'md5'
 
 export default {
   name: 'opinions-item',
@@ -94,6 +95,10 @@ export default {
   computed: {
     signalClassName() {
       return this.toClassName(this.item.Signal.name)
+    },
+
+    disqusIdentifier() {
+      return md5(this.item.url)
     },
   },
 

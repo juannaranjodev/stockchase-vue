@@ -19,6 +19,16 @@ module.exports = (sequelize, DataTypes) => {
         return `/expert/view/${this.id}/${this.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
       },
     },
+    avatar_path: {
+      type: DataTypes.TEXT,
+      field: 'avatar',
+    },
+    avatar: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        return `https://stockchase.s3.amazonaws.com/${this.avatar_path}`;
+      },
+    }
   }, {
     timestamps: false,
     underscored: true,

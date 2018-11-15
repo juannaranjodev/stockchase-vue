@@ -14,6 +14,9 @@ import BootstrapVue from 'bootstrap-vue'
 // Vue.use(Modal)
 Vue.use(BootstrapVue)
 
+import VueDisqus from 'vue-disqus'
+Vue.use(VueDisqus)
+
 // mixin for handling title
 Vue.mixin(titleMixin)
 

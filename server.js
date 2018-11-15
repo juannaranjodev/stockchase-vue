@@ -102,6 +102,8 @@ function render (req, res) {
     title: 'Daily Stock Opinions - Stockchase', // default title
     url: req.url,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
+    DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,
+    APP_URL: process.env.APP_URL,
   }
   renderer.renderToString(context, (err, html) => {
     if (err) {

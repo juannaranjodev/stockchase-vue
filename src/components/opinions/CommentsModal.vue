@@ -3,24 +3,45 @@
     id="modal_comments"
     ref="commentsModal"
     title="Comments"
-    body-class="modal-body--comments"
+    modal-class="opinion-comments-modal"
     @hide="onModalHidden"
   >
-    <h3>Comments for opinion id: {{ item.id }}</h3>
-    <div v-html="item.content"></div>
+    <div v-if="item.id">
+      <div class="company">
+        <a class="company-logo" :href="item.Company.url">
+          <img :src="item.Company.logo">
+        </a>
+        <div class="company-meta">
+          <a class="expert-avatar" :href="item.Expert.url">
+            <img :src="item.Expert.avatar">
+          </a>
+          <a class="meta-link" :href="item.Company.url">{{ item.Company.name }}</a>
+          <a class="meta-link" :href="item.Expert.url">{{ item.Expert.name }}</a>
+        </div>
+      </div>
+
+      <div class="opinion-comment" v-html="item.comment"></div>
+      <div class="opinion-date">{{ item.date | formatDate }}</div>
+
+      <div class="opinion-comments">
+        <vue-disqus :shortname="disqusShortName" :identifier="disqusIdentifier" :url="item.url"></vue-disqus>
+      </div>
+    </div>
 
     <template slot="modal-footer">
       <div class="modal-footer__left">
       </div>
 
       <div class="modal-footer__right">
-        <button class="modal-button" @click="hideModal">Hide</button>
+        <b-button size="sm" class="btn btn-danger" @click="hideModal">Close</b-button>
       </div>
     </template>
   </b-modal>
 </template>
 
 <script>
+import md5 from 'md5'
+import * as c from '../../constants'
 
 export default {
   name: 'comments-modal',
@@ -29,6 +50,16 @@ export default {
     return {
       item: {},
     };
+  },
+
+  computed: {
+    disqusIdentifier() {
+      return md5(this.item.url)
+    },
+
+    disqusShortName() {
+      return c.DISQUS_SHORTNAME
+    }
   },
 
   methods: {
@@ -41,15 +72,76 @@ export default {
     },
 
     onModalHidden (e) {
-      this.item = {}
     },
   }
 }
 </script>
 
 <style lang="stylus">
-.error-text {
-  color red;
-}
+.opinion-comments-modal
+  .modal-header
+    display none
+  .modal-body, .modal-footer
+    padding 20px 35px
 
+</style>
+
+<style lang="stylus" scoped>
+.company
+  display flex
+  align-items center
+  flex-wrap nowrap
+
+  &-logo
+    display block
+    width 134px
+    height 134px
+    border 1px solid #ccc
+    border-radius 5px
+    position relative
+    background white
+    flex-grow 0
+    flex-shrink 0
+    margin-right 30px
+    img
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      margin auto
+      width 85%
+      height auto
+
+.meta-link
+  display block
+  color #297AE3
+  font-weight bold
+  font-size 21px
+  line-height normal
+  &:hover
+    color #09f
+    text-decoration underline
+
+.expert
+  &-avatar
+    margin-bottom 15px
+    display inline-block
+    img
+      width 64px
+      height 64px
+      background white
+      border-radius 5px
+
+.opinion
+  &-comment
+    font-size 19px
+    line-height normal
+    margin-top 20px
+
+  &-date
+    text-transform uppercase
+    color #b2b2b2
+    font-size 16px
+    margin 8px 0 20px
 </style>
