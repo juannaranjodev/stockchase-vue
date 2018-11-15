@@ -21,16 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     logo: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        // TODO: Rename default image to follow styleguide and host somewhere on stockchase-v2 code base
-        // This default image path is also used by the Wealthica Stockchase add-on careful when renaming
-        // Maybe we should move the default image directly into Wealthica Data instead
-        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=https://stockchase.com/images/no logo icon @2x.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=${process.env.APP_URL}/no_logo_icon_@2x.png`;
       },
     },
     url: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        // TODO: Update template to use this so we have a single place to manage URL
         return `/company/view/${this.id}/${this.symbol}`;
       },
     },

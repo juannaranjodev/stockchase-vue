@@ -1,5 +1,5 @@
 <template>
-  <tr class="opinions-row">
+  <tr class="opinions-row" :id="item.id">
     <td class="signal-cell">
       <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
         <div class="signal-badge">
@@ -14,11 +14,11 @@
       <div class="opinion">
         <div class="opinion-main">
           <div class="company">
-            <a class="company-logo" :href="companyUrl">
+            <a class="company-logo" :href="item.Company.url">
               <img :src="item.Company.logo">
             </a>
             <div class="company-meta">
-              <a class="company-name-symbol" :href="companyUrl">
+              <a class="company-name-symbol" :href="item.Company.url">
                 <span class="company-name">{{ item.Company.name }}</span>
                 <span class="company-symbol">({{ item.Company.symbol }})</span>
               </a>
@@ -52,7 +52,7 @@
     </td>
 
     <td class="expert-cell">
-      <a :href="expertUrl" class="expert-name">
+      <a :href="item.Expert.url" class="expert-name">
         {{ item.Expert.name }}
       </a>
       <div class="expert-title">
@@ -95,18 +95,6 @@ export default {
     signalClassName() {
       return this.toClassName(this.item.Signal.name)
     },
-    expertSlug() {
-      return _.startCase(this.item.Expert.name).replace(/\s/g, '-')
-    },
-    expertUrl() {
-      return `/expert/view/${this.item.Expert.id}/${this.expertSlug}`
-    },
-    companySlug() {
-      return _.startCase(this.item.Company.name).replace(/\s/g, '-')
-    },
-    companyUrl() {
-      return `/company/view/${this.item.Company.id}/${this.companySlug}-referenced-by-${this.expertSlug}`
-    }
   },
 
   methods: {
