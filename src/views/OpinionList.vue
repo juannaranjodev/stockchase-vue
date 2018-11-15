@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <opinions-header />
-    <opinions-slider />
+    <opinions-slider :items="recentItems" />
 
     <div class="opinions-container">
       <div class="pagination">
@@ -26,7 +26,7 @@
         </thead>
         <tbody>
           <item
-            v-for="item in displayedItems"
+            v-for="item in items"
             :key="item.id"
             :item="item"
             @showComments="showComments"
@@ -91,9 +91,12 @@ export default {
     date () {
       return this.$store.getters.opinions.date
     },
-    displayedItems () {
+    items () {
       return this.$store.getters.opinions.items
-    }
+    },
+    recentItems () {
+      return this.$store.getters.opinions.recentItems
+    },
   },
 
   methods: {

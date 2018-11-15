@@ -42,7 +42,7 @@
             <div class="opinion-rating">
               <img src="~assets/images/smileys/smiley-glasses.png" width="25">
             </div>
-            <a class="btn-comment" href="#" @click="showComments">
+            <a class="btn-comment" @click="showComments">
               <img src="~assets/svgs/comment_icon.svg">
               <span>0 Comments</span>
             </a>
@@ -257,10 +257,11 @@ export default {
   .btn-comment
     display inline-flex
     align-items center
-    color #06c
+    color #06c !important
     text-decoration none
-    &hover
-      color #09f
+    &:hover
+      cursor pointer
+      color #09f !important
     img
       margin-top 5px
       margin-right 3px
