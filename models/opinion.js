@@ -35,6 +35,13 @@ module.exports = (sequelize, DataTypes) => {
     ownership_id: {
       type: DataTypes.INTEGER,
     },
+    url: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        // TODO: Need to implement anchor link on opinions page
+        return `/opinions/${this.date}/#${this.id}`;
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,
