@@ -63,13 +63,13 @@ module.exports = (sequelize, DataTypes) => {
     return recentOpinion.date;
   };
 
-  // Retrieve the most recent opinions
+  // Get opinions for the most recently available date
   Opinion.getRecentOpinions = async function() {
     var date = await Opinion.getRecentOpinionDate();
     return Opinion.getOpinionsByDate(date);
   };
 
-  // Retrieve opinions for a given date
+  // Get opinions for a given date
   Opinion.getOpinionsByDate = function(date) {
     return Opinion.findAll({
       where: { date: date, company_id: { $ne: 1970 } }, // ignore market comment
@@ -78,6 +78,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Given a date return the most recent following date that has an opinion (used for pagination)
   Opinion.getNewerOpinionDate = async function(date) {
     var newerOpinion = await Opinion.findOne({
       where: { date: { $gt: date }},
@@ -87,6 +88,7 @@ module.exports = (sequelize, DataTypes) => {
     return (newerOpinion) ? newerOpinion.date : undefined;
   };
 
+  // Given a date return the most recent preceding date that has an opinion (used for pagination)
   Opinion.getOlderOpinionDate = async function(date) {
     var olderOpinion = await Opinion.findOne({
       where: { date: { $lt: date }},
