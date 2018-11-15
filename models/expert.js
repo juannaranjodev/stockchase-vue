@@ -26,5 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'New_expert',
   });
 
+  Expert.associate = function(models) {
+    Expert.hasMany(models.Opinion);
+  };
+
   return Expert;
 };

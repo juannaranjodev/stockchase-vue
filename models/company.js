@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Company.associate = function(models) {
     Company.belongsTo(models.Sector);
+    Company.hasMany(models.Opinion);
   };
 
   return Company;
