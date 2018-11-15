@@ -13,6 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       field: 'TITLE',
      },
+    url: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        // TODO: Update template to use this so we have a single place to manage URL
+        return `/expert/view/${this.id}/${this.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,
