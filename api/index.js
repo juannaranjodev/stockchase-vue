@@ -4,11 +4,14 @@ const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const urldecode = require('locutus/php/url/urldecode');
 const unserialize = require('locutus/php/var/unserialize');
+const glob = require('glob');
+const path = require('path');
 
 const User = require('../models').User;
-const SocialRating = require('../models').SocialRating;
 
 const router = express.Router();
+
+router.use(bodyParser.json());
 
 // Extract session data from CodeIgniter ci_session cookie
 router.use(cookieParser(null, { decode: urldecode }), async function(req, res, next) {
@@ -39,16 +42,9 @@ router.use(function(req, res, next) {
   next();
 });
 
-// Return currently logged in user information
-router.get('/users/me', function(req, res) {
-  res.json(req.user);
-});
-
-// Create or update user rating for an opinion
-router.post('/opinions/:id/ratings', bodyParser.json(), async function(req, res) {
-  // TODO: Add opinion and rating validation
-  if (!req.body.rating) return res.status(400).end();
-  await SocialRating.upsert({ id: req.params.id, user_id: req.user.id, rating: req.body.rating });
+// Load API routes
+glob.sync('./api/!(index).js').forEach(function(filename) {
+  router.use('/' + path.basename(filename, '.js'), require('./' + path.basename(filename)));
 });
 
 module.exports = router;
