@@ -18,6 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     rating: {
       type: DataTypes.INTEGER(4),
     },
+    date_rated: {
+      type: DataTypes.INTEGER(11),
+    },
     opinion: {
       type: DataTypes.VIRTUAL,
       get: function() {

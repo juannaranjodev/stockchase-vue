@@ -54,6 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Subject);
     Opinion.belongsTo(models.Signal);
     Opinion.belongsTo(models.Ownership);
+    // FIXME: Need to find how to join social ratings only where content_type="opinion"
+    // Currently both opinion and expert ratings are returned
     Opinion.hasMany(models.SocialRating, { foreignKey: 'content_id' });
   };
 
