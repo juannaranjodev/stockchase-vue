@@ -4,27 +4,7 @@ import moment from 'moment'
 
 const logRequests = !!process.env.DEBUG_API
 
-const api = createAPI()
-
-export async function fetchDailyOpinions (date) {
-  const recentDate = await api.getRecentOpinionDate()
-  if (date === 'recent') {
-    date = recentDate
-  } else if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) {
-    return Promise.reject({ code: 404 })
-  }
-
-  const items = await api.getOpinionsByDate(date)
-  const recentItems = (recentDate === date) ? items : await api.getOpinionsByDate(recentDate)
-
-  return {
-    items,
-    recentItems,
-    date,
-    olderDate: await api.getOlderOpinionDate(date),
-    newerDate: await api.getNewerOpinionDate(date),
-  }
-}
+export default createAPI()
 
 // const api = createAPI({
 //   version: '/v0',

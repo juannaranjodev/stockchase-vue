@@ -13,24 +13,7 @@
       <div class="inner-right">
         <a class="link" href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
         <a class="link" href="https://app.monstercampaigns.com/c/pyfvvozlgjmvfiny48bx/">Free 72 rules eBook</a>
-        <div v-if="loggedIn" class="header-auth">
-          <b-dropdown ref="userDropdown" right class="user-dropdown" toggle-class="user-dropdown-toggle" @mouseover.native="onMouseOver" @mouseleave.native="onMouseLeave">
-            <b-dropdown-item :href="`${appUrl}/profile`">My Profile</b-dropdown-item>
-            <b-dropdown-item :href="`${appUrl}/portfolio`">My Watch List</b-dropdown-item>
-            <b-dropdown-item :href="`${appUrl}/auth/logout`" @click="logout">Logout</b-dropdown-item>
-            <template slot="button-content">
-              <div class="user-dropdown-label">
-                <img class="user-avatar" src="//www.gravatar.com/avatar/9c72d48f553285affbea973117684b63" width="25">
-                <span class="user-name">codynguyen</span>
-                <img class="user-dropdown-arrow" src="~assets/svgs/white-arrow-down.svg" width="20">
-              </div>
-            </template>
-          </b-dropdown>
-        </div>
-        <div v-else class="header-auth">
-          <a class="button button-white button-white-login button-login" :href="appUrl + '/member/login'" @click="login">Login</a>
-          <a class="button button-orange button-orange-signup button-signup" :href="appUrl + '/member/signup'">Sign Up</a>
-        </div>
+        <header-auth />
       </div>
     </nav>
   </header>
@@ -39,19 +22,19 @@
 <script>
 import * as c from '../../constants'
 import Select2 from '../Select2.vue'
-// const Select2 = () => import('../Select2.vue')
+import HeaderAuth from './HeaderAuth.vue'
 
 export default {
   name: 'site-header',
 
   components: {
+    HeaderAuth,
     Select2
   },
 
   data () {
     return {
       appUrl: c.APP_URL,
-      loggedIn: false,
       ajaxOptions: [],
       ajax: {
         url: 'https://jsonplaceholder.typicode.com/posts',
@@ -66,24 +49,6 @@ export default {
   },
 
   methods: {
-    login(e) {
-      e.preventDefault()
-      this.loggedIn = true
-    },
-
-    logout(e) {
-      e.preventDefault()
-      this.loggedIn = false
-    },
-
-    onMouseOver() {
-      this.$refs.userDropdown.show()
-    },
-
-    onMouseLeave() {
-      this.$refs.userDropdown.hide()
-    },
-
     ajaxChangeEvent(val) {
       console.log('ajaxChangeEvent', val)
       // alert(val);
@@ -95,63 +60,6 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-.user
-  &-dropdown
-    height 45px
-
-    .dropdown-menu
-      margin-top -5px
-      padding 0
-      box-shadow 0px 8px 16px 0px rgba(0,0,0,0.2)
-      width 128px
-      border 0
-      min-width 0
-
-    .dropdown-item
-      color #000000
-      font-size 14px
-      padding 12px 16px !important
-      font-weight bold
-      text-decoration none
-      background-color #F9F9F9
-      line-height 1
-
-      &:first-child
-        border-top-left-radius 5px
-        border-top-right-radius 5px
-
-      &:last-child
-        border-bottom-left-radius 5px
-        border-bottom-right-radius 5px
-
-      &:hover
-        background-color #F1F1F1
-        color red
-
-    &-toggle
-      padding 0
-      background-color transparent !important
-      border 0 !important
-
-      &:after
-        display none !important
-
-    &-label
-      display flex
-      align-items center
-
-  &-avatar
-    border-radius 100px
-    margin-right 13px
-
-  &-name
-    margin-right 13px
-    color white
-    font-weight bold
-
-</style>
 
 <style lang="stylus" scoped>
 .header

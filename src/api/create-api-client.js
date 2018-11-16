@@ -1,8 +1,16 @@
-// import Firebase from 'firebase/app'
-// import 'firebase/database'
+import $ from 'jquery'
 
 export function createAPI () {
-  // Firebase.initializeApp(config)
-  // return Firebase.database().ref(version)
-  return {}
+  return {
+    fetchUser () {
+      return $.ajax({
+        url: '/api/users/me',
+        xhrFields: {
+          withCredentials: true
+        },
+      }).then((data, textStatus, jqXHR) => {
+        return data
+      })
+    }
+  }
 }

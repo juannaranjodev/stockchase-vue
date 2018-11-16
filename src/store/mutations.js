@@ -5,6 +5,10 @@ export default {
     state.opinions = opinions
   },
 
+  SET_USER: (state, user={}) => {
+    state.user = user
+  },
+
   // SET_ACTIVE_TYPE: (state, { type }) => {
   //   state.activeType = type
   // },

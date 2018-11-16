@@ -41,7 +41,7 @@
 import * as c from '../../constants'
 
 export default {
-  name: 'site-navigation',
+  name: 'site-footer',
 
   data () {
     return {

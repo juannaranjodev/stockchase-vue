@@ -1,5 +1,6 @@
 import db from '../../models'
 import LRU from 'lru-cache'
+const Opinion = db.Opinion
 
 export function createAPI () {
   let api
@@ -8,8 +9,29 @@ export function createAPI () {
   if (process.__API__) {
     api = process.__API__
   } else {
-    api = process.__API__ = db.Opinion
+    api = process.__API__ = {
+      fetchDailyOpinions: async function (date) {
+        const recentDate = await Opinion.getRecentOpinionDate()
+        if (date === 'recent') {
+          date = recentDate
+        } else if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) {
+          return Promise.reject({ code: 404 })
+        }
+
+        const items = await Opinion.getOpinionsByDate(date)
+        const recentItems = (recentDate === date) ? items : await Opinion.getOpinionsByDate(recentDate)
+
+        return {
+          items,
+          recentItems,
+          date,
+          olderDate: await Opinion.getOlderOpinionDate(date),
+          newerDate: await Opinion.getNewerOpinionDate(date),
+        }
+      }
+    }
   }
+
   return api
 }
 

@@ -3,6 +3,10 @@ export default {
     return state.opinions
   },
 
+  user (state) {
+    return state.user
+  }
+
   // // ids of the items that should be currently displayed based on
   // // current list type and current pagination
   // activeIds (state) {

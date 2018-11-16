@@ -1,14 +1,14 @@
-import {
-  fetchDailyOpinions,
-  // fetchUser,
-  // fetchItems,
-  // fetchIdsByType,
-} from '../api'
+import api from '../api'
 
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date }) => {
-    return fetchDailyOpinions(date)
+    return api.fetchDailyOpinions(date)
       .then(opinions => commit('SET_OPINIONS', opinions))
+  },
+
+  FETCH_USER: ({ commit, dispatch, state }) => {
+    return api.fetchUser()
+      .then(user => commit('SET_USER', user))
   },
 
   // // ensure data for rendering given list type
