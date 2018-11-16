@@ -5,7 +5,10 @@
         <a :href="appUrl">
           <img class="logo" src="~assets/svgs/stockchase_white_logo.svg" alt="logo">
         </a>
-        <input class="nav-search" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Search for Company, Expert, or keyword...">
+        <div class="search-bar">
+          <Select2 :options="ajaxOptions" :settings="{ placeholder: 'Specifies the placeholder through settings', width: '50%', ajax: ajax }" @change="ajaxChangeEvent($event)" @select="ajaxSelectEvent($event)" />
+        </div>
+        <!-- <input class="nav-search" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Search for Company, Expert, or keyword..."> -->
       </div>
       <div class="inner-right">
         <a class="link" href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
@@ -35,14 +38,30 @@
 
 <script>
 import * as c from '../../constants'
+import Select2 from '../Select2.vue'
+// const Select2 = () => import('../Select2.vue')
 
 export default {
   name: 'site-header',
+
+  components: {
+    Select2
+  },
 
   data () {
     return {
       appUrl: c.APP_URL,
       loggedIn: false,
+      ajaxOptions: [],
+      ajax: {
+        url: 'https://jsonplaceholder.typicode.com/posts',
+        processResults (data) {
+          // Tranforms the top-level key of the response object from 'items' to 'results'
+          return {
+            results: data.map(x => ({id:x.id, text: x.title}))
+          }
+        }
+      },
     }
   },
 
@@ -63,7 +82,16 @@ export default {
 
     onMouseLeave() {
       this.$refs.userDropdown.hide()
-    }
+    },
+
+    ajaxChangeEvent(val) {
+      console.log('ajaxChangeEvent', val)
+      // alert(val);
+    },
+
+    ajaxSelectEvent({ id, text, selected }) {
+      console.log('ajaxChangeEvent', { id, text, selected })
+    },
   }
 }
 </script>
@@ -108,7 +136,7 @@ export default {
       border 0 !important
 
       &:after
-        display none
+        display none !important
 
     &-label
       display flex

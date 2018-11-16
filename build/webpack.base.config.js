@@ -50,6 +50,16 @@ module.exports = {
         ],
       },
       {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [
+          resolve('models'),
+        ],
+        options: {
+          presets: ['env']
+        }
+      },
+      {
         test: /\.css$/,
         use: [
           'style-loader',
