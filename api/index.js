@@ -8,7 +8,6 @@ const User = require('../models').User;
 
 const router = express.Router();
 
-// Check user session
 // Extract session data from CodeIgniter ci_session cookie
 router.use(cookieParser(null, { decode: urldecode }), async function(req, res, next) {
   if (!req.cookies.ci_session || req.cookies.ci_session.length <= 40) return next();
@@ -31,6 +30,10 @@ router.use(cookieParser(null, { decode: urldecode }), async function(req, res, n
 // Deny all access for unauthenticated API call
 router.use(function(req, res, next) {
   if (!req.user || !req.user.active) return res.status(401).end();
+
+  // Check for sessions older than 30 days
+  if (req.session.last_activity + (60*60*24*30) < Date.now() / 1000) return res.status(401).end();
+
   next();
 });
 
