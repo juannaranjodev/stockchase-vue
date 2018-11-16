@@ -12,6 +12,7 @@ var db = {
   Signal: sequelize['import']('signal', require('./signal')),
   Source: sequelize['import']('source', require('./source')),
   Subject: sequelize['import']('subject', require('./subject')),
+  User: sequelize['import']('user', require('./user')),
 };
 
 Object.keys(db).forEach(modelName => {

@@ -106,6 +106,9 @@ function render (req, res) {
   })
 }
 
+// Mount backend API under /api
+app.use('/api', require('./api'));
+
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })
