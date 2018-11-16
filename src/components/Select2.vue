@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <select class="form-control" :placeholder="placeholder" :disabled="disabled"></select>
+  <div :id="wrapperId">
+    <select :id="selectId" :class="selectClass" :placeholder="placeholder" :disabled="disabled"></select>
   </div>
+
 </template>
 
 <script>
 import $ from 'jquery'
-// import 'select2/dist/css/select2.min.css'
 
 if (process.browser) {
   require('select2')
@@ -25,13 +25,25 @@ export default {
     prop: 'value'
   },
   props: {
+    wrapperId: {
+      type: String,
+      default: ''
+    },
+    selectId: {
+      type: String,
+      default: ''
+    },
+    selectClass: {
+      type: String,
+      default: ''
+    },
     placeholder: {
       type: String,
       default: ''
     },
     options: {
       type: Array,
-      default: []
+      default: () => []
     },
     disabled: {
       type: Boolean,
@@ -67,7 +79,7 @@ export default {
         this.select2.val([val])
       }
       this.select2.trigger('change')
-    }
+    },
   },
   mounted() {
     this.select2 = $(this.$el)
@@ -80,9 +92,19 @@ export default {
         this.$emit('change', this.select2.val())
         this.$emit('select', ev['params']['data'])
       })
+      .on('select2:selecting', ev => {
+        this.$emit('selecting', ev)
+      })
+    const self = this
+    $(this.$el).on('keyup.select2vue', '.select2-search__field', function (e) {
+      if((e.key === 'Enter' || e.key === 'Return')){
+        self.$emit('enterPressed', e.target.value)
+      }
+    })
     this.setValue(this.value)
   },
   beforeDestroy() {
+    $(this.$el).off('keyup.select2vue', '.select2-search__field')
     this.select2.select2('destroy')
   }
 }
