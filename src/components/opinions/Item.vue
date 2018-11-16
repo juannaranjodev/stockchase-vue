@@ -43,7 +43,7 @@
               <user-reactions :item="item" />
             </div>
 
-            <div ref="userReactions" :class="{ 'opinion-rating': true, 'no-rating': !myRating }">
+            <div ref="userReactions" :class="{ 'opinion-rating': true, 'no-rating': !myRating }" @click="showComments">
               <img v-if="!myRating" src="~assets/images/smileys/smiley-glasses.png" width="25">
               <img v-if="myRating" :src="myRatingImage" width="35">
               <span v-if="myRating" >You, and {{ numSameRatings }} Others</span>
