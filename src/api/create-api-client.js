@@ -12,6 +12,22 @@ export function createAPI () {
         return data
       })
     },
+    fetchTopPicks () {
+      return $.ajax({
+        url: 'https://stockchase.com/ajax/latesttoppick',
+      }).then((data, textStatus, jqXHR) => {
+        console.log('fetchTopPicks', data)
+        return data
+      })
+    },
+    fetchTrendingStocks () {
+      return $.ajax({
+        url: 'https://stockchase.com/ajax/trendingstocks',
+      }).then((data, textStatus, jqXHR) => {
+        console.log('fetchTrendingStocks', data)
+        return data.data
+      })
+    },
     rateOpinion({ id, rating }) {
       return $.ajax({
         url: `/api/opinions/${id}/ratings`,

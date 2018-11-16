@@ -11,6 +11,16 @@ export default {
       .then(user => commit('SET_USER', user))
   },
 
+  FETCH_TOP_PICKS: ({ commit, dispatch, state }) => {
+    return api.fetchTopPicks()
+      .then(items => commit('SET_TOP_PICKS', items))
+  },
+
+  FETCH_TRENDING_STOCKS: ({ commit, dispatch, state }) => {
+    return api.fetchTrendingStocks()
+      .then(items => commit('SET_TRENDING_STOCKS', items))
+  },
+
   RATE_OPINION: ({ commit, dispatch, state }, { id, rating }) => {
     return api.rateOpinion({ id, rating })
   },

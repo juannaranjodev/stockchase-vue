@@ -1,51 +1,57 @@
 <template>
   <div class="footer">
-    <div
-      v-for="list in lists"
-      :key="list.label"
-      class="footer-stock-list"
-    >
-      <span class="footer-stock-list-label">{{ list.label }}</span>
+    <div class="footer-stock-list">
+      <span class="footer-stock-list-label">Top Picks</span>
       <span
-        v-for="item in list.items"
-        :key="item"
+        v-for="item in topPicks"
+        :key="`topPicks::${item.id}`"
         class="footer-stock-list-item"
         >
-          <a href="/company/view/undefined">{{ item }}</a>
+          <a :href="`/company/view/${item.company_id}`">{{ item.company_symbol }}</a>
       </span>
-      <a v-if="list.link" :href="list.link" style="color: red;">View all...</a>
+      <a :href="recentTopLink" style="color: red;">View all...</a>
+    </div>
+    <div class="footer-stock-list">
+      <span class="footer-stock-list-label">Top Picks</span>
+      <span
+        v-for="item in trendingStocks"
+        :key="`trendingStocks::${item.id}`"
+        class="footer-stock-list-item"
+        >
+          <a :href="`/company/view/${item.id}`">{{ item.symbol }}</a>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 import * as c from '../../constants'
+import _ from 'lodash'
 
 export default {
   name: 'opinions-footer',
-  data () {
-    return {
-      lists: [
-        {
-          label: "Top Picks",
-          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F'],
-          link: `${c.APP_URL}/opinions/recenttop`
-        },
-        {
-          label: "Trending",
-          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F', 'ALA-G', 'ALA-H'],
-        },
-        {
-          label: "Today",
-          items: ['ALA-T', 'ALA-A', 'ALA-B', 'ALA-C', 'ALA-D', 'ALA-E', 'ALA-F', 'ALA-G', 'ALA-H'],
-        }
-      ]
-    }
-  },
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: () => {
     return `opinions::footer`
   },
+  data () {
+    return {
+      recentTopLink: `${c.APP_URL}/opinions/recenttop`
+    }
+  },
+  mounted() {
+    this.$store.dispatch('FETCH_TOP_PICKS')
+    this.$store.dispatch('FETCH_TRENDING_STOCKS')
+  },
+
+  computed: {
+    topPicks() {
+      return _.take(this.$store.getters.topPicks, 6)
+    },
+    trendingStocks() {
+      return _.take(this.$store.getters.trendingStocks, 10)
+    }
+  }
 }
 </script>
 

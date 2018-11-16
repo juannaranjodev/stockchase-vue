@@ -11,6 +11,8 @@ export function createStore () {
     state: {
       opinions: {},
       user: {},
+      topPicks: [],
+      trendingStocks: [],
       // activeType: null,
       // itemsPerPage: 20,
       // items: {/* [id: number]: Item */},

@@ -5,7 +5,15 @@ export default {
 
   user (state) {
     return state.user
-  }
+  },
+
+  topPicks (state) {
+    return state.topPicks
+  },
+
+  trendingStocks (state) {
+    return state.trendingStocks
+  },
 
   // // ids of the items that should be currently displayed based on
   // // current list type and current pagination

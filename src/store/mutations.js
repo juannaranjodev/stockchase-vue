@@ -9,6 +9,16 @@ export default {
     state.user = user
   },
 
+  SET_TOP_PICKS: (state, topPicks=[]) => {
+    console.log('SET_TOP_PICKS', topPicks)
+    state.topPicks = topPicks
+  },
+
+  SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
+    console.log('SET_TRENDING_STOCKS', trendingStocks)
+    state.trendingStocks = trendingStocks
+  },
+
   // SET_ACTIVE_TYPE: (state, { type }) => {
   //   state.activeType = type
   // },

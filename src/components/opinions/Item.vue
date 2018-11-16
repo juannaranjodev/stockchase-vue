@@ -142,14 +142,6 @@ export default {
     toClassName(signal) {
       return _.snakeCase(signal)
     },
-
-    onMouseOver() {
-      this.$refs.ratingDropdown.show()
-    },
-
-    onMouseLeave() {
-      this.$refs.ratingDropdown.hide()
-    },
   },
 
   mounted() {

@@ -102,7 +102,7 @@ export default {
         color red
 
     &-toggle
-      padding 0
+      padding 0 !important
       background-color transparent !important
       border 0 !important
       outline 0 !important
