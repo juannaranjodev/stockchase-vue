@@ -3,14 +3,14 @@
 module.exports = (sequelize, DataTypes) => {
   var Opinion = sequelize.define('Opinion', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
       primaryKey: true,
     },
     company_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     source_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     date: {
       type: DataTypes.DATEONLY,
@@ -24,16 +24,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT('medium'),
     },
     expert_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     subject_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     signal_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     ownership_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     url: {
       type: DataTypes.VIRTUAL,

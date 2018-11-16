@@ -22,7 +22,7 @@ router.use(cookieParser(null, { decode: urldecode }), async function(req, res, n
   if (hmac !== signature) return next();
 
   req.session = unserialize(sessionData);
-  req.user = await User.findByPk(req.session.user_id);
+  req.user = await User.findByPk(req.session.user_id, { include: [ { all: true } ] });
 
   next();
 });

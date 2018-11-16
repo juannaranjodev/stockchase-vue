@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Subject = sequelize.define('Subject', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
       primaryKey: true,
     },
     name: {

@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
   var Ownership = sequelize.define('Ownership', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
       primaryKey: true,
     },
     name: {

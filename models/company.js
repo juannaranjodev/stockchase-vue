@@ -6,7 +6,7 @@ const _ = require('lodash');
 module.exports = (sequelize, DataTypes) => {
   var Company = sequelize.define('Company', {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
       primaryKey: true,
     },
     symbol: {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(54),
     },
     sector_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER(10),
     },
     logo: {
       type: DataTypes.VIRTUAL,
