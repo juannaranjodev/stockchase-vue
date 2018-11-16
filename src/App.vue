@@ -26,6 +26,7 @@ export default {
 <style lang="stylus">
 @import '~bootstrap/dist/css/bootstrap.css'
 @import '~bootstrap-vue/dist/bootstrap-vue.css'
+@import '~tippy.js/dist/tippy.css'
 @import './assets/css/signal.css'
 
 body

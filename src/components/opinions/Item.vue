@@ -39,9 +39,16 @@
             <div v-if="item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
           </div>
           <div class="opinion-footer-right">
-            <div class="opinion-rating">
-              <img src="~assets/images/smileys/smiley-glasses.png" width="25">
+            <div ref="reactionsTooltip">
+              <user-reactions :item="item" />
             </div>
+
+            <div ref="userReactions" :class="{ 'opinion-rating': true, 'no-rating': !myRating }">
+              <img v-if="!myRating" src="~assets/images/smileys/smiley-glasses.png" width="25">
+              <img v-if="myRating" :src="myRatingImage" width="35">
+              <span v-if="myRating" >You, and {{ numSameRatings }} Others</span>
+            </div>
+
             <a class="btn-comment" @click="showComments">
               <img src="~assets/svgs/comment_icon.svg">
               <span class="disqus-comment-count" :data-disqus-identifier="disqusIdentifier">0 Comments</span>
@@ -81,16 +88,24 @@
 
 <script>
 import { timeAgo } from '../../util/filters'
+import { getRatingImage } from '../../util/rating'
+import UserReactions from './UserReactions.vue'
 import _ from 'lodash'
 import md5 from 'md5'
+
+let tippy
+if (process.browser) {
+  tippy = require('tippy.js').default
+}
 
 export default {
   name: 'opinions-item',
   props: ['item'],
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: ({ item: { id }}) => {
     return `opinion::${id}`
   },
+
+  components: { UserReactions },
 
   computed: {
     signalClassName() {
@@ -100,6 +115,23 @@ export default {
     disqusIdentifier() {
       return md5(this.item.url)
     },
+
+    myRating() {
+      const ratings = this.$store.getters.user.SocialRatings
+      if (!ratings || !_.keys(ratings).length) return
+
+      const matched = _.find(ratings, { content_type: 'opinion', opinion: this.item.id })
+
+      return matched
+    },
+
+    myRatingImage() {
+      return getRatingImage(this.myRating.rating)
+    },
+
+    numSameRatings() {
+      return 0
+    }
   },
 
   methods: {
@@ -109,6 +141,30 @@ export default {
 
     toClassName(signal) {
       return _.snakeCase(signal)
+    },
+
+    onMouseOver() {
+      this.$refs.ratingDropdown.show()
+    },
+
+    onMouseLeave() {
+      this.$refs.ratingDropdown.hide()
+    },
+  },
+
+  mounted() {
+    tippy(this.$refs.userReactions, {
+      content: this.$refs.reactionsTooltip,
+      interactive: true,
+      theme: 'stockchase',
+      animateFill: false,
+      distance: 5
+    })
+  },
+
+  beforeDestroy() {
+    if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
+      this.$refs.userReactions._tippy.destroy()
     }
   },
 
@@ -121,6 +177,27 @@ export default {
 </script>
 
 <style lang="stylus">
+.tippy-popper
+  max-width 700px
+.tippy-tooltip
+  max-width 700px
+  &.stockchase-theme
+    padding 12px 12px 12px 15px
+    margin 0 0 15px 0
+    background white
+    border-radius 40px
+    font-size 16px
+    border 2px solid #dbdbdb
+    box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
+    .tippy-backdrop
+      padding 12px 12px 12px 15px
+      margin 0 0 15px 0
+      background white
+      border-radius 40px
+      font-size 16px
+      border 2px solid #dbdbdb
+      box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
+
 .opinions-row
   td
     border 1px solid #ccc
@@ -252,9 +329,19 @@ export default {
       line-height 1.4
     &-rating
       margin-right 30px
-      opacity 0.6
+      color #06c
+      display flex
+      align-items center
+
+      &.no-rating
+        opacity 0.6
       &:hover
+        cursor pointer
         opacity 1
+        color #09f
+
+      span
+        margin-left 10px
 
   .btn-share
     img

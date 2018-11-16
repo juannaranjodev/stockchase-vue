@@ -10,7 +10,6 @@ import $ from 'jquery'
 
 if (process.browser) {
   require('select2')
-  require('select2/dist/css/select2.min.css')
 }
 
 export default {
@@ -109,3 +108,8 @@ export default {
   }
 }
 </script>
+
+
+<style lang="stylus">
+@import '~select2/dist/css/select2.min.css'
+</style>

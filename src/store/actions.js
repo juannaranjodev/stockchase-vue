@@ -11,6 +11,10 @@ export default {
       .then(user => commit('SET_USER', user))
   },
 
+  RATE_OPINION: ({ commit, dispatch, state }, { id, rating }) => {
+    return api.rateOpinion({ id, rating })
+  },
+
   // // ensure data for rendering given list type
   // FETCH_LIST_DATA: ({ commit, dispatch, state }, { type }) => {
   //   commit('SET_ACTIVE_TYPE', { type })

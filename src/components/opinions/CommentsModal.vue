@@ -22,7 +22,7 @@
 
       <div class="opinion-comment" v-html="item.comment"></div>
       <div class="opinion-date">{{ item.date | formatDate }}</div>
-
+      <user-reactions :item="item" />
       <div class="opinion-comments">
         <vue-disqus :shortname="disqusShortName" :identifier="disqusIdentifier" :url="item.url"></vue-disqus>
       </div>
@@ -42,9 +42,12 @@
 <script>
 import md5 from 'md5'
 import * as c from '../../constants'
+import UserReactions from './UserReactions.vue'
 
 export default {
   name: 'comments-modal',
+
+  components: { UserReactions },
 
   data () {
     return {
@@ -59,7 +62,7 @@ export default {
 
     disqusShortName() {
       return c.DISQUS_SHORTNAME
-    }
+    },
   },
 
   methods: {
@@ -138,10 +141,12 @@ export default {
     font-size 19px
     line-height normal
     margin-top 20px
+    &s
+      margin-top 20px
 
   &-date
     text-transform uppercase
     color #b2b2b2
     font-size 16px
-    margin 8px 0 20px
+    margin 8px 0 30px
 </style>
