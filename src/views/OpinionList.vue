@@ -92,9 +92,7 @@ export default {
       return this.$store.getters.opinions.date
     },
     items () {
-      const items = this.$store.getters.opinions.items;
-      if (this.$route.params.id) return _.filter(items, { id: +this.$route.params.id })
-      return items
+      return this.$store.getters.opinions.items
     },
     recentItems () {
       return this.$store.getters.opinions.recentItems
