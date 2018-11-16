@@ -1,10 +1,12 @@
 const express = require('express');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const urldecode = require('locutus/php/url/urldecode');
 const unserialize = require('locutus/php/var/unserialize');
 
 const User = require('../models').User;
+const SocialRating = require('../models').SocialRating;
 
 const router = express.Router();
 
@@ -43,7 +45,10 @@ router.get('/users/me', function(req, res) {
 });
 
 // Create or update user rating for an opinion
-router.post('/opinions/:id/ratings', function(req, res) {
+router.post('/opinions/:id/ratings', bodyParser.json(), async function(req, res) {
+  // TODO: Add opinion and rating validation
+  if (!req.body.rating) return res.status(400).end();
+  await SocialRating.upsert({ id: req.params.id, user_id: req.user.id, rating: req.body.rating });
 });
 
 module.exports = router;

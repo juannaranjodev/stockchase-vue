@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Subject);
     Opinion.belongsTo(models.Signal);
     Opinion.belongsTo(models.Ownership);
+    Opinion.hasMany(models.SocialRating, { foreignKey: 'content_id' });
   };
 
   // Get the date of the most recent opinion
