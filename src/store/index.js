@@ -10,6 +10,10 @@ export function createStore () {
   return new Vuex.Store({
     state: {
       opinions: {},
+      recentOpinions: [],
+      date: null,
+      olderDate: null,
+      newerDate: null,
       user: {},
       topPicks: [],
       trendingStocks: [],

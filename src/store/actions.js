@@ -3,7 +3,13 @@ import api from '../api'
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date }) => {
     return api.fetchDailyOpinions(date)
-      .then(opinions => commit('SET_OPINIONS', opinions))
+      .then(({ opinions, recentOpinions, date, olderDate, newerDate }) => {
+        commit('SET_DATE', date)
+        commit('SET_OLDER_DATE', olderDate)
+        commit('SET_NEWER_DATE', newerDate)
+        commit('SET_OPINIONS', opinions)
+        commit('SET_RECENT_OPINIONS', recentOpinions)
+      })
   },
 
   FETCH_USER: ({ commit, dispatch, state }) => {
@@ -23,6 +29,20 @@ export default {
 
   RATE_OPINION: ({ commit, dispatch, state }, { id, rating }) => {
     return api.rateOpinion({ id, rating })
+      .then(rating => {
+        const opinion = _.clone(state.opinions[rating.opinion])
+        opinion.SocialRatings = opinion.SocialRatings || []
+        const ratingIndex = _.findIndex(opinion.SocialRatings, { id: rating.id })
+
+        // If existing rating found, replace it with the new one
+        if (ratingIndex !== -1) {
+          opinion.SocialRatings[ratingIndex] = rating
+        } else {
+          opinion.SocialRatings.push(rating)
+        }
+
+        commit('UPDATE_OPINION', opinion)
+      })
   },
 
   // // ensure data for rendering given list type

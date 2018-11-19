@@ -40,7 +40,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import md5 from 'md5'
+import _ from 'lodash'
 import * as c from '../../constants'
 import UserReactions from './UserReactions.vue'
 
@@ -51,11 +53,17 @@ export default {
 
   data () {
     return {
-      item: {},
+      id: null,
     };
   },
 
   computed: {
+    ...mapGetters([ 'opinions' ]),
+
+    item() {
+      return _.find(this.opinions, { id: this.id }) || {}
+    },
+
     disqusIdentifier() {
       return md5(this.item.url)
     },
@@ -66,8 +74,8 @@ export default {
   },
 
   methods: {
-    setupComments(opinion) {
-      this.item = opinion
+    setupComments(id) {
+      this.id = id
     },
 
     hideModal () {

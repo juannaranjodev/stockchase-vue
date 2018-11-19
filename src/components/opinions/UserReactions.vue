@@ -1,11 +1,11 @@
 <template>
   <div class="opinion-ratings">
     <div
-      v-for="rating in possibleRatings"
+      v-for="rating in ratingCounts"
       class="opinion-rating"
     >
-      <img :src="ratingImageFor(rating)" width="50" @click="rate(rating)">
-      <span>{{ numRatingsFor(rating) }}</span>
+      <img :src="ratingImageFor(rating.rating)" width="50" @click="rate(rating.rating)">
+      <span>{{ rating.count }}</span>
     </div>
   </div>
 </template>
@@ -24,24 +24,32 @@ export default {
   data() {
     return {
       possibleRatings: getPossibleRatings(),
-      counts: _.countBy(this.item.SocialRatings, 'rating'),
+    }
+  },
+
+  computed: {
+    counts() {
+      return _.countBy(this.item.SocialRatings, 'rating')
+    },
+
+    ratingCounts() {
+      return _.map(this.possibleRatings, rating => ({
+        rating,
+        count: this.counts[rating] || 0
+      }))
     }
   },
 
   methods: {
     rate(rating) {
-      this.$store.dispatch('RATE_OPINION', { id: this.item.id, rating }).then(() => {
-        console.log('rate success')
+      this.$store.dispatch('RATE_OPINION', { id: this.item.id, rating }).catch(err => {
+        console.log('rate error', err)
       })
     },
 
     ratingImageFor(rating) {
       return getRatingImage(rating)
     },
-
-    numRatingsFor(rating) {
-      return this.counts[rating] || 0
-    }
   },
 }
 </script>

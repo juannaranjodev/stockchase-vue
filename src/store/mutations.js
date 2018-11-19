@@ -1,8 +1,33 @@
 import Vue from 'vue'
+import _ from 'lodash'
 
 export default {
-  SET_OPINIONS: (state, opinions={}) => {
-    state.opinions = opinions
+  SET_OPINIONS: (state, opinions=[]) => {
+    opinions.forEach(opinion => {
+      if (opinion) {
+        Vue.set(state.opinions, opinion.id, opinion)
+      }
+    })
+  },
+
+  UPDATE_OPINION: (state, opinion={}) => {
+    Vue.set(state.opinions, opinion.id, opinion)
+  },
+
+  SET_RECENT_OPINIONS: (state, recentOpinions=[]) => {
+    state.recentOpinions = recentOpinions
+  },
+
+  SET_DATE: (state, date) => {
+    state.date = date
+  },
+
+  SET_OLDER_DATE: (state, date) => {
+    state.olderDate = date
+  },
+
+  SET_NEWER_DATE: (state, date) => {
+    state.newerDate = date
   },
 
   SET_USER: (state, user={}) => {
@@ -10,12 +35,10 @@ export default {
   },
 
   SET_TOP_PICKS: (state, topPicks=[]) => {
-    console.log('SET_TOP_PICKS', topPicks)
     state.topPicks = topPicks
   },
 
   SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
-    console.log('SET_TRENDING_STOCKS', trendingStocks)
     state.trendingStocks = trendingStocks
   },
 

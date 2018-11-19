@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <opinions-header />
-    <opinions-slider :items="recentItems" />
+    <opinions-slider :items="recentOpinions" />
 
     <div class="opinions-container">
       <div class="pagination">
@@ -26,7 +26,7 @@
         </thead>
         <tbody>
           <item
-            v-for="item in items"
+            v-for="item in opinions"
             :key="item.id"
             :item="item"
             @showComments="showComments"
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import moment from 'moment'
 import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
@@ -82,26 +83,12 @@ export default {
   },
 
   computed: {
-    olderDate () {
-      return this.$store.getters.opinions.olderDate
-    },
-    newerDate () {
-      return this.$store.getters.opinions.newerDate
-    },
-    date () {
-      return this.$store.getters.opinions.date
-    },
-    items () {
-      return this.$store.getters.opinions.items
-    },
-    recentItems () {
-      return this.$store.getters.opinions.recentItems
-    },
+    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions' ])
   },
 
   methods: {
-    showComments(opinion) {
-      this.$refs.commentsModal.setupComments(opinion)
+    showComments(id) {
+      this.$refs.commentsModal.setupComments(id)
       this.$root.$emit('bv::show::modal', 'modal_comments')
     },
   },

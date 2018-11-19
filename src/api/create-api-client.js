@@ -16,7 +16,6 @@ export function createAPI () {
       return $.ajax({
         url: 'https://stockchase.com/ajax/latesttoppick',
       }).then((data, textStatus, jqXHR) => {
-        console.log('fetchTopPicks', data)
         return data
       })
     },
@@ -24,7 +23,6 @@ export function createAPI () {
       return $.ajax({
         url: 'https://stockchase.com/ajax/trendingstocks',
       }).then((data, textStatus, jqXHR) => {
-        console.log('fetchTrendingStocks', data)
         return data.data
       })
     },
@@ -36,7 +34,6 @@ export function createAPI () {
         contentType: 'application/json',
         dataType: 'json',
       }).then((data, textStatus, jqXHR) => {
-        console.log('success', data, textStatus)
         return data
       })
     }

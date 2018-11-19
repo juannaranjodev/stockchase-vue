@@ -39,8 +39,10 @@
             <div v-if="item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
           </div>
           <div class="opinion-footer-right">
-            <div ref="reactionsTooltip">
-              <user-reactions :item="item" />
+            <div style="display: none">
+              <div ref="reactionsTooltip">
+                <user-reactions :item="item" />
+              </div>
             </div>
 
             <div ref="userReactions" :class="{ 'opinion-rating': true, 'no-rating': !myRating }" @click="showComments">
@@ -117,12 +119,10 @@ export default {
     },
 
     myRating() {
-      const ratings = this.$store.getters.user.SocialRatings
-      if (!ratings || !_.keys(ratings).length) return
+      const ratings = this.item.SocialRatings || []
+      if (!ratings.length) return
 
-      const matched = _.find(ratings, { content_type: 'opinion', opinion: this.item.id })
-
-      return matched
+      return _.find(ratings, { user_id: this.$store.getters.user.id })
     },
 
     myRatingImage() {
@@ -130,34 +130,57 @@ export default {
     },
 
     numSameRatings() {
-      return 0
+      const myRating = this.myRating
+      if (!myRating) return
+
+      const ratings = this.item.SocialRatings || []
+      return _.countBy(ratings, 'rating')[myRating.rating] - 1
+    }
+  },
+
+  watch: {
+    myRating(rating) {
+      this.resetTippy()
     }
   },
 
   methods: {
     showComments() {
-      this.$emit('showComments', this.item)
+      this.$emit('showComments', this.item.id)
     },
 
     toClassName(signal) {
       return _.snakeCase(signal)
     },
+
+    initTippy() {
+      tippy(this.$refs.userReactions, {
+        content: this.$refs.reactionsTooltip,
+        interactive: true,
+        theme: 'stockchase',
+        animateFill: false,
+        distance: 5
+      })
+    },
+
+    destroyTippy() {
+      if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
+        this.$refs.userReactions._tippy.destroy()
+      }
+    },
+
+    resetTippy() {
+      this.destroyTippy()
+      this.initTippy()
+    },
   },
 
   mounted() {
-    tippy(this.$refs.userReactions, {
-      content: this.$refs.reactionsTooltip,
-      interactive: true,
-      theme: 'stockchase',
-      animateFill: false,
-      distance: 5
-    })
+    this.initTippy()
   },
 
   beforeDestroy() {
-    if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
-      this.$refs.userReactions._tippy.destroy()
-    }
+    this.destroyTippy()
   },
 
   filters: {

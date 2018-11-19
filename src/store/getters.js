@@ -1,6 +1,23 @@
+import _ from 'lodash'
 export default {
   opinions (state, getters) {
-    return state.opinions
+    return _.values(state.opinions)
+  },
+
+  recentOpinions (state, getters) {
+    return state.recentOpinions
+  },
+
+  date (state, getters) {
+    return state.date
+  },
+
+  olderDate (state, getters) {
+    return state.olderDate
+  },
+
+  newerDate (state, getters) {
+    return state.newerDate
   },
 
   user (state) {
