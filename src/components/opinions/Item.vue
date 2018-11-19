@@ -27,9 +27,18 @@
               </div>
             </div>
             <div class="company-share">
-              <a class="btn-share" href="#">
-                <img src="~assets/svgs/share.svg">
-              </a>
+              <social-sharing url="https://vuejs.org/"
+                :title="sharingContent"
+                :hashtags="sharingHashtag"
+                :url="item.url"
+                inline-template
+              >
+                <network network="twitter">
+                  <span class="btn-share">
+                    <img src="~assets/svgs/share.svg">
+                  </span>
+                </network>
+              </social-sharing>
             </div>
           </div>
           <div class="opinion-comment" v-html="item.comment"></div>
@@ -135,6 +144,22 @@ export default {
 
       const ratings = this.item.SocialRatings || []
       return _.countBy(ratings, 'rating')[myRating.rating] - 1
+    },
+
+    sharingContent() {
+      // TODO this is an overly-simplified implementation of the old one from
+      // the v1 CI code. Find a way to better compose the share content
+      const hashTagLength = this.sharingHashtag.length + 1
+      const companyName = this.item.Company.name
+      const remainingLength = 134 - (companyName.length + hashTagLength + 2) - 3
+
+      const content = _.trim(this.item.comment.replace(/<(?:.|\n)*?>/gm, '').replace(/\s+/gm, ' ')).substring(0, remainingLength)
+
+      return `${content}... ${companyName}`
+    },
+
+    sharingHashtag() {
+      return `financial $${this.item.Company.symbol}`
     }
   },
 
@@ -359,6 +384,8 @@ export default {
         margin-left 10px
 
   .btn-share
+    &:hover
+      cursor pointer
     img
       width 65px
   .btn-comment

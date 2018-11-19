@@ -17,6 +17,9 @@ Vue.use(BootstrapVue)
 import VueDisqus from 'vue-disqus'
 Vue.use(VueDisqus)
 
+import SocialSharing from 'vue-social-sharing'
+Vue.use(SocialSharing)
+
 import NoSSR from 'vue-no-ssr'
 Vue.component('no-ssr', NoSSR)
 

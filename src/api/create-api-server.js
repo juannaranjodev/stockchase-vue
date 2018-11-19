@@ -1,5 +1,4 @@
 import db from '../../models'
-import LRU from 'lru-cache'
 const Opinion = db.Opinion
 
 export function createAPI () {
