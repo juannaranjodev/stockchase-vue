@@ -7,7 +7,12 @@
         <b-dropdown-item :href="`${appUrl}/auth/logout`">Logout</b-dropdown-item>
         <template slot="button-content">
           <div class="user-dropdown-label">
-            <gravatar class="user-avatar" :email="user.email" :size="50" />
+            <gravatar
+              class="user-avatar"
+              :email="user.email"
+              :size="50"
+              default-img=""
+            />
             <span class="user-name">{{ user.username }}</span>
             <img class="user-dropdown-arrow" src="~assets/svgs/white-arrow-down.svg" width="20">
           </div>
