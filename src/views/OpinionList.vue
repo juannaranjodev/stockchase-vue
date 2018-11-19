@@ -53,6 +53,7 @@
       </div>
     </div>
 
+    <opinions-dianomi-ad />
     <opinions-footer />
     <opinions-link-ad />
 
@@ -68,6 +69,7 @@ import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
 import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
+import OpinionsDianomiAd from '../components/opinions/DianomiAd.vue'
 import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
 
@@ -85,6 +87,7 @@ export default {
     OpinionsLinkAd,
     OpinionsSlider,
     OpinionsFooter,
+    OpinionsDianomiAd,
     Item,
     CommentsModal,
   },
