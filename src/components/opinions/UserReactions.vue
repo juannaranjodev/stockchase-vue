@@ -12,6 +12,7 @@
 
 <script>
 import _ from 'lodash'
+import * as c from '../../constants'
 import { getPossibleRatings, getRatingImage } from '../../util/rating'
 
 export default {
@@ -43,7 +44,12 @@ export default {
   methods: {
     rate(rating) {
       this.$store.dispatch('RATE_OPINION', { id: this.item.id, rating }).catch(err => {
-        console.log('rate error', err)
+        if (err.status === 401) {
+          window.location = `${c.APP_URL}/member/login`
+          return
+        }
+
+        alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
       })
     },
 
