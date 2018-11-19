@@ -31,6 +31,7 @@ export default {
   },
 
   SET_USER: (state, user={}) => {
+    user.loaded = true
     state.user = user
   },
 

@@ -6,12 +6,8 @@ import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
 
-// Vue Bootstrap modules
-// import {
-//   Modal,
-// } from 'bootstrap-vue/es/components'
+// TODO extract the following `Vue.use` to separate 'plugin' files
 import BootstrapVue from 'bootstrap-vue'
-// Vue.use(Modal)
 Vue.use(BootstrapVue)
 
 import VueDisqus from 'vue-disqus'
@@ -22,6 +18,12 @@ Vue.use(SocialSharing)
 
 import NoSSR from 'vue-no-ssr'
 Vue.component('no-ssr', NoSSR)
+
+import Ads from 'vue-google-adsense'
+Vue.use(require('vue-script2'))
+Vue.use(Ads.Adsense)
+Vue.use(Ads.InArticleAdsense)
+Vue.use(Ads.InFeedAdsense)
 
 // mixin for handling title
 Vue.mixin(titleMixin)

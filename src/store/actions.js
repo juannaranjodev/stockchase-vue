@@ -15,6 +15,7 @@ export default {
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))
+      .catch(() => commit('SET_USER', {}))
   },
 
   FETCH_TOP_PICKS: ({ commit, dispatch, state }) => {

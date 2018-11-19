@@ -2,6 +2,14 @@
   <div id="app">
     <site-header />
     <site-navigation />
+
+    <div class="ad-container" v-if="shouldShowAd">
+      <Adsense
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="5979276843">
+      </Adsense>
+    </div>
+
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -10,6 +18,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import SiteHeader from './components/layout/Header.vue'
 import SiteNavigation from './components/layout/Navigation.vue'
 import SiteFooter from './components/layout/Footer.vue'
@@ -20,6 +29,22 @@ export default {
     SiteNavigation,
     SiteFooter
   },
+
+  computed: {
+    ...mapGetters([ 'user' ]),
+
+    userLoaded() {
+      return this.user.loaded
+    },
+
+    adFree() {
+      return this.user.ad_free
+    },
+
+    shouldShowAd() {
+      return this.userLoaded && !this.adFree
+    },
+  }
 }
 </script>
 
@@ -47,4 +72,10 @@ body
 
 .fade-enter, .fade-leave-active
   opacity 0
+</style>
+
+<style lang="stylus" scoped>
+.ad-container
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
 </style>
