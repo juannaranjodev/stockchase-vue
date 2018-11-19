@@ -257,6 +257,7 @@ export default {
     text-align left
     background #fcfcfc
     height 230px
+
   &:hover td
     background #FFFAF1
 
@@ -301,6 +302,7 @@ export default {
     &-meta
       display flex
       align-items center
+      flex-wrap wrap
       img
         margin-right 3px
         margin-top -2px
@@ -308,6 +310,7 @@ export default {
   .company
     display flex
     align-items center
+    flex-wrap wrap
 
     &-logo
       width 74px
@@ -330,9 +333,8 @@ export default {
         height auto
     &-meta
       flex 1
-
-    &-share
-      margin-left 10px
+      margin-right 10px
+      min-width 60%
 
     &-name-symbol
       font-size 21px
@@ -347,12 +349,14 @@ export default {
     &-symbol
       color #ABB3B9
       margin-left 3px
+      white-space nowrap
 
   .opinion
     display flex
     flex-direction column
     align-items stretch
     justify-content space-between
+    flex-wrap wrap
     height 100%
     &-cell
       position relative
@@ -365,10 +369,13 @@ export default {
     &-footer
       display flex
       align-items center
+      flex-wrap wrap
       justify-content space-between
       &-left, &-right
         display flex
         align-items center
+        flex-wrap wrap
+        margin-top 10px
     &-sector-badge
       background-color #E0EFFD
       border 1px solid #C5E7F6
@@ -413,4 +420,28 @@ export default {
       margin-right 3px
 .in-feed-ad-cell
   height auto !important
+
+@media (max-width 767px)
+  .opinions-row
+    display block
+    width auto !important
+    padding-bottom 40px
+    background-color #ccc
+
+    td
+      display block
+      width auto !important
+      height auto
+
+    .signal
+      &-cell
+        padding 0
+
+      &-wrapper
+        position static
+        min-height 0
+      &-badge
+        padding 5px
+        position static
+        transform translateY(0)
 </style>

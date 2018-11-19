@@ -136,8 +136,14 @@ export default {
 .pagination
   display flex
   align-items center
+  flex-wrap wrap
   justify-content space-between
-  margin 10px 0
+
+  &-left, &-right
+    margin 10px 0
+
+  &-left
+    margin-right 10px
 
 .btn-navigate
   background-color red
@@ -147,6 +153,7 @@ export default {
   display inline-flex
   align-items center
   text-decoration none
+  white-space nowrap
 
   img
     &:first-child
@@ -177,4 +184,19 @@ export default {
 
     span
       color #FF4135
+
+@media (max-width 767px)
+  .container
+    padding 0 15px
+
+  .opinions-table
+    display block
+    width auto
+
+    thead
+      display none
+
+    tbody
+      display block
+
 </style>

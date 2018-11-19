@@ -40,7 +40,7 @@ export default {
   margin-bottom 20px
 
   .ad
-    width 100%
+    max-width 100%
     height 550px
     border none
     overflow hidden

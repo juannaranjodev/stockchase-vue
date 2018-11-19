@@ -54,7 +54,6 @@ export default {
 .navigation
   background-color #fff
   border-bottom 1px solid #D9D9D9
-  height 70px
   display flex
   align-items center
 
@@ -71,17 +70,20 @@ export default {
     display flex
     align-items center
     justify-content space-between
+    flex-wrap wrap
+
+    &-left, &-right
+      margin 20px 0
 
   .link
     font-size 14pt
     line-height 1.6
     font-weight 500
-    display inline
+    display inline-block
+    margin-right 25px
 
     &:first-child
       margin-left 2px
-    &:not(:first-child)
-      margin-left 25px
 
     &.active
       color #EC4D4B
@@ -97,5 +99,9 @@ export default {
     margin-top 9px
     color black
     text-transform uppercase
+    white-space nowrap
 
+@media (max-width 767px)
+  .navigation .inner
+    padding 0 15px
 </style>

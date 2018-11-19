@@ -134,13 +134,13 @@ export default {
 <!-- TODO rewrite the css so that they can be scoped to this component  -->
 <style lang="stylus">
 .nav-select
-  border: none;
-  height: 38px;
-  border-radius: 3px;
-  padding: 0 10px;
-  display: block;
-  width: 100%;
-  -webkit-appearance: initial;
+  border none
+  height 38px
+  border-radius 3px
+  padding 0 10px
+  display block
+  max-width 100%
+  -webkit-appearance initial
 
 .nav-search
   padding 5px 10px
@@ -149,21 +149,23 @@ export default {
   outline 0
   box-shadow none
   -webkit-appearance textfield
+  max-width 100%
 
 #web-search-wrap
-  margin-left 20px
   width 360px
+  max-width 100%
   border none
   height 40px
   border-radius 3px
   position relative
+
 #web-search-header
   border none
   height 38px
   border-radius 3px
   padding 0 10px
   display block
-  width 100%
+
 #web-search-filter:focus,
 #web-search-header:focus
   outline none
@@ -250,4 +252,9 @@ a.search-box-result-item, a.search-box-result-item:hover
   padding 10px 8px
   background-color #eee
 
+@media (max-width 767px)
+  #web-search-wrap
+    width 290px !important
+  .select2-container
+    width 290px !important
 </style>

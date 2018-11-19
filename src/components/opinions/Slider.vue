@@ -1,5 +1,5 @@
 <template>
-  <div class="slider-container">
+  <div class="slider-container d-none d-md-block">
     <div class="slider">
       <a class="slider-arrow slider-arrow--left" @click="prev">
         <img src="~assets/svgs/slider-prev.svg">

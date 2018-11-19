@@ -74,6 +74,7 @@ export default {
 .user
   &-dropdown
     height 45px
+    margin 18px 0
 
     .dropdown-menu
       margin-top -5px
@@ -135,8 +136,6 @@ export default {
 
 <style lang="stylus" scoped>
 .header-auth
-  margin-left 1.1em
-
   & > .hidden
     visibility hidden
     pointer-events none
@@ -149,6 +148,7 @@ export default {
     border-radius 4px
     width 80px
     text-align center
+    margin 18px 0
     &:hover
       text-decoration underline
 

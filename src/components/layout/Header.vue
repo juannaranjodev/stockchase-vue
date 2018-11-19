@@ -2,8 +2,8 @@
   <header class="header">
     <nav class="inner">
       <div class="inner-left">
-        <a :href="appUrl">
-          <img class="logo" src="~assets/svgs/stockchase_white_logo.svg" alt="logo">
+        <a class="home" :href="appUrl">
+          <img src="~assets/svgs/stockchase_white_logo.svg" alt="logo">
         </a>
         <header-search />
       </div>
@@ -41,12 +41,14 @@ export default {
 <style lang="stylus" scoped>
 .header
   background-color #EC4D4B
-  height 82px
-  display flex
-  align-items center
 
-  .logo
-    width 40px
+  .home
+    margin 18px 20px 18px 0
+    display flex
+    align-items center
+
+    img
+      width 40px
 
   .inner
     box-sizing border-box
@@ -57,26 +59,38 @@ export default {
     display flex
     align-items center
     justify-content space-between
+    flex-wrap wrap
 
     &-left, &-right
       display flex
       align-items center
+      flex-wrap wrap
+
+    &-left
+      margin-right 18px
+
+    &-right
+      flex-wrap wrap
 
   a.link
     font-family Montserrat, san-serif;
     font-weight 400
     color white
     text-decoration none
-    margin-left 2em
+    margin-right 2em
+    padding 5px 0
     &:hover
       color white
 
-@media (max-width 860px)
-  .header .inner
-    padding 15px 30px
+    &:last-child
+      margin-right 1.1em
 
-@media (max-width 600px)
-  .header
-    .inner
-      padding 15px
+@media (max-width 767px)
+  .header .inner
+    padding 15px
+
+@media (max-width 767px)
+  .header .inner-left
+    display block
+
 </style>

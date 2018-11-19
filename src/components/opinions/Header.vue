@@ -23,41 +23,45 @@ export default {
 
 <style lang="stylus" scoped>
 .header
-  height 58px
   display flex
   align-items center
+  flex-wrap wrap
   justify-content space-between
   border-bottom 2px solid #E9E9EA
+
+  &-left, &-right
+    display flex
+    align-items center
+    flex-wrap wrap
+
+  &-left
+    margin-right 15px
 
   .title
     font-size 1.6em
     color #111
     line-height 1.1
     margin-bottom 0
+    white-space nowrap
+    margin 18px 0
+    margin-right 30px
 
   .link
     padding 5px 20px
     font-size 16px
     border-radius 15px
-    margin-left 10px
     color black
     line-height 1.1
+    margin-right 10px
 
     &.active
       background #A3A2A2
       color white
       pointer-events none
 
-  .title + .link
-    margin-left 30px
-
-  &-left, &-right
-    display flex
-    align-items center
-
   .subscribe
     color black
     text-decoration underline
     font-size 15px
-    margin-top 5px
+    margin 15px 0
 </style>

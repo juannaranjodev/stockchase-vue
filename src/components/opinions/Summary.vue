@@ -48,15 +48,17 @@ export default {
 
 <style lang="stylus" scoped>
 .summary
-  padding 20px 0
+  padding 10px 0
   margin 30px 0
   display flex
   align-items center
+  flex-wrap wrap
 
   &-box
     border 1px solid #D8D8D8
     border-radius 5px
     padding 0 10px
+    margin 10px 0
     display flex
     align-items center
     height 76px

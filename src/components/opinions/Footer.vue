@@ -9,7 +9,7 @@
         >
           <a :href="`/company/view/${item.company_id}`">{{ item.company_symbol }}</a>
       </span>
-      <a :href="recentTopLink" style="color: red;">View all...</a>
+      <a class="view-all" :href="recentTopLink">View all...</a>
     </div>
     <div class="footer-stock-list">
       <span class="footer-stock-list-label">Top Picks</span>
@@ -86,5 +86,9 @@ export default {
       a
         font-size 15px
         color #25325A
-
+.view-all
+  color red
+  white-space nowrap
+  padding 10px 0
+  display inline-block
 </style>

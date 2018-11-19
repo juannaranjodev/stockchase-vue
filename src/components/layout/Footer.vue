@@ -19,12 +19,12 @@
           <li><a href="mailto:hello@stockchase.com">@Contact us</a></li>
         </ul>
 
-        <ul class="footer-list-menu" style="margin-top:0;">
+        <ul class="footer-list-menu">
           <li><a :href="appUrl + '/page/view/privacy'">Privacy Policy</a></li>
           <li><a :href="appUrl + '/page/view/privacy'">Terms of service</a></li>
         </ul>
 
-        <div style="float: right; margin-top: -47px;">
+        <div class="footer-social-links">
           <a :href="appUrl + '/rss/toppicks'" style="margin-right: 7px;"><img src="~assets/images/rss-light-icon.png" width="35"></a>
           <a :href="appUrl + '/rss/daily'" style="margin-right: 7px;"><img src="~assets/images/rss-light-icon.png" width="35"></a>
           <a href="https://www.facebook.com/stockchase" style="margin-right: 7px;"><img src="~assets/svgs/facebook-footer-icon.svg" width="35"></a>
@@ -85,6 +85,9 @@ export default {
     margin 0
     margin-top -5px
 
+    & + .footer-list-menu
+      margin-top 0
+
     li
       display inline-block
       margin-right 10px
@@ -94,6 +97,9 @@ export default {
       a
         color #FFFFFF
         font-size 15px
+  &-social-links
+    float right
+    margin-top -47px
 
   .inner
     box-sizing border-box
@@ -115,4 +121,21 @@ export default {
     font-size 14px
     font-weight lighter
 
+@media (max-width 767px)
+  .footer
+    padding 0 15px
+
+@media (max-width 767px)
+  .footer
+    padding 0 15px
+
+    &__left, &__center
+      height auto
+      width 100%
+      padding 0
+
+    &-list-menu
+      margin 0
+    &-social-links
+      margin-top 30px
 </style>
