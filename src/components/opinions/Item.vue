@@ -1,6 +1,6 @@
 <template>
   <tr class="opinions-row" :id="item.id">
-    <td class="signal-cell">
+    <td class="signal-cell" v-if="!item.ad">
       <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
         <div class="signal-badge">
           <div :class="`${signalClassName}-border`" style="border-radius: 5px;">
@@ -10,7 +10,7 @@
       </div>
     </td>
 
-    <td class="opinion-cell">
+    <td class="opinion-cell" v-if="!item.ad">
       <div class="opinion">
         <div class="opinion-main">
           <div class="company">
@@ -69,7 +69,7 @@
       </div>
     </td>
 
-    <td class="expert-cell">
+    <td class="expert-cell" v-if="!item.ad">
       <a :href="item.Expert.url" class="expert-name">
         {{ item.Expert.name }}
       </a>
@@ -94,6 +94,10 @@
         </div>
       </div>
     </td>
+
+    <td colspan="3" class="in-feed-ad-cell" v-if="item.ad">
+      <opinions-in-feed-ad />
+    </td>
   </tr>
 </template>
 
@@ -101,6 +105,7 @@
 import { timeAgo } from '../../util/filters'
 import { getRatingImage } from '../../util/rating'
 import UserReactions from './UserReactions.vue'
+import OpinionsInFeedAd from './InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
 
@@ -116,7 +121,10 @@ export default {
     return `opinion::${id}`
   },
 
-  components: { UserReactions },
+  components: {
+    UserReactions,
+    OpinionsInFeedAd,
+  },
 
   computed: {
     signalClassName() {
@@ -399,5 +407,6 @@ export default {
     img
       margin-top 5px
       margin-right 3px
-
+.in-feed-ad-cell
+  height auto !important
 </style>

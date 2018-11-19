@@ -2,6 +2,7 @@
   <div class="container">
     <opinions-header />
     <opinions-slider :items="recentOpinions" />
+    <opinions-link-ad />
 
     <div class="opinions-container">
       <div class="pagination">
@@ -26,13 +27,15 @@
         </thead>
         <tbody>
           <item
-            v-for="item in opinions"
+            v-for="item in items"
             :key="item.id"
             :item="item"
             @showComments="showComments"
           />
         </tbody>
       </table>
+
+      <opinions-link-ad />
 
       <div class="pagination">
         <div class="pagination-left">
@@ -51,6 +54,8 @@
     </div>
 
     <opinions-footer />
+    <opinions-link-ad />
+
     <comments-modal ref="commentsModal" />
   </div>
 </template>
@@ -62,6 +67,7 @@ import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
+import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
 import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
 
@@ -76,14 +82,21 @@ export default {
 
   components: {
     OpinionsHeader,
-    OpinionsFooter,
+    OpinionsLinkAd,
     OpinionsSlider,
+    OpinionsFooter,
     Item,
     CommentsModal,
   },
 
   computed: {
-    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions' ])
+    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions' ]),
+
+    items() {
+      const items = _.clone(this.opinions)
+      items.splice(1, 0, { ad: true })
+      return items
+    },
   },
 
   methods: {

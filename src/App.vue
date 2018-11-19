@@ -5,6 +5,7 @@
 
     <div class="ad-container" v-if="shouldShowAd">
       <Adsense
+        class='ad'
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="5979276843">
       </Adsense>
@@ -78,4 +79,9 @@ body
 .ad-container
   padding 20px 0
   background rgba(248, 248, 248, 0.7)
+  .ad
+    width 728px
+    max-width 100%
+    height 90px
+    margin 0 auto
 </style>
