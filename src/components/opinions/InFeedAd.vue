@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="ad-container" v-if="shouldShowAd">
-      <InFeedAdsense
+      <Adsense
         class='ad'
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="5979276843">
-      </InFeedAdsense>
+      </Adsense>
     </div>
   </div>
 </template>
