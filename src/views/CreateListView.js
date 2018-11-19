@@ -1,22 +1,20 @@
-import ItemList from './ItemList.vue'
-
-const camelize = str => str.charAt(0).toUpperCase() + str.slice(1)
+import OpinionsList from './OpinionsList.vue'
 
 // This is a factory function for dynamically creating root-level list views,
 // since they share most of the logic except for the type of items to display.
 // They are essentially higher order components wrapping ItemList.vue.
 export default function createListView (type) {
   return {
-    name: `${type}-stories-view`,
+    name: `${type}-list`,
 
-    asyncData ({ store }) {
-      return store.dispatch('FETCH_LIST_DATA', { type })
+    asyncData ({ store, route }) {
+      return store.dispatch('FETCH_DAILY_OPINIONS', { type, date: route.params.date })
     },
 
-    title: `${camelize(type)}`,
+    title: (type === 'opinions' ? 'Recent Opinions' : 'Daily Stock Market Comments'),
 
     render (h) {
-      return h(ItemList, { props: { type }})
+      return h(OpinionsList, { props: { type }})
     }
   }
 }

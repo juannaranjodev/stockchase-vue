@@ -4,10 +4,10 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 // route-level code splitting
-// const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
+const createListView = type => () => import('../views/CreateListView').then(m => m.default(type))
 // const ItemView = () => import('../views/ItemView.vue')
 // const UserView = () => import('../views/UserView.vue')
-const OpinionList = () => import('../views/OpinionList.vue')
+// const OpinionsList = () => import('../views/OpinionsList.vue')
 
 export function createRouter () {
   return new Router({
@@ -23,7 +23,9 @@ export function createRouter () {
       // { path: '/item/:id(\\d+)', component: ItemView },
       // { path: '/user/:id', component: UserView },
       { path: '/', redirect: '/opinions/recent' },
-      { path: '/opinions/:date', component: OpinionList },
+      { path: '/opinions/market', component: createListView('comments') },
+      { path: '/opinions/market/:date', component: createListView('comments') },
+      { path: '/opinions/:date', component: createListView('opinions') },
     ]
   })
 }

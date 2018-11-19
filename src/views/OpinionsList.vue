@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <opinions-header />
-    <opinions-slider :items="recentOpinions" />
+    <opinions-header :type="type" />
+    <opinions-slider v-if="isOpinions" :items="recentOpinions" />
     <opinions-link-ad />
+    <opinions-summary v-if="!isOpinions" :items="recentOpinions" />
 
     <div class="opinions-container">
       <div class="pagination">
@@ -10,7 +11,7 @@
           {{ date | formatDate }}
         </div>
         <div class="pagination-right">
-          <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
+          <a class="btn-navigate" v-if="olderDate" :href="olderUrl">
             <span>{{ olderDate | formatDate }}</span>
             <img src="~assets/images/arrow-right.png" width="20">
           </a>
@@ -39,13 +40,13 @@
 
       <div class="pagination">
         <div class="pagination-left">
-          <a class="btn-navigate" v-if="newerDate" :href="'/opinions/' + newerDate">
+          <a class="btn-navigate" v-if="newerDate" :href="newerUrl">
             <img src="~assets/images/arrow-left.png" width="20">
             <span>{{ newerDate | formatDate }}</span>
           </a>
         </div>
         <div class="pagination-right">
-          <a class="btn-navigate" v-if="olderDate" :href="'/opinions/' + olderDate">
+          <a class="btn-navigate" v-if="olderDate" :href="olderUrl">
             <span>{{ olderDate | formatDate }}</span>
             <img src="~assets/images/arrow-right.png" width="20">
           </a>
@@ -68,24 +69,24 @@ import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
+import OpinionsSummary from '../components/opinions/Summary.vue'
 import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
 import OpinionsDianomiAd from '../components/opinions/DianomiAd.vue'
 import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
 
 export default {
-  name: 'opinion-list',
+  name: 'item-list',
 
-  asyncData ({ store, route }) {
-    return store.dispatch('FETCH_DAILY_OPINIONS', { date: route.params.date })
+  props: {
+    type: String
   },
-
-  title: 'Recent Opinions',
 
   components: {
     OpinionsHeader,
     OpinionsLinkAd,
     OpinionsSlider,
+    OpinionsSummary,
     OpinionsFooter,
     OpinionsDianomiAd,
     Item,
@@ -99,6 +100,18 @@ export default {
       const items = _.clone(this.opinions)
       items.splice(1, 0, { ad: true })
       return items
+    },
+
+    isOpinions() {
+      return this.type === 'opinions'
+    },
+
+    newerUrl() {
+      return this.type === 'opinions' ? `/opinions/${this.newerDate}` : `/opinions/market/${this.newerDate}`
+    },
+
+    olderUrl() {
+      return this.type === 'opinions' ? `/opinions/${this.olderDate}` : `/opinions/market/${this.olderDate}`
     },
   },
 
@@ -164,23 +177,4 @@ export default {
 
     span
       color #FF4135
-
-.news-view
-  padding-top 0
-
-.news-list
-  background-color #fff
-  border-radius 2px
-
-.news-list
-  margin 30px 0
-  width 100%
-  ul
-    list-style-type none
-    padding 0
-    margin 0
-
-@media (max-width 600px)
-  .news-list
-    margin 10px 0
 </style>

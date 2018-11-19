@@ -19,8 +19,8 @@
             </a>
             <div class="company-meta">
               <a class="company-name-symbol" :href="item.Company.url">
-                <span class="company-name">{{ item.Company.name }}</span>
-                <span class="company-symbol">({{ item.Company.symbol }})</span>
+                <span class="company-name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
+                <span class="company-symbol" v-if="isOpinion">({{ item.Company.symbol }})</span>
               </a>
               <div class="opinion-date">
                 {{ item.date | formatDate }}
@@ -45,7 +45,7 @@
         </div>
         <div class="opinion-footer">
           <div class="opinion-footer-left">
-            <div v-if="item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
+            <div v-if="isOpinion && item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
           </div>
           <div class="opinion-footer-right">
             <div style="display: none">
@@ -77,7 +77,7 @@
         {{ item.Expert.title }}
       </div>
 
-      <div class="expert-meta">
+      <div class="expert-meta" v-if="isOpinion">
         <div v-b-tooltip.hover title="Price">
           <img src="~assets/images/price_icon@2x.png" width="18" alt="Price">
         </div>
@@ -85,7 +85,7 @@
           ${{ item.price }}
         </div>
       </div>
-      <div class="expert-meta">
+      <div class="expert-meta" v-if="isOpinion">
         <div v-b-tooltip.hover title="Owned">
           <img src="~assets/images/owned_icon@2x.png" width="18" alt="Owned">
         </div>
@@ -127,6 +127,10 @@ export default {
   },
 
   computed: {
+    isOpinion() {
+      return this.item.Company.id !== 1970
+    },
+
     signalClassName() {
       return this.toClassName(this.item.Signal.name)
     },

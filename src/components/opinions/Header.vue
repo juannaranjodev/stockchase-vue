@@ -2,14 +2,24 @@
   <div class="header">
     <div class="header-left">
       <h2 class="title">Latest Expert Opinions</h2>
-      <span class="link active">Stocks</span>
-      <a class="link" href="/opinions/market">Market</a>
+      <a :class="{ link: true, active: type === 'opinions' }" href="/opinions/recent">Stocks</a>
+      <a :class="{ link: true, active: type === 'comments' }" href="/opinions/market">Market</a>
     </div>
     <div class="header-right">
       <a href="https://stockchase.recurly.com/subscribe/adfree" class="subscribe">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'opinions-header',
+  props: ['type'],
+  serverCacheKey: ({ type }) => {
+    return `opinions::${type}::header`
+  },
+}
+</script>
 
 <style lang="stylus" scoped>
 .header
@@ -36,6 +46,7 @@
     &.active
       background #A3A2A2
       color white
+      pointer-events none
 
   .title + .link
     margin-left 30px

@@ -1,8 +1,10 @@
 import api from '../api'
 
 export default {
-  FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date }) => {
-    return api.fetchDailyOpinions(date)
+  FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date, type }) => {
+    const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
+
+    return api[method](date)
       .then(({ opinions, recentOpinions, date, olderDate, newerDate }) => {
         commit('SET_DATE', date)
         commit('SET_OLDER_DATE', olderDate)
