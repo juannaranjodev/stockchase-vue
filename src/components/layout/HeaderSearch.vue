@@ -139,7 +139,7 @@ export default {
   border-radius 3px
   padding 0 10px
   display block
-  max-width 100%
+  width 100%
   -webkit-appearance initial
 
 .nav-search
@@ -149,11 +149,9 @@ export default {
   outline 0
   box-shadow none
   -webkit-appearance textfield
-  max-width 100%
 
 #web-search-wrap
   width 360px
-  max-width 100%
   border none
   height 40px
   border-radius 3px
@@ -165,6 +163,7 @@ export default {
   border-radius 3px
   padding 0 10px
   display block
+  width 100%
 
 #web-search-filter:focus,
 #web-search-header:focus
