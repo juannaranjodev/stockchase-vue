@@ -1,5 +1,5 @@
 <template>
-  <tr class="opinions-row" :id="item.id">
+  <tr class="opinions-row" :id="item.id" :class="{'opinions-row--ad': item.ad}">
     <td class="signal-cell" v-if="!item.ad">
       <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
         <div class="signal-badge">
@@ -251,6 +251,8 @@ export default {
       box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
 
 .opinions-row
+  &--ad
+    background-color transparent !important
   td
     border 1px solid #ccc
     padding 10px
@@ -420,13 +422,15 @@ export default {
       margin-right 3px
 .in-feed-ad-cell
   height auto !important
+  background-color transparent !important
+  border 0 !important
+  padding 0 !important
 
 @media (max-width 767px)
   .opinions-row
     display block
     width auto !important
     padding-bottom 40px
-    background-color #ccc
 
     td
       display block

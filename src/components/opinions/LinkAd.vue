@@ -34,7 +34,7 @@ export default {
   .ad
     width 1100px
     max-width 100%
-    height 100px
+    min-height 100px
     margin 0 auto
 
 </style>

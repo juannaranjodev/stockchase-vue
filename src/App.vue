@@ -70,6 +70,6 @@ body
   .ad
     width 728px
     max-width 100%
-    height 90px
+    min-height 90px
     margin 0 auto
 </style>

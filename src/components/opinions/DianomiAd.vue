@@ -29,7 +29,7 @@ export default {
 
   .ad
     max-width 100%
-    height 550px
+    min-height 550px
     border none
     overflow hidden
     border none

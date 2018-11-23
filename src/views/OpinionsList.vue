@@ -164,7 +164,6 @@ export default {
 .opinions-table
   font-size 16px
   line-height 160%
-  border 1px solid #ccc
   border-top 3px solid #474747
   border-radius 0
   border-collapse collapse
