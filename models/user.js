@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         return this.group_id > 1;
       },
     },
+    editor: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        return this.group_id === 8;
+      },
+    },
     premium: {
       type: DataTypes.VIRTUAL,
       get: function() {

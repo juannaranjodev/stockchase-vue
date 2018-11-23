@@ -6,17 +6,23 @@
       <a :class="{ link: true, active: type === 'comments' }" href="/opinions/market">Market</a>
     </div>
     <div class="header-right">
-      <a href="https://stockchase.recurly.com/subscribe/adfree" class="subscribe">Too many ads? Remove ads !</a>
+      <a v-if="shouldShowAd" href="https://stockchase.recurly.com/subscribe/adfree" class="subscribe">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'opinions-header',
   props: ['type'],
   serverCacheKey: ({ type }) => {
     return `opinions::${type}::header`
+  },
+
+  computed: {
+    ...mapGetters(['shouldShowAd'])
   },
 }
 </script>

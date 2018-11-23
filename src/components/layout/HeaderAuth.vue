@@ -4,6 +4,28 @@
       <b-dropdown ref="userDropdown" right class="user-dropdown" toggle-class="user-dropdown-toggle" @mouseover.native="onMouseOver" @mouseleave.native="onMouseLeave">
         <b-dropdown-item :href="`${appUrl}/profile`">My Profile</b-dropdown-item>
         <b-dropdown-item :href="`${appUrl}/portfolio`">My Watch List</b-dropdown-item>
+
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/opinions`">Opinions Advanced Filters (Table View)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/experts`">Experts Advanced Filters (Table View)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/companies`">Company Advanced Filters (Table View)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/admin`">Site Management</b-dropdown-item>
+
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/blog/admin`">Blog Posts (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/page/admin`">Static Pages (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/admin/ads`">Text Ad Editor (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/admin/pix`">Image Manager (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/admin/editor`">Editor Functions (Editor)</b-dropdown-item>
+
+        <b-dropdown-item v-if="user.admin" :href="`${appUrl}/auth/index`">User Editor (Admin)</b-dropdown-item>
+
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/region`">Region (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/sector`">Sector (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/bias`">Bias (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/topic`">Topic (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/source`">Source (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/signal`">Signal (Editor)</b-dropdown-item>
+        <b-dropdown-item v-if="user.editor || user.admin" :href="`${appUrl}/tables/ad`">Advertising (Editor)</b-dropdown-item>
+
         <b-dropdown-item :href="`${appUrl}/auth/logout`">Logout</b-dropdown-item>
         <template slot="button-content">
           <div class="user-dropdown-label">
@@ -27,8 +49,9 @@
 </template>
 
 <script>
-import * as c from '../../constants'
+import { mapGetters } from 'vuex'
 import Gravatar from 'vue-gravatar'
+import * as c from '../../constants'
 
 export default {
   name: 'header-auth',
@@ -43,9 +66,7 @@ export default {
   },
 
   computed: {
-    user () {
-      return this.$store.getters.user
-    },
+    ...mapGetters(['user'])
   },
 
   methods: {
@@ -80,9 +101,8 @@ export default {
       margin-top -5px
       padding 0
       box-shadow 0px 8px 16px 0px rgba(0,0,0,0.2)
-      width 128px
+      min-width 128px
       border 0
-      min-width 0
 
     .dropdown-item
       color #000000

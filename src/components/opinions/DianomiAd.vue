@@ -17,19 +17,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'user' ]),
-
-    userLoaded() {
-      return this.user.loaded
-    },
-
-    adFree() {
-      return this.user.ad_free
-    },
-
-    shouldShowAd() {
-      return this.userLoaded && !this.adFree
-    },
+    ...mapGetters([ 'shouldShowAd' ]),
   }
 }
 </script>

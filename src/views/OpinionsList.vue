@@ -94,11 +94,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions' ]),
+    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions', 'shouldShowAd' ]),
 
     items() {
       const items = _.clone(this.opinions)
-      items.splice(1, 0, { ad: true })
+      if (this.shouldShowAd) items.splice(1, 0, { ad: true })
       return items
     },
 
