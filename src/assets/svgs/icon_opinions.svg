@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="20px" viewBox="0 0 23 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>op icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mobile" transform="translate(-39.000000, -90.000000)" stroke="#FFFFFF">
+            <g id="head" transform="translate(0.000000, 18.000000)">
+                <g id="tabbar" transform="translate(10.000000, 63.000000)">
+                    <g id="op-icon" transform="translate(29.000000, 9.000000)">
+                        <g id="options-icon">
+                            <path d="M5.3292523,19.1725201 L8.38356101,16.5 L20,16.5 C21.3807119,16.5 22.5,15.3807119 22.5,14 L22.5,2.99983629 C22.5,1.61912441 21.3807119,0.499836287 20,0.499836287 L3,0.499836287 C1.61928813,0.499836287 0.5,1.61912441 0.5,2.99983629 L0.5,14 C0.5,15.3807119 1.61928813,16.5 3,16.5 L4.5,16.5 L4.5,18.7962318 C4.5,18.9173433 4.54395912,19.0343383 4.62371165,19.1254841 C4.80555268,19.3333024 5.12143399,19.3543611 5.3292523,19.1725201 Z" id="Combined-Shape"></path>
+                            <polyline id="Path-10" points="4 13 8.03112887 8.96887113 11.0312904 11.9690326 18.0180638 4.98225917"></polyline>
+                            <polyline id="Path-11" points="14 5 18 5 18 9"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

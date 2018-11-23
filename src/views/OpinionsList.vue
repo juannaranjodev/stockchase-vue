@@ -186,7 +186,7 @@ export default {
 
 @media (max-width 767px)
   .container
-    padding 0 15px
+    padding 0 10px
 
   .opinions-table
     display block

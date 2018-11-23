@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="14px" viewBox="0 0 26 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>watch list icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mobile" transform="translate(-241.000000, -93.000000)" stroke="#FFFFFF">
+            <g id="head" transform="translate(0.000000, 18.000000)">
+                <g id="tabbar" transform="translate(10.000000, 63.000000)">
+                    <g id="watch-list-icon" transform="translate(233.000000, 13.000000)">
+                        <path d="M11,12.5 C8.47326127,12.5 4.72928731,10.4420159 -0.315375265,6.34152323 L-0.796414699,5.95051617 L-0.312429368,5.56316148 C4.73163687,1.526174 8.4752835,-0.5 11,-0.5 C13.5247165,-0.5 17.2683631,1.526174 22.3124294,5.56316148 L22.7964147,5.95051617 L22.3153753,6.34152323 C17.2707127,10.4420159 13.5267387,12.5 11,12.5 Z" id="Oval-4"></path>
+                        <path d="M11.5002047,2.53540752 C11.3357344,2.51190303 11.1687236,2.5 11,2.5 C9.06700338,2.5 7.5,4.06700338 7.5,6 C7.5,7.93299662 9.06700338,9.5 11,9.5 C12.9329966,9.5 14.5,7.93299662 14.5,6 C14.5,5.83127644 14.488097,5.66426558 14.4645925,5.49979535 C12.8358387,5.48095862 11.5190414,4.16416134 11.5002047,2.53540752 Z" id="Combined-Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

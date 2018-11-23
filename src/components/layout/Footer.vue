@@ -123,11 +123,7 @@ export default {
 
 @media (max-width 767px)
   .footer
-    padding 0 15px
-
-@media (max-width 767px)
-  .footer
-    padding 0 15px
+    padding 0 10px
 
     &__left, &__center
       height auto

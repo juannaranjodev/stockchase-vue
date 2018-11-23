@@ -182,9 +182,11 @@ export default {
   background-size 13px
   float left
   width 100px
+
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default .select2-selection--multiple
   border none
+
 .select2-container--default
   .select2-selection--multiple
     .select2-selection__choice
@@ -253,7 +255,13 @@ a.search-box-result-item, a.search-box-result-item:hover
 
 @media (max-width 767px)
   #web-search-wrap
-    width 290px !important
+    width 180px !important
   .select2-container
-    width 290px !important
+    width 180px !important
+  .select2-search__field
+    /* width 200px !important */
+
+  .select2-container--default.select2-container--focus .select2-selection--multiple,
+  .select2-container--default .select2-selection--multiple
+    border 1px solid #E2E2E2
 </style>

@@ -35,13 +35,14 @@
               :size="50"
               default-img=""
             />
-            <span class="user-name">{{ user.username }}</span>
-            <img class="user-dropdown-arrow" src="~assets/svgs/white-arrow-down.svg" width="20">
+            <span class="user-name d-none d-md-block">{{ user.username }}</span>
+            <img class="user-dropdown-arrow d-none d-md-inline" src="~assets/svgs/white-arrow-down.svg" width="20">
+            <img class="user-dropdown-arrow d-md-none" src="~assets/svgs/arrow_down.svg" width="8">
           </div>
         </template>
       </b-dropdown>
     </div>
-    <div v-else :class="{'hidden': !fetched}">
+    <div v-else :class="{'header-auth__buttons': true, 'hidden': !fetched, 'd-none d-md-flex': true}">
       <a class="button button-white button-white-login button-login" :href="appUrl + '/member/login'">Login</a>
       <a class="button button-orange button-orange-signup button-signup" :href="appUrl + '/member/signup'">Sign Up</a>
     </div>
@@ -94,6 +95,7 @@ export default {
 <style lang="stylus">
 .user
   &-dropdown
+    max-width 100%
     height 45px
     margin 18px 0
 
@@ -133,6 +135,7 @@ export default {
       border 0 !important
       outline 0 !important
       box-shadow none !important
+      max-width 100%
 
       &:after
         display none !important
@@ -148,17 +151,34 @@ export default {
     height 25px
 
   &-name
+    display block
     margin-right 13px
+    line-height 1.2
+    text-align left
     color white
     font-weight bold
+    white-space normal
 
+@media (max-width 767px)
+  .user
+    &-dropdown
+      margin 0
+
+    &-avatar
+      margin-right 3px
 </style>
 
 <style lang="stylus" scoped>
 .header-auth
-  & > .hidden
-    visibility hidden
-    pointer-events none
+  max-width 100%
+
+  &__buttons
+    display flex
+    align-items center
+
+    &.hidden
+      visibility hidden
+      pointer-events none
 
   .button-login, .button-signup
     display inline-block
@@ -185,5 +205,15 @@ export default {
     border 1px solid white
     background white
     color #FF2E50
+
+@media (max-width 767px)
+  .header-auth
+    &__buttons
+      &.hidden
+        display none
+
+    .button-login, .button-signup
+      margin-top 0
+      margin-bottom 0
 
 </style>

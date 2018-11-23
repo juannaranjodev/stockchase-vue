@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="24px" viewBox="0 0 15 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>expert icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mobile" transform="translate(-179.000000, -88.000000)" stroke="#FFFFFF">
+            <g id="head" transform="translate(0.000000, 18.000000)">
+                <g id="tabbar" transform="translate(10.000000, 63.000000)">
+                    <g id="expert-icon" transform="translate(169.000000, 8.000000)">
+                        <path d="M6.63157895,7.13157895 C3.2452014,7.13157895 0.5,9.87678035 0.5,13.2631579 L0.5,18.7947368 C0.5,19.1261077 0.76862915,19.3947368 1.1,19.3947368 L13.9,19.3947368 C14.2313708,19.3947368 14.5,19.1261077 14.5,18.7947368 L14.5,13.2631579 C14.5,9.87678035 11.7547986,7.13157895 8.36842105,7.13157895 L6.63157895,7.13157895 Z" id="Rectangle-5"></path>
+                        <ellipse id="Oval-3" fill="#383838" cx="7.5" cy="4.42105263" rx="4.28571429" ry="4.42105263"></ellipse>
+                        <polyline id="Path-7" points="4.28571429 8.84210526 7.5 12.1578947 10.7142857 8.84210526"></polyline>
+                        <path d="M7.5,10.5317493 L10.2110405,18.9217061 L7.5,21.7183584 L4.78895953,18.9217061 L7.5,10.5317493 Z" id="Path-8" fill="#383838"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
