@@ -3,16 +3,19 @@
     <site-header />
     <site-navigation />
 
-    <div class="ad-container" v-if="shouldShowAd">
+    <div 
+      class="ad-container" 
+      v-if="shouldShowAd">
       <Adsense
         class='ad'
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="5979276843">
-      </Adsense>
+        data-ad-slot="5979276843"/>
     </div>
 
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
+    <transition 
+      name="fade" 
+      mode="out-in">
+      <router-view class="view"/>
     </transition>
     <site-footer />
   </div>

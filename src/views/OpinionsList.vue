@@ -5,10 +5,12 @@
       v-if="isOpinions"
       :items="items"
       :page="currentPage"
-      :numPages="numPages"
+      :num-pages="numPages"
     />
     <opinions-link-ad />
-    <opinions-summary v-if="!isOpinions" :items="items" />
+    <opinions-summary
+      v-if="!isOpinions"
+      :items="items" />
 
     <div class="opinions-container">
       <div class="pgntn">
@@ -16,14 +18,21 @@
           {{ date | formatDate }}
         </div>
         <div class="pgntn-right">
-          <a class="btn-navigate" v-if="olderDate" :href="olderUrl">
+          <a
+            class="btn-navigate"
+            v-if="olderDate"
+            :href="olderUrl">
             <span>{{ olderDate | formatDate }}</span>
-            <img src="~assets/images/arrow-right.png" width="20">
+            <img
+              src="~assets/images/arrow-right.png"
+              width="20">
           </a>
         </div>
       </div>
 
-      <table class="opinions-table" :key="date">
+      <table
+        class="opinions-table"
+        :key="date">
         <thead>
           <tr>
             <th><span>Signal</span></th>
@@ -45,13 +54,23 @@
 
       <ul class="pagination justify-content-center">
         <li :class="{'page-item': true, 'disabled': !newerDate}">
-          <a v-if="newerDate" :href="newerUrl" class="page-link">&laquo; {{ newerDate | formatDate }}</a>
-          <span v-else class="page-link">&laquo;</span>
+          <a
+            v-if="newerDate"
+            :href="newerUrl"
+            class="page-link">&laquo; {{ newerDate | formatDate }}</a>
+          <span
+            v-else
+            class="page-link">&laquo;</span>
         </li>
 
         <li :class="{'page-item': true, 'disabled': !prevPage}">
-          <a v-if="prevPage" :href="prevPageUrl" class="page-link">&lsaquo;</a>
-          <span v-else class="page-link">&lsaquo;</span>
+          <a
+            v-if="prevPage"
+            :href="prevPageUrl"
+            class="page-link">&lsaquo;</a>
+          <span
+            v-else
+            class="page-link">&lsaquo;</span>
         </li>
 
         <li
@@ -59,18 +78,33 @@
           :key="`page_${page}`"
           :class="{'page-item': true, active: page === currentPage}"
         >
-          <span v-if="page === currentPage" class="page-link">{{ page }}</span>
-          <a v-else class="page-link" :href="getPageUrl(page)">{{ page }}</a>
+          <span
+            v-if="page === currentPage"
+            class="page-link">{{ page }}</span>
+          <a
+            v-else
+            class="page-link"
+            :href="getPageUrl(page)">{{ page }}</a>
         </li>
 
         <li :class="{'page-item': true, 'disabled': !nextPage}">
-          <a v-if="nextPage" :href="nextPageUrl" class="page-link">&rsaquo;</a>
-          <span v-else class="page-link">&rsaquo;</span>
+          <a
+            v-if="nextPage"
+            :href="nextPageUrl"
+            class="page-link">&rsaquo;</a>
+          <span
+            v-else
+            class="page-link">&rsaquo;</span>
         </li>
 
         <li :class="{'page-item': true, 'disabled': !olderDate}">
-          <a v-if="olderDate" :href="olderUrl" class="page-link">{{ olderDate | formatDate }} &raquo;</a>
-          <span v-else class="page-link">&raquo;</span>
+          <a
+            v-if="olderDate"
+            :href="olderUrl"
+            class="page-link">{{ olderDate | formatDate }} &raquo;</a>
+          <span
+            v-else
+            class="page-link">&raquo;</span>
         </li>
       </ul>
     </div>
@@ -98,10 +132,13 @@ import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
 
 export default {
-  name: 'item-list',
+  name: 'ItemList',
 
   props: {
-    type: String
+    type: {
+      type: String,
+      default: 'opinions'
+    }
   },
 
   components: {

@@ -2,15 +2,29 @@
   <header class="header">
     <nav class="inner">
       <div class="inner-left">
-        <a class="home" :href="appUrl">
-          <img class="d-none d-md-inline" width="40" src="~assets/svgs/logo.svg" alt="logo">
-          <img class="d-md-none" width="34" src="~assets/svgs/logo_red.svg" alt="logo">
+        <a 
+          class="home" 
+          :href="appUrl">
+          <img 
+            class="d-none d-md-inline" 
+            width="40" 
+            src="~assets/svgs/logo.svg" 
+            alt="logo">
+          <img 
+            class="d-md-none" 
+            width="34" 
+            src="~assets/svgs/logo_red.svg" 
+            alt="logo">
         </a>
         <header-search />
       </div>
       <div class="inner-right">
-        <a class="link d-none d-lg-block" href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
-        <a class="link d-none d-lg-block" href="https://app.monstercampaigns.com/c/pyfvvozlgjmvfiny48bx/">Free 72 rules eBook</a>
+        <a 
+          class="link d-none d-lg-block" 
+          href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
+        <a 
+          class="link d-none d-lg-block" 
+          href="https://app.monstercampaigns.com/c/pyfvvozlgjmvfiny48bx/">Free 72 rules eBook</a>
         <header-auth />
       </div>
     </nav>
@@ -24,7 +38,7 @@ import HeaderAuth from './HeaderAuth.vue'
 import HeaderSearch from './HeaderSearch.vue'
 
 export default {
-  name: 'site-header',
+  name: 'SiteHeader',
 
   components: {
     HeaderAuth,

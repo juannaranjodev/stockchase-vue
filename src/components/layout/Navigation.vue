@@ -4,7 +4,10 @@
       <div class="inner-left">
         <div class="link-container">
           <a :href="appUrl">
-            <img class="home" src="~assets/images/stockchase-home-icon.png" alt="logo">
+            <img 
+              class="home" 
+              src="~assets/images/stockchase-home-icon.png" 
+              alt="logo">
           </a>
         </div>
         <div class="link-container active">
@@ -27,30 +30,42 @@
         </div>
       </div>
       <div class="inner-right">
-        <a class="watchlist" href="/portfolio">
+        <a 
+          class="watchlist" 
+          href="/portfolio">
           <img src="~assets/svgs/icon_watchlist_gray.svg">
           Watch List
         </a>
       </div>
     </nav>
     <nav class="inner inner--sm d-md-none">
-      <a class="link active" :href="appUrl + '/opinions/recent'">
+      <a 
+        class="link active" 
+        :href="appUrl + '/opinions/recent'">
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
-      <a class="link" :href="appUrl + '/company'">
+      <a 
+        class="link" 
+        :href="appUrl + '/company'">
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
       </a>
-      <a class="link" :href="appUrl + '/expert'">
+      <a 
+        class="link" 
+        :href="appUrl + '/expert'">
         <span class="link__icon"><img src="~assets/svgs/icon_expert.svg"></span>
         <span class="link__label">Expert</span>
       </a>
-      <a class="link" :href="appUrl + '/portfolio'">
+      <a 
+        class="link" 
+        :href="appUrl + '/portfolio'">
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
       </a>
-      <a class="link" :href="appUrl + '/opinions/recenttop'">
+      <a 
+        class="link" 
+        :href="appUrl + '/opinions/recenttop'">
         <span class="link__icon"><img src="~assets/svgs/icon_toppicks.svg"></span>
         <span class="link__label">Top Picks</span>
       </a>
@@ -62,7 +77,7 @@
 import * as c from '../../constants'
 
 export default {
-  name: 'site-navigation',
+  name: 'SiteNavigation',
 
   data () {
     return {

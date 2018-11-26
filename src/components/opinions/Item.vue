@@ -1,33 +1,48 @@
 <template>
-  <tr class="opinions-row" :id="item.id" :class="{'opinions-row--ad': item.ad}">
-    <td class="signal-cell" v-if="!item.ad">
+  <tr
+    class="opinions-row"
+    :id="item.id"
+    :class="{'opinions-row--ad': item.ad}">
+    <td
+      class="signal-cell"
+      v-if="!item.ad">
       <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
         <div class="signal-badge">
-          <div :class="`${signalClassName}-border`" style="border-radius: 5px;">
+          <div
+            :class="`${signalClassName}-border`"
+            style="border-radius: 5px;">
             {{ item.Signal.name.toUpperCase() }}
           </div>
         </div>
       </div>
     </td>
 
-    <td class="opinion-cell" v-if="!item.ad">
+    <td
+      class="opinion-cell"
+      v-if="!item.ad">
       <div class="opinion">
         <div class="opinion-main">
           <div class="company">
-            <a class="company-logo" :href="item.Company.url">
+            <a
+              class="company-logo"
+              :href="item.Company.url">
               <img :src="item.Company.logo">
             </a>
             <div class="company-meta">
-              <a class="company-name-symbol" :href="item.Company.url">
+              <a
+                class="company-name-symbol"
+                :href="item.Company.url">
                 <span class="company-name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
-                <span class="company-symbol" v-if="isOpinion">({{ item.Company.symbol }})</span>
+                <span
+                  class="company-symbol"
+                  v-if="isOpinion">({{ item.Company.symbol }})</span>
               </a>
               <div class="opinion-date">
                 {{ item.date | formatDate }}
               </div>
             </div>
             <div class="company-share">
-              <social-sharing url="https://vuejs.org/"
+              <social-sharing
                 :title="sharingContent"
                 :hashtags="sharingHashtag"
                 :url="item.url"
@@ -41,11 +56,15 @@
               </social-sharing>
             </div>
           </div>
-          <div class="opinion-comment" v-html="item.comment"></div>
+          <div
+            class="opinion-comment"
+            v-html="item.comment"/>
         </div>
         <div class="opinion-footer">
           <div class="opinion-footer-left">
-            <div v-if="isOpinion && item.Company.Sector.name !== '0'" class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
+            <div
+              v-if="isOpinion && item.Company.Sector.name !== '0'"
+              class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
           </div>
           <div class="opinion-footer-right">
             <div style="display: none">
@@ -54,40 +73,71 @@
               </div>
             </div>
 
-            <div ref="userReactions" :class="{ 'opinion-rating': true, 'no-rating': !myRating }" @click="showComments">
-              <img v-if="!myRating" src="~assets/images/smileys/smiley-glasses.png" width="25">
-              <img v-if="myRating" :src="myRatingImage" width="35">
+            <div
+              ref="userReactions"
+              :class="{ 'opinion-rating': true, 'no-rating': !myRating }"
+              @click="showComments">
+              <img
+                v-if="!myRating"
+                src="~assets/images/smileys/smiley-glasses.png"
+                width="25">
+              <img
+                v-if="myRating"
+                :src="myRatingImage"
+                width="35">
               <span v-if="myRating" >You, and {{ numSameRatings }} Others</span>
             </div>
 
-            <a class="btn-comment" @click="showComments">
+            <a
+              class="btn-comment"
+              @click="showComments">
               <img src="~assets/svgs/comment_icon.svg">
-              <span class="disqus-comment-count" :data-disqus-identifier="disqusIdentifier">0 Comments</span>
+              <span
+                class="disqus-comment-count"
+                :data-disqus-identifier="disqusIdentifier">0 Comments</span>
             </a>
           </div>
         </div>
       </div>
     </td>
 
-    <td class="expert-cell" v-if="!item.ad">
-      <a :href="item.Expert.url" class="expert-name">
+    <td
+      class="expert-cell"
+      v-if="!item.ad">
+      <a
+        :href="item.Expert.url"
+        class="expert-name">
         {{ item.Expert.name }}
       </a>
       <div class="expert-title">
         {{ item.Expert.title }}
       </div>
 
-      <div class="expert-meta" v-if="isOpinion">
-        <div v-b-tooltip.hover title="Price">
-          <img src="~assets/images/price_icon@2x.png" width="18" alt="Price">
+      <div
+        class="expert-meta"
+        v-if="isOpinion">
+        <div
+          v-b-tooltip.hover
+          title="Price">
+          <img
+            src="~assets/images/price_icon@2x.png"
+            width="18"
+            alt="Price">
         </div>
         <div>
           ${{ item.price }}
         </div>
       </div>
-      <div class="expert-meta" v-if="isOpinion">
-        <div v-b-tooltip.hover title="Owned">
-          <img src="~assets/images/owned_icon@2x.png" width="18" alt="Owned">
+      <div
+        class="expert-meta"
+        v-if="isOpinion">
+        <div
+          v-b-tooltip.hover
+          title="Owned">
+          <img
+            src="~assets/images/owned_icon@2x.png"
+            width="18"
+            alt="Owned">
         </div>
         <div>
           {{ item.Ownership.name }}
@@ -95,7 +145,10 @@
       </div>
     </td>
 
-    <td colspan="3" class="in-feed-ad-cell" v-if="item.ad">
+    <td
+      colspan="3"
+      class="in-feed-ad-cell"
+      v-if="item.ad">
       <opinions-in-feed-ad />
     </td>
   </tr>
@@ -115,10 +168,12 @@ if (process.browser) {
 }
 
 export default {
-  name: 'opinions-item',
-  props: ['item'],
-  serverCacheKey: ({ item: { id }}) => {
-    return `opinion::${id}`
+  name: 'OpinionsItem',
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    },
   },
 
   components: {

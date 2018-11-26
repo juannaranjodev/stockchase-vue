@@ -1,11 +1,12 @@
 <template>
   <div>
-    <div class="ad-container" v-if="shouldShowAd">
+    <div 
+      class="ad-container" 
+      v-if="shouldShowAd">
       <Adsense
         class='ad'
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="3572899802">
-      </Adsense>
+        data-ad-slot="3572899802"/>
     </div>
   </div>
 </template>
@@ -14,7 +15,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'opinions-link-ad',
+  name: 'OpinionsLinkAd',
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: () => {
     return `opinions::link-ad`

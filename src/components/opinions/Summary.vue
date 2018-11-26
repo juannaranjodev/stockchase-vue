@@ -12,12 +12,16 @@
       <div class="summary-content">
         <a
           v-for="expert in recentExperts"
+          :key="`expert_${expert.id}`"
           v-b-tooltip.hover
           class="expert-avatar"
           :href="expert.url"
           :title="expert.name"
         >
-          <img width="50" height="50" :src="expert.avatar">
+          <img
+            width="50"
+            height="50"
+            :src="expert.avatar">
         </a>
       </div>
     </div>
@@ -28,11 +32,12 @@
 import _ from 'lodash'
 
 export default {
-  name: 'opinions-summary',
-  props: ['items'],
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: () => {
-    return `opinions::summary`
+  name: 'OpinionsSummary',
+  props: {
+    items: {
+      type: Array,
+      default: () => []
+    }
   },
 
   computed: {

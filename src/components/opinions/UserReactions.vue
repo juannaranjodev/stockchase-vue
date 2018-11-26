@@ -2,9 +2,13 @@
   <div class="opinion-ratings">
     <div
       v-for="rating in ratingCounts"
+      :key="`rating_${rating.rating}`"
       class="opinion-rating"
     >
-      <img :src="ratingImageFor(rating.rating)" width="50" @click="rate(rating.rating)">
+      <img
+        :src="ratingImageFor(rating.rating)"
+        width="50"
+        @click="rate(rating.rating)">
       <span>{{ rating.count }}</span>
     </div>
   </div>
@@ -16,10 +20,12 @@ import * as c from '../../constants'
 import { getPossibleRatings, getRatingImage } from '../../util/rating'
 
 export default {
-  name: 'opinion-user-reactions',
-  props: ['item'],
-  serverCacheKey: ({ item: { id } }) => {
-    return `opinion::${id}::user_reactions`
+  name: 'OpinionUserReactions',
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    },
   },
 
   data() {

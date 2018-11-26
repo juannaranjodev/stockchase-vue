@@ -6,10 +6,12 @@
         v-for="item in topPicks"
         :key="`topPicks::${item.id}`"
         class="footer-stock-list-item"
-        >
-          <a :href="`/company/view/${item.company_id}`">{{ item.company_symbol }}</a>
+      >
+        <a :href="`/company/view/${item.company_id}`">{{ item.company_symbol }}</a>
       </span>
-      <a class="view-all" :href="recentTopLink">View all...</a>
+      <a
+        class="view-all"
+        :href="recentTopLink">View all...</a>
     </div>
     <div class="footer-stock-list">
       <span class="footer-stock-list-label">Top Picks</span>
@@ -17,8 +19,8 @@
         v-for="item in trendingStocks"
         :key="`trendingStocks::${item.id}`"
         class="footer-stock-list-item"
-        >
-          <a :href="`/company/view/${item.id}`">{{ item.symbol }}</a>
+      >
+        <a :href="`/company/view/${item.id}`">{{ item.symbol }}</a>
       </span>
     </div>
   </div>
@@ -29,11 +31,8 @@ import * as c from '../../constants'
 import _ from 'lodash'
 
 export default {
-  name: 'opinions-footer',
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: () => {
-    return `opinions::footer`
-  },
+  name: 'OpinionsFooter',
+
   data () {
     return {
       recentTopLink: `${c.APP_URL}/opinions/recenttop`

@@ -1,7 +1,14 @@
 <template>
   <div>
-    <div class="ad-container" v-if="shouldShowAd">
-      <iframe class="ad" width="1100" height="550" scrolling="NO" src="//www.dianomi.com/smartads.epl?id=4223"></iframe>
+    <div 
+      class="ad-container" 
+      v-if="shouldShowAd">
+      <iframe 
+        class="ad" 
+        width="1100" 
+        height="550" 
+        scrolling="NO" 
+        src="//www.dianomi.com/smartads.epl?id=4223"/>
     </div>
   </div>
 </template>
@@ -10,7 +17,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'opinions-dianomi-ad',
+  name: 'OpinionsDianomiAd',
   // http://ssr.vuejs.org/en/caching.html#component-level-caching
   serverCacheKey: () => {
     return `opinions::dianomi-ad`

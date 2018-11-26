@@ -1,6 +1,9 @@
 <template>
   <div :class="wrapperClass">
-    <select :class="selectClass" :placeholder="placeholder" :disabled="disabled"></select>
+    <select
+      :class="selectClass"
+      :placeholder="placeholder"
+      :disabled="disabled"/>
   </div>
 
 </template>
@@ -48,7 +51,10 @@ export default {
       type: Object,
       default: () => {}
     },
-    value: null
+    value: {
+      type: String,
+      default: ''
+    }
   },
   watch: {
     options(val) {

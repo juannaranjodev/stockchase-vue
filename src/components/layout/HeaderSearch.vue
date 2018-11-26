@@ -1,8 +1,8 @@
 <template>
   <div class="search-bar">
     <Select2
-      wrapperClass="web-search-wrap d-none d-md-block"
-      selectClass="web-search-header nav-select"
+      wrapper-class="web-search-wrap d-none d-md-block"
+      select-class="web-search-header nav-select"
       :placeholder="baseSettings.placeholder"
       :settings="baseSettings"
       @selecting="onSelecting"
@@ -10,8 +10,8 @@
     />
 
     <Select2
-      wrapperClass="web-search-wrap d-md-none"
-      selectClass="web-search-header nav-select"
+      wrapper-class="web-search-wrap d-md-none"
+      select-class="web-search-header nav-select"
       :placeholder="smallScreenSettings.placeholder"
       :settings="smallScreenSettings"
       @selecting="onSelecting"
@@ -26,7 +26,7 @@ import * as c from '../../constants'
 import Select2 from '../Select2.vue'
 
 export default {
-  name: 'header-search',
+  name: 'HeaderSearch',
 
   components: { Select2 },
 

@@ -2,11 +2,18 @@
   <div class="header">
     <div class="header-left">
       <h2 class="title">Latest Expert Opinions</h2>
-      <a :class="{ link: true, active: type === 'opinions' }" href="/opinions/recent">Stocks</a>
-      <a :class="{ link: true, active: type === 'comments' }" href="/opinions/market">Market</a>
+      <a
+        :class="{ link: true, active: type === 'opinions' }"
+        href="/opinions/recent">Stocks</a>
+      <a
+        :class="{ link: true, active: type === 'comments' }"
+        href="/opinions/market">Market</a>
     </div>
     <div class="header-right">
-      <a v-if="shouldShowAd" href="https://stockchase.recurly.com/subscribe/adfree" class="subscribe">Too many ads? Remove ads !</a>
+      <a
+        v-if="shouldShowAd"
+        href="https://stockchase.recurly.com/subscribe/adfree"
+        class="subscribe">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -15,8 +22,13 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'opinions-header',
-  props: ['type'],
+  name: 'OpinionsHeader',
+  props: {
+    type: {
+      type: String,
+      default: 'opinions',
+    }
+  },
   serverCacheKey: ({ type }) => {
     return `opinions::${type}::header`
   },

@@ -1,7 +1,9 @@
 <template>
   <div class="slider-container d-none d-md-block">
     <div class="slider">
-      <span :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': currentPage === 1}" @click="prev"></span>
+      <span
+        :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': currentPage === 1}"
+        @click="prev"/>
       <div class="slider-content">
         <a
           v-for="item in displayedItems"
@@ -11,13 +13,17 @@
           :title="item.Company.name"
           class="company"
         >
-          <div class="company-logo" :href="item.Company.url">
+          <div
+            class="company-logo"
+            :href="item.Company.url">
             <img :src="item.Company.logo">
           </div>
           <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name.toUpperCase() }}</div>
         </a>
       </div>
-      <span :class="{'carousel-control carousel-control-next-icon': true, 'hidden': currentPage === numPages}" @click="next"></span>
+      <span
+        :class="{'carousel-control carousel-control-next-icon': true, 'hidden': currentPage === numPages}"
+        @click="next"/>
     </div>
   </div>
 </template>
@@ -27,8 +33,21 @@ import _ from 'lodash'
 import * as c from '../../constants'
 
 export default {
-  name: 'opinions-slider',
-  props: ['items', 'page', 'numPages'],
+  name: 'OpinionsSlider',
+  props: {
+    items: {
+      type: Array,
+      default: () => {}
+    },
+    page: {
+      type: Number,
+      default: 1
+    },
+    numPages: {
+      type: Number,
+      default: 1
+    },
+  },
 
   data() {
     return {

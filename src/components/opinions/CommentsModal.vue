@@ -8,32 +8,47 @@
   >
     <div v-if="item.id">
       <div class="company">
-        <a class="company-logo" :href="item.Company.url">
+        <a 
+          class="company-logo" 
+          :href="item.Company.url">
           <img :src="item.Company.logo">
         </a>
         <div class="company-meta">
-          <a class="expert-avatar" :href="item.Expert.url">
+          <a 
+            class="expert-avatar" 
+            :href="item.Expert.url">
             <img :src="item.Expert.avatar">
           </a>
-          <a class="meta-link" :href="item.Company.url">{{ item.Company.name }}</a>
-          <a class="meta-link" :href="item.Expert.url">{{ item.Expert.name }}</a>
+          <a 
+            class="meta-link" 
+            :href="item.Company.url">{{ item.Company.name }}</a>
+          <a 
+            class="meta-link" 
+            :href="item.Expert.url">{{ item.Expert.name }}</a>
         </div>
       </div>
 
-      <div class="opinion-comment" v-html="item.comment"></div>
+      <div 
+        class="opinion-comment" 
+        v-html="item.comment"/>
       <div class="opinion-date">{{ item.date | formatDate }}</div>
       <user-reactions :item="item" />
       <div class="opinion-comments">
-        <vue-disqus :shortname="disqusShortName" :identifier="disqusIdentifier" :url="item.url"></vue-disqus>
+        <vue-disqus 
+          :shortname="disqusShortName" 
+          :identifier="disqusIdentifier" 
+          :url="item.url"/>
       </div>
     </div>
 
     <template slot="modal-footer">
-      <div class="modal-footer__left">
-      </div>
+      <div class="modal-footer__left"/>
 
       <div class="modal-footer__right">
-        <b-button size="sm" class="btn btn-danger" @click="hideModal">Close</b-button>
+        <b-button 
+          size="sm" 
+          class="btn btn-danger" 
+          @click="hideModal">Close</b-button>
       </div>
     </template>
   </b-modal>
@@ -47,7 +62,7 @@ import * as c from '../../constants'
 import UserReactions from './UserReactions.vue'
 
 export default {
-  name: 'comments-modal',
+  name: 'CommentsModal',
 
   components: { UserReactions },
 
