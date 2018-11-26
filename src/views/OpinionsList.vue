@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <opinions-header :type="type" />
-    <opinions-slider v-if="isOpinions" :items="recentOpinions" />
+    <opinions-slider v-if="isOpinions" :items="items", :currentPage="currentPage" />
     <opinions-link-ad />
-    <opinions-summary v-if="!isOpinions" :items="recentOpinions" />
+    <opinions-summary v-if="!isOpinions" :items="items" />
 
     <div class="opinions-container">
-      <div class="pagination">
-        <div class="pagination-left">
+      <div class="pgntn">
+        <div class="pgntn-left">
           {{ date | formatDate }}
         </div>
-        <div class="pagination-right">
+        <div class="pgntn-right">
           <a class="btn-navigate" v-if="olderDate" :href="olderUrl">
             <span>{{ olderDate | formatDate }}</span>
             <img src="~assets/images/arrow-right.png" width="20">
@@ -28,7 +28,7 @@
         </thead>
         <tbody>
           <item
-            v-for="item in items"
+            v-for="item in pageItems"
             :key="item.id"
             :item="item"
             @showComments="showComments"
@@ -38,20 +38,36 @@
 
       <opinions-link-ad />
 
-      <div class="pagination">
-        <div class="pagination-left">
-          <a class="btn-navigate" v-if="newerDate" :href="newerUrl">
-            <img src="~assets/images/arrow-left.png" width="20">
-            <span>{{ newerDate | formatDate }}</span>
-          </a>
-        </div>
-        <div class="pagination-right">
-          <a class="btn-navigate" v-if="olderDate" :href="olderUrl">
-            <span>{{ olderDate | formatDate }}</span>
-            <img src="~assets/images/arrow-right.png" width="20">
-          </a>
-        </div>
-      </div>
+      <ul class="pagination justify-content-center">
+        <li :class="{'page-item': true, 'disabled': !newerDate}">
+          <a v-if="newerDate" :href="newerUrl" class="page-link">&laquo; {{ newerDate | formatDate }}</a>
+          <span v-else class="page-link">&laquo;</span>
+        </li>
+
+        <li :class="{'page-item': true, 'disabled': !prevPage}">
+          <a v-if="prevPage" :href="prevPageUrl" class="page-link">&lsaquo;</a>
+          <span v-else class="page-link">&lsaquo;</span>
+        </li>
+
+        <li
+          v-for="page in numPages"
+          :key="`page_${page}`"
+          :class="{'page-item': true, active: page === currentPage}"
+        >
+          <span v-if="page === currentPage" class="page-link">{{ page }}</span>
+          <a v-else class="page-link" :href="getPageUrl(page)">{{ page }}</a>
+        </li>
+
+        <li :class="{'page-item': true, 'disabled': !nextPage}">
+          <a v-if="nextPage" :href="nextPageUrl" class="page-link">&rsaquo;</a>
+          <span v-else class="page-link">&rsaquo;</span>
+        </li>
+
+        <li :class="{'page-item': true, 'disabled': !olderDate}">
+          <a v-if="olderDate" :href="olderUrl" class="page-link">{{ olderDate | formatDate }} &raquo;</a>
+          <span v-else class="page-link">&raquo;</span>
+        </li>
+      </ul>
     </div>
 
     <opinions-dianomi-ad />
@@ -64,6 +80,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as c from '../constants'
 import moment from 'moment'
 import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
@@ -94,12 +111,17 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'recentOpinions', 'shouldShowAd' ]),
+    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions', 'shouldShowAd' ]),
+
+    pageItems() {
+      const startIndex = (this.currentPage - 1) * c.PER_PAGE
+      const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
+      if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
+      return pageItems
+    },
 
     items() {
-      const items = _.clone(this.opinions)
-      if (this.shouldShowAd) items.splice(1, 0, { ad: true })
-      return items
+      return this.opinions
     },
 
     isOpinions() {
@@ -113,12 +135,41 @@ export default {
     olderUrl() {
       return this.type === 'opinions' ? `/opinions/${this.olderDate}` : `/opinions/market/${this.olderDate}`
     },
+
+    numPages() {
+      return Math.ceil(this.opinions.length / c.PER_PAGE)
+    },
+
+    currentPage() {
+      return +this.$route.params.page
+    },
+
+    prevPage() {
+      if (this.currentPage > 1) return this.currentPage - 1
+    },
+
+    prevPageUrl() {
+      return this.getPageUrl(this.prevPage)
+    },
+
+    nextPage() {
+      if (this.currentPage < this.numPages) return this.currentPage + 1
+    },
+
+    nextPageUrl() {
+      return this.getPageUrl(this.nextPage)
+    },
   },
 
   methods: {
     showComments(id) {
       this.$refs.commentsModal.setupComments(id)
       this.$root.$emit('bv::show::modal', 'modal_comments')
+    },
+
+    getPageUrl(page) {
+      const date = this.$route.params.date
+      return this.type === 'opinions' ? `/opinions/${date}/${page}` : `/opinions/market/${date}/${page}`
     },
   },
 }
@@ -133,7 +184,7 @@ export default {
   padding 0 20px
   margin 0 auto
 
-.pagination
+.pgntn
   display flex
   align-items center
   flex-wrap wrap
@@ -145,8 +196,25 @@ export default {
   &-left
     margin-right 10px
 
+.pagination
+  margin 10px 0
+
+  .page-link
+    color #ec4d4b !important
+    font-size 16px
+
+  .page-item
+    &.active
+      .page-link
+        background-color #ec4d4b
+        border-color #ec4d4b
+        color white !important
+    &.disabled
+      .page-link
+        color #6c757d !important
+
 .btn-navigate
-  background-color red
+  background-color #ec4d4b
   border-radius 5px
   padding 7px 10px
   color white

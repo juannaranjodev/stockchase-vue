@@ -5,12 +5,11 @@ export default {
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 
     return api[method](date)
-      .then(({ opinions, recentOpinions, date, olderDate, newerDate }) => {
+      .then(({ opinions, date, olderDate, newerDate }) => {
         commit('SET_DATE', date)
         commit('SET_OLDER_DATE', olderDate)
         commit('SET_NEWER_DATE', newerDate)
         commit('SET_OPINIONS', opinions)
-        commit('SET_RECENT_OPINIONS', recentOpinions)
       })
   },
 

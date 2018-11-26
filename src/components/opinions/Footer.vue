@@ -87,7 +87,7 @@ export default {
         font-size 15px
         color #25325A
 .view-all
-  color red
+  color #ec4d4b
   white-space nowrap
   padding 10px 0
   display inline-block

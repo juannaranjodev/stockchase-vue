@@ -4,10 +4,6 @@ export default {
     return _.values(state.opinions)
   },
 
-  recentOpinions (state, getters) {
-    return state.recentOpinions
-  },
-
   date (state, getters) {
     return state.date
   },

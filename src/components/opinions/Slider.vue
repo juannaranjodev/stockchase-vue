@@ -28,19 +28,16 @@
 
 <script>
 import _ from 'lodash'
+import * as c from '../../constants'
 
 export default {
   name: 'opinions-slider',
-  props: ['items'],
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: () => {
-    return `opinions::slider`
-  },
+  props: ['items', 'currentPage'],
 
   data() {
     return {
-      startIndex: 0,
-      perPage: 7,
+      startIndex: (this.currentPage - 1) * c.PER_PAGE,
+      perPage: c.PER_PAGE,
       numItems: this.items.length,
     }
   },
@@ -48,11 +45,13 @@ export default {
   computed: {
     displayedItems() {
       const items = this.items.slice(this.startIndex, this.startIndex + this.perPage)
+
+      // Push head items to end page in case end page does not have enough items
       if (this.items.length >= this.perPage && items.length < this.perPage) {
         items.push(...this.items.slice(0, this.perPage - items.length))
       }
 
-      return items;
+      return items
     }
   },
 
