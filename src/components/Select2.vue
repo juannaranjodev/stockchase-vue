@@ -1,6 +1,6 @@
 <template>
-  <div :id="wrapperId">
-    <select :id="selectId" :class="selectClass" :placeholder="placeholder" :disabled="disabled"></select>
+  <div :class="wrapperClass">
+    <select :class="selectClass" :placeholder="placeholder" :disabled="disabled"></select>
   </div>
 
 </template>
@@ -24,11 +24,7 @@ export default {
     prop: 'value'
   },
   props: {
-    wrapperId: {
-      type: String,
-      default: ''
-    },
-    selectId: {
+    wrapperClass: {
       type: String,
       default: ''
     },

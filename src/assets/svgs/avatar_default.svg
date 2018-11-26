@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52 (66869) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mobile" transform="translate(-310.000000, -18.000000)">
+            <g id="Group-2" transform="translate(310.000000, 18.000000)">
+                <path d="M4,0.5 C2.06700338,0.5 0.5,2.06700338 0.5,4 L0.5,30 C0.5,31.9329966 2.06700338,33.5 4,33.5 L30,33.5 C31.9329966,33.5 33.5,31.9329966 33.5,30 L33.5,4 C33.5,2.06700338 31.9329966,0.5 30,0.5 L4,0.5 Z" id="Rectangle" stroke="#E1E1E1" fill="#F7F7F7"></path>
+                <g id="Group" transform="translate(8.000000, 6.000000)" stroke="#ABB3B9" stroke-width="0.8">
+                    <path d="M6.37242299,10.655154 C3.07394485,10.655154 0.4,13.3290989 0.4,16.627577 L0.4,21.7373913 C0.4,22.2137969 0.786203068,22.6 1.2626087,22.6 L16.7373913,22.6 C17.2137969,22.6 17.6,22.2137969 17.6,21.7373913 L17.6,16.627577 C17.6,13.3290989 14.9260551,10.655154 11.627577,10.655154 L6.37242299,10.655154 Z" id="Combined-Shape"></path>
+                    <ellipse id="Oval-3" fill="#F7F7F7" cx="9" cy="5.93742421" rx="5.32727273" ry="5.30458404"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

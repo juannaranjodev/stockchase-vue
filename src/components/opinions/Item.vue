@@ -336,7 +336,6 @@ export default {
     &-meta
       flex 1
       margin-right 10px
-      min-width 60%
 
     &-name-symbol
       font-size 21px
@@ -344,8 +343,9 @@ export default {
       text-decoration none
       color #000
 
-    &-name-symbolhover
-      color #09f
+      &:hover
+        color #09f
+
     &-name
       color inherit
     &-symbol
@@ -420,6 +420,7 @@ export default {
     img
       margin-top 5px
       margin-right 3px
+
 .in-feed-ad-cell
   height auto !important
   background-color transparent !important
@@ -448,4 +449,18 @@ export default {
         padding 5px
         position static
         transform translateY(0)
+
+    .company
+      align-items flex-start
+
+      &-name-symbol
+        font-size 17px
+        display block
+        line-height 1.2
+
+      &-meta
+        margin-right 0
+        max-width unset
+      &-share
+        width 100%
 </style>

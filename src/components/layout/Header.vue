@@ -95,8 +95,10 @@ export default {
 
     .inner
       padding 15px 10px
+      flex-wrap nowrap
 
       &-left
         margin-right 4px
+        flex-grow 1
 
 </style>

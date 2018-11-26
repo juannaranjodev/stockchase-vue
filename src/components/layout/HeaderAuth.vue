@@ -42,9 +42,11 @@
         </template>
       </b-dropdown>
     </div>
-    <div v-else :class="{'header-auth__buttons': true, 'hidden': !fetched, 'd-none d-md-flex': true}">
-      <a class="button button-white button-white-login button-login" :href="appUrl + '/member/login'">Login</a>
-      <a class="button button-orange button-orange-signup button-signup" :href="appUrl + '/member/signup'">Sign Up</a>
+    <div v-else :class="{'header-auth__buttons': true, 'hidden': !fetched}">
+      <a class="button button-outline button-login d-none d-md-block" :href="appUrl + '/member/login'">Login</a>
+      <a class="button button-white button-signup d-none d-md-block" :href="appUrl + '/member/signup'">Sign Up</a>
+      <a class="button button-red button-mobile button-mobile-signup d-md-none" :href="appUrl + '/member/signup'">Join</a>
+      <a class="button button-plain button-mobile d-md-none" :href="appUrl + '/member/login'"><img src="~assets/svgs/avatar_default.svg" height="34"></a>
     </div>
   </div>
 </template>
@@ -180,31 +182,49 @@ export default {
       visibility hidden
       pointer-events none
 
-  .button-login, .button-signup
+  .button
     display inline-block
     text-transform uppercase
     text-decoration none
     padding 0.8em 0
     border-radius 4px
-    width 80px
     text-align center
     margin 18px 0
+    font-weight 400
     &:hover
       text-decoration underline
 
-  .button-login
+  .button-outline
     border 1px solid #E1E1E1
     color white
-    font-weight 400
-    margin-right .5em
-    &:hover
-      text-decoration underline
 
-  .button-signup
-    border-radius 4px
+  .button-white
     border 1px solid white
     background white
     color #FF2E50
+
+  .button-red
+    border 1px solid #FF2E50
+    background #FF2E50
+    color white
+
+  .button-login, .button-signup
+    width 80px
+
+  .button-login
+    margin-right .5em
+
+  .button-mobile
+    padding 0
+    height 34px
+    display inline-flex
+    align-items center
+    justify-content center
+    font-weight bold
+
+    &-signup
+      width 40px
+      margin-right 4px
 
 @media (max-width 767px)
   .header-auth
@@ -212,7 +232,7 @@ export default {
       &.hidden
         display none
 
-    .button-login, .button-signup
+    .button
       margin-top 0
       margin-bottom 0
 
