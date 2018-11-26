@@ -3,7 +3,7 @@ const Opinion = db.Opinion
 
 export function createAPI () {
   return {
-    fetchDailyOpinions: async function (date) {
+    async fetchDailyOpinions (date) {
       const recentDate = await Opinion.getRecentOpinionDate()
       if (date === 'recent') {
         date = recentDate
@@ -21,7 +21,7 @@ export function createAPI () {
       }
     },
 
-    fetchDailyMarketComments: async function (date) {
+    async fetchDailyMarketComments (date) {
       const recentDate = await Opinion.getRecentMarketCommentDate()
       if (date === 'recent') {
         date = recentDate
