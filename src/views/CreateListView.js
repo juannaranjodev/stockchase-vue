@@ -11,7 +11,23 @@ export default function createListView (type) {
       return store.dispatch('FETCH_DAILY_OPINIONS', { type, date: route.params.date })
     },
 
-    title: (type === 'opinions' ? 'Recent Opinions' : 'Daily Stock Market Comments'),
+    title () {
+      const route = this.$router.currentRoute
+      const dateParam = route.params.date
+      let title
+      if (route.path.indexOf('/opinions/market') === 0) {
+        // Market comments
+        title = 'Daily Stock Market Comments'
+        if (dateParam) title = `${title} — ${dateParam}`
+      } else {
+        // Opinions
+        title = dateParam === 'recent'
+          ? 'Recent Opinions'
+          : `Daily Opinions — ${dateParam}`
+      }
+
+      return title
+    },
 
     render (h) {
       return h(OpinionsList, { props: { type }})
