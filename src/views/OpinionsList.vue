@@ -1,7 +1,12 @@
 <template>
   <div class="container">
     <opinions-header :type="type" />
-    <opinions-slider v-if="isOpinions" :items="items", :currentPage="currentPage" />
+    <opinions-slider
+      v-if="isOpinions"
+      :items="items"
+      :page="currentPage"
+      :numPages="numPages"
+    />
     <opinions-link-ad />
     <opinions-summary v-if="!isOpinions" :items="items" />
 

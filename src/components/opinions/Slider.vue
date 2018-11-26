@@ -1,9 +1,7 @@
 <template>
   <div class="slider-container d-none d-md-block">
     <div class="slider">
-      <a class="slider-arrow slider-arrow--left" @click="prev">
-        <img src="~assets/svgs/slider-prev.svg">
-      </a>
+      <span :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': currentPage === 1}" @click="prev"></span>
       <div class="slider-content">
         <a
           v-for="item in displayedItems"
@@ -19,9 +17,7 @@
           <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name.toUpperCase() }}</div>
         </a>
       </div>
-      <a class="slider-arrow slider-arrow--right" @click="next">
-        <img src="~assets/svgs/slider-next.svg">
-      </a>
+      <span :class="{'carousel-control carousel-control-next-icon': true, 'hidden': currentPage === numPages}" @click="next"></span>
     </div>
   </div>
 </template>
@@ -32,11 +28,11 @@ import * as c from '../../constants'
 
 export default {
   name: 'opinions-slider',
-  props: ['items', 'currentPage'],
+  props: ['items', 'page', 'numPages'],
 
   data() {
     return {
-      startIndex: (this.currentPage - 1) * c.PER_PAGE,
+      currentPage: +this.page,
       perPage: c.PER_PAGE,
       numItems: this.items.length,
     }
@@ -44,30 +40,26 @@ export default {
 
   computed: {
     displayedItems() {
-      const items = this.items.slice(this.startIndex, this.startIndex + this.perPage)
-
-      // Push head items to end page in case end page does not have enough items
-      if (this.items.length >= this.perPage && items.length < this.perPage) {
-        items.push(...this.items.slice(0, this.perPage - items.length))
-      }
-
-      return items
-    }
+      const startIndex = (this.currentPage - 1) * c.PER_PAGE
+      const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
+      return pageItems
+    },
   },
 
   methods: {
     next() {
-      if (this.startIndex === this.numItems - 1) {
-        this.startIndex = 0
+      if (this.currentPage === this.numPages) {
+        this.currentPage = 1
       } else {
-        this.startIndex += 1
+        this.currentPage += 1
       }
     },
+
     prev() {
-      if (this.startIndex === 0) {
-        this.startIndex = this.numItems - 1
+      if (this.currentPage === 1) {
+        this.currentPage = this.numPages
       } else {
-        this.startIndex -= 1
+        this.currentPage -= 1
       }
     },
 
@@ -143,4 +135,17 @@ export default {
   bottom 0
   left 0
   right 0
+
+.carousel-control
+  &:hover
+    cursor pointer
+
+  &.hidden
+    visibility hidden
+    pointer-events none
+.carousel-control-prev-icon
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#ec4d4b' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+
+.carousel-control-next-icon
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#ec4d4b' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 </style>
