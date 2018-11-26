@@ -209,6 +209,9 @@ export default {
     font-size 16px
 
   .page-item
+    min-width 38px
+    text-align center
+
     &.active
       .page-link
         background-color #ec4d4b
