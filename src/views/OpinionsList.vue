@@ -256,6 +256,7 @@ export default {
         color white !important
     &.disabled
       .page-link
+        opacity 0.3
         color #6c757d !important
 
 .btn-navigate
