@@ -108,6 +108,10 @@ export default {
   .modal-body, .modal-footer
     padding 20px 35px
 
+@media (max-width 767px)
+  .opinion-comments-modal
+    .modal-body, .modal-footer
+      padding 20px 10px
 </style>
 
 <style lang="stylus" scoped>
@@ -172,4 +176,13 @@ export default {
     color #b2b2b2
     font-size 16px
     margin 8px 0 30px
+
+@media (max-width 767px)
+  .company
+    align-items flex-start
+
+    &-logo
+      width 96px
+      height 96px
+      margin-right 15px
 </style>

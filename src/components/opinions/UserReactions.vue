@@ -68,8 +68,7 @@ export default {
 
 <style lang="stylus" scoped>
 .opinion-rating
-  margin-left 8px
-  margin-right 8px
+  margin 8px
   color #06c
   display flex
   flex-wrap nowrap
@@ -81,7 +80,7 @@ export default {
     align-items center
     justify-content center
     flex-wrap wrap
-    margin 0 -5px
+    margin -8px -5px
 
   &:hover
     cursor pointer
