@@ -18,8 +18,8 @@ export function timeAgo (time) {
   }
 }
 
-export function formatDate (date) {
-  return moment(date, 'YYYY-MM-DD').format('LL')
+export function formatDate (date, format) {
+  return moment(date, 'YYYY-MM-DD').format(format || 'LL')
 }
 
 function pluralize (time, label) {
