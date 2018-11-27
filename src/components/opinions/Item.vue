@@ -6,23 +6,70 @@
     <td
       class="signal-cell"
       v-if="!item.ad">
-      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
+      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-md-table-cell`">
         <div class="signal-badge">
           <div
-            :class="`${signalClassName}-border`"
-            style="border-radius: 5px;">
+            :class="`${signalClassName}-border`">
             {{ item.Signal.name.toUpperCase() }}
           </div>
+        </div>
+      </div>
+      <div class="opinion-mini d-md-none">
+        <div class="opinion-mini__left">
+          <a
+            class="opinion-mini__logo"
+            :href="item.Company.url">
+            <img :src="item.Company.logo">
+          </a>
+          <div class="opinion-mini__signal">
+            <div :class="`opinion-mini__signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
+              <div class="opinion-mini__signal-badge">
+                <div
+                  :class="`${signalClassName}-border`">
+                  {{ item.Signal.name.toUpperCase() }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="opinion-mini__right">
+          <div class="opinion-mini__header">
+            <a
+              class="opinion-mini__name-symbol"
+              :href="item.Company.url">
+              <span class="opinion-mini__name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
+              <span
+                class="opinion-mini__symbol"
+                v-if="isOpinion">({{ item.Company.symbol }})</span>
+            </a>
+            <a
+              :class="{'opinion-mini__toggle': true, active: expanded}"
+              @click="toggleContent"
+            >
+              <img
+                src="~assets/svgs/arrow_down.svg"
+                width="12"
+              >
+            </a>
+          </div>
+
+          <div class="opinion-mini__date">
+            {{ item.date | formatDate }}
+          </div>
+          <div
+            class="opinion-mini__comment"
+            @click="toggleContent"
+            v-html="item.comment"/>
         </div>
       </div>
     </td>
 
     <td
-      class="opinion-cell"
+      :class="{'opinion-cell': true, 'd-none d-md-table-cell': !expanded}"
       v-if="!item.ad">
       <div class="opinion">
         <div class="opinion-main">
-          <div class="company">
+          <div class="company d-none d-md-flex">
             <a
               class="company-logo"
               :href="item.Company.url">
@@ -102,7 +149,7 @@
     </td>
 
     <td
-      class="expert-cell"
+      :class="{'expert-cell': true, 'd-none d-md-table-cell': !expanded}"
       v-if="!item.ad">
       <a
         :href="item.Expert.url"
@@ -174,6 +221,12 @@ export default {
       type: Object,
       default: () => {}
     },
+  },
+
+  data () {
+    return {
+      expanded: false
+    }
   },
 
   components: {
@@ -265,6 +318,10 @@ export default {
       this.destroyTippy()
       this.initTippy()
     },
+
+    toggleContent() {
+      this.expanded = !this.expanded
+    }
   },
 
   mounted() {
@@ -338,6 +395,9 @@ export default {
       position relative
       top 50%
       transform translateY(-45%)
+
+      & > div
+        border-radius 5px
 
   .expert
     &-cell
@@ -485,16 +545,126 @@ export default {
   border 0 !important
   padding 0 !important
 
+.opinion-mini
+  display flex
+  align-items stretch
+  flex-wrap nowrap
+  background white
+  text-align left
+
+  &__left
+    display block
+    width 100px
+
+  &__right
+    border-left 1px solid #E9E9EA
+    padding 10px
+
+  &__logo
+    width 100px
+    height 100px
+    border-bottom 1px solid #E9E9EA
+    position relative
+    display block
+
+    img
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      margin auto
+      max-width 85%
+      max-height 85%
+      width auto
+      height auto
+
+  &__signal
+    &-wrapper
+      width 100%
+      padding 0
+      text-align center
+      border 0
+    &-badge
+      padding 5px
+
+      & > div
+        font-size 10px
+        line-height 1.2
+        border-radius 5px
+        min-height 30px
+        display flex
+        align-items center
+        justify-content center
+
+  &__comment
+    font-size 14px
+    line-height 1.5
+    overflow hidden
+    text-overflow -o-ellipsis-lastline
+    text-overflow ellipsis
+    display block
+    /* autoprefixer: off */
+    display -webkit-box
+    -webkit-line-clamp 2
+    -webkit-box-orient vertical
+    max-height 3em
+
+  &__header
+    display flex
+    align-items flex-start
+    flex-wrap nowrap
+
+  &__toggle
+    flex-grow 0
+    flex-shrink 0
+    margin-right -10px
+    margin-top -10px
+    width 36px
+    height 36px
+    display flex
+    align-items center
+    justify-content center
+
+    &.active
+      img
+        transform rotate(180deg)
+
+  &__name-symbol
+    font-size 16px
+    line-height 19px
+    margin-bottom 5px
+    display block
+    flex 1
+
+  &__name
+    font-weight bold
+    color #312828
+    margin-right 3px
+
+  &__symbol
+    color #ABB3B9
+    white-space nowrap
+    display inline-block
+
+  &__date
+    font-size 13px
+    color #6F7980
+    line-height 16px
+    margin-bottom 10px
+
 @media (max-width 767px)
   .opinions-row
     display block
     width auto !important
-    padding-bottom 40px
+    padding-bottom 25px
 
     td
       display block
       width auto !important
       height auto
+      border-color #E9E9EA
+      background-color #F7F7F7 !important
 
     .signal
       &-cell
@@ -507,6 +677,27 @@ export default {
         padding 5px
         position static
         transform translateY(0)
+
+    .opinion
+      &-cell
+        border-top 0
+        border-bottom 0
+        padding 0
+
+      &-comment
+        font-size 15px
+        line-height 1.4
+        margin 15px 10px
+
+      &-footer
+        display block
+        &-left
+          margin 0
+          padding 0 10px 10px
+          border-bottom 1px solid #E9E9EA
+        &-right
+          padding 10px
+          margin 0
 
     .company
       align-items flex-start
