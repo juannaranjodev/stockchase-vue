@@ -7,7 +7,7 @@
       >
         <li
           v-if="newerDate"
-          :class="{'page-item page-item--bordered': true}"
+          :class="{'page-item page-item--bordered page-item--prev': true}"
         >
           <a
             :href="newerUrl"
@@ -33,7 +33,7 @@
 
         <li
           v-if="olderDate"
-          :class="{'page-item page-item--bordered': true}"
+          :class="{'page-item page-item--bordered page-item--next': true}"
         >
           <a
             :href="olderUrl"
@@ -71,7 +71,7 @@
             :href="getPageUrl(page)">{{ page }}</a>
         </li>
 
-        <li :class="{'page-item page-item--highlight page-item--next': true, 'disabled': !nextPage}">
+        <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage}">
           <a
             v-if="nextPage"
             :href="nextPageUrl"
@@ -244,17 +244,27 @@ export default {
         img
           transform rotate(-90deg)
 
+      &--prev, &--next
+        .page-link
+          color lighten(#25292B, 30%) !important
+
       &--highlight
         .page-link
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
 
+          &:hover
+            background-color lighten(#ec4d4b, 5%)
+            border-color lighten(#ec4d4b, 5%)
+
       &.active
         .page-link
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
+          &:hover
+            cursor inherit
 
       .show
         .page-link
