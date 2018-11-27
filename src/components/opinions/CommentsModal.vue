@@ -8,35 +8,35 @@
   >
     <div v-if="item.id">
       <div class="company">
-        <a 
-          class="company-logo" 
+        <a
+          class="company-logo"
           :href="item.Company.url">
           <img :src="item.Company.logo">
         </a>
         <div class="company-meta">
-          <a 
-            class="expert-avatar" 
+          <a
+            class="expert-avatar"
             :href="item.Expert.url">
             <img :src="item.Expert.avatar">
           </a>
-          <a 
-            class="meta-link" 
+          <a
+            class="meta-link"
             :href="item.Company.url">{{ item.Company.name }}</a>
-          <a 
-            class="meta-link" 
+          <a
+            class="meta-link"
             :href="item.Expert.url">{{ item.Expert.name }}</a>
         </div>
       </div>
 
-      <div 
-        class="opinion-comment" 
+      <div
+        class="opinion-comment"
         v-html="item.comment"/>
       <div class="opinion-date">{{ item.date | formatDate }}</div>
       <user-reactions :item="item" />
       <div class="opinion-comments">
-        <vue-disqus 
-          :shortname="disqusShortName" 
-          :identifier="disqusIdentifier" 
+        <vue-disqus
+          :shortname="disqusShortName"
+          :identifier="disqusIdentifier"
           :url="item.url"/>
       </div>
     </div>
@@ -45,9 +45,9 @@
       <div class="modal-footer__left"/>
 
       <div class="modal-footer__right">
-        <b-button 
-          size="sm" 
-          class="btn btn-danger" 
+        <b-button
+          size="sm"
+          class="btn btn-danger"
           @click="hideModal">Close</b-button>
       </div>
     </template>
@@ -136,7 +136,9 @@ export default {
       right 0
       bottom 0
       margin auto
-      width 85%
+      max-width 85%
+      max-height 85%
+      width auto
       height auto
 
 .meta-link

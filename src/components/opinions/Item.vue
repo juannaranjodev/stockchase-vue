@@ -386,8 +386,11 @@ export default {
         right 0
         bottom 0
         margin auto
-        width 85%
+        max-width 85%
+        max-height 85%
+        width auto
         height auto
+
     &-meta
       flex 1
       margin-right 10px
