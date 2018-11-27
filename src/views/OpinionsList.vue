@@ -50,7 +50,7 @@
         </tbody>
       </table>
 
-      <opinions-link-ad />
+      <opinions-link-ad class="d-none d-md-block" />
 
       <ul class="pagination justify-content-center">
         <li :class="{'page-item': true, 'disabled': !newerDate}">
@@ -111,7 +111,7 @@
 
     <opinions-dianomi-ad />
     <opinions-footer />
-    <opinions-link-ad />
+    <opinions-link-ad class="d-none d-md-block" />
 
     <comments-modal ref="commentsModal" />
   </div>

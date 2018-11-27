@@ -3,8 +3,8 @@
     <site-header />
     <site-navigation />
 
-    <div 
-      class="ad-container" 
+    <div
+      class="ad-container d-none d-md-block"
       v-if="shouldShowAd">
       <Adsense
         class='ad'
@@ -12,11 +12,7 @@
         data-ad-slot="5979276843"/>
     </div>
 
-    <transition 
-      name="fade" 
-      mode="out-in">
-      <router-view class="view"/>
-    </transition>
+    <router-view class="view"/>
     <site-footer />
   </div>
 </template>
@@ -59,11 +55,6 @@ body
   margin 0 auto
   position relative
 
-.fade-enter-active, .fade-leave-active
-  transition all .2s ease
-
-.fade-enter, .fade-leave-active
-  opacity 0
 </style>
 
 <style lang="stylus" scoped>

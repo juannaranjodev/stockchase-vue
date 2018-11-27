@@ -4,9 +4,9 @@
       <div class="inner-left">
         <div class="link-container">
           <a :href="appUrl">
-            <img 
-              class="home" 
-              src="~assets/images/stockchase-home-icon.png" 
+            <img
+              class="home"
+              src="~assets/images/stockchase-home-icon.png"
               alt="logo">
           </a>
         </div>
@@ -30,8 +30,8 @@
         </div>
       </div>
       <div class="inner-right">
-        <a 
-          class="watchlist" 
+        <a
+          class="watchlist"
           href="/portfolio">
           <img src="~assets/svgs/icon_watchlist_gray.svg">
           Watch List
@@ -39,32 +39,32 @@
       </div>
     </nav>
     <nav class="inner inner--sm d-md-none">
-      <a 
-        class="link active" 
+      <a
+        class="link active"
         :href="appUrl + '/opinions/recent'">
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
-      <a 
-        class="link" 
+      <a
+        class="link"
         :href="appUrl + '/company'">
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
       </a>
-      <a 
-        class="link" 
+      <a
+        class="link"
         :href="appUrl + '/expert'">
         <span class="link__icon"><img src="~assets/svgs/icon_expert.svg"></span>
         <span class="link__label">Expert</span>
       </a>
-      <a 
-        class="link" 
+      <a
+        class="link"
         :href="appUrl + '/portfolio'">
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
       </a>
-      <a 
-        class="link" 
+      <a
+        class="link"
         :href="appUrl + '/opinions/recenttop'">
         <span class="link__icon"><img src="~assets/svgs/icon_toppicks.svg"></span>
         <span class="link__label">Top Picks</span>
@@ -182,6 +182,6 @@ export default {
 @media (max-width 767px)
   .navigation
     border 0
-    padding 20px 10px
+    padding 0 10px 20px
 
 </style>

@@ -2,28 +2,28 @@
   <header class="header">
     <nav class="inner">
       <div class="inner-left">
-        <a 
-          class="home" 
+        <a
+          class="home"
           :href="appUrl">
-          <img 
-            class="d-none d-md-inline" 
-            width="40" 
-            src="~assets/svgs/logo.svg" 
+          <img
+            class="d-none d-md-inline"
+            width="40"
+            src="~assets/svgs/logo.svg"
             alt="logo">
-          <img 
-            class="d-md-none" 
-            width="34" 
-            src="~assets/svgs/logo_red.svg" 
+          <img
+            class="d-md-none"
+            width="34"
+            src="~assets/svgs/logo_red.svg"
             alt="logo">
         </a>
         <header-search />
       </div>
       <div class="inner-right">
-        <a 
-          class="link d-none d-lg-block" 
+        <a
+          class="link d-none d-lg-block"
           href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Top%20Link&utm_term=Net%20Worth%20Tracking">Net worth tracking</a>
-        <a 
-          class="link d-none d-lg-block" 
+        <a
+          class="link d-none d-lg-block"
           href="https://app.monstercampaigns.com/c/pyfvvozlgjmvfiny48bx/">Free 72 rules eBook</a>
         <header-auth />
       </div>
@@ -101,8 +101,6 @@ export default {
 @media (max-width 767px)
   .header
     background-color transparent
-    border-bottom 1px solid rgba(#282B31, 0.1)
-    height 76px
 
     .home
       margin 0 4px 0 0

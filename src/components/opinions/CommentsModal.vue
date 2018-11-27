@@ -42,14 +42,11 @@
     </div>
 
     <template slot="modal-footer">
-      <div class="modal-footer__left"/>
-
-      <div class="modal-footer__right">
-        <b-button
-          size="sm"
-          class="btn btn-danger"
-          @click="hideModal">Close</b-button>
-      </div>
+      <b-button
+        size="sm"
+        class="btn btn-danger"
+        @click="hideModal"
+      >Close</b-button>
     </template>
   </b-modal>
 </template>
@@ -93,7 +90,8 @@ export default {
       this.id = id
     },
 
-    hideModal () {
+    hideModal (e) {
+      e && e.preventDefault()
       this.$refs.commentsModal.hide()
     },
 

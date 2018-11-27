@@ -2,7 +2,7 @@
   <tr
     class="opinions-row"
     :id="item.id"
-    :class="{'opinions-row--ad': item.ad}">
+    :class="{'opinions-row--ad d-none d-md-table-row': item.ad}">
     <td
       class="signal-cell"
       v-if="!item.ad">
