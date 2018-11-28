@@ -1,31 +1,42 @@
-import Firebase from 'firebase'
-import LRU from 'lru-cache'
+import db from '../../models'
+const Opinion = db.Opinion
 
-export function createAPI ({ config, version }) {
-  let api
-  // this piece of code may run multiple times in development mode,
-  // so we attach the instantiated API to `process` to avoid duplications
-  if (process.__API__) {
-    api = process.__API__
-  } else {
-    Firebase.initializeApp(config)
-    api = process.__API__ = Firebase.database().ref(version)
+export function createAPI () {
+  return {
+    async fetchDailyOpinions (date) {
+      const recentDate = await Opinion.getRecentOpinionDate()
+      if (date === 'recent') {
+        date = recentDate
+      } else if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) {
+        return Promise.reject({ code: 404 })
+      }
 
-    api.onServer = true
+      const opinions = await Opinion.getOpinionsByDate(date)
 
-    // fetched item cache
-    api.cachedItems = LRU({
-      max: 1000,
-      maxAge: 1000 * 60 * 15 // 15 min cache
-    })
+      return {
+        opinions,
+        date,
+        olderDate: await Opinion.getOlderOpinionDate(date),
+        newerDate: await Opinion.getNewerOpinionDate(date),
+      }
+    },
 
-    // cache the latest story ids
-    api.cachedIds = {}
-    ;['top', 'new', 'show', 'ask', 'job'].forEach(type => {
-      api.child(`${type}stories`).on('value', snapshot => {
-        api.cachedIds[type] = snapshot.val()
-      })
-    })
+    async fetchDailyMarketComments (date) {
+      const recentDate = await Opinion.getRecentMarketCommentDate()
+      if (date === 'recent') {
+        date = recentDate
+      } else if (!/^\d{4}\-\d{2}\-\d{2}/.test(date)) {
+        return Promise.reject({ code: 404 })
+      }
+
+      const opinions = await Opinion.getMarketCommentsByDate(date)
+
+      return {
+        opinions,
+        date,
+        olderDate: await Opinion.getOlderMarketCommentDate(date),
+        newerDate: await Opinion.getNewerMarketCommentDate(date),
+      }
+    }
   }
-  return api
 }

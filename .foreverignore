@@ -5,6 +5,8 @@
 **/tmp/**
 docker-compose.*
 npm-debug.log
+package.json
+package-lock.json
 tmp-*.json
 README.md
 LICENSE

@@ -1,0 +1,375 @@
+.signal { min-width:75px;width:75px; }
+
+.dont_buy { background: rgba(255, 59, 67, 0.07); color: white;font-weight:bold;}
+.dont_buy-border {
+  border: 1px solid #FF3B43;
+  padding: 5px;
+  background-color: #FF3B43;
+  line-height: 15px;
+}
+.dont_buy-border-cell {
+  border: 1px solid #FF3B43;
+  box-sizing: border-box;
+}
+.dont_buy-font-color {
+  color: #FF3B43;
+}
+
+.partial_sell { background: rgba(255, 70, 13, 0.07); color: white;font-weight:bold; }
+.partial_sell-border {
+  border: 1px solid #FF452A;
+  padding: 5px;
+  background-color: #FF452A;
+  line-height: 15px;
+}
+.partial_sell-border-cell {
+  border: 1px solid #FF452A;
+  box-sizing: border-box;
+}
+.partial_sell-font-color {
+  color: #FF452A;
+}
+
+.sell { background: rgba(255, 59, 67, 0.07); color: white;font-weight:bold; }
+.sell-border {
+  border: 1px solid #FF3B43;
+  padding: 5px;
+  background-color: #FF3B43;
+  line-height: 15px;
+}
+.sell-border-cell {
+  border: 1px solid #FF3B43;
+  box-sizing: border-box;
+}
+.sell-font-color {
+  color: #FF452A;
+}
+
+.buy { background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.buy-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.buy-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.buy-font-color {
+  color: #18DB88;
+}
+
+.hold { background: rgba(255, 156, 49, 0.13); color: white;font-weight:bold; }
+.hold-border {
+  border: 1px solid #FF7F2F;
+  padding: 5px;
+  background-color: #FF7F2F;
+  line-height: 15px;
+}
+.hold-border-cell {
+  border: 1px solid #FF7F2F;
+  box-sizing: border-box;
+}
+.hold-font-color {
+  color: #FF7F2F;
+}
+
+.comment, .n_a, .unspecified, .vague {
+  color:white;
+  background: #F7F7F7;
+  font-weight:bold;
+}
+
+.comment-border, .n_a-border, .unspecified-border, .vague-border {
+  border: 1px solid #ABB5BB;
+  padding: 5px;
+  background: #ABB5BB;
+  line-height: 15px;
+}
+
+.comment-border-cell, .n_a-border-cell, .unspecified-border-cell, .vague-border-cell {
+  border: 1px solid #ABB5BB;
+  box-sizing: border-box;
+}
+
+.comment-font-color, .n_a-font-color, .unspecified-font-color, .vague-font-color {
+  color: #ABB5BB;
+}
+
+.partial_buy { background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.partial_buy-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.partial_buy-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.partial_buy-font-color {
+  color: #18DB88;
+}
+
+.partial_sell { background: rgba(255, 70, 13, 0.07); color: white;font-weight:bold;}
+.partial_sell-border {
+  border: 1px solid #FF452A;
+  background-color: #FF452A;
+  padding: 5px;
+  line-height: 15px;
+}
+.partial_sell-border-cell {
+  border: 1px solid #FF452A;
+  box-sizing: border-box;
+}
+.partial_sell-font-color {
+  color: #FF452A;
+}
+
+.past_top_pick { background: rgba(97, 149, 247, 0.1); color: white;font-weight:bold;}
+.past_top_pick-border {
+  border: 1px solid #18B1FF;
+  padding: 5px;
+  background-color: #18B1FF;
+  line-height: 15px;
+}
+.past_top_pick-border-cell {
+  border: 1px solid #18B1FF;
+  box-sizing: border-box;
+}
+.past_top_pick-font-color {
+  color: #18B1FF;
+}
+
+.past_top_short { background: #FFCC33; color:#FF4135;font-weight:bold;}
+.past_top_short-border {
+  border: 1px solid #FF4135;
+  padding: 5px;
+  line-height: 15px;
+}
+.past_top_short-border-cell {
+  border: 1px solid #FF4135;
+  box-sizing: border-box;
+}
+.past_top_short-font-color {
+  color: #FF4135;
+}
+
+.sell_on_strength {  background: rgba(255, 70, 13, 0.07); color: white;font-weight:bold;}
+.sell_on_strength-border {
+  border: 1px solid #FF452A;
+  padding: 5px;
+  background-color: #FF452A;
+  line-height: 15px;
+}
+.sell_on_strength-border-cell {
+  border: 1px solid #FF452A;
+  box-sizing: border-box;
+}
+.sell_on_strength-font-color {
+  color: #FF452A;
+}
+
+.short { background: rgba(255, 59, 67, 0.07); color: white;font-weight:bold;}
+.short-border {
+  border: 1px solid #FF3B43;
+  padding: 5px;
+  background-color: #FF3B43;
+  line-height: 15px;
+}
+.short-border-cell {
+  border: 1px solid #FF3B43;
+  box-sizing: border-box;
+}
+.short-font-color {
+  color: #FF3B43;
+}
+
+.speculative_buy { background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold;}
+.speculative_buy-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.speculative_buy-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.speculative_buy-font-color {
+  color: #18DB88;
+}
+
+.strong_buy { background: #E8FDE7; color: white;font-weight:bold;}
+.strong_buy-border {
+  border: 1px solid #5CE23F;
+  padding: 5px;
+  background-color: #5CE23F;
+  line-height: 15px;
+}
+.strong_buy-border-cell {
+  border: 1px solid #5CE23F;
+  box-sizing: border-box;
+}
+.strong_buy-font-color {
+  color: #5CE23F;
+}
+
+.top_pick { background: rgba(77, 116, 241, 0.1); color: white;font-weight:bold;}
+.top_pick-border {
+  border: 1px solid #178DFF;
+  padding: 5px;
+  background-color: #178DFF;
+  line-height: 15px;
+}
+.top_pick-border-cell {
+  border: 1px solid #178DFF;
+  box-sizing: border-box;
+}
+.top_pick-font-color {
+  color: #178DFF;
+}
+
+.top_sell { background: #FF0000; color:#FF4135;font-weight:bold;}
+.top_sell-border {
+  border: 1px solid #FF4135;
+  padding: 5px;
+  line-height: 15px;
+}
+.top_sell-border-cell {
+  border: 1px solid #FF4135;
+  box-sizing: border-box;
+}
+.top_sell-font-color {
+  color: #FF4135;
+}
+
+.top_short { background: #DCFFDC; color:#FF4135;font-weight:bold;}
+.top_short-border {
+  border: 1px solid #FF4135;
+  padding: 5px;
+  line-height: 15px;
+}
+.top_short-border-cell {
+  border: 1px solid #FF4135;
+  box-sizing: border-box;
+}
+.top_short-font-color {
+  color: #FF4135;
+}
+
+.top_hold { background: #FFFF00; color:#FF4135;font-weight:bold;}
+.top_hold-border {
+  border: 1px solid #FF4135;
+  padding: 5px;
+  line-height: 15px;
+}
+.top_hold-border-cell {
+  border: 1px solid #FF4135;
+  box-sizing: border-box;
+}
+.top_hold-font-color {
+  color: #FF4135;
+}
+
+.top_hold { background: #FFFF00; color:#FF4135;font-weight:bold;}
+.top_hold-border {
+  border: 1px solid #FF4135;
+  padding: 5px;
+  line-height: 15px;
+}
+.top_hold-border-cell {
+  border: 1px solid #FF4135;
+  box-sizing: border-box;
+}
+
+.wait { background: rgba(255, 156, 49, 0.13); color: white;font-weight:bold;}
+.wait-border {
+  border: 1px solid #FF7F2F;
+  padding: 5px;
+  background-color: #FF7F2F;
+  line-height: 15px;
+}
+.wait-border-cell {
+  border: 1px solid #FF7F2F;
+  box-sizing: border-box;
+}
+.wait-font-color {
+  color: #FF7F2F;
+}
+
+.watch { background: rgba(255, 156, 49, 0.13); color: white;font-weight:bold;}
+.watch-border {
+  border: 1px solid #FF7F2F;
+  padding: 5px;
+  background-color: #FF7F2F;
+  line-height: 15px;
+}
+.watch-border-cell {
+  border: 1px solid #FF7F2F;
+  box-sizing: border-box;
+}
+.watch-font-color {
+  color: #FF7F2F;
+}
+
+.weak_buy {background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.weak_buy-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.weak_buy-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.weak_buy-font-color {
+  color: #18DB88;
+}
+
+.buy_on_weakness {background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.buy_on_weakness-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.buy_on_weakness-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.buy_on_weakness-font-color {
+  color: #18DB88;
+}
+
+.buy_weakness {background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.buy_weakness-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.buy_weakness-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.buy_weakness-font-color {
+  color: #18DB88;
+}
+
+.buy_weak {background: rgba(50, 196, 118, 0.14); color: white;font-weight:bold; }
+.buy_weak-border {
+  border: 1px solid #18DB88;
+  background-color: #18DB88;
+  padding: 5px;
+  line-height: 15px;
+}
+.buy_weak-border-cell {
+  border: 1px solid #18DB88;
+  box-sizing: border-box;
+}
+.buy_weak-font-color {
+  color: #18DB88;
+}

@@ -5,12 +5,10 @@ const LRU = require('lru-cache')
 const express = require('express')
 const favicon = require('serve-favicon')
 const compression = require('compression')
-const microcache = require('route-cache')
 const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
 
 const isProd = process.env.NODE_ENV === 'production'
-const useMicroCache = process.env.MICRO_CACHE !== 'false'
 const serverInfo =
   `express/${require('express/package.json').version} ` +
   `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
@@ -67,17 +65,9 @@ const serve = (path, cache) => express.static(resolve(path), {
 app.use(compression({ threshold: 0 }))
 app.use(favicon('./public/favicon.png'))
 app.use('/dist', serve('./dist', true))
-app.use('/public', serve('./public', true))
+app.use('/', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
-
-// since this app has no user-specific content, every page is micro-cacheable.
-// if your app involves user-specific content, you need to implement custom
-// logic to determine whether a request is cacheable based on its url and
-// headers.
-// 1-second microcache.
-// https://www.nginx.com/blog/benefits-of-microcaching-nginx/
-app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
 
 function render (req, res) {
   const s = Date.now()
@@ -102,6 +92,8 @@ function render (req, res) {
     title: 'Daily Stock Opinions - Stockchase', // default title
     url: req.url,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
+    DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,
+    APP_URL: process.env.APP_URL,
   }
   renderer.renderToString(context, (err, html) => {
     if (err) {
@@ -113,6 +105,9 @@ function render (req, res) {
     }
   })
 }
+
+// Mount backend API under /api
+app.use('/api', require('./api'));
 
 app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))

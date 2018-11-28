@@ -1,37 +1,47 @@
 <template>
   <div id="app">
-    <header class="header">
-      <nav class="inner">
-        <a :href="appUrl">
-          <img class="logo" src="~assets/svgs/stockchase_white_logo.svg" alt="logo">
-        </a>
-        <input type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="textbox" aria-autocomplete="list" placeholder="Search for Company, Expert, or keyword...">
+    <site-header />
+    <site-navigation />
 
-        <router-link to="/new">New</router-link>
-        <router-link to="/show">Show</router-link>
-        <router-link to="/ask">Ask</router-link>
-        <router-link to="/job">Jobs</router-link>
-      </nav>
-    </header>
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
-    </transition>
+    <div
+      class="ad-container d-none d-md-block"
+      v-if="shouldShowAd">
+      <Adsense
+        class='ad'
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="5979276843"/>
+    </div>
+
+    <router-view class="view"/>
+    <site-footer />
   </div>
 </template>
 
 <script>
-import * as c from './constants'
+import { mapGetters } from 'vuex'
+import SiteHeader from './components/layout/Header.vue'
+import SiteNavigation from './components/layout/Navigation.vue'
+import SiteFooter from './components/layout/Footer.vue'
 
 export default {
-  data () {
-    return {
-      appUrl: c.APP_URL,
-    }
+  components: {
+    SiteHeader,
+    SiteNavigation,
+    SiteFooter
   },
+
+  computed: {
+    ...mapGetters([ 'shouldShowAd' ]),
+  }
 }
 </script>
 
 <style lang="stylus">
+@import '~bootstrap/dist/css/bootstrap.css'
+@import '~bootstrap-vue/dist/bootstrap-vue.css'
+@import '~tippy.js/dist/tippy.css'
+@import './assets/css/signal.css'
+
 body
   font-family Lato, sans-serif;
   font-size 14px
@@ -40,70 +50,20 @@ body
   padding 0
   color #555
 
-a
-  color #34495e
-  text-decoration none
-
-.header
-  background-color #EC4D4B
-  height 82px
-  display flex
-  align-items center
-  .inner
-    box-sizing border-box
-    width 1140px
-    max-width 100%
-    padding 0 20px
-    margin 0 auto
-  a
-    color rgba(255, 255, 255, .8)
-    line-height 24px
-    transition color .15s ease
-    display inline-block
-    vertical-align middle
-    font-weight 300
-    letter-spacing .075em
-    margin-right 1.8em
-    &:hover
-      color #fff
-    &.router-link-active
-      color #fff
-      font-weight 400
-    &:nth-child(6)
-      margin-right 0
-  .github
-    color #fff
-    font-size .9em
-    margin 0
-    float right
-
-.logo
-  width 40px
-  margin-right 10px
-  display inline-block
-  vertical-align middle
-
 .view
   max-width 800px
   margin 0 auto
   position relative
 
-.fade-enter-active, .fade-leave-active
-  transition all .2s ease
+</style>
 
-.fade-enter, .fade-leave-active
-  opacity 0
-
-@media (max-width 860px)
-  .header .inner
-    padding 15px 30px
-
-@media (max-width 600px)
-  .header
-    .inner
-      padding 15px
-    a
-      margin-right 1em
-    .github
-      display none
+<style lang="stylus" scoped>
+.ad-container
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
+  .ad
+    width 728px
+    max-width 100%
+    min-height 90px
+    margin 0 auto
 </style>

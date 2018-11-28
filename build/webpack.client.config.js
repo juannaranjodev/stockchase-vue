@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
+const env = require('./env').client;
 
 const config = merge(base, {
   entry: {
@@ -14,6 +15,9 @@ const config = merge(base, {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': env
+    }),
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
