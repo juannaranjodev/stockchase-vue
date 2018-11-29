@@ -18,6 +18,7 @@ export function createAPI () {
         date,
         olderDate: await Opinion.getOlderOpinionDate(date),
         newerDate: await Opinion.getNewerOpinionDate(date),
+        adjacentDates: await Opinion.getAdjacentOpinionDates(date),
       }
     },
 
@@ -36,6 +37,7 @@ export function createAPI () {
         date,
         olderDate: await Opinion.getOlderMarketCommentDate(date),
         newerDate: await Opinion.getNewerMarketCommentDate(date),
+        adjacentDates: await Opinion.getAdjacentOpinionDates(date),
       }
     }
   }

@@ -18,6 +18,10 @@ export default {
     state.date = date
   },
 
+  SET_ADJACENT_DATES: (state, date) => {
+    state.adjacentDates = date
+  },
+
   SET_OLDER_DATE: (state, date) => {
     state.olderDate = date
   },

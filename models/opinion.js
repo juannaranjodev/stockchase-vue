@@ -1,5 +1,7 @@
 'use strict'
 
+const moment = require('moment');
+
 module.exports = (sequelize, DataTypes) => {
   var Opinion = sequelize.define('Opinion', {
     id: {
@@ -66,6 +68,16 @@ module.exports = (sequelize, DataTypes) => {
       order: [['date', 'DESC'], ['id', 'ASC']]
     });
     return recentOpinion.date;
+  };
+
+  // Get adjacent dates that have opinions (for pagination)
+  Opinion.getAdjacentOpinionDates = async function(date) {
+    const startDiff = Math.min(3, moment().diff(moment(date, 'YYYY-MM-DD'), 'days'));
+
+    // count down to older dates
+    return [...Array(7)].map((_, i) => {
+      return moment(date, 'YYYY-MM-DD').add(startDiff - i, 'day').format('YYYY-MM-DD');
+    });
   };
 
   // Get opinions for the most recently available date

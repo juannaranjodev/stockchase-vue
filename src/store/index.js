@@ -11,6 +11,7 @@ export function createStore () {
     state: {
       opinions: {},
       date: null,
+      adjacentDates: [],
       olderDate: null,
       newerDate: null,
       user: {},
