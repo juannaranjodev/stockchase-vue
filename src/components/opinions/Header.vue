@@ -2,12 +2,14 @@
   <div class="header">
     <div class="header-left">
       <h2 class="title">Latest Expert Opinions</h2>
-      <a
-        :class="{ link: true, active: type === 'opinions' }"
-        href="/opinions/recent">Stocks</a>
-      <a
-        :class="{ link: true, active: type === 'comments' }"
-        href="/opinions/market">Market</a>
+      <div class="links">
+        <a
+          :class="{ link: true, active: type === 'opinions' }"
+          href="/opinions/recent">Stocks</a>
+        <a
+          :class="{ link: true, active: type === 'comments' }"
+          href="/opinions/market">Market</a>
+      </div>
     </div>
     <div class="header-right">
       <a
@@ -71,6 +73,10 @@ export default {
     color black
     line-height 1.1
     margin-right 10px
+
+    &s
+      display flex
+      align-items center
 
     &.active
       background #A3A2A2

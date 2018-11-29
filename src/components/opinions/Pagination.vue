@@ -1,10 +1,10 @@
 <template>
   <div class="pgntn">
-    <div class="pgntn-left">
-      <ul
-        v-if="left"
-        class="pagination pagination--relaxed"
-      >
+    <div
+      v-if="left"
+      class="pgntn-left"
+    >
+      <ul class="pagination pagination--relaxed">
         <li
           v-if="newerDate"
           :class="{'page-item page-item--bordered page-item--prev': true}"
@@ -12,7 +12,10 @@
           <a
             :href="newerUrl"
             class="page-link"
-          >{{ newerDate | formatDate('ddd') }}</a>
+          >
+            <img src="~assets/svgs/arrow_down.svg">
+            <span>{{ newerDate | formatDate('ddd') }}</span>
+          </a>
         </li>
 
         <li :class="{'page-item page-item--bordered': true}">
@@ -22,7 +25,7 @@
               :key="`adjacentDate_${adjacentDate}`"
               :active="adjacentDate === date"
               :href="getDateUrl(adjacentDate)"
-            >{{ adjacentDate | formatDate('ddd[ ]MMM[/]DD') }}</b-dropdown-item>
+            >{{ adjacentDate | formatDate('dddd') }}, {{ adjacentDate | formatDate('LL') }}</b-dropdown-item>
 
             <template slot="button-content">
               <span>{{ date | formatDate('ddd[ ]MMM[/]DD') }}</span>
@@ -38,15 +41,18 @@
           <a
             :href="olderUrl"
             class="page-link"
-          >{{ olderDate | formatDate('ddd') }}</a>
+          >
+            <span>{{ olderDate | formatDate('ddd') }}</span>
+            <img src="~assets/svgs/arrow_down.svg">
+          </a>
         </li>
       </ul>
     </div>
-    <div class="pgntn-right">
-      <ul
-        v-if="right"
-        class="pagination"
-      >
+    <div
+      v-if="right"
+      class="pgntn-right"
+    >
+      <ul class="pagination">
         <li :class="{'page-item page-item--bordered page-item--prev': true, 'disabled': !prevPage}">
           <a
             v-if="prevPage"
@@ -110,7 +116,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'olderDate', 'newerDate', 'opinions' ]),
+    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions' ]),
 
     newerUrl() {
       return this.type === 'opinions' ? `/opinions/${this.newerDate}` : `/opinions/market/${this.newerDate}`
@@ -143,19 +149,6 @@ export default {
     nextPageUrl() {
       return this.getPageUrl(this.nextPage)
     },
-
-    adjacentDates() {
-      // FIXME currently dates that do not have any opinions still show up in
-      // the pagination. If we want otherwise, we need to get the list of
-      // adjacent pages that have opinions from the DB
-
-      // starting from today or max 3 days after the active date
-      const startDiff = Math.min(3, moment().diff(moment(this.date, 'YYYY-MM-DD'), 'days'))
-      // count down to older dates
-      return [...Array(c.NUM_ADJACENT_PAGES)].map((_, i) => {
-        return moment(this.date, 'YYYY-MM-DD').add(startDiff - i, 'day').format('YYYY-MM-DD')
-      })
-    }
   },
 
   methods: {
@@ -181,6 +174,12 @@ export default {
   &-left, &-right
     margin 10px 0
 
+    &:only-child
+      margin 0
+      justify-content center
+      display flex
+      width 100%
+
   &-left
     margin-right 10px
 
@@ -204,9 +203,6 @@ export default {
       outline 0
       border 0
 
-      span
-        margin-right 7px
-
       &:after
         display none
 
@@ -221,6 +217,13 @@ export default {
     .page-item
       img
         margin-top 2px
+
+      .page-link
+        span + img
+          margin-left 7px
+
+        img + span
+          margin-left 7px
 
       &--number
         .page-link
@@ -245,8 +248,10 @@ export default {
           transform rotate(-90deg)
 
       &--prev, &--next
-        .page-link
-          color lighten(#25292B, 30%) !important
+        &:not(&--highlight)
+          .page-link
+            & > *
+              opacity 0.6
 
       &--highlight
         .page-link

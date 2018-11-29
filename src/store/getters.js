@@ -8,6 +8,10 @@ export default {
     return state.date
   },
 
+  adjacentDates (state, getters) {
+    return state.adjacentDates
+  },
+
   olderDate (state, getters) {
     return state.olderDate
   },

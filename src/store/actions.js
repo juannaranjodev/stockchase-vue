@@ -5,8 +5,9 @@ export default {
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 
     return api[method](date)
-      .then(({ opinions, date, olderDate, newerDate }) => {
+      .then(({ opinions, date, adjacentDates, olderDate, newerDate }) => {
         commit('SET_DATE', date)
+        commit('SET_ADJACENT_DATES', adjacentDates)
         commit('SET_OLDER_DATE', olderDate)
         commit('SET_NEWER_DATE', newerDate)
         commit('SET_OPINIONS', opinions)
