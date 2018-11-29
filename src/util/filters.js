@@ -22,6 +22,17 @@ export function formatDate (date, format) {
   return moment(date, 'YYYY-MM-DD').format(format || 'LL')
 }
 
+export function formatSignalName (signal) {
+  switch (signal) {
+    case 'BUY on WEAKNESS':
+      return 'BUY WEAKNESS';
+    case 'SELL ON STRENGTH':
+      return 'SELL STRENGTH';
+    default:
+      return signal;
+  }
+}
+
 function pluralize (time, label) {
   if (time === 1) {
     return time + label

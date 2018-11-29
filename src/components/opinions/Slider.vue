@@ -18,7 +18,7 @@
             :href="item.Company.url">
             <img :src="item.Company.logo">
           </div>
-          <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name.toUpperCase() }}</div>
+          <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name | formatSignalName }}</div>
         </a>
       </div>
       <span
@@ -148,7 +148,7 @@ export default {
       height auto
 
 .opinion-signal
-  font-size 10.5px
+  font-size 10px
   text-align center
   border-radius 5px
   color white
@@ -156,6 +156,11 @@ export default {
   bottom 0
   left 0
   right 0
+  padding-left 2px
+  padding-right 2px
+  text-transform uppercase
+  letter-spacing -0.3px
+
 
 .carousel-control
   &:hover

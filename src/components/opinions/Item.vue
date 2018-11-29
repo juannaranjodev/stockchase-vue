@@ -10,7 +10,7 @@
         <div class="signal-badge">
           <div
             :class="`${signalClassName}-border`">
-            {{ item.Signal.name.toUpperCase() }}
+            {{ item.Signal.name | formatSignalName }}
           </div>
         </div>
       </div>
@@ -26,7 +26,7 @@
               <div class="opinion-mini__signal-badge">
                 <div
                   :class="`${signalClassName}-border`">
-                  {{ item.Signal.name.toUpperCase() }}
+                  {{ item.Signal.name | formatSignalName }}
                 </div>
               </div>
             </div>
@@ -386,7 +386,7 @@ export default {
       min-height 50px
       padding 0
       text-align center
-      font-size 10.5px
+      font-size 10px
       position absolute
       top 0
       height 100%
@@ -398,6 +398,9 @@ export default {
 
       & > div
         border-radius 5px
+        padding-left 3px
+        padding-right 3px
+        text-transform uppercase
 
   .expert
     &-cell
