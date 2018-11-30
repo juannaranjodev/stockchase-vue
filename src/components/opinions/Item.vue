@@ -92,7 +92,7 @@
               <social-sharing
                 :title="sharingContent"
                 :hashtags="sharingHashtag"
-                :url="item.url"
+                :url="paginatedUrl"
                 inline-template
               >
                 <network network="twitter">
@@ -210,6 +210,7 @@ import UserReactions from './UserReactions.vue'
 import OpinionsInFeedAd from './InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
+import { mapGetters } from 'vuex'
 
 let tippy
 if (process.browser) {
@@ -222,6 +223,10 @@ export default {
     item: {
       type: Object,
       default: () => {}
+    },
+    page: {
+      type: Number,
+      default: 1
     },
   },
 
@@ -237,6 +242,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters([ 'date' ]),
+
     isOpinion() {
       return this.item.Company.id !== 1970
     },
@@ -246,7 +253,11 @@ export default {
     },
 
     disqusIdentifier() {
-      return md5(this.item.url)
+      return md5(this.paginatedUrl)
+    },
+
+    paginatedUrl() {
+      return `/opinions/${this.date}/${this.page}#${this.item.id}`
     },
 
     myRating() {

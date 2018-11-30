@@ -8,7 +8,7 @@
         <a
           v-for="item in displayedItems"
           :key="item.id"
-          :href="item.url"
+          :href="opinionUrl(item.id)"
           v-b-tooltip.hover
           :title="item.Company.name"
           class="company"
@@ -30,6 +30,7 @@
 
 <script>
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 import * as c from '../../constants'
 
 export default {
@@ -58,11 +59,17 @@ export default {
   },
 
   computed: {
+    ...mapGetters([ 'date' ]),
+
     displayedItems() {
       const startIndex = (this.currentPage - 1) * c.PER_PAGE
       const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
       return pageItems
     },
+
+    slideUrl() {
+      return `/opinions/${this.date}/${this.currentPage}`
+    }
   },
 
   methods: {
@@ -84,6 +91,10 @@ export default {
 
     toClassName(signal) {
       return _.snakeCase(signal)
+    },
+
+    opinionUrl(opinionId) {
+      return `${this.slideUrl}#${opinionId}`
     }
   },
 }

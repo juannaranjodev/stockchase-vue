@@ -33,6 +33,7 @@
             v-for="item in pageItems"
             :key="item.id"
             :item="item"
+            :page="currentPage"
             @showComments="showComments"
           />
         </tbody>
