@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div 
-      class="ad-container" 
+    <div
+      class="ad-container"
       v-if="shouldShowAd">
       <Adsense
         class='ad'
@@ -30,7 +30,6 @@ export default {
 <style lang="stylus" scoped>
 .ad-container
   padding 20px 0
-  margin-bottom 20px
 
   .ad
     width 1100px

@@ -108,6 +108,15 @@ export default {
   .modal-body, .modal-footer
     padding 20px 35px
 
+  .opinion-comment
+    font-size 19px
+    line-height normal
+    margin-top 20px
+    *
+      font-family inherit !important
+      line-height inherit !important
+      font-size inherit !important
+
 @media (max-width 767px)
   .opinion-comments-modal
     .modal-body, .modal-footer

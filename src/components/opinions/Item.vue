@@ -92,7 +92,7 @@
               <social-sharing
                 :title="sharingContent"
                 :hashtags="sharingHashtag"
-                :url="item.url"
+                :url="paginatedUrl"
                 inline-template
               >
                 <network network="twitter">
@@ -156,8 +156,10 @@
         class="expert-name">
         {{ item.Expert.name }}
       </a>
-      <div class="expert-title">
-        {{ item.Expert.title }}
+      <div
+        class="expert-title"
+        :title="`${item.Expert.title}, ${item.Expert.company}`">
+        {{ item.Expert.title }}, {{ item.Expert.company }}
       </div>
 
       <div
@@ -208,6 +210,7 @@ import UserReactions from './UserReactions.vue'
 import OpinionsInFeedAd from './InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
+import { mapGetters } from 'vuex'
 
 let tippy
 if (process.browser) {
@@ -220,6 +223,10 @@ export default {
     item: {
       type: Object,
       default: () => {}
+    },
+    page: {
+      type: Number,
+      default: 1
     },
   },
 
@@ -235,6 +242,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters([ 'date' ]),
+
     isOpinion() {
       return this.item.Company.id !== 1970
     },
@@ -244,7 +253,11 @@ export default {
     },
 
     disqusIdentifier() {
-      return md5(this.item.url)
+      return md5(this.paginatedUrl)
+    },
+
+    paginatedUrl() {
+      return `/opinions/${this.date}/${this.page}#${this.item.id}`
     },
 
     myRating() {
@@ -419,6 +432,7 @@ export default {
       font-weight normal
       line-height 1.4
       color #ABB3B9
+
     &-meta
       display flex
       align-items center
@@ -489,6 +503,10 @@ export default {
     &-comment
       margin-top 5px
       margin-bottom 20px
+      *
+        font-family inherit !important
+        line-height inherit !important
+        font-size inherit !important
     &-footer
       display flex
       align-items center
@@ -545,7 +563,6 @@ export default {
 .in-feed-ad-cell
   height auto !important
   background-color transparent !important
-  border 0 !important
   padding 0 !important
 
 .opinion-mini
@@ -556,7 +573,8 @@ export default {
   text-align left
 
   &__left
-    display block
+    display flex
+    flex-direction column
     width 100px
 
   &__right
@@ -565,7 +583,8 @@ export default {
 
   &__logo
     width 100px
-    height 100px
+    min-height 100px
+    flex 1
     border-bottom 1px solid #E9E9EA
     position relative
     display block
@@ -612,6 +631,11 @@ export default {
     -webkit-line-clamp 2
     -webkit-box-orient vertical
     max-height 3em
+
+    *
+      font-family inherit !important
+      line-height inherit !important
+      font-size inherit !important
 
   &__header
     display flex

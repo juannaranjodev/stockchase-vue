@@ -272,23 +272,23 @@ a.search-box-result-item, a.search-box-result-item:hover
 @media (max-width 767px)
   .web-search-wrap
     width 100% !important
-    height 34px
+    height 38px
 
     .select2-container
       width 100% !important
-      height 34px
+      height 38px
 
     .select2-container--default .select2-search--inline .select2-search__field
-      height 34px
-      line-height 34px
+      height 38px
+      line-height 38px
       padding-top 0
       padding-bottom 0
       width 100% !important
 
     .select2-container--default.select2-container--focus .select2-selection--multiple,
     .select2-container--default .select2-selection--multiple
-      border 1px solid #E2E2E2
-      height 34px
+      border 1px solid #ccc
+      height 38px
 
   .select2-dropdown.select2-dropdown--below
     min-width 240px

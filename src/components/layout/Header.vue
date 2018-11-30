@@ -12,7 +12,7 @@
             alt="logo">
           <img
             class="d-md-none"
-            width="34"
+            width="37"
             src="~assets/svgs/logo_red.svg"
             alt="logo">
         </a>
@@ -103,14 +103,14 @@ export default {
     background-color transparent
 
     .home
-      margin 0 4px 0 0
+      margin 0 9px 0 0
 
     .inner
       padding 15px 10px
       flex-wrap nowrap
 
       &-left
-        margin-right 4px
+        margin-right 20px
         flex-grow 1
 
 </style>

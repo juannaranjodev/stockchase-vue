@@ -14,7 +14,7 @@
         :href="recentTopLink">View all...</a>
     </div>
     <div class="footer-stock-list">
-      <span class="footer-stock-list-label">Top Picks</span>
+      <span class="footer-stock-list-label">Trending</span>
       <span
         v-for="item in trendingStocks"
         :key="`trendingStocks::${item.id}`"

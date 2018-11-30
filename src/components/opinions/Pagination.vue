@@ -6,15 +6,15 @@
     >
       <ul class="pagination pagination--relaxed">
         <li
-          v-if="newerDate"
+          v-if="olderDate"
           :class="{'page-item page-item--bordered page-item--prev': true}"
         >
           <a
-            :href="newerUrl"
+            :href="olderUrl"
             class="page-link"
           >
             <img src="~assets/svgs/arrow_down.svg">
-            <span>{{ newerDate | formatDate('ddd') }}</span>
+            <span>{{ olderDate | formatDate('ddd') }}</span>
           </a>
         </li>
 
@@ -35,17 +35,19 @@
         </li>
 
         <li
-          v-if="olderDate"
+          v-if="newerDate"
           :class="{'page-item page-item--bordered page-item--next': true}"
         >
           <a
-            :href="olderUrl"
+            :href="newerUrl"
             class="page-link"
           >
-            <span>{{ olderDate | formatDate('ddd') }}</span>
+            <span>{{ newerDate | formatDate('ddd') }}</span>
             <img src="~assets/svgs/arrow_down.svg">
           </a>
         </li>
+
+
       </ul>
     </div>
     <div
@@ -53,10 +55,10 @@
       class="pgntn-right"
     >
       <ul class="pagination">
-        <li :class="{'page-item page-item--bordered page-item--prev': true, 'disabled': !prevPage}">
+        <li :class="{'page-item page-item--bordered page-item--prev': true, 'disabled': !prevPage && !newerDate}">
           <a
-            v-if="prevPage"
-            :href="prevPageUrl"
+            v-if="prevPage || newerDate"
+            :href="prevPage ? prevPageUrl : newerUrl"
             class="page-link"><img src="~assets/svgs/arrow_down.svg"></a>
           <span
             v-else
@@ -77,10 +79,10 @@
             :href="getPageUrl(page)">{{ page }}</a>
         </li>
 
-        <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage}">
+        <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate}">
           <a
-            v-if="nextPage"
-            :href="nextPageUrl"
+            v-if="nextPage || olderDate"
+            :href="nextPage ? nextPageUrl : olderUrl"
             class="page-link"><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></a>
           <span
             v-else
@@ -176,9 +178,6 @@ export default {
 
     &:only-child
       margin 0
-      justify-content center
-      display flex
-      width 100%
 
   &-left
     margin-right 10px
@@ -284,5 +283,15 @@ export default {
       &.disabled
         .page-link
           opacity 0.3
+
+@media (max-width 767px)
+  .pgntn
+    &-left, &-right
+      margin 0
+      display flex
+      width 100%
+      justify-content center
+    .pagination
+      justify-content center
 
 </style>

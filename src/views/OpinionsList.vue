@@ -33,6 +33,7 @@
             v-for="item in pageItems"
             :key="item.id"
             :item="item"
+            :page="currentPage"
             @showComments="showComments"
           />
         </tbody>
@@ -48,7 +49,6 @@
     </div>
 
     <opinions-dianomi-ad />
-    <opinions-footer />
     <opinions-link-ad class="d-none d-md-block" />
 
     <comments-modal ref="commentsModal" />

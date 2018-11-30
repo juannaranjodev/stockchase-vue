@@ -67,6 +67,15 @@
     for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
     mixpanel.init('{{ MIXPANEL_TOKEN }}');</script><!-- end Mixpanel -->
 
+    <script src="/assets/mobile-detect.js"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      var md = new MobileDetect(window.navigator.userAgent);
+      if (md.mobile()) {
+        (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-4241986024094799", enable_page_level_ads: true });
+      }
+    </script>
+
     <style>
       #skip a {  position:absolute;  left:-10000px;  top:auto;  width:1px;  height:1px;  overflow:hidden;  }
       #skip a:focus {  position:static;  width:auto;  height:auto;  }

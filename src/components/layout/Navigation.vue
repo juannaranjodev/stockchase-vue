@@ -155,10 +155,10 @@ export default {
 
     &.active
       opacity 1
-      background-color rgba(#6F7980, 0.45)
+      background-color #6F7980
 
     &:focus, &:active
-      background-color rgba(#6F7980, 0.45)
+      background-color rgba(#6F7980, 0.5)
 
     &__label
       font-size 10px
