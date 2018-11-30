@@ -489,6 +489,10 @@ export default {
     &-comment
       margin-top 5px
       margin-bottom 20px
+      *
+        font-family inherit !important
+        line-height inherit !important
+        font-size inherit !important
     &-footer
       display flex
       align-items center
@@ -545,7 +549,6 @@ export default {
 .in-feed-ad-cell
   height auto !important
   background-color transparent !important
-  border 0 !important
   padding 0 !important
 
 .opinion-mini
@@ -612,6 +615,11 @@ export default {
     -webkit-line-clamp 2
     -webkit-box-orient vertical
     max-height 3em
+
+    *
+      font-family inherit !important
+      line-height inherit !important
+      font-size inherit !important
 
   &__header
     display flex

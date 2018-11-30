@@ -168,6 +168,10 @@ export default {
     font-size 19px
     line-height normal
     margin-top 20px
+    *
+      font-family inherit !important
+      line-height inherit !important
+      font-size inherit !important
     &s
       margin-top 20px
 
