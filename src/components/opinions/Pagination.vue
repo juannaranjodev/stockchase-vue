@@ -176,9 +176,6 @@ export default {
 
     &:only-child
       margin 0
-      justify-content center
-      display flex
-      width 100%
 
   &-left
     margin-right 10px
@@ -285,4 +282,13 @@ export default {
         .page-link
           opacity 0.3
 
+@media (max-width 767px)
+  .pgntn
+    &-left, &-right
+      margin 0
+      display flex
+      width 100%
+      justify-content center
+    .pagination
+      justify-content center
 </style>
