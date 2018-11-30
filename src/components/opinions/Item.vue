@@ -156,8 +156,10 @@
         class="expert-name">
         {{ item.Expert.name }}
       </a>
-      <div class="expert-title">
-        {{ item.Expert.title }}
+      <div
+        class="expert-title"
+        :title="`${item.Expert.title}, ${item.Expert.company}`">
+        {{ item.Expert.title }}, {{ item.Expert.company }}
       </div>
 
       <div
@@ -419,6 +421,7 @@ export default {
       font-weight normal
       line-height 1.4
       color #ABB3B9
+
     &-meta
       display flex
       align-items center

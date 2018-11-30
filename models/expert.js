@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       field: 'TITLE',
      },
+   company: {
+     type: DataTypes.STRING(50),
+     field: 'COMPANY',
+    },
     url: {
       type: DataTypes.VIRTUAL,
       get: function() {
