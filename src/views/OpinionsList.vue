@@ -48,7 +48,6 @@
     </div>
 
     <opinions-dianomi-ad />
-    <opinions-footer />
     <opinions-link-ad class="d-none d-md-block" />
 
     <comments-modal ref="commentsModal" />
