@@ -573,7 +573,8 @@ export default {
   text-align left
 
   &__left
-    display block
+    display flex
+    flex-direction column
     width 100px
 
   &__right
@@ -582,7 +583,8 @@ export default {
 
   &__logo
     width 100px
-    height 100px
+    min-height 100px
+    flex 1
     border-bottom 1px solid #E9E9EA
     position relative
     display block
