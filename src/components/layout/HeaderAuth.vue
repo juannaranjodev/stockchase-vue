@@ -1,69 +1,69 @@
 <template>
   <div class="header-auth">
     <div v-if="user.username">
-      <b-dropdown 
-        ref="userDropdown" 
-        right 
-        class="user-dropdown" 
-        toggle-class="user-dropdown-toggle" 
-        @mouseover.native="onMouseOver" 
+      <b-dropdown
+        ref="userDropdown"
+        right
+        class="user-dropdown"
+        toggle-class="user-dropdown-toggle"
+        @mouseover.native="onMouseOver"
         @mouseleave.native="onMouseLeave">
         <b-dropdown-item :href="`${appUrl}/profile`">My Profile</b-dropdown-item>
         <b-dropdown-item :href="`${appUrl}/portfolio`">My Watch List</b-dropdown-item>
 
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/opinions`">Opinions Advanced Filters (Table View)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/experts`">Experts Advanced Filters (Table View)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/companies`">Company Advanced Filters (Table View)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/admin`">Site Management</b-dropdown-item>
 
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/blog/admin`">Blog Posts (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/page/admin`">Static Pages (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/admin/ads`">Text Ad Editor (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/admin/pix`">Image Manager (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/admin/editor`">Editor Functions (Editor)</b-dropdown-item>
 
-        <b-dropdown-item 
-          v-if="user.admin" 
+        <b-dropdown-item
+          v-if="user.admin"
           :href="`${appUrl}/auth/index`">User Editor (Admin)</b-dropdown-item>
 
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/region`">Region (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/sector`">Sector (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/bias`">Bias (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/topic`">Topic (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/source`">Source (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/signal`">Signal (Editor)</b-dropdown-item>
-        <b-dropdown-item 
-          v-if="user.editor || user.admin" 
+        <b-dropdown-item
+          v-if="user.editor || user.admin"
           :href="`${appUrl}/tables/ad`">Advertising (Editor)</b-dropdown-item>
 
         <b-dropdown-item :href="`${appUrl}/auth/logout`">Logout</b-dropdown-item>
@@ -76,35 +76,35 @@
               default-img=""
             />
             <span class="user-name d-none d-md-block">{{ user.username }}</span>
-            <img 
-              class="user-dropdown-arrow d-none d-md-inline" 
-              src="~assets/svgs/white-arrow-down.svg" 
+            <img
+              class="user-dropdown-arrow d-none d-md-inline"
+              src="~assets/svgs/white-arrow-down.svg"
               width="20">
-            <img 
-              class="user-dropdown-arrow d-md-none" 
-              src="~assets/svgs/arrow_down.svg" 
+            <img
+              class="user-dropdown-arrow d-md-none"
+              src="~assets/svgs/arrow_down.svg"
               width="8">
           </div>
         </template>
       </b-dropdown>
     </div>
-    <div 
-      v-else 
+    <div
+      v-else
       :class="{'header-auth__buttons': true, 'hidden': !fetched}">
-      <a 
-        class="button button-outline button-login d-none d-md-block" 
+      <a
+        class="button button-outline button-login d-none d-md-block"
         :href="appUrl + '/member/login'">Login</a>
-      <a 
-        class="button button-white button-signup d-none d-md-block" 
+      <a
+        class="button button-white button-signup d-none d-md-block"
         :href="appUrl + '/member/signup'">Sign Up</a>
-      <a 
-        class="button button-red button-mobile button-mobile-signup d-md-none" 
+      <a
+        class="button button-red button-mobile button-mobile-signup d-md-none"
         :href="appUrl + '/member/signup'">Join</a>
-      <a 
-        class="button button-plain button-mobile d-md-none" 
-        :href="appUrl + '/member/login'"><img 
-          src="~assets/svgs/avatar_default.svg" 
-          height="34"></a>
+      <a
+        class="button button-outline button-mobile d-md-none"
+        :href="appUrl + '/member/login'"><img
+          src="~assets/images/user-icon.png"
+          width="20"></a>
     </div>
   </div>
 </template>
@@ -262,9 +262,13 @@ export default {
     color #FF2E50
 
   .button-red
-    border 1px solid #FF2E50
-    background #FF2E50
+    border 1px solid #FF5030
+    background #FF5030
     color white
+
+    &:hover
+      border-color #FF2E50
+      background #FF2E50
 
   .button-login, .button-signup
     width 80px
@@ -274,11 +278,12 @@ export default {
 
   .button-mobile
     padding 0
-    height 34px
+    height 31px
+    min-width 38px
     display inline-flex
     align-items center
     justify-content center
-    font-weight bold
+    font-size 12px
 
     &-signup
       width 40px
