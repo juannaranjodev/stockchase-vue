@@ -51,7 +51,7 @@
       </ul>
     </div>
     <div
-      v-if="right"
+      v-if="right && !adFree"
       class="pgntn-right"
     >
       <ul class="pagination">
@@ -118,7 +118,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions' ]),
+    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions', 'adFree' ]),
 
     newerDateUrl() {
       return this.getPaginationUrl(this.newerDate.date, 1)

@@ -93,9 +93,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date',  'opinions', 'shouldShowAd' ]),
+    ...mapGetters([ 'date',  'opinions', 'shouldShowAd', 'adFree' ]),
 
     pageItems() {
+      // Show all items in the page for ad-free users
+      if (this.adFree) return this.items
+
       const startIndex = (this.currentPage - 1) * c.PER_PAGE
       const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
       if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
@@ -134,7 +137,7 @@ export default {
   box-sizing border-box
   width 1140px
   max-width 100%
-  padding 0 20px
+  padding 0 20px 20px
   margin 0 auto
 
 .opinions-table
