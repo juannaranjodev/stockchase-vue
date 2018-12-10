@@ -5,11 +5,15 @@ export default {
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 
     return api[method](date)
-      .then(({ opinions, date, adjacentDates, olderDate, newerDate }) => {
+      .then(({ opinions, date, adjacentDates }) => {
+        const dateIndex = adjacentDates.findIndex(adjacentDate => adjacentDate.date === date)
+        const olderDateIndex = dateIndex > 0 ? dateIndex - 1 : -1
+        const newerDateIndex = dateIndex < adjacentDates.length - 1 ? dateIndex + 1 : -1
+
         commit('SET_DATE', date)
+        commit('SET_OLDER_DATE', olderDateIndex > -1 && adjacentDates[olderDateIndex])
+        commit('SET_NEWER_DATE', newerDateIndex > -1 && adjacentDates[newerDateIndex])
         commit('SET_ADJACENT_DATES', adjacentDates)
-        commit('SET_OLDER_DATE', olderDate)
-        commit('SET_NEWER_DATE', newerDate)
         commit('SET_OPINIONS', opinions)
       })
   },

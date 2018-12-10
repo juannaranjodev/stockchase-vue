@@ -11,13 +11,9 @@ export function createAPI () {
         return Promise.reject({ code: 404 })
       }
 
-      const opinions = await Opinion.getOpinionsByDate(date)
-
       return {
-        opinions,
         date,
-        olderDate: await Opinion.getOlderOpinionDate(date),
-        newerDate: await Opinion.getNewerOpinionDate(date),
+        opinions: await Opinion.getOpinionsByDate(date),
         adjacentDates: await Opinion.getAdjacentOpinionDates(date),
       }
     },
@@ -30,14 +26,10 @@ export function createAPI () {
         return Promise.reject({ code: 404 })
       }
 
-      const opinions = await Opinion.getMarketCommentsByDate(date)
-
       return {
-        opinions,
         date,
-        olderDate: await Opinion.getOlderMarketCommentDate(date),
-        newerDate: await Opinion.getNewerMarketCommentDate(date),
-        adjacentDates: await Opinion.getAdjacentOpinionDates(date),
+        opinions: await Opinion.getMarketCommentsByDate(date),
+        adjacentDates: await Opinion.getAdjacentMarketCommentDates(date),
       }
     }
   }
