@@ -10,11 +10,11 @@
           :class="{'page-item page-item--bordered page-item--prev': true}"
         >
           <a
-            :href="olderUrl"
+            :href="olderDateUrl"
             class="page-link"
           >
             <img src="~assets/svgs/arrow_down.svg">
-            <span>{{ olderDate | formatDate('ddd') }}</span>
+            <span>{{ olderDate.date | formatDate('ddd') }}</span>
           </a>
         </li>
 
@@ -22,10 +22,10 @@
           <b-dropdown toggle-class="page-link">
             <b-dropdown-item
               v-for="adjacentDate in adjacentDates"
-              :key="`adjacentDate_${adjacentDate}`"
-              :active="adjacentDate === date"
-              :href="getDateUrl(adjacentDate)"
-            >{{ adjacentDate | formatDate('dddd') }}, {{ adjacentDate | formatDate('LL') }}</b-dropdown-item>
+              :key="`adjacentDate_${adjacentDate.date}`"
+              :active="adjacentDate.date === date"
+              :href="getDateUrl(adjacentDate.date)"
+            >{{ adjacentDate.date | formatDate('dddd') }}, {{ adjacentDate.date | formatDate('LL') }}</b-dropdown-item>
 
             <template slot="button-content">
               <span>{{ date | formatDate('ddd[ ]MMM[/]DD') }}</span>
@@ -39,10 +39,10 @@
           :class="{'page-item page-item--bordered page-item--next': true}"
         >
           <a
-            :href="newerUrl"
+            :href="newerDateUrl"
             class="page-link"
           >
-            <span>{{ newerDate | formatDate('ddd') }}</span>
+            <span>{{ newerDate.date | formatDate('ddd') }}</span>
             <img src="~assets/svgs/arrow_down.svg">
           </a>
         </li>
@@ -76,7 +76,7 @@
           <a
             v-else
             class="page-link"
-            :href="getPageUrl(page)">{{ page }}</a>
+            :href="getPaginationUrl(date, page)">{{ page }}</a>
         </li>
 
         <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate}">
@@ -120,13 +120,20 @@ export default {
   computed: {
     ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions' ]),
 
-    newerUrl() {
-      return this.type === 'opinions' ? `/opinions/${this.newerDate}` : `/opinions/market/${this.newerDate}`
+    newerDateUrl() {
+      return this.getPaginationUrl(this.newerDate.date, 1)
     },
 
-    olderUrl() {
-      return this.type === 'opinions' ? `/opinions/${this.olderDate}` : `/opinions/market/${this.olderDate}`
+    olderDateUrl() {
+      return this.getPaginationUrl(this.olderDate.date, 1)
     },
+
+    newerUrl() {
+      const numPages = Math.ceil(this.newerDate.count / c.PER_PAGE)
+      return this.getPaginationUrl(this.newerDate.date, numPages)
+    },
+
+    olderUrl() { return this.olderDateUrl },
 
     numPages() {
       return Math.ceil(this.opinions.length / c.PER_PAGE)
@@ -141,7 +148,7 @@ export default {
     },
 
     prevPageUrl() {
-      return this.getPageUrl(this.prevPage)
+      return this.getPaginationUrl(this.date, this.prevPage)
     },
 
     nextPage() {
@@ -149,18 +156,19 @@ export default {
     },
 
     nextPageUrl() {
-      return this.getPageUrl(this.nextPage)
+      return this.getPaginationUrl(this.date, this.nextPage)
     },
   },
 
   methods: {
-    getPageUrl(page) {
-      const date = this.$route.params.date
-      return this.type === 'opinions' ? `/opinions/${date}/${page}` : `/opinions/market/${date}/${page}`
+    getPaginationUrl(date, page) {
+      return this.type === 'opinions'
+        ? `/opinions/${date}/${page}`
+        : `/opinions/market/${date}/${page}`
     },
 
     getDateUrl(date) {
-      return this.type === 'opinions' ? `/opinions/${date}/1` : `/opinions/market/${date}/1`
+      return this.getPaginationUrl(date, 1)
     },
   },
 }

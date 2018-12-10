@@ -94,7 +94,12 @@ module.exports = (sequelize, DataTypes) => {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(datesCount) {
-      return _.map(datesCount, 'Date');
+      return _.map(datesCount, function(dateCount) {
+        return {
+          date: dateCount['Date'],
+          count: dateCount['COUNT(*)']
+        }
+      });
     });
   };
 
@@ -110,14 +115,13 @@ module.exports = (sequelize, DataTypes) => {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(datesCount) {
-      return _.map(datesCount, 'Date');
+      return _.map(datesCount, function(dateCount) {
+        return {
+          date: dateCount['Date'],
+          count: dateCount['COUNT(*)']
+        }
+      });
     });
-  };
-
-  // Get opinions for the most recently available date
-  Opinion.getRecentOpinions = async function() {
-    var date = await Opinion.getRecentOpinionDate();
-    return Opinion.getOpinionsByDate(date);
   };
 
   // Get opinions for a given date
@@ -136,56 +140,6 @@ module.exports = (sequelize, DataTypes) => {
       order: [['date', 'DESC'], ['id', 'ASC']],
       include: [ { all: true, nested: true } ],
     });
-  };
-
-  // Given a date return the most recent following date that has an opinion (used for pagination)
-  Opinion.getNewerOpinionDate = async function(date) {
-    var newerOpinion = await Opinion.findOne({
-      where: { date: { $gt: date }},
-      order: [['date', 'ASC']],
-    });
-
-    return (newerOpinion) ? newerOpinion.date : undefined;
-  };
-
-  // Given a date return the most recent preceding date that has an opinion (used for pagination)
-  Opinion.getOlderOpinionDate = async function(date) {
-    var olderOpinion = await Opinion.findOne({
-      where: { date: { $lt: date }},
-      order: [['date', 'DESC']],
-    });
-
-    return (olderOpinion) ? olderOpinion.date : undefined;
-  };
-
-  // Get the date of the most recent market comment
-  Opinion.getRecentMarketCommentDate = async function() {
-    var recentOpinion = await Opinion.findOne({
-      where: { company_id: 1970 }, // ignore market comment
-      order: [['date', 'DESC'], ['id', 'ASC']]
-    });
-    return recentOpinion.date;
-  };
-
-
-  // Given a date return the most recent following date that has a market comment (used for pagination)
-  Opinion.getNewerMarketCommentDate = async function(date) {
-    var newerComment = await Opinion.findOne({
-      where: { date: { $gt: date }, company_id: 1970 },
-      order: [['date', 'ASC']],
-    });
-
-    return (newerComment) ? newerComment.date : undefined;
-  };
-
-  // Given a date return the most recent preceding date that has a market comment (used for pagination)
-  Opinion.getOlderMarketCommentDate = async function(date) {
-    var olderComment = await Opinion.findOne({
-      where: { date: { $lt: date }, company_id: 1970 },
-      order: [['date', 'DESC']],
-    });
-
-    return (olderComment) ? olderComment.date : undefined;
   };
 
   return Opinion;
