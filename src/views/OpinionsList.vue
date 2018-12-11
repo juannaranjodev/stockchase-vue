@@ -5,7 +5,6 @@
       v-if="isOpinions"
       :items="items"
       :page="currentPage"
-      :num-pages="numPages"
     />
     <opinions-link-ad />
     <opinions-summary
@@ -111,10 +110,6 @@ export default {
 
     items() {
       return this.opinions
-    },
-
-    numPages() {
-      return Math.ceil(this.opinions.length / c.PER_PAGE)
     },
 
     isOpinions() {

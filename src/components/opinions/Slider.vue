@@ -2,13 +2,13 @@
   <div class="slider-container d-none d-md-block">
     <div class="slider">
       <span
-        :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': currentPage === 1}"
+        :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': !hasPrevious}"
         @click="prev"/>
       <div class="slider-content">
         <a
-          v-for="item in displayedItems"
+          v-for="(item, index) in displayedItems"
           :key="item.id"
-          :href="opinionUrl(item.id)"
+          :href="getOpinionUrl(item.id, index)"
           v-b-tooltip.hover
           :title="item.Company.name"
           class="company"
@@ -22,7 +22,7 @@
         </a>
       </div>
       <span
-        :class="{'carousel-control carousel-control-next-icon': true, 'hidden': currentPage === numPages}"
+        :class="{'carousel-control carousel-control-next-icon': true, 'hidden': !hasNext}"
         @click="next"/>
     </div>
   </div>
@@ -44,16 +44,11 @@ export default {
       type: Number,
       default: 1
     },
-    numPages: {
-      type: Number,
-      default: 1
-    },
   },
 
   data() {
     return {
-      currentPage: +this.page,
-      perPage: c.PER_PAGE,
+      currentIndex: (this.page - 1) * c.PER_PAGE,
       numItems: this.items.length,
     }
   },
@@ -62,30 +57,28 @@ export default {
     ...mapGetters([ 'date' ]),
 
     displayedItems() {
-      const startIndex = (this.currentPage - 1) * c.PER_PAGE
-      const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
-      return pageItems
+      return this.items.slice(this.currentIndex, this.currentIndex + c.PER_PAGE)
     },
 
-    slideUrl() {
-      return `/opinions/${this.date}/${this.currentPage}`
-    }
+    hasNext() {
+      return (this.currentIndex + c.PER_PAGE) < this.numItems
+    },
+
+    hasPrevious() {
+      return this.currentIndex > 0
+    },
   },
 
   methods: {
     next() {
-      if (this.currentPage === this.numPages) {
-        this.currentPage = 1
-      } else {
-        this.currentPage += 1
+      if (this.hasNext) {
+        this.currentIndex += 1
       }
     },
 
     prev() {
-      if (this.currentPage === 1) {
-        this.currentPage = this.numPages
-      } else {
-        this.currentPage -= 1
+      if (this.hasPrevious) {
+        this.currentIndex -= 1
       }
     },
 
@@ -93,9 +86,11 @@ export default {
       return _.snakeCase(signal)
     },
 
-    opinionUrl(opinionId) {
-      return `${this.slideUrl}#${opinionId}`
-    }
+    getOpinionUrl(opinionId, indexInDisplayedItems) {
+      const itemIndex = this.currentIndex + indexInDisplayedItems
+      const pageIndex = Math.floor(itemIndex / c.PER_PAGE) + 1
+      return `/opinions/${this.date}/${pageIndex}#${opinionId}`
+    },
   },
 }
 </script>
@@ -108,21 +103,6 @@ export default {
   display flex
   align-items center
   flex-wrap nowrap
-
-  &-arrow
-    flex-grow 0
-    flex-shrink 0
-    display flex
-    opacity 0.8
-
-    &:hover
-      opacity 1
-      cursor pointer
-
-    &--left
-      margin-right 20px
-    &--right
-      margin-left 20px
 
   &-content
     flex 1
@@ -138,6 +118,7 @@ export default {
 .company
   position relative
   display block
+  user-select none
   &-logo
     display block
     width 88px
@@ -172,14 +153,15 @@ export default {
   text-transform uppercase
   letter-spacing -0.3px
 
-
 .carousel-control
+  user-select none
   &:hover
     cursor pointer
 
   &.hidden
     visibility hidden
     pointer-events none
+
 .carousel-control-prev-icon
  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#ec4d4b' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
 
