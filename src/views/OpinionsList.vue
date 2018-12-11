@@ -41,7 +41,6 @@
       <opinions-link-ad class="d-none d-md-block" />
 
       <opinions-pagination
-        left
         right
         :type="type"
       />
@@ -92,12 +91,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date',  'opinions', 'shouldShowAd', 'adFree' ]),
+    ...mapGetters([ 'date',  'opinions', 'shouldShowAd' ]),
 
     pageItems() {
-      // Show all items in the page for ad-free users
-      if (this.adFree) return this.items
-
       const startIndex = (this.currentPage - 1) * c.PER_PAGE
       const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
       if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
