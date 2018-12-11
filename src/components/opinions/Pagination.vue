@@ -5,20 +5,18 @@
       class="pgntn-left"
     >
       <ul class="pagination pagination--relaxed">
-        <li
-          v-if="olderDate"
-          :class="{'page-item page-item--bordered page-item--prev': true}"
-        >
+        <li class="page-item page-item--bordered page-item--prev">
           <a
+            v-if="olderDate"
             :href="olderDateUrl"
             class="page-link"
           >
             <img src="~assets/svgs/arrow_down.svg">
-            <span>{{ olderDate.date | formatFullDate }}</span>
+            <span>{{ olderDate.date | formatWeekday }}</span>
           </a>
         </li>
 
-        <li :class="{'page-item page-item--bordered': true}">
+        <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
             <b-dropdown-item
               v-for="adjacentDate in adjacentDates"
@@ -34,15 +32,13 @@
           </b-dropdown>
         </li>
 
-        <li
-          v-if="newerDate"
-          :class="{'page-item page-item--bordered page-item--next': true}"
-        >
+        <li class="page-item page-item--bordered page-item--next">
           <a
+            v-if="newerDate"
             :href="newerDateUrl"
             class="page-link"
           >
-            <span>{{ newerDate.date | formatFullDate }}</span>
+            <span>{{ newerDate.date | formatWeekday }}</span>
             <img src="~assets/svgs/arrow_down.svg">
           </a>
         </li>
@@ -160,6 +156,10 @@ export default {
   filters: {
     formatFullDate (val) {
       return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`
+    },
+
+    formatWeekday (val) {
+      return `${moment(val).format('dddd')}`
     }
   }
 }
@@ -209,10 +209,14 @@ export default {
     &--relaxed
       .page-link
         margin 3px 5px
-      .page-item:first-child .page-link
-        margin-left 0
-      .page-item:last-child .page-link
-        margin-right 0
+      .page-item:first-child
+        .page-link
+          margin-left 0
+      .page-item:last-child
+        justify-content flex-end
+        .page-link
+          margin-right 0
+
 
     .page-item
       img
@@ -235,7 +239,11 @@ export default {
           border 0
 
       &--bordered
+        min-width 110px
+        display flex
+
         .page-link
+          width fit-content
           border 1px solid #dee2e6 !important
           box-shadow 0 1px 3px rgba(black, 0.1) !important
 
