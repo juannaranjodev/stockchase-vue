@@ -51,4 +51,8 @@ export default {
         commit('UPDATE_OPINION', opinion)
       })
   },
+
+  SET_IS_MOBILE: ({ commit, dispatch, state }, isMobile) => {
+    commit('SET_IS_MOBILE', isMobile)
+  },
 }

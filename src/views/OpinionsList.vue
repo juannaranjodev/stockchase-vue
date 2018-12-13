@@ -59,7 +59,6 @@ import * as c from '../constants'
 import moment from 'moment'
 import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
-import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
 import OpinionsSummary from '../components/opinions/Summary.vue'
 import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
@@ -83,7 +82,6 @@ export default {
     OpinionsLinkAd,
     OpinionsSlider,
     OpinionsSummary,
-    OpinionsFooter,
     OpinionsDianomiAd,
     OpinionsPagination,
     Item,

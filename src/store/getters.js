@@ -35,4 +35,8 @@ export default {
   trendingStocks (state) {
     return state.trendingStocks
   },
+
+  isMobile (state) {
+    return state.isMobile
+  },
 }
