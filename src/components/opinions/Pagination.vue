@@ -255,12 +255,6 @@ export default {
         img
           transform rotate(-90deg)
 
-      &--prev, &--next
-        &:not(&--highlight)
-          .page-link
-            & > *
-              opacity 0.6
-
       &--highlight
         .page-link
           background-color #ec4d4b
@@ -284,6 +278,8 @@ export default {
           background-color rgba(black, 0.1) !important
         .dropdown-item
           font-size 14px
+          outline 0
+
           &.active
             background-color rgba(black, 0.1)
             font-weight bold
