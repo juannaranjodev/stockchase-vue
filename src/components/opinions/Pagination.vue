@@ -1,21 +1,7 @@
 <template>
   <div class="pgntn">
-    <div
-      v-if="left"
-      class="pgntn-left"
-    >
+    <div class="pgntn-left">
       <ul class="pagination pagination--relaxed">
-        <li class="page-item page-item--bordered page-item--prev">
-          <a
-            v-if="olderDate"
-            :href="olderDateUrl"
-            class="page-link"
-          >
-            <img src="~assets/svgs/arrow_down.svg">
-            <span>{{ olderDate.date | formatWeekday }}</span>
-          </a>
-        </li>
-
         <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
             <b-dropdown-item
@@ -31,33 +17,43 @@
             </template>
           </b-dropdown>
         </li>
-
-        <li class="page-item page-item--bordered page-item--next">
-          <a
-            v-if="newerDate"
-            :href="newerDateUrl"
-            class="page-link"
-          >
-            <span>{{ newerDate.date | formatWeekday }}</span>
-            <img src="~assets/svgs/arrow_down.svg">
-          </a>
+        <li
+          v-if="top"
+          class="page-item page-item--plain"
+        >
+          <span>Page {{ currentPage }}/{{ numPages }}</span>
         </li>
       </ul>
     </div>
 
-    <div
-      v-if="right"
-      class="pgntn-right"
-    >
+    <div class="pgntn-right">
       <ul class="pagination">
-        <li :class="{'page-item page-item--prev page-item--highlight': true, 'disabled': !prevPage && !newerDate}">
+        <li
+          v-if="bottom"
+          :class="{'page-item page-item--prev page-item--bordered': true, 'disabled': !prevPage && !newerDate}"
+        >
           <a
             v-if="prevPage || newerDate"
             :href="prevPage ? prevPageUrl : newerUrl"
-            class="page-link"><img src="~assets/svgs/arrow_down_white.svg"><span>Previous</span></a>
+            class="page-link"><img src="~assets/svgs/arrow_down.svg"></a>
           <span
             v-else
-            class="page-link"><img src="~assets/svgs/arrow_down_white.svg"><span>Previous</span></span>
+            class="page-link"><img src="~assets/svgs/arrow_down.svg"></span>
+        </li>
+
+        <li
+          v-if="bottom"
+          v-for="page in numPages"
+          :key="`page_${page}`"
+          :class="{'page-item page-item--number': true, active: page === currentPage}"
+        >
+          <span
+            v-if="page === currentPage"
+            class="page-link">{{ page }}</span>
+          <a
+            v-else
+            class="page-link"
+            :href="getPaginationUrl(date, page)">{{ page }}</a>
         </li>
 
         <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate}">
@@ -88,11 +84,11 @@ export default {
       type: String,
       default: 'opinions'
     },
-    left: {
+    top: {
       type: Boolean,
       default: false
     },
-    right: {
+    bottom: {
       type: Boolean,
       default: false
     },
@@ -217,7 +213,6 @@ export default {
         .page-link
           margin-right 0
 
-
     .page-item
       img
         margin-top 2px
@@ -239,13 +234,14 @@ export default {
           border 0
 
       &--bordered
-        min-width 110px
-        display flex
-
         .page-link
           width fit-content
           border 1px solid #dee2e6 !important
           box-shadow 0 1px 3px rgba(black, 0.1) !important
+
+      &--plain
+        margin-left 20px
+        color #79739b
 
       &--prev
         img
@@ -296,7 +292,17 @@ export default {
       display flex
       width 100%
       justify-content center
+
     .pagination
       justify-content center
+
+    &-left .pagination
+      display flex
+      flex-direction column
+
+      .page-item--plain
+        margin-left 0
+        margin-top 10px
+        margin-bottom -20px
 
 </style>

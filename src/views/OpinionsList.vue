@@ -13,7 +13,7 @@
 
     <div class="opinions-container">
       <opinions-pagination
-        left
+        top
         :type="type"
       />
 
@@ -41,7 +41,7 @@
       <opinions-link-ad class="d-none d-md-block" />
 
       <opinions-pagination
-        right
+        bottom
         :type="type"
       />
     </div>
