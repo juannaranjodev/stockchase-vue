@@ -63,11 +63,7 @@
       <div class="ad">
         <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
         <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
-        <div id='div-gpt-ad-9004875-9'>
-          <script>
-            googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-9'); });
-          </script>
-        </div>
+        <div id='div-gpt-ad-9004875-9' />
         <!-- End AdSlot 9 -->
       </div>
     </div>
@@ -89,6 +85,16 @@ export default {
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),
+  },
+
+  watch: {
+    shouldShowAd(should) {
+      if (!should) return
+
+      this.$nextTick(() => {
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-9') })
+      })
+    }
   },
 }
 </script>

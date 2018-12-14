@@ -9,8 +9,8 @@ export default {
     return api[method](date)
       .then(({ opinions, date, adjacentDates }) => {
         const dateIndex = adjacentDates.findIndex(adjacentDate => adjacentDate.date === date)
-        const olderDateIndex = dateIndex > 0 ? dateIndex - 1 : -1
-        const newerDateIndex = dateIndex < adjacentDates.length - 1 ? dateIndex + 1 : -1
+        const newerDateIndex = dateIndex > 0 ? dateIndex - 1 : -1
+        const olderDateIndex = dateIndex < adjacentDates.length - 1 ? dateIndex + 1 : -1
 
         // Update opinion url to include page number
         opinions = _.map(opinions, (opinion, index) => {
