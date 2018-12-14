@@ -33,7 +33,7 @@ export default {
   data () {
     const baseSettings = {
       placeholder: 'Search for Company, Expert, or keyword...',
-      minimumInputLength: 3,
+      minimumInputLength: 1,
       maximumSelectionLength: 1,
       multiple: true,
       ajax: { // instead of writing the function to execute the request we use Select2's convenient helper

@@ -1,61 +1,37 @@
 <template>
   <div class="pgntn">
-    <div
-      v-if="left"
-      class="pgntn-left"
-    >
+    <div class="pgntn-left">
       <ul class="pagination pagination--relaxed">
-        <li
-          v-if="olderDate"
-          :class="{'page-item page-item--bordered page-item--prev': true}"
-        >
-          <a
-            :href="olderDateUrl"
-            class="page-link"
-          >
-            <img src="~assets/svgs/arrow_down.svg">
-            <span>{{ olderDate.date | formatDate('ddd') }}</span>
-          </a>
-        </li>
-
-        <li :class="{'page-item page-item--bordered': true}">
+        <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
             <b-dropdown-item
               v-for="adjacentDate in adjacentDates"
               :key="`adjacentDate_${adjacentDate.date}`"
               :active="adjacentDate.date === date"
               :href="getDateUrl(adjacentDate.date)"
-            >{{ adjacentDate.date | formatDate('dddd') }}, {{ adjacentDate.date | formatDate('LL') }}</b-dropdown-item>
+            >{{ adjacentDate.date | formatFullDate }}</b-dropdown-item>
 
             <template slot="button-content">
-              <span>{{ date | formatDate('ddd[ ]MMM[/]DD') }}</span>
+              <span>{{ date | formatFullDate }}</span>
               <img src="~assets/svgs/arrow_down.svg">
             </template>
           </b-dropdown>
         </li>
-
         <li
-          v-if="newerDate"
-          :class="{'page-item page-item--bordered page-item--next': true}"
+          v-if="top"
+          class="page-item page-item--plain"
         >
-          <a
-            :href="newerDateUrl"
-            class="page-link"
-          >
-            <span>{{ newerDate.date | formatDate('ddd') }}</span>
-            <img src="~assets/svgs/arrow_down.svg">
-          </a>
+          <span>Page {{ currentPage }}/{{ numPages }}</span>
         </li>
-
-
       </ul>
     </div>
-    <div
-      v-if="right && !adFree"
-      class="pgntn-right"
-    >
+
+    <div class="pgntn-right">
       <ul class="pagination">
-        <li :class="{'page-item page-item--bordered page-item--prev': true, 'disabled': !prevPage && !newerDate}">
+        <li
+          v-if="bottom"
+          :class="{'page-item page-item--prev page-item--bordered': true, 'disabled': !prevPage && !newerDate}"
+        >
           <a
             v-if="prevPage || newerDate"
             :href="prevPage ? prevPageUrl : newerUrl"
@@ -66,6 +42,7 @@
         </li>
 
         <li
+          v-if="bottom"
           v-for="page in numPages"
           :key="`page_${page}`"
           :class="{'page-item page-item--number': true, active: page === currentPage}"
@@ -107,18 +84,18 @@ export default {
       type: String,
       default: 'opinions'
     },
-    left: {
+    top: {
       type: Boolean,
       default: false
     },
-    right: {
+    bottom: {
       type: Boolean,
       default: false
     },
   },
 
   computed: {
-    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions', 'adFree' ]),
+    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions' ]),
 
     newerDateUrl() {
       return this.getPaginationUrl(this.newerDate.date, 1)
@@ -171,6 +148,16 @@ export default {
       return this.getPaginationUrl(date, 1)
     },
   },
+
+  filters: {
+    formatFullDate (val) {
+      return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`
+    },
+
+    formatWeekday (val) {
+      return `${moment(val).format('dddd')}`
+    }
+  }
 }
 </script>
 
@@ -186,6 +173,7 @@ export default {
 
     &:only-child
       margin 0
+      width 100%
 
   &-left
     margin-right 10px
@@ -195,6 +183,7 @@ export default {
     display flex
     align-items center
     flex-wrap wrap
+    justify-content space-between
 
     .page-link
       color #25292B !important
@@ -216,10 +205,13 @@ export default {
     &--relaxed
       .page-link
         margin 3px 5px
-      .page-item:first-child .page-link
-        margin-left 0
-      .page-item:last-child .page-link
-        margin-right 0
+      .page-item:first-child
+        .page-link
+          margin-left 0
+      .page-item:last-child
+        justify-content flex-end
+        .page-link
+          margin-right 0
 
     .page-item
       img
@@ -243,8 +235,13 @@ export default {
 
       &--bordered
         .page-link
+          width fit-content
           border 1px solid #dee2e6 !important
           box-shadow 0 1px 3px rgba(black, 0.1) !important
+
+      &--plain
+        margin-left 20px
+        color #79739b
 
       &--prev
         img
@@ -253,12 +250,6 @@ export default {
       &--next
         img
           transform rotate(-90deg)
-
-      &--prev, &--next
-        &:not(&--highlight)
-          .page-link
-            & > *
-              opacity 0.6
 
       &--highlight
         .page-link
@@ -283,6 +274,8 @@ export default {
           background-color rgba(black, 0.1) !important
         .dropdown-item
           font-size 14px
+          outline 0
+
           &.active
             background-color rgba(black, 0.1)
             font-weight bold
@@ -299,7 +292,17 @@ export default {
       display flex
       width 100%
       justify-content center
+
     .pagination
       justify-content center
+
+    &-left .pagination
+      display flex
+      flex-direction column
+
+      .page-item--plain
+        margin-left 0
+        margin-top 10px
+        margin-bottom -20px
 
 </style>

@@ -5,7 +5,6 @@
       v-if="isOpinions"
       :items="items"
       :page="currentPage"
-      :num-pages="numPages"
     />
     <opinions-link-ad />
     <opinions-summary
@@ -14,7 +13,7 @@
 
     <div class="opinions-container">
       <opinions-pagination
-        left
+        top
         :type="type"
       />
 
@@ -42,8 +41,7 @@
       <opinions-link-ad class="d-none d-md-block" />
 
       <opinions-pagination
-        left
-        right
+        bottom
         :type="type"
       />
     </div>
@@ -61,7 +59,6 @@ import * as c from '../constants'
 import moment from 'moment'
 import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
-import OpinionsFooter from '../components/opinions/Footer.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
 import OpinionsSummary from '../components/opinions/Summary.vue'
 import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
@@ -85,7 +82,6 @@ export default {
     OpinionsLinkAd,
     OpinionsSlider,
     OpinionsSummary,
-    OpinionsFooter,
     OpinionsDianomiAd,
     OpinionsPagination,
     Item,
@@ -93,12 +89,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date',  'opinions', 'shouldShowAd', 'adFree' ]),
+    ...mapGetters([ 'date',  'opinions', 'shouldShowAd' ]),
 
     pageItems() {
-      // Show all items in the page for ad-free users
-      if (this.adFree) return this.items
-
       const startIndex = (this.currentPage - 1) * c.PER_PAGE
       const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
       if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
@@ -111,10 +104,6 @@ export default {
 
     items() {
       return this.opinions
-    },
-
-    numPages() {
-      return Math.ceil(this.opinions.length / c.PER_PAGE)
     },
 
     isOpinions() {

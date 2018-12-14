@@ -16,10 +16,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'OpinionsLinkAd',
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: () => {
-    return `opinions::link-ad`
-  },
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),

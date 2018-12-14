@@ -28,15 +28,15 @@ export default {
     return getters.user.loaded && !getters.user.ad_free
   },
 
-  adFree (state, getters) {
-    return getters.user.loaded && getters.user.ad_free
-  },
-
   topPicks (state) {
     return state.topPicks
   },
 
   trendingStocks (state) {
     return state.trendingStocks
+  },
+
+  isMobile (state) {
+    return state.isMobile
   },
 }

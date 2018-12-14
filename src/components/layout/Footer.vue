@@ -1,18 +1,18 @@
 <template>
-  <div class="footer">
+  <div :class="{footer: true, 'footer--with-ad': shouldShowAd}">
     <nav class="inner">
       <div class="footer__left">
-        <img 
-          src="~assets/svgs/stockchase-by-wealthica-white-logo.svg" 
-          width="190" 
+        <img
+          src="~assets/svgs/stockchase-by-wealthica-white-logo.svg"
+          width="190"
           style="float: left;">
       </div>
       <div class="footer__center">
         <div style="width: 87%;">
           <p>Stockchase,  in its reporting on what has been discussed by individuals on business television programs (in particular Business News Network), neither recommends nor promotes any investment strategies.</p>
 
-          <p>We paraphrase the experts by hand, we watch the shows and write down what we understood from the experts’ comments. <span style="font-weight: bold;">We are human and can make mistakes</span>, help us fix any errors. If you see something that you know is not right or if there is a problem with the site, feel free to email us at : <a 
-            href="mailto:hello@stockchase.com" 
+          <p>We paraphrase the experts by hand, we watch the shows and write down what we understood from the experts’ comments. <span style="font-weight: bold;">We are human and can make mistakes</span>, help us fix any errors. If you see something that you know is not right or if there is a problem with the site, feel free to email us at : <a
+            href="mailto:hello@stockchase.com"
             style="color: #FFFFFF;">hello@stockchase.com</a>.</p>
         </div>
 
@@ -30,35 +30,50 @@
         </ul>
 
         <div class="footer-social-links">
-          <a 
-            :href="appUrl + '/rss/toppicks'" 
-            style="margin-right: 7px;"><img 
-              src="~assets/images/rss-light-icon.png" 
+          <a
+            :href="appUrl + '/rss/toppicks'"
+            style="margin-right: 7px;"><img
+              src="~assets/images/rss-light-icon.png"
               width="35"></a>
-          <a 
-            :href="appUrl + '/rss/daily'" 
-            style="margin-right: 7px;"><img 
-              src="~assets/images/rss-light-icon.png" 
+          <a
+            :href="appUrl + '/rss/daily'"
+            style="margin-right: 7px;"><img
+              src="~assets/images/rss-light-icon.png"
               width="35"></a>
-          <a 
-            href="https://www.facebook.com/stockchase" 
-            style="margin-right: 7px;"><img 
-              src="~assets/svgs/facebook-footer-icon.svg" 
+          <a
+            href="https://www.facebook.com/stockchase"
+            style="margin-right: 7px;"><img
+              src="~assets/svgs/facebook-footer-icon.svg"
               width="35"></a>
-          <a 
-            href="http://twitter.com/stockchase" 
-            style="margin-right: 0;"><img 
-              src="~assets/svgs/twitter-footer-icon.svg" 
+          <a
+            href="http://twitter.com/stockchase"
+            style="margin-right: 0;"><img
+              src="~assets/svgs/twitter-footer-icon.svg"
               width="35"></a>
         </div>
       </div>
       <div style="clear: both;"/>
     </nav>
-    <div class="copyright">© Stockchase Inc. & Wealthica Financial Technology Inc.</div>
+    <div class="copyright">© Stockchase Inc.</div>
+
+    <div
+      v-if="shouldShowAd"
+      class="fixed-ad-container"
+    >
+      <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
+      <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
+      <div id='div-gpt-ad-9004875-9'>
+        <script>
+          googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-9'); });
+        </script>
+      </div>
+      <!-- End AdSlot 9 -->
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import * as c from '../../constants'
 
 export default {
@@ -69,6 +84,10 @@ export default {
       appUrl: c.APP_URL,
     }
   },
+
+  computed: {
+    ...mapGetters([ 'shouldShowAd' ]),
+  },
 }
 </script>
 
@@ -77,6 +96,10 @@ export default {
   border-top 1px solid #E9E9EA
   padding 0 20px
   background #605E5E
+
+  &--with-ad {
+    padding-bottom 50px !important
+  }
 
   &__left
     width 15%
@@ -141,6 +164,17 @@ export default {
     padding-bottom 20px
     font-size 14px
     font-weight lighter
+
+.fixed-ad-container
+  position fixed
+  left 0
+  right 0
+  bottom 0
+  height 55px
+  padding-top 5px
+  text-align center
+  background-color #868484
+  padding-bottom env(safe-area-inset-bottom)
 
 @media (max-width 767px)
   .footer

@@ -5,11 +5,16 @@
 
     <div
       class="ad-container d-none d-md-block"
-      v-if="shouldShowAd">
-      <Adsense
-        class='ad'
-        data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="5979276843"/>
+      v-if="shouldShowAd"
+    >
+      <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
+      <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
+      <div id='div-gpt-ad-9004875-8'>
+        <script>
+          googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-8'); });
+        </script>
+      </div>
+      <!-- End AdSlot 8 -->
     </div>
 
     <router-view class="view"/>
@@ -31,8 +36,26 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
-  }
+    ...mapGetters([ 'shouldShowAd', 'user' ]),
+  },
+
+  mounted() {
+    this.$store.dispatch('SET_IS_MOBILE', window.isMobile)
+  },
+
+  watch: {
+    user(user) {
+      // Init OptinMonster for non-logged-in users
+      if (user.loaded && !user.id) this.initOptinMonster()
+    },
+  },
+
+  methods: {
+    initOptinMonster() {
+      // Converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com
+      var om42915_37581,om42915_37581_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){om42915_37581_poll(function(){if(window['om_loaded']){if(!om42915_37581){om42915_37581=new OptinMonsterApp();return om42915_37581.init({"a":37581,"staging":0,"dev":0,"beta":0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="https://a.optnmstr.com/app/js/api.min.js",o.async=true,o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;om42915_37581=new OptinMonsterApp();om42915_37581.init({"a":37581,"staging":0,"dev":0,"beta":0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");
+    }
+  },
 }
 </script>
 
