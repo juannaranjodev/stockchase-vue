@@ -86,15 +86,15 @@ module.exports = (sequelize, DataTypes) => {
   // Used for pagination
   Opinion.getAdjacentOpinionDates = async function(date) {
     return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id != 1970 GROUP BY Date ORDER BY Date DESC LIMIT 3 )',
+      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id != 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
       'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date >= :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date',
+      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date > :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
+      'ORDER BY Date DESC',
     ].join(' '), {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(datesCount) {
-      return _.map(datesCount, function(dateCount) {
+      return _.map(_.take(datesCount, 7), function(dateCount) {
         return {
           date: dateCount['Date'],
           count: dateCount['COUNT(*)']
@@ -107,15 +107,15 @@ module.exports = (sequelize, DataTypes) => {
   // Used for pagination
   Opinion.getAdjacentMarketCommentDates = async function(date) {
     return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id = 1970 GROUP BY Date ORDER BY Date DESC LIMIT 3 )',
+      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id = 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
       'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date >= :date AND company_id = 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date',
+      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date > :date AND company_id = 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
+      'ORDER BY Date DESC',
     ].join(' '), {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(datesCount) {
-      return _.map(datesCount, function(dateCount) {
+      return _.map(_.take(datesCount, 7), function(dateCount) {
         return {
           date: dateCount['Date'],
           count: dateCount['COUNT(*)']
