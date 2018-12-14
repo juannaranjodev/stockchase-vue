@@ -8,7 +8,7 @@
         <a
           v-for="item in displayedItems"
           :key="item.id"
-          :href="getOpinionUrl(item.id)"
+          :href="item.url"
           v-b-tooltip.hover
           :title="item.Company.name"
           class="company"
@@ -86,12 +86,6 @@ export default {
 
     toClassName(signal) {
       return _.snakeCase(signal)
-    },
-
-    getOpinionUrl(opinionId) {
-      const itemIndex = _.findIndex(this.items, item => item.id === opinionId)
-      const pageIndex = Math.floor(itemIndex / c.PER_PAGE) + 1
-      return `/opinions/${this.date}/${pageIndex}#${opinionId}`
     },
   },
 }
