@@ -6,9 +6,9 @@
         @click="prev"/>
       <div class="slider-content">
         <a
-          v-for="(item, index) in displayedItems"
+          v-for="item in displayedItems"
           :key="item.id"
-          :href="getOpinionUrl(item.id, index)"
+          :href="getOpinionUrl(item.id)"
           v-b-tooltip.hover
           :title="item.Company.name"
           class="company"
@@ -47,8 +47,10 @@ export default {
   },
 
   data() {
+    const currentIndex = (this.page - 1) * c.PER_PAGE
+
     return {
-      currentIndex: (this.page - 1) * c.PER_PAGE,
+      currentIndex: Math.min(currentIndex, this.items.length - c.PER_PAGE),
       numItems: this.items.length,
     }
   },
@@ -57,8 +59,7 @@ export default {
     ...mapGetters([ 'date' ]),
 
     displayedItems() {
-      const startIndex = Math.min(this.currentIndex, this.numItems - c.PER_PAGE)
-      return this.items.slice(startIndex, startIndex + c.PER_PAGE)
+      return this.items.slice(this.currentIndex, this.currentIndex + c.PER_PAGE)
     },
 
     hasNext() {
@@ -87,8 +88,8 @@ export default {
       return _.snakeCase(signal)
     },
 
-    getOpinionUrl(opinionId, indexInDisplayedItems) {
-      const itemIndex = this.currentIndex + indexInDisplayedItems
+    getOpinionUrl(opinionId) {
+      const itemIndex = _.findIndex(this.items, item => item.id === opinionId)
       const pageIndex = Math.floor(itemIndex / c.PER_PAGE) + 1
       return `/opinions/${this.date}/${pageIndex}#${opinionId}`
     },
