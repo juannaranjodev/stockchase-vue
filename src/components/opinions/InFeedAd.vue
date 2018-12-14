@@ -28,7 +28,9 @@ export default {
     shouldShowAd(should) {
       if (!should) return
 
-      googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-7') })
+      this.$nextTick(() => {
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-7') })
+      })
     }
   }
 }
