@@ -58,16 +58,18 @@
 
     <div
       v-if="shouldShowAd"
-      class="fixed-ad-container"
+      class="fixed-ad-container d-md-none"
     >
-      <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
-      <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
-      <div id='div-gpt-ad-9004875-9'>
-        <script>
-          googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-9'); });
-        </script>
+      <div class="ad">
+        <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
+        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
+        <div id='div-gpt-ad-9004875-9'>
+          <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-9'); });
+          </script>
+        </div>
+        <!-- End AdSlot 9 -->
       </div>
-      <!-- End AdSlot 9 -->
     </div>
   </div>
 </template>
@@ -96,10 +98,6 @@ export default {
   border-top 1px solid #E9E9EA
   padding 0 20px
   background #605E5E
-
-  &--with-ad {
-    padding-bottom 50px !important
-  }
 
   &__left
     width 15%
@@ -179,6 +177,10 @@ export default {
 @media (max-width 767px)
   .footer
     padding 0 10px
+
+    &--with-ad {
+      padding-bottom 50px !important
+    }
 
     &__left, &__center
       height auto

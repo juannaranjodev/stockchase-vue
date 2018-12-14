@@ -7,14 +7,16 @@
       class="ad-container d-none d-md-block"
       v-if="shouldShowAd"
     >
-      <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
-      <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
-      <div id='div-gpt-ad-9004875-8'>
-        <script>
-          googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-8'); });
-        </script>
+      <div class="ad">
+        <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
+        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
+        <div id='div-gpt-ad-9004875-8'>
+          <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-9004875-8'); });
+          </script>
+        </div>
+        <!-- End AdSlot 8 -->
       </div>
-      <!-- End AdSlot 8 -->
     </div>
 
     <router-view class="view"/>
