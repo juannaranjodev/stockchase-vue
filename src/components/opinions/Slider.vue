@@ -57,7 +57,8 @@ export default {
     ...mapGetters([ 'date' ]),
 
     displayedItems() {
-      return this.items.slice(this.currentIndex, this.currentIndex + c.PER_PAGE)
+      const startIndex = Math.min(this.currentIndex, this.numItems - c.PER_PAGE)
+      return this.items.slice(startIndex, startIndex + c.PER_PAGE)
     },
 
     hasNext() {
