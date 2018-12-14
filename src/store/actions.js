@@ -1,4 +1,6 @@
 import api from '../api'
+import * as c from '../constants'
+import _ from 'lodash'
 
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date, type }) => {
@@ -9,6 +11,15 @@ export default {
         const dateIndex = adjacentDates.findIndex(adjacentDate => adjacentDate.date === date)
         const olderDateIndex = dateIndex > 0 ? dateIndex - 1 : -1
         const newerDateIndex = dateIndex < adjacentDates.length - 1 ? dateIndex + 1 : -1
+
+        // Update opinion url to include page number
+        opinions = _.map(opinions, (opinion, index) => {
+          const pageIndex = Math.floor(index / c.PER_PAGE) + 1
+          return {
+            ...opinion.toJSON(),
+            url: `/opinions/${date}/${pageIndex}#${opinion.id}`
+          }
+        })
 
         commit('SET_DATE', date)
         commit('SET_OLDER_DATE', olderDateIndex > -1 && adjacentDates[olderDateIndex])
