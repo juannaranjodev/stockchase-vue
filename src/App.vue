@@ -10,8 +10,7 @@
       <div class="ad">
         <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
         <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
-        <div id='div-gpt-ad-9004875-8'>
-        </div>
+        <div id='div-gpt-ad-9004875-8' />
         <!-- End AdSlot 8 -->
       </div>
     </div>

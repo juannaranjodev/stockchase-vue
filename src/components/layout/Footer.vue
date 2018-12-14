@@ -63,8 +63,7 @@
       <div class="ad">
         <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
         <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
-        <div id='div-gpt-ad-9004875-9'>
-        </div>
+        <div id='div-gpt-ad-9004875-9' />
         <!-- End AdSlot 9 -->
       </div>
     </div>
