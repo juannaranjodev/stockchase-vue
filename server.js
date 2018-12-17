@@ -63,7 +63,7 @@ const serve = (path, cache) => express.static(resolve(path), {
 })
 
 app.use(compression({ threshold: 0 }))
-app.use(favicon('./public/favicon.png'))
+app.use(favicon('./public/assets/favicon.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
