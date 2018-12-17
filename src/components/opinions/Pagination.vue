@@ -10,6 +10,10 @@
               :active="adjacentDate.date === date"
               :href="getDateUrl(adjacentDate.date)"
             >{{ adjacentDate.date | formatFullDate }}</b-dropdown-item>
+            <b-dropdown-item
+              :key="`adjacentDate_more_${lastAdjacentDate.date}`"
+              :href="getDateUrl(lastAdjacentDate.date)"
+            >More...</b-dropdown-item>
 
             <template slot="button-content">
               <span>{{ date | formatFullDate }}</span>
@@ -134,6 +138,10 @@ export default {
 
     nextPageUrl() {
       return this.getPaginationUrl(this.date, this.nextPage)
+    },
+
+    lastAdjacentDate() {
+      return this.adjacentDates[this.adjacentDates.length-1]
     },
   },
 
