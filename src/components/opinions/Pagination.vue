@@ -121,7 +121,7 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page
+      return +this.$route.params.page || 1
     },
 
     prevPage() {

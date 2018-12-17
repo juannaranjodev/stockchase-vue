@@ -12,11 +12,11 @@ export function createRouter () {
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
     routes: [
-      { path: '/', redirect: '/opinions/recent/1' },
-      { path: '/opinions/market', redirect: '/opinions/market/recent/1' },
-      { path: '/opinions/market/:date', redirect: '/opinions/market/:date/1' },
+      { path: '/', redirect: '/opinions/recent' },
+      { path: '/opinions/market', redirect: '/opinions/market/recent' },
+      { path: '/opinions/market/:date', component: createListView('comments') },
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
-      { path: '/opinions/:date', redirect: '/opinions/:date/1' },
+      { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
     ]
   })

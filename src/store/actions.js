@@ -13,6 +13,14 @@ export default {
       })
     }
 
+    if (!page && date !== 'recent') {
+      return Promise.reject({
+        url: type === 'opinions'
+          ? `/opinions/${date}/1`
+          : `/opinions/market/${date}/1`
+      })
+    }
+
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 
     return api[method](date)
