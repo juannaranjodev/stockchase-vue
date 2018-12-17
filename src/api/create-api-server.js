@@ -1,4 +1,5 @@
 import db from '../../models'
+import * as c from '../constants'
 const Opinion = db.Opinion
 
 export function createAPI () {
@@ -31,6 +32,22 @@ export function createAPI () {
         opinions: await Opinion.getMarketCommentsByDate(date),
         adjacentDates: await Opinion.getAdjacentMarketCommentDates(date),
       }
+    },
+
+    async getOpinionUrl (id) {
+      const opinion = await Opinion.findById(id)
+      const date = opinion.date
+      const isOpinion = opinion.company_id !== 1970
+
+      if (!opinion) return Promise.reject({ code: 404 })
+
+      const opinions = isOpinion ? await Opinion.getOpinionsByDate(date) : await Opinion.getMarketCommentsByDate(date)
+      const opinionIndex = opinions.findIndex(o => o.id == id)
+      const pageIndex = Math.floor(opinionIndex / c.PER_PAGE) + 1
+
+      return isOpinion
+        ? `/opinions/${date}/${pageIndex}#${id}`
+        : `/opinions/market/${date}/${pageIndex}#${id}`
     }
   }
 }

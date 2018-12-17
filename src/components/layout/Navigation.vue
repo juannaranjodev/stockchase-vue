@@ -3,7 +3,7 @@
     <nav class="inner d-none d-md-flex">
       <div class="inner-left">
         <div class="link-container">
-          <a :href="appUrl">
+          <a href="/">
             <img
               class="home"
               src="~assets/images/stockchase-home-icon.png"
@@ -11,22 +11,22 @@
           </a>
         </div>
         <div class="link-container active">
-          <a :href="appUrl + '/opinions/recent'">All Opinions</a>
+          <a href="/opinions/recent">All Opinions</a>
         </div>
         <div class="link-container">
-          <a :href="appUrl + '/market/'">Answers</a>
+          <a href="/market/">Answers</a>
         </div>
         <div class="link-container">
-          <a :href="appUrl + '/opinions/recenttop'">Top Picks</a>
+          <a href="/opinions/recenttop">Top Picks</a>
         </div>
         <div class="link-container">
-          <a :href="appUrl + '/discover/'">Discover</a>
+          <a href="/discover/">Discover</a>
         </div>
         <div class="link-container">
-          <a :href="appUrl + '/company'">Companies</a>
+          <a href="/company">Companies</a>
         </div>
         <div class="link-container">
-          <a :href="appUrl + '/expert'">Experts</a>
+          <a href="/expert">Experts</a>
         </div>
       </div>
       <div class="inner-right">
@@ -41,31 +41,31 @@
     <nav class="inner inner--sm d-md-none">
       <a
         class="link active"
-        :href="appUrl + '/opinions/recent'">
+        href="/opinions/recent">
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
       <a
         class="link"
-        :href="appUrl + '/company'">
+        href="/company">
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
       </a>
       <a
         class="link"
-        :href="appUrl + '/expert'">
+        href="/expert">
         <span class="link__icon"><img src="~assets/svgs/icon_expert.svg"></span>
         <span class="link__label">Expert</span>
       </a>
       <a
         class="link"
-        :href="appUrl + '/portfolio'">
+        href="/portfolio">
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
       </a>
       <a
         class="link"
-        :href="appUrl + '/opinions/recenttop'">
+        href="/opinions/recenttop">
         <span class="link__icon"><img src="~assets/svgs/icon_toppicks.svg"></span>
         <span class="link__label">Top Picks</span>
       </a>
@@ -74,16 +74,9 @@
 </template>
 
 <script>
-import * as c from '../../constants'
 
 export default {
   name: 'SiteNavigation',
-
-  data () {
-    return {
-      appUrl: c.APP_URL,
-    }
-  },
 }
 </script>
 

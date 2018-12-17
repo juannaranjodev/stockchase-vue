@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     logo: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=${process.env.APP_URL}/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=https://stockchase.com/assets/no_logo.png`;
       },
     },
     url: {

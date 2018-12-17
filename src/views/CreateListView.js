@@ -8,7 +8,11 @@ export default function createListView (type) {
     name: `${type}-list`,
 
     asyncData ({ store, route }) {
-      return store.dispatch('FETCH_DAILY_OPINIONS', { type, date: route.params.date })
+      return store.dispatch('FETCH_DAILY_OPINIONS', {
+        type,
+        date: route.params.date,
+        page: route.params.page
+      })
     },
 
     title () {

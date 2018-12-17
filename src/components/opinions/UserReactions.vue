@@ -51,7 +51,7 @@ export default {
     rate(rating) {
       this.$store.dispatch('RATE_OPINION', { id: this.item.id, rating }).catch(err => {
         if (err.status === 401) {
-          window.location = `${c.APP_URL}/member/login`
+          window.location = '/member/login'
           return
         }
 

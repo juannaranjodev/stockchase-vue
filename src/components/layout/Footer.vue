@@ -17,26 +17,26 @@
         </div>
 
         <ul class="footer-list-menu">
-          <li><a :href="appUrl + '/page/view/about-us'">About us</a></li>
-          <li><a :href="appUrl + '/blog/post/how-this-site-works'">How to use</a></li>
-          <li><a :href="appUrl + '/page/view/in-the-news'">In the news</a></li>
-          <li><a :href="appUrl + '/page/view/advertising'">Advertising</a></li>
+          <li><a href="/page/view/about-us">About us</a></li>
+          <li><a href="/blog/post/how-this-site-works">How to use</a></li>
+          <li><a href="/page/view/in-the-news">In the news</a></li>
+          <li><a href="/page/view/advertising">Advertising</a></li>
           <li><a href="mailto:hello@stockchase.com">@Contact us</a></li>
         </ul>
 
         <ul class="footer-list-menu">
-          <li><a :href="appUrl + '/page/view/privacy'">Privacy Policy</a></li>
-          <li><a :href="appUrl + '/page/view/privacy'">Terms of service</a></li>
+          <li><a href="/page/view/privacy">Privacy Policy</a></li>
+          <li><a href="/page/view/privacy">Terms of service</a></li>
         </ul>
 
         <div class="footer-social-links">
           <a
-            :href="appUrl + '/rss/toppicks'"
+            href="/rss/toppicks"
             style="margin-right: 7px;"><img
               src="~assets/images/rss-light-icon.png"
               width="35"></a>
           <a
-            :href="appUrl + '/rss/daily'"
+            href="/rss/daily"
             style="margin-right: 7px;"><img
               src="~assets/images/rss-light-icon.png"
               width="35"></a>
@@ -72,16 +72,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as c from '../../constants'
 
 export default {
   name: 'SiteFooter',
-
-  data () {
-    return {
-      appUrl: c.APP_URL,
-    }
-  },
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),
