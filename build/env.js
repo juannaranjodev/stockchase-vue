@@ -2,7 +2,6 @@ require('dotenv').load()
 const merge = require('webpack-merge')
 
 const baseEnv = {
-  APP_URL: process.env.APP_URL,
   DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,
 }
 const serverEnv = merge(baseEnv, {

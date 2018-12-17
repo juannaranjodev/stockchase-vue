@@ -4,7 +4,7 @@
       <div class="inner-left">
         <a
           class="home"
-          :href="appUrl">
+          href="/">
           <img
             class="d-none d-md-inline"
             width="40"
@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import * as c from '../../constants'
-
 import HeaderAuth from './HeaderAuth.vue'
 import HeaderSearch from './HeaderSearch.vue'
 
@@ -43,12 +41,6 @@ export default {
   components: {
     HeaderAuth,
     HeaderSearch
-  },
-
-  data () {
-    return {
-      appUrl: c.APP_URL,
-    }
   },
 }
 </script>

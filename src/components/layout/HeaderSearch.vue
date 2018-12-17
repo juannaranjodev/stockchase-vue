@@ -22,7 +22,6 @@
 
 <script>
 import _ from 'lodash'
-import * as c from '../../constants'
 import Select2 from '../Select2.vue'
 
 export default {
@@ -37,7 +36,7 @@ export default {
       maximumSelectionLength: 1,
       multiple: true,
       ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
-        url: "https://stockchase.com/ajax/search",
+        url: '/ajax/search',
         type: 'get',
         dataType: 'json',
         params: {
@@ -51,8 +50,8 @@ export default {
         },
         processResults: function (data, page) { // parse the results into the format expected by Select2.
             // since we are using custom formatting functions we do not need to alter the remote JSON data
-            var base_url = 'https://stockchase.com/';
-            var avatar_base_url = 'https://stockchase.s3.amazonaws.com/';
+            var baseUrl = location.origin;
+            var avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
 
             var result = {
               results: [],
@@ -69,7 +68,7 @@ export default {
                     id: company.id,
                     text: company.name+' ('+symbol+')',
                     url: '/company/view/'+company.id+'/'+company.symbol,
-                    avatar: 'https://data.wealthica.com/api/securities/'+company.symbol+'/logo?default='+base_url+'images/no logo icon @2x.png',
+                    avatar: 'https://data.wealthica.com/api/securities/'+company.symbol+'/logo?default='+baseUrl+'images/no logo icon @2x.png',
                     term: data.query,
                   };
                 }),
@@ -84,7 +83,7 @@ export default {
                     id: expert.id,
                     text: expert.name,
                     url: '/expert/view/'+expert.id,
-                    avatar: (expert.avatar)? avatar_base_url+expert.avatar : 'https://stockchase.com/images/expert_profile_default.svg',
+                    avatar: (expert.avatar)? avatarBaseUrl+expert.avatar : `${baseUrl}/images/expert_profile_default.svg`,
                     term: data.query,
                   };
                 }),
@@ -126,7 +125,6 @@ export default {
     }
 
     return {
-      appUrl: c.APP_URL,
       baseSettings,
       smallScreenSettings: _.extend({}, baseSettings, { placeholder: 'Search...' })
     }
