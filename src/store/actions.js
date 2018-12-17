@@ -3,7 +3,16 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
-  FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { date, type }) => {
+  FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
+    // If this is an opinion view url, redirect to the correct date & page
+    if (date === 'view') {
+      if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 })
+
+      return api.getOpinionUrl(page).then(url => {
+        return Promise.reject({ url })
+      })
+    }
+
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 
     return api[method](date)
