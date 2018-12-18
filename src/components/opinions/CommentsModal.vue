@@ -82,7 +82,7 @@ export default {
     },
 
     disqusIdentifier() {
-      return md5(this.item.url)
+      return md5(this.absoluteUrl)
     },
 
     disqusShortName() {
