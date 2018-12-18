@@ -274,6 +274,7 @@ export default {
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
+          z-index 0
           &:hover
             cursor inherit
 
