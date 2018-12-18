@@ -105,6 +105,7 @@ export default {
     },
 
     onModalHidden (e) {
+      DISQUSWIDGETS.getCount({reset: true})
     },
   }
 }
