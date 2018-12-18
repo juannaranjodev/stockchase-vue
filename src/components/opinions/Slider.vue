@@ -8,7 +8,7 @@
         <a
           v-for="item in displayedItems"
           :key="item.id"
-          :href="item.url"
+          :href="item.anchor_url"
           v-b-tooltip.hover
           :title="item.Company.name"
           class="company"
