@@ -6,9 +6,9 @@
           class="home"
           href="/">
           <img
-            class="d-none d-md-inline"
-            width="40"
-            src="~assets/svgs/logo.svg"
+            class="d-none d-md-inline logo--holiday"
+            width="46"
+            src="~assets/images/stockchase_white_logo.gif"
             alt="logo">
           <img
             class="d-md-none"
@@ -73,6 +73,10 @@ export default {
 
     &-right
       /* overflow hidden */
+
+  .logo--holiday
+      margin-left -3px
+      margin-right -3px
 
   a.link
     font-family Montserrat, san-serif;
