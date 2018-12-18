@@ -37,10 +37,6 @@ export default {
     ...mapGetters([ 'shouldShowAd', 'user' ]),
   },
 
-  mounted() {
-    this.$store.dispatch('SET_IS_MOBILE', window.isMobile)
-  },
-
   watch: {
     user(user) {
       // Init OptinMonster for non-logged-in users

@@ -117,6 +117,10 @@ export default {
       this.$root.$emit('bv::show::modal', 'modal_comments')
     },
   },
+
+  updated() {
+    DISQUSWIDGETS.getCount({reset: true})
+  }
 }
 </script>
 

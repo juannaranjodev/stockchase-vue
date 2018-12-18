@@ -42,8 +42,4 @@ export default {
   SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
     state.trendingStocks = trendingStocks
   },
-
-  SET_IS_MOBILE: (state, isMobile) => {
-    state.isMobile = isMobile
-  },
 }

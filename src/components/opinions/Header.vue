@@ -14,7 +14,7 @@
     <div class="header-right">
       <a
         v-if="shouldShowAd"
-        href="https://stockchase.recurly.com/subscribe/adfree"
+        href="/premium"
         class="subscribe">Too many ads? Remove ads !</a>
     </div>
   </div>

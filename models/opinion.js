@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return `/opinions/${this.date}#${this.id}`;
+        return `/opinions/view/${this.id}`;
       },
     },
   }, {

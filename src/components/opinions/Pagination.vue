@@ -206,6 +206,8 @@ export default {
       margin 3px 1px
       outline 0
       border 0
+      z-index 0 !important
+      position inherit
 
       &:after
         display none

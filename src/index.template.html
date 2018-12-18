@@ -13,7 +13,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#EC4D4B">
     <link rel="manifest" href="/manifest.json">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
@@ -23,10 +23,8 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="Expert Opinions on Stock Trading — Stockchase"/>
     <meta property="og:url" content="https://stockchase.com"/>
-    <meta property="og:image" content="IMAGE"/>
+    <meta property="og:image" content="https://stockchase.com/images/sc-ograph.png"/>
     <meta property="og:description" content="Browse a daily summary of experts opinions on stocks and stock investment information."/>
-
-    <script src="/assets/mobile-detect.min.js"></script>
 
     <!-- Facebook Pixel Code -->
     <script>
@@ -113,16 +111,6 @@
       });
     </script>
     <!-- End GPT Async Tag -->
-
-    <!-- TODO now that we change to use adx, do we want to remove this code?  -->
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-      var md = new MobileDetect(window.navigator.userAgent);
-      if (md.mobile()) {
-        window.isMobile = true;
-        (adsbygoogle = window.adsbygoogle || []).push({ google_ad_client: "ca-pub-4241986024094799", enable_page_level_ads: true });
-      }
-    </script>
 
     <style>
       #skip a {  position:absolute;  left:-10000px;  top:auto;  width:1px;  height:1px;  overflow:hidden;  }

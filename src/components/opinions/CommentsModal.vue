@@ -37,7 +37,7 @@
         <vue-disqus
           :shortname="disqusShortName"
           :identifier="disqusIdentifier"
-          :url="item.url"/>
+          :url="absoluteUrl"/>
       </div>
     </div>
 
@@ -66,7 +66,12 @@ export default {
   data () {
     return {
       id: null,
+      origin: '',
     };
+  },
+
+  mounted() {
+    this.origin = window.location.origin
   },
 
   computed: {
@@ -77,12 +82,16 @@ export default {
     },
 
     disqusIdentifier() {
-      return md5(this.item.url)
+      return md5(this.absoluteUrl)
     },
 
     disqusShortName() {
       return c.DISQUS_SHORTNAME
     },
+
+    absoluteUrl() {
+      return `${this.origin}${this.item.url}`
+    }
   },
 
   methods: {
@@ -96,6 +105,7 @@ export default {
     },
 
     onModalHidden (e) {
+      DISQUSWIDGETS.getCount({reset: true})
     },
   }
 }

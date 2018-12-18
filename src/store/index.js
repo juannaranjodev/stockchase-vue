@@ -17,7 +17,6 @@ export function createStore () {
       user: {},
       topPicks: [],
       trendingStocks: [],
-      isMobile: null
     },
     actions,
     mutations,

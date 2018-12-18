@@ -172,6 +172,7 @@ export default {
   text-align center
   background-color #868484
   padding-bottom env(safe-area-inset-bottom)
+  box-sizing initial
 
 @media (max-width 767px)
   .footer

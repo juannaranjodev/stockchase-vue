@@ -34,7 +34,7 @@ export default {
           const pageIndex = Math.floor(index / c.PER_PAGE) + 1
           return {
             ...opinion.toJSON(),
-            url: `/opinions/${date}/${pageIndex}#${opinion.id}`
+            anchor_url: `/opinions/${date}/${pageIndex}#${opinion.id}`
           }
         })
 
@@ -78,9 +78,5 @@ export default {
 
         commit('UPDATE_OPINION', opinion)
       })
-  },
-
-  SET_IS_MOBILE: ({ commit, dispatch, state }, isMobile) => {
-    commit('SET_IS_MOBILE', isMobile)
   },
 }
