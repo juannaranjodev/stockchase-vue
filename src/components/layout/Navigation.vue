@@ -14,7 +14,7 @@
           <a href="/opinions/recent">All Opinions</a>
         </div>
         <div class="link-container">
-          <a href="/market/">Answers</a>
+          <a href="/opinions/market">Market</a>
         </div>
         <div class="link-container">
           <a href="/opinions/recenttop">Top Picks</a>
