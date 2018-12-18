@@ -206,6 +206,8 @@ export default {
       margin 3px 1px
       outline 0
       border 0
+      z-index 0 !important
+      position inherit
 
       &:after
         display none
@@ -274,7 +276,6 @@ export default {
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
-          z-index 0
           &:hover
             cursor inherit
 
