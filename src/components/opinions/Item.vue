@@ -141,7 +141,7 @@
               <img src="~assets/svgs/comment_icon.svg">
               <span
                 class="disqus-comment-count"
-                :data-disqus-identifier="disqusIdentifier">0 Comments</span>
+                :data-disqus-url="absoluteUrl">0 Comments</span>
             </a>
           </div>
         </div>
@@ -232,7 +232,8 @@ export default {
 
   data () {
     return {
-      expanded: false
+      expanded: false,
+      origin: '',
     }
   },
 
@@ -252,8 +253,8 @@ export default {
       return this.toClassName(this.item.Signal.name)
     },
 
-    disqusIdentifier() {
-      return md5(this.paginatedUrl)
+    absoluteUrl() {
+      return `${this.origin}${this.item.url}`
     },
 
     paginatedUrl() {
@@ -338,6 +339,7 @@ export default {
   },
 
   mounted() {
+    this.origin = window.location.origin
     this.initTippy()
   },
 
