@@ -69,10 +69,6 @@ app.use('/', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
-// TODO consider moving non-Vue dependencies like these into an asset pipeline
-// that produces a vendor.js to be loaded in the template <head>
-app.use('/assets/mobile-detect.min.js', serve('./node_modules/mobile-detect/mobile-detect.min.js'))
-
 function render (req, res) {
   const s = Date.now()
 

@@ -36,7 +36,4 @@ export default {
     return state.trendingStocks
   },
 
-  isMobile (state) {
-    return state.isMobile
-  },
 }
