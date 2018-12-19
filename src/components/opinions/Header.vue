@@ -15,7 +15,7 @@
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe">Too many ads? Remove ads !</a>
+        class="subscribe d-none d-md-inline">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -48,6 +48,7 @@ export default {
   flex-wrap wrap
   justify-content space-between
   border-bottom 2px solid #E9E9EA
+  padding 5px 0
 
   &-left, &-right
     display flex
@@ -61,9 +62,8 @@ export default {
     font-size 1.6em
     color #111
     line-height 1.1
-    margin-bottom 0
     white-space nowrap
-    margin 18px 0
+    margin-bottom 0
     margin-right 30px
 
   .link
@@ -72,11 +72,14 @@ export default {
     border-radius 15px
     color black
     line-height 1.1
-    margin-right 10px
+
+    &:not(:last-child)
+      margin-right 10px
 
     &s
       display flex
       align-items center
+      margin 10px 0
 
     &.active
       background #A3A2A2
@@ -87,5 +90,23 @@ export default {
     color black
     text-decoration underline
     font-size 15px
-    margin 15px 0
+
+@media (max-width 767px)
+  .header
+    border-bottom 0
+    padding-top 15px
+    padding-bottom 0
+
+    &-left
+      margin-right 0
+      justify-content center
+      flex-direction column
+      align-items center
+      width 100%
+
+    .title
+      margin-right 0
+    .links
+      margin-bottom 0
+
 </style>

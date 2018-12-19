@@ -4,7 +4,8 @@ import _ from 'lodash'
 
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
-    // If this is an opinion view url, redirect to the correct date & page
+    // /opinions/view/:id or /opinions/market/view/:id
+    // redirects to anchor link
     if (date === 'view') {
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 })
 
@@ -13,13 +14,19 @@ export default {
       })
     }
 
-    if (!page && date !== 'recent') {
+    // /opinions/:date or /opinions/market/:date
+    // redirects to page /1 if :date isn't "recent"
+    if (!page && date && date !== 'recent') {
       return Promise.reject({
         url: type === 'opinions'
           ? `/opinions/${date}/1`
           : `/opinions/market/${date}/1`
       })
     }
+
+    // /opinions/market
+    // shows recent content
+    if (type === 'comments' && !page && !date) date = 'recent'
 
     const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments'
 

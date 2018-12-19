@@ -1,7 +1,7 @@
 <template>
-  <div class="pgntn">
-    <div class="pgntn-left">
-      <ul class="pagination pagination--relaxed">
+  <div :class="{'pgntn': true, 'pgntn--bottom': bottom}">
+    <div :class="{'pgntn-left': true, 'd-none d-md-block': bottom}">
+      <ul class="pagination">
         <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
             <b-dropdown-item
@@ -23,7 +23,7 @@
         </li>
         <li
           v-if="top"
-          class="page-item page-item--plain"
+          class="page-item page-item--plain d-none d-md-block"
         >
           <span>Page {{ currentPage }}/{{ numPages }}</span>
         </li>
@@ -187,11 +187,11 @@ export default {
     margin-right 10px
 
   .pagination
-    margin 10px 0
     display flex
     align-items center
     flex-wrap wrap
     justify-content space-between
+    margin 10px 0
 
     .page-link
       color #25292B !important
@@ -211,17 +211,6 @@ export default {
 
       &:after
         display none
-
-    &--relaxed
-      .page-link
-        margin 3px 5px
-      .page-item:first-child
-        .page-link
-          margin-left 0
-      .page-item:last-child
-        justify-content flex-end
-        .page-link
-          margin-right 0
 
     .page-item
       img
@@ -298,21 +287,13 @@ export default {
 @media (max-width 767px)
   .pgntn
     &-left, &-right
-      margin 0
-      display flex
-      width 100%
+      .pgntn--bottom &
+        margin 0
+        display flex
+        width 100%
+        justify-content center
+
+    &--bottom .pagination
       justify-content center
-
-    .pagination
-      justify-content center
-
-    &-left .pagination
-      display flex
-      flex-direction column
-
-      .page-item--plain
-        margin-left 0
-        margin-top 10px
-        margin-bottom -20px
 
 </style>

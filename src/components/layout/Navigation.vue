@@ -14,7 +14,7 @@
           <a href="/opinions/recent">All Opinions</a>
         </div>
         <div class="link-container">
-          <a href="/market/">Answers</a>
+          <a href="/opinions/market">Market</a>
         </div>
         <div class="link-container">
           <a href="/opinions/recenttop">Top Picks</a>
@@ -174,7 +174,6 @@ export default {
 
 @media (max-width 767px)
   .navigation
-    border 0
-    padding 0 10px 20px
+    padding 0 10px 10px
 
 </style>

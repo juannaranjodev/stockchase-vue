@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <site-header />
-    <site-navigation />
+    <div class="sticky-header-spacer" />
+    <div class="sticky-header">
+      <site-header />
+      <site-navigation />
+    </div>
 
     <div
       class="ad-container d-none d-md-block"
@@ -13,6 +16,16 @@
         <div id='div-gpt-ad-9004875-8' />
         <!-- End AdSlot 8 -->
       </div>
+    </div>
+
+    <div
+      class="ad-container d-md-none"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class='ad'
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
     </div>
 
     <router-view class="view"/>
@@ -91,4 +104,17 @@ body
     max-width 100%
     min-height 90px
     margin 0 auto
+
+@media (max-width 767px)
+  .sticky-header
+    position fixed
+    top 0
+    left 0
+    right 0
+    z-index 9
+    background-color white
+
+    &-spacer
+      height 128px
+      background rgba(248, 248, 248, 0.7)
 </style>

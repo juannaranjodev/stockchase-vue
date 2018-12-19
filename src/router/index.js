@@ -13,7 +13,7 @@ export function createRouter () {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', redirect: '/opinions/recent' },
-      { path: '/opinions/market', redirect: '/opinions/market/recent' },
+      { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
       { path: '/opinions/:date', component: createListView('opinions') },
