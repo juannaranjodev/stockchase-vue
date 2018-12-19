@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="sticky-header-spacer" />
     <div class="sticky-header">
       <site-header />
       <site-navigation />
@@ -112,4 +113,8 @@ body
     right 0
     z-index 9
     background-color white
+
+    &-spacer
+      height 128px
+      background rgba(248, 248, 248, 0.7)
 </style>
