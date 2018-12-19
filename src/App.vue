@@ -15,6 +15,16 @@
       </div>
     </div>
 
+    <div
+      class="ad-container d-md-none"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class='ad'
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
+    </div>
+
     <router-view class="view"/>
     <site-footer />
   </div>
