@@ -174,7 +174,6 @@ export default {
 
 @media (max-width 767px)
   .navigation
-    border 0
-    padding 0 10px 20px
+    padding 0 10px 10px
 
 </style>

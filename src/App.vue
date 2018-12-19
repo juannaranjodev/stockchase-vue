@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <site-header />
-    <site-navigation />
+    <div class="sticky-header">
+      <site-header />
+      <site-navigation />
+    </div>
 
     <div
       class="ad-container d-none d-md-block"
@@ -101,4 +103,13 @@ body
     max-width 100%
     min-height 90px
     margin 0 auto
+
+@media (max-width 767px)
+  .sticky-header
+    position fixed
+    top 0
+    left 0
+    right 0
+    z-index 9
+    background-color white
 </style>
