@@ -44,7 +44,7 @@ router.use(function(req, res, next) {
 
 // Load API routes
 glob.sync('./api/!(index).js').forEach(function(filename) {
-  router.use('/' + path.basename(filename, '.js'), require('./' + path.basename(filename)));
+  router.use('/v2/' + path.basename(filename, '.js'), require('./' + path.basename(filename)));
 });
 
 module.exports = router;
