@@ -4,7 +4,7 @@ export function createAPI () {
   return {
     fetchUser () {
       return $.ajax({
-        url: '/api/users/me',
+        url: '/api/v2/users/me',
         xhrFields: {
           withCredentials: true
         },
@@ -28,7 +28,7 @@ export function createAPI () {
     },
     rateOpinion({ id, rating }) {
       return $.ajax({
-        url: `/api/opinions/${id}/ratings`,
+        url: `/api/v2/opinions/${id}/ratings`,
         method: 'POST',
         data: JSON.stringify({ rating }),
         contentType: 'application/json',
