@@ -36,10 +36,11 @@ export function createAPI () {
 
     async getOpinionUrl (id) {
       const opinion = await Opinion.findById(id)
-      const date = opinion.date
-      const isOpinion = opinion.company_id !== 1970
 
       if (!opinion) return Promise.reject({ code: 404 })
+
+      const date = opinion.date
+      const isOpinion = opinion.company_id !== 1970
 
       const opinions = isOpinion ? await Opinion.getOpinionsByDate(date) : await Opinion.getMarketCommentsByDate(date)
       const opinionIndex = opinions.findIndex(o => o.id == id)
