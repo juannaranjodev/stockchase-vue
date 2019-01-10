@@ -495,8 +495,9 @@ export default {
     flex-direction column
     align-items stretch
     justify-content space-between
-    flex-wrap wrap
     height 100%
+    &-main, &-footer
+      width 100%
     &-cell
       position relative
     &-date
