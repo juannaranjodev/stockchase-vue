@@ -1,12 +1,12 @@
 <template>
-  <tr
+  <div
     class="opinions-row"
     :id="item.id"
-    :class="{'opinions-row--ad d-none d-md-table-row': item.ad}">
-    <td
+    :class="{'opinions-row--ad d-none d-md-flex': item.ad}">
+    <div
       class="signal-cell"
       v-if="!item.ad">
-      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-md-table-cell`">
+      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-md-block`">
         <div class="signal-badge">
           <div
             :class="`${signalClassName}-border`">
@@ -62,10 +62,10 @@
             v-html="item.comment"/>
         </div>
       </div>
-    </td>
+    </div>
 
-    <td
-      :class="{'opinion-cell': true, 'd-none d-md-table-cell': !expanded}"
+    <div
+      :class="{'opinion-cell': true, 'd-none d-md-block': !expanded}"
       v-if="!item.ad">
       <div class="opinion">
         <div class="opinion-main">
@@ -146,10 +146,10 @@
           </div>
         </div>
       </div>
-    </td>
+    </div>
 
-    <td
-      :class="{'expert-cell': true, 'd-none d-md-table-cell': !expanded}"
+    <div
+      :class="{'expert-cell': true, 'd-none d-md-block': !expanded}"
       v-if="!item.ad">
       <a
         :href="item.Expert.url"
@@ -192,15 +192,14 @@
           {{ item.Ownership.name }}
         </div>
       </div>
-    </td>
+    </div>
 
-    <td
-      colspan="3"
+    <div
       class="in-feed-ad-cell"
       v-if="item.ad">
       <opinions-in-feed-ad />
-    </td>
-  </tr>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -378,16 +377,26 @@ export default {
       box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
 
 .opinions-row
+  display flex
+  align-items stretch
+  flex-wrap nowrap
+
   &--ad
     background-color transparent !important
-  td
+
+  & > div
     border 1px solid #ccc
     padding 10px
     text-align left
     background #fcfcfc
-    height 230px
+    min-height 230px
+    border-top-width 0
+    border-left-width 0
 
-  &:hover td
+    &:first-child
+      border-left-width 1px
+
+  &:hover > div
     background #FFFAF1
 
   .signal
@@ -396,6 +405,7 @@ export default {
       position relative
       padding 0
       width 80px
+      flex-shrink 0
     &-wrapper
       width 100%
       min-height 50px
@@ -423,6 +433,7 @@ export default {
       position relative
       padding-top 10px
       width 170px
+      flex-shrink 0
     &-name
       color #4366D0
       font-size 16px
@@ -500,6 +511,8 @@ export default {
       width 100%
     &-cell
       position relative
+      flex-grow 1
+      width 1px
     &-date
       color #ABB3B9
       font-size 16px
@@ -564,9 +577,11 @@ export default {
       margin-right 3px
 
 .in-feed-ad-cell
+  width 100%
   height auto !important
   background-color transparent !important
   padding 0 !important
+
 
 .opinion-mini
   display flex
@@ -579,10 +594,13 @@ export default {
     display flex
     flex-direction column
     width 100px
+    flex-shrink 0
 
   &__right
     border-left 1px solid #E9E9EA
     padding 10px
+    flex-grow 1
+    width 1px
 
   &__logo
     width 100px
@@ -656,6 +674,9 @@ export default {
     align-items center
     justify-content center
 
+    &:hover
+      cursor pointer
+
     &.active
       img
         transform rotate(180deg)
@@ -689,12 +710,18 @@ export default {
     width auto !important
     padding-bottom 25px
 
-    td
+    & > div
       display block
       width auto !important
       height auto
+      min-height 0
       border-color #E9E9EA
+      border-top-width 1px
+      border-left-width 1px
       background-color #F7F7F7 !important
+
+    &:first-child > div
+      border-top-width 0
 
     .signal
       &-cell

@@ -17,17 +17,17 @@
         :type="type"
       />
 
-      <table
+      <div
         class="opinions-table"
         :key="date">
-        <thead>
-          <tr>
-            <th><span>Signal</span></th>
-            <th><span>Opinion</span></th>
-            <th><span>Expert</span></th>
-          </tr>
-        </thead>
-        <tbody>
+        <div class="opinions-table__thead">
+          <div class="opinions-table__tr">
+            <div class="opinions-table__th opinions-table__th--signal"><span>Signal</span></div>
+            <div class="opinions-table__th opinions-table__th--opinion"><span>Opinion</span></div>
+            <div class="opinions-table__th opinions-table__th--expert"><span>Expert</span></div>
+          </div>
+        </div>
+        <div class="opinions-table__tbody">
           <item
             v-for="item in pageItems"
             :key="item.id"
@@ -35,8 +35,8 @@
             :page="currentPage"
             @showComments="showComments"
           />
-        </tbody>
-      </table>
+        </div>
+      </div>
 
       <opinions-link-ad class="d-none d-md-block" />
 
@@ -144,14 +144,37 @@ export default {
   background #fff
   width 100%
 
-  th
+  &__tr
+    display flex
+    flex-wrap nowrap
+
+  &__th
     border 1px solid #ccc
     padding 10px
     text-align left
+    border-top-width 0
+    border-left-width 0
 
-  th
+    &:first-child
+      border-left-width 1px
+
+  &__th
     background #F7F7F7
     font-weight normal
+
+    &--signal
+      width 80px
+      flex-grow 0
+      flex-shrink 0
+
+    &--opinion
+      width 1px
+      flex-grow 1
+
+    &--expert
+      width 170px
+      flex-grow 0
+      flex-shrink 0
 
     span
       color #FF4135
@@ -161,13 +184,12 @@ export default {
     padding 0 10px
 
   .opinions-table
-    display block
     width auto
 
-    thead
+    &__thead
       display none
 
-    tbody
+    &__tbody
       display block
 
 </style>
