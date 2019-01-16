@@ -14,16 +14,6 @@ export default {
       })
     }
 
-    // /opinions/:date or /opinions/market/:date
-    // redirects to page /1 if :date isn't "recent"
-    if (!page && date && date !== 'recent') {
-      return Promise.reject({
-        url: type === 'opinions'
-          ? `/opinions/${date}/1`
-          : `/opinions/market/${date}/1`
-      })
-    }
-
     // /opinions/market
     // shows recent content
     if (type === 'comments' && !page && !date) date = 'recent'

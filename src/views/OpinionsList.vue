@@ -89,9 +89,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date',  'opinions', 'shouldShowAd' ]),
+    ...mapGetters([ 'date',  'opinions', 'shouldShowAd', 'adFree' ]),
 
     pageItems() {
+      if (this.adFree) return this.items
+
       const startIndex = (this.currentPage - 1) * c.PER_PAGE
       const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
       if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
