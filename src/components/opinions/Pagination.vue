@@ -22,7 +22,7 @@
           </b-dropdown>
         </li>
         <li
-          v-if="top"
+          v-if="top && !adFree"
           class="page-item page-item--plain d-none d-md-block"
         >
           <span>Page {{ currentPage }}/{{ numPages }}</span>
@@ -46,7 +46,7 @@
         </li>
 
         <li
-          v-if="bottom"
+          v-if="bottom && !adFree"
           v-for="page in numPages"
           :key="`page_${page}`"
           :class="{'page-item page-item--number': true, active: page === currentPage}"
@@ -99,7 +99,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions' ]),
+    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions', 'adFree' ]),
 
     newerDateUrl() {
       return this.getPaginationUrl(this.newerDate.date, 1)
@@ -129,6 +129,7 @@ export default {
     },
 
     prevPageUrl() {
+      if (this.adFree) return this.newerDateUrl
       return this.getPaginationUrl(this.date, this.prevPage)
     },
 
@@ -137,6 +138,7 @@ export default {
     },
 
     nextPageUrl() {
+      if (this.adFree) return this.olderDateUrl
       return this.getPaginationUrl(this.date, this.nextPage)
     },
 
@@ -147,9 +149,13 @@ export default {
 
   methods: {
     getPaginationUrl(date, page) {
-      return this.type === 'opinions'
-        ? `/opinions/${date}/${page}`
-        : `/opinions/market/${date}/${page}`
+      let url = this.type === 'opinions'
+        ? `/opinions/${date}`
+        : `/opinions/market/${date}`
+
+      if (!this.adFree) url = `${url}/${page}`
+
+      return url
     },
 
     getDateUrl(date) {
