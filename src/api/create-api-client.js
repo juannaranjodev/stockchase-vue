@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 
 // Pass ci_session cookie via Authorization header for caching
 const beforeSend = (xhr) => {
-  const session = Cookies.get('ci_session')
+  const cookies = Cookies.withConverter((value, name) => value)
+  const session = cookies.get('ci_session')
   if (session) xhr.setRequestHeader('Authorization', `Bearer ${session}`)
 }
 

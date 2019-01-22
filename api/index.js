@@ -1,5 +1,4 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const urldecode = require('locutus/php/url/urldecode');
@@ -14,13 +13,14 @@ const router = express.Router();
 router.use(bodyParser.json());
 
 // Extract session data from CodeIgniter ci_session cookie
-router.use(cookieParser(null, { decode: urldecode }), async function(req, res, next) {
-  if (!req.cookies.ci_session || req.cookies.ci_session.length <= 40) return next();
+router.use(async function(req, res, next) {
+  if (!req.headers.authorization) return next();
 
-  var sessionCookie = req.cookies.ci_session;
+  var [scheme, token] = req.headers.authorization.split(' ');
+  if (scheme !== 'Bearer' || !token || token.length <= 40) return next();
 
-  var signature = sessionCookie.slice(-40);
-  var sessionData = sessionCookie.slice(0, -40);
+  var signature = token.slice(-40);
+  var sessionData = urldecode(token.slice(0, -40));
 
   // Return immediately if signature don't match
   var hmac = crypto.createHmac('sha1', process.env.SESSION_KEY).update(sessionData).digest('hex');
