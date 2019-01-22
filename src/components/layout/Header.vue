@@ -3,6 +3,22 @@
     <nav class="inner">
       <div class="inner-left">
         <a
+          v-if="user.premium"
+          class="home"
+          href="/">
+          <img
+            class="d-none d-md-inline"
+            width="45"
+            src="~assets/svgs/logo_premium.svg"
+            alt="logo">
+          <img
+            class="d-md-none"
+            width="42"
+            src="~assets/svgs/logo_premium_red.svg"
+            alt="logo">
+        </a>
+        <a
+          v-else
           class="home"
           href="/">
           <img
@@ -32,6 +48,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import HeaderAuth from './HeaderAuth.vue'
 import HeaderSearch from './HeaderSearch.vue'
 
@@ -41,6 +58,10 @@ export default {
   components: {
     HeaderAuth,
     HeaderSearch
+  },
+
+  computed: {
+    ...mapGetters(['user'])
   },
 }
 </script>

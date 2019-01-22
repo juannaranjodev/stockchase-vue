@@ -69,12 +69,19 @@
         <b-dropdown-item href="/auth/logout">Logout</b-dropdown-item>
         <template slot="button-content">
           <div class="user-dropdown-label">
-            <gravatar
-              class="user-avatar"
-              :email="user.email"
-              :size="50"
-              default-img=""
-            />
+            <div class="user-avatar">
+              <gravatar
+                :class="{'user-avatar__image': true, 'user-avatar__image--premium': user.premium}"
+                :email="user.email"
+                :size="82"
+                default-img=""
+              />
+              <img
+                v-if="user.premium"
+                class="user-avatar__badge"
+                width="24"
+                src="~assets/svgs/badge_premium.svg">
+            </div>
             <span class="user-name d-none d-md-block">{{ user.username }}</span>
             <img
               class="user-dropdown-arrow d-none d-md-inline"
@@ -203,10 +210,22 @@ export default {
       align-items center
 
   &-avatar
-    border-radius 100px
     margin-right 13px
-    width 25px
-    height 25px
+    position relative
+
+    &__image
+      border-radius 100px
+      width 25px
+      height 25px
+
+      &--premium
+        width 41px
+        height 41px
+
+    &__badge
+      position absolute
+      right -4px
+      bottom -8px
 
   &-name
     display block
