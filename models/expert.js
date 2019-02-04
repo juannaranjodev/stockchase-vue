@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     avatar: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return `https://stockchase.s3.amazonaws.com/${this.avatar_path}`;
+        return (this.avatar_path) ? `https://stockchase.s3.amazonaws.com/${this.avatar_path}` : '/images/expert-nopicture.png';
       },
     }
   }, {

@@ -50,7 +50,7 @@ export default {
     const currentIndex = (this.page - 1) * c.PER_PAGE
 
     return {
-      currentIndex: Math.min(currentIndex, this.items.length - c.PER_PAGE),
+      currentIndex: Math.min(currentIndex, (this.items.length > c.PER_PAGE) ? this.items.length - c.PER_PAGE : 0),
       numItems: this.items.length,
     }
   },
