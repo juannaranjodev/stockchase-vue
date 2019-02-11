@@ -11,10 +11,21 @@
       v-if="shouldShowAd"
     >
       <div class="ad">
-        <Adsense
-          data-ad-client="ca-pub-4241986024094799"
-          data-ad-slot="5979276843"/>
+        <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
+        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
+        <div id='div-gpt-ad-9004875-8' />
+        <!-- End AdSlot 8 -->
       </div>
+    </div>
+
+    <div
+      class="ad-container d-md-none"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class='ad'
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
     </div>
 
     <router-view class="view"/>
@@ -44,6 +55,14 @@ export default {
       // Init OptinMonster for non-logged-in users
       if (user.loaded && !user.id) this.initOptinMonster()
     },
+
+    shouldShowAd(should) {
+      if (!should) return
+
+      this.$nextTick(() => {
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-8') })
+      })
+    }
   },
 
   methods: {
