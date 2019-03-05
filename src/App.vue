@@ -62,8 +62,7 @@ export default {
 @import './assets/css/signal.css'
 
 body
-  font-family Lato, sans-serif;
-  font-size 14px
+  font normal 14px Lato, sans-serif
   line-height 1.42857143
   background-color #fff
   margin 0
