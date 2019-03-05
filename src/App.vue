@@ -64,6 +64,7 @@ export default {
 body
   font-family Lato, sans-serif;
   font-size 14px
+  line-height 1.42857143
   background-color #fff
   margin 0
   padding 0

@@ -7,17 +7,17 @@
             <discover />
           </div>
           <div class="overview-section__block">
-            <h1>STOCK PICKS @MARKETCALL</h1>
+            <market-call />
           </div>
         </div>
 
         <div class="overview-section__right">
           <div class="overview-section__block">
-            <h1>Sign up now</h1>
+            <sign-up />
           </div>
 
           <div class="overview-section__block">
-            <h1>Best stock ideas</h1>
+            <premium />
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
       <div class="overview-section overview-section--with-ad">
         <div class="overview-section__left">
           <div class="overview-section__block">
-            <h1>STOCKS IN THE NEWS</h1>
+            <in-the-news />
           </div>
         </div>
 
@@ -35,7 +35,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <opinions-link-ad />
@@ -51,6 +50,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import Discover from '../components/home/Discover.vue'
+import MarketCall from '../components/home/MarketCall.vue'
+import SignUp from '../components/home/SignUp.vue'
+import Premium from '../components/home/Premium.vue'
+import InTheNews from '../components/home/InTheNews.vue'
 import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
 import OpinionsDianomiAd from '../components/opinions/DianomiAd.vue'
 
@@ -59,6 +62,10 @@ export default {
 
   components: {
     Discover,
+    MarketCall,
+    SignUp,
+    Premium,
+    InTheNews,
     OpinionsLinkAd,
     OpinionsDianomiAd,
   },
@@ -114,9 +121,7 @@ export default {
         margin-left 40px
 
     &__block
-      height 300px
       width 100%
-      background-color rgba(0,0,0,0.1)
 
       &:not(:last-child):not(:only-child)
         margin-bottom 15px
