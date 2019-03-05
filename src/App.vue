@@ -74,6 +74,9 @@ body
   margin 0 auto
   position relative
 
+*
+  transition all 200ms ease-in-out
+
 </style>
 
 <style lang="stylus" scoped>
