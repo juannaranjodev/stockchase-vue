@@ -197,7 +197,7 @@
     <div
       class="in-feed-ad-cell"
       v-if="item.ad">
-      <opinions-in-feed-ad />
+      <in-feed-ad />
     </div>
   </div>
 </template>
@@ -206,7 +206,7 @@
 import { timeAgo } from '../../util/filters'
 import { getRatingImage } from '../../util/rating'
 import UserReactions from './UserReactions.vue'
-import OpinionsInFeedAd from './InFeedAd.vue'
+import InFeedAd from '../ads/InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
 import { mapGetters } from 'vuex'
@@ -238,7 +238,7 @@ export default {
 
   components: {
     UserReactions,
-    OpinionsInFeedAd,
+    InFeedAd,
   },
 
   computed: {

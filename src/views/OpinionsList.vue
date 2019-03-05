@@ -6,7 +6,7 @@
       :items="items"
       :page="currentPage"
     />
-    <opinions-link-ad />
+    <link-ad />
     <opinions-summary
       v-if="!isOpinions"
       :items="items" />
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <opinions-link-ad class="d-none d-md-block" />
+      <link-ad class="d-none d-md-block" />
 
       <opinions-pagination
         bottom
@@ -46,8 +46,8 @@
       />
     </div>
 
-    <opinions-dianomi-ad />
-    <opinions-link-ad class="d-none d-md-block" />
+    <dianomi-ad />
+    <link-ad class="d-none d-md-block" />
 
     <comments-modal ref="commentsModal" />
   </div>
@@ -61,8 +61,8 @@ import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
 import OpinionsSlider from '../components/opinions/Slider.vue'
 import OpinionsSummary from '../components/opinions/Summary.vue'
-import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
-import OpinionsDianomiAd from '../components/opinions/DianomiAd.vue'
+import LinkAd from '../components/ads/LinkAd.vue'
+import DianomiAd from '../components/ads/DianomiAd.vue'
 import OpinionsPagination from '../components/opinions/Pagination.vue'
 import Item from '../components/opinions/Item.vue'
 import CommentsModal from '../components/opinions/CommentsModal.vue'
@@ -79,10 +79,10 @@ export default {
 
   components: {
     OpinionsHeader,
-    OpinionsLinkAd,
+    LinkAd,
     OpinionsSlider,
     OpinionsSummary,
-    OpinionsDianomiAd,
+    DianomiAd,
     OpinionsPagination,
     Item,
     CommentsModal,

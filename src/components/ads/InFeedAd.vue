@@ -17,7 +17,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'OpinionsInFeedAd',
+  name: 'InFeedAd',
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),

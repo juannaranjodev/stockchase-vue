@@ -31,19 +31,19 @@
 
         <div class="overview-section__right d-none d-md-block">
           <div class="overview-section__block">
-            <h1>Ads</h1>
+            <side-ad />
           </div>
         </div>
       </div>
     </div>
 
-    <opinions-link-ad />
+    <link-ad />
     <h1>Latest Stock Opinions and Top Picks from Market Call Guests</h1>
     <hr>
     <h1>TODAY'S MARKET OUTLOOK</h1>
     <hr>
-    <opinions-dianomi-ad />
-    <opinions-link-ad class="d-none d-md-block" />
+    <dianomi-ad />
+    <link-ad class="d-none d-md-block" />
   </div>
 </template>
 
@@ -54,8 +54,9 @@ import MarketCall from '../components/home/MarketCall.vue'
 import SignUp from '../components/home/SignUp.vue'
 import Premium from '../components/home/Premium.vue'
 import InTheNews from '../components/home/InTheNews.vue'
-import OpinionsLinkAd from '../components/opinions/LinkAd.vue'
-import OpinionsDianomiAd from '../components/opinions/DianomiAd.vue'
+import LinkAd from '../components/ads/LinkAd.vue'
+import SideAd from '../components/ads/SideAd.vue'
+import DianomiAd from '../components/ads/DianomiAd.vue'
 
 export default {
   name: 'Home',
@@ -66,8 +67,9 @@ export default {
     SignUp,
     Premium,
     InTheNews,
-    OpinionsLinkAd,
-    OpinionsDianomiAd,
+    LinkAd,
+    DianomiAd,
+    SideAd,
   },
 
   asyncData ({ store, route }) {
