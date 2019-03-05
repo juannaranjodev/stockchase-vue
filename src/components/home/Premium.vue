@@ -43,6 +43,7 @@ export default {
     p
       font-size 16.5px
       letter-spacing 0.3px
+      line-height normal
 
   &__link
     color white
