@@ -16,10 +16,10 @@
               alt="logo">
           </a>
         </div>
-        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/((?!market).)*/) }">
+        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/(?!market)/) }">
           <a href="/opinions/recent">All Opinions</a>
         </div>
-        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/market\/.*/) }">
+        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/market/) }">
           <a href="/opinions/market">Market</a>
         </div>
         <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/recenttop/) }">
@@ -46,13 +46,13 @@
     </nav>
     <nav class="inner inner--sm d-md-none">
       <a
-        :class="{ link: true, active: isActive(/^\/opinions\/((?!market).)*/) }"
+        :class="{ link: true, active: isActive(/^\/opinions\/(?!market)/) }"
         href="/opinions/recent">
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
       <a
-        :class="{ link: true, active: isActive(/^\/opinions\/market\/.*/) }"
+        :class="{ link: true, active: isActive(/^\/opinions\/market/) }"
         href="/company">
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
