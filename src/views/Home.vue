@@ -112,13 +112,13 @@ export default {
 
     &--with-ad
       .overview-section__left
-        flex-grow 1
         flex 1
         width auto
 
       .overview-section__right
         width 300px
         margin-left 40px
+        flex-shrink 0
 
     &__block
       width 100%
