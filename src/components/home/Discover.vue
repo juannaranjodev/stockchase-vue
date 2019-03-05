@@ -1,7 +1,8 @@
 <template>
   <div class="discover">
     <div class="discover-list">
-      <div
+      <a
+        href="#"
         class="discover-item"
       >
         <div class="discover-item__image">
@@ -13,16 +14,12 @@
           >
         </div>
         <div class="discover-item__content">
-          <a
-            href="#"
-            class="discover-item__link"
-          >
-            <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-            <span class="discover-item__excerpt">- Some excerpt here Some excerpt here</span>
-          </a>
+          <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
+          <span class="discover-item__excerpt"> - Some excerpt here Some excerpt here</span>
         </div>
-      </div>
-      <div
+      </a>
+      <a
+        href="#"
         class="discover-item"
       >
         <div class="discover-item__image">
@@ -34,16 +31,12 @@
           >
         </div>
         <div class="discover-item__content">
-          <a
-            href="#"
-            class="discover-item__link"
-          >
-            <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-            <span class="discover-item__excerpt">- Some excerpt here Some excerpt here</span>
-          </a>
+          <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
+          <span class="discover-item__excerpt"> - Some excerpt here Some excerpt here</span>
         </div>
-      </div>
-      <div
+      </a>
+      <a
+        href="#"
         class="discover-item"
       >
         <div class="discover-item__image">
@@ -55,15 +48,10 @@
           >
         </div>
         <div class="discover-item__content">
-          <a
-            href="#"
-            class="discover-item__link"
-          >
-            <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-            <span class="discover-item__excerpt">- Some excerpt here Some excerpt here</span>
-          </a>
+          <span class="discover-item__title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
+          <span class="discover-item__excerpt"> - Some excerpt here Some excerpt here</span>
         </div>
-      </div>
+      </a>
     </div>
     <div class="discover-footer">
       <a
@@ -88,12 +76,15 @@ export default {
 .discover
   &-list
     display block
+
   &-item
     display flex
     align-items center
     flex-wrap nowrap
     padding 15px 0
     border-bottom 1px solid #D9D9D9
+    color #1B475E !important
+    text-decoration none
 
     &__image
       width 88px
@@ -105,11 +96,6 @@ export default {
 
     &__content
       flex 1
-
-    &__link
-      display block
-      color #1B475E !important
-      text-decoration none
       font-size 18.5px
       line-height 1.5
       overflow hidden
