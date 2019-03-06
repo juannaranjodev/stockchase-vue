@@ -38,7 +38,7 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => {}
+      default: () => ({})
     },
     page: {
       type: Number,

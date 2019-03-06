@@ -1,49 +1,55 @@
 <template>
-  <div class="container">
-    <div class="overview">
-      <div class="overview-section">
-        <div class="overview-section__left">
-          <div class="overview-section__block">
-            <discover />
+  <div class="home-container">
+    <div class="container">
+      <div class="overview">
+        <div class="overview-section">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <discover />
+            </div>
+            <div class="overview-section__block">
+              <market-call />
+            </div>
           </div>
-          <div class="overview-section__block">
-            <market-call />
+
+          <div class="overview-section__right">
+            <div class="overview-section__block">
+              <sign-up />
+            </div>
+
+            <div class="overview-section__block">
+              <premium />
+            </div>
           </div>
         </div>
 
-        <div class="overview-section__right">
-          <div class="overview-section__block">
-            <sign-up />
+        <div class="overview-section overview-section--with-ad">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <in-the-news />
+            </div>
           </div>
 
-          <div class="overview-section__block">
-            <premium />
+          <div class="overview-section__right d-none d-md-block">
+            <div class="overview-section__block">
+              <side-ad />
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="overview-section overview-section--with-ad">
-        <div class="overview-section__left">
-          <div class="overview-section__block">
-            <in-the-news />
-          </div>
-        </div>
-
-        <div class="overview-section__right d-none d-md-block">
-          <div class="overview-section__block">
-            <side-ad />
-          </div>
-        </div>
-      </div>
+      <link-ad />
     </div>
 
-    <link-ad />
-    <h1>Latest Stock Opinions and Top Picks from Market Call Guests</h1>
-    <hr>
-    <h1>TODAY'S MARKET OUTLOOK</h1>
-    <hr>
-    <dianomi-ad />
-    <link-ad class="d-none d-md-block" />
+    <div class="home-divider" />
+
+    <div class="container">
+      <market-call-guests />
+      <market-outlook />
+
+      <dianomi-ad />
+      <link-ad class="d-none d-md-block" />
+    </div>
   </div>
 </template>
 
@@ -51,6 +57,8 @@
 import { mapGetters } from 'vuex'
 import Discover from '../components/home/Discover.vue'
 import MarketCall from '../components/home/MarketCall.vue'
+import MarketCallGuests from '../components/home/MarketCallGuests.vue'
+import MarketOutlook from '../components/home/MarketOutlook.vue'
 import SignUp from '../components/home/SignUp.vue'
 import Premium from '../components/home/Premium.vue'
 import InTheNews from '../components/home/InTheNews.vue'
@@ -64,6 +72,8 @@ export default {
   components: {
     Discover,
     MarketCall,
+    MarketCallGuests,
+    MarketOutlook,
     SignUp,
     Premium,
     InTheNews,
@@ -95,8 +105,16 @@ export default {
   box-sizing border-box
   width 1140px
   max-width 100%
-  padding 0 20px 20px
+  padding 0 20px
   margin 0 auto
+
+  &:not(:first-child)
+    padding-top 15px
+
+.home-divider
+  background-color #D9D9D9
+  height 2px
+  width 100%
 
 .overview
   &-section

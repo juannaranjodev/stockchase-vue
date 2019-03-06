@@ -69,11 +69,6 @@ body
   padding 0
   color #555
 
-.view
-  max-width 800px
-  margin 0 auto
-  position relative
-
 *
   transition all 200ms ease-in-out
 
@@ -83,6 +78,8 @@ body
 .ad-container
   padding 20px 0
   background rgba(248, 248, 248, 0.7)
+  border-bottom 1px solid #D9D9D9
+
   .ad
     width 728px
     max-width 100%

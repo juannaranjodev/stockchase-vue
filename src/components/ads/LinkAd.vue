@@ -4,7 +4,7 @@
       class="ad-container d-none d-md-block"
       v-if="shouldShowAd">
       <Adsense
-        class='ad'
+        class="ad"
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="3572899802"/>
     </div>
