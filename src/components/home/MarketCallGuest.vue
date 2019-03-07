@@ -13,74 +13,36 @@
             >
           </a>
         </div>
-        <div class="guest__opinions">
-          <div class="guest__opinions-header">
-            <div class="guest__opinions-timestamp">
-              <div class="guest__opinions-day">THU</div>
-              <div class="guest__opinions-date"><span>Feb 21</span></div>
+        <div class="opinions">
+          <div class="opinions__header">
+            <div class="opinions__timestamp">
+              <div class="opinions__day">THU</div>
+              <div class="opinions__date"><span>Feb 21</span></div>
             </div>
 
-            <div class="guest__opinions-expert">
-              <div class="guest__opinions-expert-name">
+            <div class="opinions__expert">
+              <div class="opinions__expert-name">
                 <a href="#">Chris Stuchberry</a>
               </div>
-              <div class="guest__opinions-expert-company">
+              <div class="opinions__expert-company">
                 NORTH AMERICAN - LARGE & GLOBAL EQUITIES
               </div>
             </div>
           </div>
-          <div
+          <market-call-guest-opinion
             v-for="index in 7"
             :key="index"
-            class="guest__opinion"
-          >
-            <div class="guest__opinion-figure">
-              <a
-                class="guest__opinion-company-logo"
-                href="#">
-                <img src="~assets/images/stock-nologo.png">
-              </a>
-              <div class="guest__opinion-signal">
-                <div class="guest__opinion-signal-badge buy buy-border" />
-              </div>
-            </div>
-            <div class="guest__opinion-content">
-              <div class="guest__opinion-company">
-                <a
-                  class="guest__opinion-company-name"
-                  href="#">
-                  BMO Tactical Dividend BMO Tactical Dividend BMO Tactical Dividend
-                </a>
-                <a
-                  class="guest__opinion-company-symbol"
-                  href="#">
-                  <span>[ZZZD-T]</span>
-                </a>
-              </div>
-              <div class="guest__opinion-text">
-                <a
-                  class="guest__opinion-text-link"
-                  href="#">
-                  What happens when governments stop buying What happens when governments stop buying
-                </a>
-                <a
-                  class="guest__opinion-text-more"
-                  href="#">
-                  <span>read more</span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="guest__opinions-footer">
+          />
+          <div class="opinions__footer">
             <a
               href="#"
-              class="guest__opinions-read-all-link"
+              class="opinions__read-all-link"
             >
               Read all from Larry Berman CFA, CMT, CTA (2)
             </a>
             <a
               href="#"
-              class="guest__opinions-read-all-button"
+              class="opinions__read-all-button"
             >
               <span>All Opinions</span>
               <img
@@ -92,11 +54,39 @@
         </div>
       </div>
       <div class="guest__section-right">
-        right
-        <br>
-        <br>
-        <br>
-        <br>
+        <div class="top-picks">
+          <div class="top-picks__header">
+            <div class="top-picks__title">Top Picks</div>
+            <div class="top-picks__image">
+              <img
+                src="~assets/svgs/top-pick-star.svg"
+                width="20"
+                height="20"
+              >
+            </div>
+          </div>
+          <market-call-guest-opinion
+            v-if="guest.hasTopPicks"
+            v-for="index in 3"
+            :key="index"
+            :is-top-pick="true"
+            class="opinion opinion--top-pick"
+          />
+        </div>
+
+        <div class="discover">
+          <a class="discover__image">
+            <img src="~assets/images/questrade-best-canadian-brokerage.png">
+          </a>
+          <div class="discover__content">
+            <span class="discover__text">Still trying to choose between Questrade versus another trading app? Look at these RedFlagDeals and Twitter po...</span>
+            &nbsp;
+            <a
+              href="#"
+              class="discover__more"
+            >read more</a>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -113,6 +103,8 @@
 </template>
 
 <script>
+import MarketCallGuestOpinion from './MarketCallGuestOpinion.vue'
+
 export default {
   name: 'HomeMarketCallGuest',
   props: {
@@ -124,6 +116,9 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  components: {
+    MarketCallGuestOpinion
   },
 }
 </script>
@@ -137,6 +132,7 @@ export default {
     align-items stretch
     flex-wrap nowrap
     margin-bottom 25px
+    min-width 0
 
     &--rating
       border-radius 0
@@ -146,7 +142,8 @@ export default {
       border-right 1px solid #E8E8E8
       display flex
       align-items stretch
-      width 68%
+      flex 1
+      min-width 0
 
       .guest-section--rating &
         border 1px solid #E8E8E8
@@ -155,6 +152,10 @@ export default {
       width 32%
       flex-shrink 0
       flex-grow 0
+      min-width 0
+      display flex
+      flex-direction column
+      align-items stretch
 
   &__avatar
     flex-grow 0
@@ -178,184 +179,126 @@ export default {
       border-radius 5px
       background-color #EEEBEB
 
-  &__opinion
+.opinions
+  flex 1
+  overflow hidden
+
+  &__header, &__footer
     height 75px
     padding 0 15px
-    border-bottom 1px solid #E8E8E8
+
+  &__header
     display flex
     align-items center
+    background-color #F9F6F6
+    border-bottom 1px solid #E8E8E8
+
+  &__footer
+    display flex
+    align-items center
+    justify-content space-between
 
     &:hover
       background-color #F9F6F6
 
-    &-figure
-      width 75px
-      display flex
-      align-items center
-      position relative
-      flex-grow 0
-      flex-shrink 0
+  &__timestamp
+    width 75px
+    flex-grow 0
+    flex-shrink 0
+    font-size 18px
+    font-weight bold
+    color black
 
-    &-company-logo
-      width 47px
-      height 47px
-      border-radius 5px
-      border 1px solid #ccc
-      background white
-      position relative
-      display block
+  &__day
+    text-transform uppercase
+    letter-spacing 6px
 
-      img
-        position absolute
-        top 0
-        left 0
-        right 0
-        bottom 0
-        margin auto
-        max-width 85%
-        max-height 85%
-        width auto
-        height auto
+  &__date
+    span
+      font-size 14px
 
-    &-signal
-      position absolute
-      left 35px
-      top 50%
-      margin-top 2px
+  &__expert
+    flex 1
+    font-size 18px
+    color black
 
-      &-badge
-        width 22px
-        height 22px
-        border-radius 22px
+    &-name
+      a
+        color inherit
+        font-weight bold
 
-    &-content
-      flex 1
-      overflow hidden
+  &__read-all
+    &-link
+      font-size 16px
+      font-weight bolder
+      text-decoration underline
+      color black
 
-    &-company
-      margin-right 70px
+    &-button
+      margin-left 10px
+      cursor pointer
+      padding 0 15px
+      border-radius 35px
+      border 1px solid #FF5030
+      background #FF5030
+      color white !important
+      height 35px
+      line-height 35px
       display flex
       align-items center
 
-      &-name
-        color black
-        font-size 22px
-        font-weight bold
-        text-transform uppercase
-        text-overflow ellipsis
-        white-space nowrap
-        overflow hidden
+      span
+        margin-right 10px
 
-      &-symbol
-        color #ADB2C1
-        font-weight bold
-        margin-left 5px
-        white-space nowrap
-        flex-shrink 0
+      &:hover
+        background #FF2E50
+        color white
 
-        span
-          font-size 18px
+.top-picks
+  flex-grow 0
+  flex-shrink 0
 
-    &-text
-      display flex
-      align-items center
+  &__header
+    height 75px
+    padding 0 15px
+    display flex
+    align-items center
+    background-color #F9F6F6
+    border-bottom 1px solid #E8E8E8
+    border-top-right-radius 4px
 
-      &-link
-        font-size: 16px
-        color #403F3F
-        font-weight 400
-        text-overflow ellipsis
-        white-space nowrap
-        overflow hidden
+  &__title
+    font-size 18px
+    color black
 
-        .guest__opinion:hover &
-          background-color rgb(216, 216, 216)
-          text-decoration underline
+  &__image
+    display flex
+    margin-left 10px
 
-      &-more
-        font-size 16px
-        color red
-        margin-left 5px
-        white-space nowrap
-        flex-shrink 0
+.discover
+  padding 20px
+  display flex
+  flex-direction column
+  justify-content center
+  flex 1
 
-        span
-          font-size 14px
+  &__image
+    display flex
 
-    &s
-      flex 1
-      overflow hidden
+    img
+      width 100%
+      height 100%
 
-      &-header, &-footer
-        height 75px
-        padding 0 15px
+  &__content
+    font-weight lighter
+    font-size 14px
+    margin-top 5px
 
-      &-header
-        display flex
-        align-items center
-        background-color #F9F6F6
-        border-bottom 1px solid #E8E8E8
+  &__text
+    color black
 
-      &-footer
-        display flex
-        align-items center
-        justify-content space-between
-
-        &:hover
-          background-color #F9F6F6
-
-      &-timestamp
-        width 75px
-        flex-grow 0
-        flex-shrink 0
-        font-size 18px
-        font-weight bold
-        color black
-
-      &-day
-        text-transform uppercase
-        letter-spacing 6px
-
-      &-date
-        span
-          font-size 14px
-
-      &-expert
-        flex 1
-        font-size 18px
-        color black
-
-        &-name
-          a
-            color inherit
-            font-weight bold
-
-      &-read-all
-        &-link
-          font-size 16px
-          font-weight bolder
-          text-decoration underline
-          color black
-
-        &-button
-          margin-left 10px
-          cursor pointer
-          padding 0 15px
-          border-radius 35px
-          border 1px solid #FF5030
-          background #FF5030
-          color white !important
-          height 35px
-          line-height 35px
-          display flex
-          align-items center
-
-          span
-            margin-right 10px
-
-          &:hover
-            background #FF2E50
-            color white
-
+  &__more
+    color red
+    text-decoration underline
 
 </style>
