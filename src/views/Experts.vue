@@ -8,23 +8,27 @@
       <card-view 
         v-for="(expert, index) in getFirstExpertRow"
         :key="index"
+        :expert="true"
         image-size="small"
         :image-src="expert.avatar"
         :name="expert.name"
         :title="expert.name"
         :sub-title="expert.TITLE + ' at ' + expert.COMPANY"
         :footnote="expert.total_opinion + ' opinions'"
+        :social-links="expert.social_links"
       />
       <!-- ad here -->
       <card-view
         v-for="(expert, index) in getTheRestOfExperts"
         :key="index"
+        :expert="true"
         image-size="small"
         :image-src="expert.avatar"
         :name="expert.name"
         :title="expert.name"
         :sub-title="expert.TITLE + ' at ' + expert.COMPANY"
         :footnote="expert.total_opinion + ' opinions'"
+        :social-links="expert.social_links"
       />
     </div>
   </div>
@@ -45,6 +49,9 @@ const dummy = { // I'll just use this until I fully understand Store:actions, ge
       COMPANY:"Lorne Steinberg Wealth Management Inc",
       total_opinion:704,
       avatar:"experts/1305/steinberg-lorne.png",
+      social_links: { // this is only for sample purposes. data could be of different structure
+        facebook: 'https://www.facebook.com',
+      }
     },
     {
       id:1392, // as the key

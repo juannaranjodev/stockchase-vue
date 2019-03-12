@@ -1,13 +1,27 @@
 <template>
   <div class="card-view">
     <div class="card-info">
-      <div :class="'card-picture '+imageSize">
+      <div :class="`card-picture ${imageSize}`">
         <img 
-          :src="'https://stockchase.s3.amazonaws.com/'+imageSrc"
+          :src="`https://stockchase.s3.amazonaws.com/${imageSrc}`"
         >
       </div>
       <h6>{{ title }}</h6>
       <p>{{ subTitle }}</p>
+      <ul
+        class="card-social-links"
+        v-if="expert"
+      >
+        <li :class="hasTwitterUrl">
+          <a :href="getTwitterUrl"><i class="icon icon-twitter"/></a>
+        </li>
+        <li :class="hasLinkedInUrl">
+          <a :href="getLinkedInUrl"><i class="icon icon-linkedin"/></a>
+        </li>
+        <li :class="hasFacebookUrl">
+          <a :href="getFacebookUrl"><i class="icon icon-facebook"/></a>
+        </li>
+      </ul>
     </div>
     <div class="card-footnote">
       {{ footnote }}
@@ -38,8 +52,37 @@ export default {
     footnote: {
       type: String,
       default: '`footnote` here',
+    },
+    expert: {
+      type: Boolean,
+      default: false,
+    },
+    socialLinks: {
+      type: Object,
+      default: null
     }
   },
+
+  computed: {
+    getTwitterUrl(){
+      return this.socialLinks && this.socialLinks.twitter ? this.socialLinks.twitter : ''
+    },
+    getLinkedInUrl(){
+      return this.socialLinks && this.socialLinks.linkedin ? this.socialLinks.linkedin : ''
+    },
+    getFacebookUrl(){
+      return this.socialLinks && this.socialLinks.facebook ? this.socialLinks.facebook : ''
+    },
+    hasTwitterUrl(){
+      return this.socialLinks && this.socialLinks.twitter ? 'has-link' : null
+    },
+    hasLinkedInUrl(){
+      return this.socialLinks && this.socialLinks.linkedin ? 'has-link' : null
+    },
+    hasFacebookUrl(){
+      return this.socialLinks && this.socialLinks.facebook ? 'has-link' : null
+    }
+  }
 }
 </script>
 
@@ -49,6 +92,24 @@ export default {
     min-height 290px
     padding 10px
     text-align center
+  &-social-links
+    padding 0
+    list-style none
+    text-align center
+    position relative
+    li
+      display inline-block
+      vertical-align middle
+      margin 0 6px
+      a
+        text-decoration none
+        display inline-block
+        pointer-events none
+        opacity 0.1
+    li.has-link
+      a
+        pointer-events initial
+        opacity 1
   &-view
     border 1px solid #E9E9EA
     width 18%
@@ -108,5 +169,23 @@ export default {
     box-sizing border-box
     text-decoration none
     font-weight bold
+.icon
+  width 20px
+  height 20px
+  display block
+  &:after
+    content ''
+    width 100%
+    height 100%
+    background-position center
+    background-size contain
+    background-repeat no-repeat
+    display block
+  &-twitter:after
+    background-image url('/assets/svg/social-twitter.svg')
+  &-linkedin:after
+    background-image url('/assets/svg/social-linkedin.svg')
+  &-facebook:after
+    background-image url('/assets/svg/social-facebook.svg')
 </style>
 

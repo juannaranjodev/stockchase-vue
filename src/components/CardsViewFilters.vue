@@ -27,7 +27,7 @@
       <div class="col-md-4">
         <select class="filters-listby">
           <option 
-            v-for="option in orderBy" 
+            v-for="option in sortedOptions" 
             :key="option"
             :value="option">{{ option }}</option>
         </select>
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     ...mapGetters(['shouldShowAd']),
-    orderBy: () => {
+    sortedOptions: () => {
       return [
         'Most Recent',
         '0-9',
@@ -156,13 +156,13 @@ export default {
       content ''
       clear both
       display block
-    > .col-md-4
+    & > .col-md-4
       float left
-    > .col-md-4:first-child
+    & > .col-md-4:first-child
       padding-left 0
-    > .col-md-4:nth-child(2)
+    & > .col-md-4:nth-child(2)
       padding-right 0
       text-align right
-    > .col-md-4:last-child
+    & > .col-md-4:last-child
       padding-right 0
 </style>
