@@ -3,6 +3,7 @@
     <cards-view-filters 
       :title="title" 
       :search-placeholder="searchPlaceholder"
+      target-search="experts"
     />
     <div class="experts">
       <card-view 
@@ -87,11 +88,6 @@ export default {
       return dummy.experts.length >= 5 ? dummy.experts.slice(5) : []
     },
   },
-  methods: {
-    expertSearch: () => {
-      console.log('test')
-    },
-  }
 }
 </script>
 

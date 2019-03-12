@@ -36,15 +36,15 @@
         <div class="filters-search">
           <input
             type="text"
-            name="search"
+            ref="search"
             :placeholder="searchPlaceholder"
             autocomplete="off"
           >
-          <!-- <button 
+          <button 
             class="btn-search"
-            @click="expertSearch">
+            @click="submitSearch">
             <i class="icon icon-search"/>
-          </button> -->
+          </button>
         </div>
       </div>
     </div>
@@ -65,6 +65,10 @@ export default {
     searchPlaceholder: {
       type: String,
       default: 'Filter by ...'
+    },
+    targetSearch: {
+      type: String,
+      default: 'experts'
     }
   },
   computed: {
@@ -77,7 +81,12 @@ export default {
     },
   },
   methods: {
-    ...this.$parent
+    submitSearch(){
+      if(this.$refs.search.value.length > 3){
+        console.log(this.$refs.search.value);
+        // do something here
+      }
+    }
   },
 }
 </script>
@@ -122,7 +131,7 @@ export default {
       border 1px solid rgba(0,0,0,0.1)
       padding 7px 20px 7px 10px
       cursor pointer
-      background-image url(/images/arrow-down.png)
+      background-image url(/assets/arrow-down.png)
       background-position center right
       background-size 15px
       background-repeat no-repeat
@@ -165,4 +174,8 @@ export default {
       text-align right
     & > .col-md-4:last-child
       padding-right 0
+.icon
+  &-search:after{
+    background-image url(/assets/lens.png)
+  }
 </style>

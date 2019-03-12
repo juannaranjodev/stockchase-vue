@@ -18,7 +18,7 @@ export function createRouter () {
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
-      { path: '/expert', component: () => import('../views/Experts.vue') },
+      { path: '/experts', component: () => import('../views/Experts.vue') },
     ]
   })
 }
