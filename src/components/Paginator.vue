@@ -1,17 +1,25 @@
 <template>
   <section
-    v-if="totalItems > 0"
+    v-if="totalItems > 25"
     class="paginator">
     <ul>
-      <li class="first">
-        <button class="btn"/>
+      <li 
+        class="first" 
+        :class="isFirst">
+        <button
+          class="btn" 
+          :disabled="isFirst"/>
       </li>
-      <li class="prev">
-        <button class="btn"/>
+      <li 
+        class="prev"
+        :class="hasPrev">
+        <button
+          class="btn"
+          :disabled="hasPrev"/>
       </li>
       <li
         class="items"
-        v-for="n in maxPage"
+        v-for="n in generatePageNumbers"
         :key="n">
         <a 
           href="#"
@@ -19,11 +27,19 @@
           {{ n }}
         </a>
       </li>
-      <li class="next">
-        <button class="btn"/>
+      <li 
+        class="next"
+        :class="hasNext">
+        <button
+          class="btn"
+          :disabled="hasNext"/>
       </li>
-      <li class="last">
-        <button class="btn"/>
+      <li
+        class="last"
+        :class="isLast">
+        <button
+          class="btn"
+          :disabled="isLast"/>
       </li>
     </ul>
   </section>
@@ -37,25 +53,55 @@ export default {
       type: Number,
       default: 1
     },
-    startPage: {
-      type: Number,
-      default: 4
-    },
     totalItems: {
       type: Number,
-      default: 1
+      default: 70
     },
     maxPage: {
       type: Number,
       default: 5
-    }
+    },
+    itemsPerPage: {
+      type: Number,
+      default: 25
+    },
   },
   computed: {
-    
+    totalPages(){
+      return Math.ceil(this.totalItems / this.itemsPerPage)
+    },
+    maxArrayLength(){
+      return (this.totalPages < this.maxPage)? this.totalPages : this.maxPage
+    },
+    centerPage(){
+      return Math.floor(this.maxArrayLength / 2)
+    },
+    startIndex(){
+      return (this.currentPage > (this.totalPages - this.centerPage))?
+        this.totalPages - (this.maxArrayLength - 1) :
+        this.currentPage - this.centerPage
+    },
+    isFirst(){
+      return (this.currentPage < (this.totalPages / 2) || this.totalPages < this.maxPage)? 'disabled' : null;
+    },
+    hasPrev(){
+      return this.currentPage < 2 ? 'disabled' : null;
+    },
+    generatePageNumbers(){
+      return Array.from(Array(this.maxArrayLength), (x, index) => {
+        var currentIndex = index + this.startIndex;
+        return (this.startIndex > 0)? currentIndex : index + 1;
+      })
+    },
+    hasNext(){
+      return this.currentPage > (this.totalPages - 1) ? 'disabled' : null;
+    },
+    isLast(){
+      return (this.currentPage < (this.totalPages / 2) || this.currentPage > (this.totalPages - 3))? 'disabled' : null;
+    }
   },
   methods: {
     isCurrentPage(n){
-      console.log(this);
       return n === this.currentPage ? 'active' : null
     },
     pageClick(){
@@ -88,6 +134,11 @@ export default {
     li
       display inline-block
       vertical-align top
+      &.disabled + li > .btn
+        border-left 1px solid #CCC
+    .btn[disabled]
+      pointer-events none
+      opacity 0.3
     .first .btn
       border-left 1px solid #CCC
       background-image url('/assets/paginator-first.png')

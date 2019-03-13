@@ -32,7 +32,7 @@
         :social-links="expert.social_links"
       />
     </div>
-    <paginator :total-items="2"/>
+    <paginator />
   </div>
 </template>
 
