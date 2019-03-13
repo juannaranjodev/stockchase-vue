@@ -32,6 +32,7 @@
         :social-links="expert.social_links"
       />
     </div>
+    <paginator :total-items="2"/>
   </div>
 </template>
 
@@ -40,6 +41,7 @@ import * as c from '../constants'
 
 import CardView from '../components/CardView.vue'
 import CardsViewFilters from '../components/CardsViewFilters.vue'
+import Paginator from '../components/Paginator.vue'
 
 const dummy = { // I'll just use this until I fully understand Store:actions, getters, mutations
   experts: [
@@ -78,7 +80,8 @@ export default {
   },
   components: {
     CardsViewFilters,
-    CardView
+    CardView,
+    Paginator
   },
   computed: {
     getFirstExpertRow: () => {
