@@ -15,7 +15,7 @@
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe d-none d-md-inline">Too many ads? Remove ads !</a>
+        class="subscribe d-none d-lg-inline">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -91,7 +91,7 @@ export default {
     text-decoration underline
     font-size 15px
 
-@media (max-width 767px)
+@media (max-width 991px)
   .header
     border-bottom 0
     padding-top 15px

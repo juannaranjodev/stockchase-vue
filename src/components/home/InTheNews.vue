@@ -1,11 +1,12 @@
 <template>
-  <div class="in-the-news">
-    <h3 class="in-the-news__title">Stocks In The News</h3>
+  <div class="itn">
+    <h3 class="itn__title d-none d-lg-block">Stocks In The News</h3>
+    <h3 class="itn__title d-lg-none">Daily Market Highlights</h3>
 
-    <table class="in-the-news__stocks">
+    <table class="itn__stocks">
       <tbody>
-        <tr class="in-the-news__stock">
-          <td class="in-the-news__stock-image">
+        <tr class="itn__stock">
+          <td class="itn__stock-image d-none d-lg-table-cell">
             <a href="https://stockchase.com/company/view/5772/N-X">
               <img
                 src="~assets/images/stock-logo.jpg"
@@ -14,109 +15,109 @@
               >
             </a>
           </td>
-          <td class="in-the-news__stock-date">4/Feb</td>
-          <td class="in-the-news__stock-hint">
-            <div class="in-the-news__stock-hint-content">
+          <td class="itn__stock-date">4/Feb</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
               <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> Namaste fires CEO
             </div>
           </td>
-          <td class="in-the-news__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740">BNN Bloomberg</a> ]
+          <td class="itn__stock-source">
+            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">BNN Bloomberg</span><span class="d-lg-none">More</span></a> ]
           </td>
-          <td class="in-the-news__stock-company">
+          <td class="itn__stock-company d-none d-lg-table-cell">
             <a href="https://stockchase.com/company/view/5772/N-X">N-X</a>
           </td>
         </tr>
-        <tr class="in-the-news__stock">
-          <td class="in-the-news__stock-image">
+        <tr class="itn__stock">
+          <td class="itn__stock-image d-none d-lg-table-cell">
             <img
               src="~assets/images/stock-nologo.png"
               alt="Tesla to buy battery tech maker"
               title="Tesla to buy battery tech maker"
             >
           </td>
-          <td class="in-the-news__stock-date">4/Feb</td>
-          <td class="in-the-news__stock-hint">
-            <div class="in-the-news__stock-hint-content">
+          <td class="itn__stock-date">4/Feb</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
               23 Stock Top Picks and 3 ETF  Jan 25-31
             </div>
           </td>
-          <td class="in-the-news__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740">Read more</a> ]
+          <td class="itn__stock-source">
+            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
           </td>
-          <td class="in-the-news__stock-company">
+          <td class="itn__stock-company d-none d-lg-table-cell">
             &nbsp;
           </td>
         </tr>
-        <tr class="in-the-news__stock">
-          <td class="in-the-news__stock-image">
+        <tr class="itn__stock">
+          <td class="itn__stock-image d-none d-lg-table-cell">
             <img
               src="~assets/images/stock-nologo.png"
               alt="Tesla to buy battery tech maker"
               title="Tesla to buy battery tech maker"
             >
           </td>
-          <td class="in-the-news__stock-date">4/Feb</td>
-          <td class="in-the-news__stock-hint">
-            <div class="in-the-news__stock-hint-content">
+          <td class="itn__stock-date">4/Feb</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
               23 Stock Top Picks and 3 ETF  Jan 25-31
             </div>
           </td>
-          <td class="in-the-news__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740">Read more</a> ]
+          <td class="itn__stock-source">
+            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
           </td>
-          <td class="in-the-news__stock-company">
+          <td class="itn__stock-company d-none d-lg-table-cell">
             &nbsp;
           </td>
         </tr>
-        <tr class="in-the-news__stock">
-          <td class="in-the-news__stock-image">
+        <tr class="itn__stock">
+          <td class="itn__stock-image d-none d-lg-table-cell">
             <img
               src="~assets/images/stock-nologo.png"
               alt="Tesla to buy battery tech maker"
               title="Tesla to buy battery tech maker"
             >
           </td>
-          <td class="in-the-news__stock-date">4/Feb</td>
-          <td class="in-the-news__stock-hint">
-            <div class="in-the-news__stock-hint-content">
+          <td class="itn__stock-date">4/Feb</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
               23 Stock Top Picks and 3 ETF  Jan 25-31
             </div>
           </td>
-          <td class="in-the-news__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740">Read more</a> ]
+          <td class="itn__stock-source">
+            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
           </td>
-          <td class="in-the-news__stock-company">
+          <td class="itn__stock-company d-none d-lg-table-cell">
             &nbsp;
           </td>
         </tr>
-        <tr class="in-the-news__stock">
-          <td class="in-the-news__stock-image">
+        <tr class="itn__stock">
+          <td class="itn__stock-image d-none d-lg-table-cell">
             <img
               src="~assets/images/stock-nologo.png"
               alt="Tesla to buy battery tech maker"
               title="Tesla to buy battery tech maker"
             >
           </td>
-          <td class="in-the-news__stock-date">4/Feb</td>
-          <td class="in-the-news__stock-hint">
-            <div class="in-the-news__stock-hint-content">
+          <td class="itn__stock-date">4/Feb</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
               23 Stock Top Picks and 3 ETF  Jan 25-31
             </div>
           </td>
-          <td class="in-the-news__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740">Read more</a> ]
+          <td class="itn__stock-source">
+            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
           </td>
-          <td class="in-the-news__stock-company">
+          <td class="itn__stock-company d-none d-lg-table-cell">
             &nbsp;
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div class="in-the-news__footer">
+    <div class="itn__footer d-none d-lg-block">
       <a
-        class="in-the-news__more"
+        class="itn__more"
         href="/discover/news"
       >More stocks in the news...</a>
     </div>
@@ -133,8 +134,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.in-the-news
-
+.itn
   &__title
     color #bfbfbf
     text-transform uppercase
@@ -229,5 +229,24 @@ export default {
 
     &:hover
       color inherit
+
+@media (max-width 991px)
+  .itn
+    background-color #DCDCDC
+    padding 10px 0
+
+    &__title
+      padding 10px
+      color #D9AFB5
+
+    &__stock
+      &-hint
+        width 100%
+
+        &-content
+          max-width none
+
+      &-source
+        width auto
 
 </style>

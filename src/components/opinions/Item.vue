@@ -2,11 +2,11 @@
   <div
     class="opinions-row"
     :id="item.id"
-    :class="{'opinions-row--ad d-none d-md-flex': item.ad}">
+    :class="{'opinions-row--ad d-none d-lg-flex': item.ad}">
     <div
       class="signal-cell"
       v-if="!item.ad">
-      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-md-block`">
+      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-lg-block`">
         <div class="signal-badge">
           <div
             :class="`${signalClassName}-border`">
@@ -14,7 +14,7 @@
           </div>
         </div>
       </div>
-      <div class="opinion-mini d-md-none">
+      <div class="opinion-mini d-lg-none">
         <div class="opinion-mini__left">
           <a
             class="opinion-mini__logo"
@@ -65,11 +65,11 @@
     </div>
 
     <div
-      :class="{'opinion-cell': true, 'd-none d-md-block': !expanded}"
+      :class="{'opinion-cell': true, 'd-none d-lg-block': !expanded}"
       v-if="!item.ad">
       <div class="opinion">
         <div class="opinion-main">
-          <div class="company d-none d-md-flex">
+          <div class="company d-none d-lg-flex">
             <a
               class="company-logo"
               :href="item.Company.url">
@@ -149,7 +149,7 @@
     </div>
 
     <div
-      :class="{'expert-cell': true, 'd-none d-md-block': !expanded}"
+      :class="{'expert-cell': true, 'd-none d-lg-block': !expanded}"
       v-if="!item.ad">
       <a
         :href="item.Expert.url"
@@ -704,7 +704,7 @@ export default {
     line-height 16px
     margin-bottom 10px
 
-@media (max-width 767px)
+@media (max-width 991px)
   .opinions-row
     display block
     width auto !important

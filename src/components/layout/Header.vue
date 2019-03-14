@@ -7,12 +7,12 @@
           class="home"
           href="/">
           <img
-            class="d-none d-md-inline"
+            class="d-none d-lg-inline"
             width="45"
             src="~assets/svgs/logo_premium.svg"
             alt="logo">
           <img
-            class="d-md-none"
+            class="d-lg-none"
             width="42"
             src="~assets/svgs/logo_premium_red.svg"
             alt="logo">
@@ -22,12 +22,12 @@
           class="home"
           href="/">
           <img
-            class="d-none d-md-inline"
+            class="d-none d-lg-inline"
             width="40"
             src="~assets/svgs/logo.svg"
             alt="logo">
           <img
-            class="d-md-none"
+            class="d-lg-none"
             width="37"
             src="~assets/svgs/logo_red.svg"
             alt="logo">
@@ -111,7 +111,7 @@ export default {
     &:last-child
       margin-right 1.1em
 
-@media (max-width 767px)
+@media (max-width 991px)
   .header
     background-color transparent
 

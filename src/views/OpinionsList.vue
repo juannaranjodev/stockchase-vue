@@ -1,61 +1,60 @@
 <template>
-  <div class="container">
-    <opinions-header :type="type" />
-    <opinions-slider
-      v-if="isOpinions"
-      :items="items"
-      :page="currentPage"
-    />
-    <link-ad />
-    <opinions-summary
-      v-if="!isOpinions"
-      :items="items" />
-
-    <div class="opinions-container">
-      <opinions-pagination
-        top
-        :type="type"
-      />
-
-      <div
-        class="opinions-table"
-        :key="date">
-        <div class="opinions-table__thead">
-          <div class="opinions-table__tr">
-            <div class="opinions-table__th opinions-table__th--signal"><span>Signal</span></div>
-            <div class="opinions-table__th opinions-table__th--opinion"><span>Opinion</span></div>
-            <div class="opinions-table__th opinions-table__th--expert"><span>Expert</span></div>
-          </div>
-        </div>
-        <div class="opinions-table__tbody">
-          <item
-            v-for="item in pageItems"
-            :key="item.id"
-            :item="item"
-            :page="currentPage"
-            @showComments="showComments"
-          />
-        </div>
+  <div class="opinions-container">
+    <div
+      class="ad-container d-none d-lg-block"
+      v-if="shouldShowAd"
+    >
+      <div class="ad">
+        <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
+        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
+        <div id='div-gpt-ad-9004875-8' />
+        <!-- End AdSlot 8 -->
       </div>
-
-      <link-ad class="d-none d-md-block" />
-
-      <opinions-pagination
-        bottom
-        :type="type"
-      />
     </div>
 
-    <dianomi-ad />
-    <link-ad class="d-none d-md-block" />
+    <div
+      class="ad-container d-lg-none"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class="ad"
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
+    </div>
 
-    <comments-modal ref="commentsModal" />
+    <div class="container">
+      <opinions-header :type="type" />
+      <opinions-slider
+        v-if="isOpinions"
+        :items="items"
+        :page="currentPage"
+      />
+      <link-ad />
+      <opinions-summary
+        v-if="!isOpinions"
+        :items="items" />
+
+      <div class="opinions-container">
+        <opinions-pagination
+          top
+          :type="type"
+        />
+        <opinions-list />
+        <link-ad class="d-none d-lg-block" />
+        <opinions-pagination
+          bottom
+          :type="type"
+        />
+      </div>
+
+      <dianomi-ad />
+      <link-ad class="d-none d-lg-block" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import * as c from '../constants'
 import moment from 'moment'
 import _ from 'lodash'
 import OpinionsHeader from '../components/opinions/Header.vue'
@@ -64,11 +63,10 @@ import OpinionsSummary from '../components/opinions/Summary.vue'
 import LinkAd from '../components/ads/LinkAd.vue'
 import DianomiAd from '../components/ads/DianomiAd.vue'
 import OpinionsPagination from '../components/opinions/Pagination.vue'
-import Item from '../components/opinions/Item.vue'
-import CommentsModal from '../components/opinions/CommentsModal.vue'
+import OpinionsList from '../components/opinions/List.vue'
 
 export default {
-  name: 'ItemList',
+  name: 'OpinionsListView',
 
   props: {
     type: {
@@ -84,21 +82,11 @@ export default {
     OpinionsSummary,
     DianomiAd,
     OpinionsPagination,
-    Item,
-    CommentsModal,
+    OpinionsList,
   },
 
   computed: {
-    ...mapGetters([ 'date',  'opinions', 'shouldShowAd', 'adFree' ]),
-
-    pageItems() {
-      if (this.adFree) return this.items
-
-      const startIndex = (this.currentPage - 1) * c.PER_PAGE
-      const pageItems = this.items.slice(startIndex, startIndex + c.PER_PAGE)
-      if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
-      return pageItems
-    },
+    ...mapGetters([ 'opinions', 'shouldShowAd' ]),
 
     currentPage() {
       return +this.$route.params.page || 1
@@ -113,11 +101,14 @@ export default {
     },
   },
 
-  methods: {
-    showComments(id) {
-      this.$refs.commentsModal.setupComments(id)
-      this.$root.$emit('bv::show::modal', 'modal_comments')
-    },
+  watch: {
+    shouldShowAd(should) {
+      if (!should) return
+
+      this.$nextTick(() => {
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-8') })
+      })
+    }
   },
 
   updated() {
@@ -135,63 +126,19 @@ export default {
   padding 0 20px 20px
   margin 0 auto
 
-.opinions-table
-  font-size 16px
-  line-height 160%
-  border-top 3px solid #474747
-  border-radius 0
-  border-collapse collapse
-  border-spacing 0
-  color #444
-  background #fff
-  width 100%
+.ad-container
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
+  border-bottom 1px solid #D9D9D9
 
-  &__tr
-    display flex
-    flex-wrap nowrap
+  .ad
+    width 728px
+    max-width 100%
+    min-height 90px
+    margin 0 auto
 
-  &__th
-    border 1px solid #ccc
-    padding 10px
-    text-align left
-    border-top-width 0
-    border-left-width 0
-
-    &:first-child
-      border-left-width 1px
-
-  &__th
-    background #F7F7F7
-    font-weight normal
-
-    &--signal
-      width 80px
-      flex-grow 0
-      flex-shrink 0
-
-    &--opinion
-      width 1px
-      flex-grow 1
-
-    &--expert
-      width 170px
-      flex-grow 0
-      flex-shrink 0
-
-    span
-      color #FF4135
-
-@media (max-width 767px)
+@media (max-width 991px)
   .container
     padding 0 10px
-
-  .opinions-table
-    width auto
-
-    &__thead
-      display none
-
-    &__tbody
-      display block
 
 </style>

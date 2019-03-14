@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="ad-container d-none d-md-block"
+      class="ad-container d-none d-lg-block"
       v-if="shouldShowAd">
       <Adsense
         class="ad"

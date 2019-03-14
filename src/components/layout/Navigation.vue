@@ -1,6 +1,6 @@
 <template>
   <div class="navigation">
-    <nav class="inner d-none d-md-flex">
+    <nav class="inner d-none d-lg-flex">
       <div class="inner-left">
         <div :class="{ 'link-container': true, active: isActive(/^\/$/) }">
           <a href="/">
@@ -44,7 +44,7 @@
         </a>
       </div>
     </nav>
-    <nav class="inner inner--sm d-md-none">
+    <nav class="inner inner--sm d-lg-none">
       <a
         :class="{ link: true, active: isActive(/^\/opinions\/(?!market)/) }"
         href="/opinions/recent">
@@ -186,7 +186,7 @@ export default {
     white-space nowrap
     display block
 
-@media (max-width 767px)
+@media (max-width 991px)
   .navigation
     padding 0 10px 10px
 

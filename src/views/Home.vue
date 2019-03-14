@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="container">
       <div class="overview">
-        <div class="overview-section">
+        <div class="overview-section d-none d-lg-flex">
           <div class="overview-section__left">
             <div class="overview-section__block">
               <discover />
@@ -30,9 +30,12 @@
             </div>
           </div>
 
-          <div class="overview-section__right d-none d-md-block">
+          <div class="overview-section__right">
             <div class="overview-section__block">
-              <side-ad />
+              <side-ad class="d-none d-lg-block" />
+              <div class="intro d-lg-none">
+                Stockchase compiles comments that experts make about stocks every day and helps you review how companies are thought of by investment experts. Sign up to get the latest news by email.
+              </div>
             </div>
           </div>
         </div>
@@ -41,14 +44,25 @@
       <link-ad />
     </div>
 
-    <div class="home-divider" />
+    <div class="home-divider d-none d-lg-block" />
 
     <div class="container">
-      <market-call-guests />
-      <market-outlook />
+      <market-call-guests class="d-none d-lg-block" />
+      <market-outlook class="d-none d-lg-block" />
+
+      <div class="opinions-container d-lg-none">
+        <opinions-list />
+        <div class="opinions__actions">
+          <a href="/opinions/recent">
+            <img src="~assets/images/table.png">
+            <span>Opinions Table</span>
+          </a>
+        </div>
+      </div>
+
 
       <dianomi-ad />
-      <link-ad class="d-none d-md-block" />
+      <link-ad class="d-none d-lg-block" />
     </div>
   </div>
 </template>
@@ -65,6 +79,7 @@ import InTheNews from '../components/home/InTheNews.vue'
 import LinkAd from '../components/ads/LinkAd.vue'
 import SideAd from '../components/ads/SideAd.vue'
 import DianomiAd from '../components/ads/DianomiAd.vue'
+import OpinionsList from '../components/opinions/List.vue'
 
 export default {
   name: 'Home',
@@ -80,6 +95,7 @@ export default {
     LinkAd,
     DianomiAd,
     SideAd,
+    OpinionsList
   },
 
   asyncData ({ store, route }) {
@@ -145,5 +161,39 @@ export default {
 
       &:not(:last-child):not(:only-child)
         margin-bottom 15px
+
+.intro
+  margin-bottom 30px
+
+.opinions
+  &-container
+    margin-bottom 30px
+
+  &__actions
+    display flex
+    align-items center
+    justify-content center
+
+    a
+      display flex
+      align-items center
+      text-transform uppercase
+      text-decoration none
+      color #CCC
+
+      img
+        margin-right 10px
+
+@media (max-width 991px)
+  .overview
+    &-section
+      &--with-ad
+        display flex
+        flex-direction column-reverse
+        align-items center
+
+        .overview-section__left, .overview-section__right
+          width 100%
+          margin 0
 
 </style>

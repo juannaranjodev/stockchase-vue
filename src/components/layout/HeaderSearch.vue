@@ -1,7 +1,7 @@
 <template>
   <div class="search-bar">
     <Select2
-      wrapper-class="web-search-wrap d-none d-md-block"
+      wrapper-class="web-search-wrap d-none d-lg-block"
       select-class="web-search-header nav-select"
       :placeholder="baseSettings.placeholder"
       :settings="baseSettings"
@@ -10,7 +10,7 @@
     />
 
     <Select2
-      wrapper-class="web-search-wrap d-md-none"
+      wrapper-class="web-search-wrap d-lg-none"
       select-class="web-search-header nav-select"
       :placeholder="smallScreenSettings.placeholder"
       :settings="smallScreenSettings"
@@ -267,7 +267,7 @@ a.search-box-result-item, a.search-box-result-item:hover
   .select2-container--default .select2-selection--multiple
     height 40px
 
-@media (max-width 767px)
+@media (max-width 991px)
   .web-search-wrap
     width 100% !important
     height 38px
