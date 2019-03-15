@@ -58,7 +58,7 @@ export default {
     letter-spacing 1px
 
     &:hover
-      background-color: #FF5030;
+      background-color #FF5030
 
 
 </style>

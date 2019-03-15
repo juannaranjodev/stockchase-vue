@@ -18,7 +18,7 @@
           <td class="itn__stock-date">4/Feb</td>
           <td class="itn__stock-hint">
             <div class="itn__stock-hint-content">
-              <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> Namaste fires CEO
+              <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> Namaste fires CEO Namaste fires CEO
             </div>
           </td>
           <td class="itn__stock-source">
@@ -39,7 +39,7 @@
           <td class="itn__stock-date">4/Feb</td>
           <td class="itn__stock-hint">
             <div class="itn__stock-hint-content">
-              23 Stock Top Picks and 3 ETF  Jan 25-31
+              23 Stock Top Picks and 3 ETF  Jan 25-31 23 Stock Top Picks and 3 ETF  Jan 25-31
             </div>
           </td>
           <td class="itn__stock-source">
@@ -174,11 +174,12 @@ export default {
     &-hint
       color #888
       font-size 18px
+      width 100%
+      max-width 0
 
       &-content
-        max-width 280px
-        display inline-block
         width 100%
+        display inline-block
         white-space nowrap
         text-overflow ellipsis
         overflow hidden
@@ -240,12 +241,6 @@ export default {
       color #D9AFB5
 
     &__stock
-      &-hint
-        width 100%
-
-        &-content
-          max-width none
-
       &-source
         width auto
 

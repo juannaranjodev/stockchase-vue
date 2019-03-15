@@ -54,12 +54,20 @@
         <opinions-list />
         <div class="opinions__actions">
           <a href="/opinions/recent">
+            <img src="~assets/images/more.png">
+            <span>Show 25 More</span>
+          </a>
+
+          <a href="/opinions/recent">
             <img src="~assets/images/table.png">
             <span>Opinions Table</span>
           </a>
         </div>
       </div>
 
+      <sponsors class="d-lg-none" />
+      <newest class="d-lg-none" />
+      <follow-us class="d-lg-none" />
 
       <dianomi-ad />
       <link-ad class="d-none d-lg-block" />
@@ -76,6 +84,9 @@ import MarketOutlook from '../components/home/MarketOutlook.vue'
 import SignUp from '../components/home/SignUp.vue'
 import Premium from '../components/home/Premium.vue'
 import InTheNews from '../components/home/InTheNews.vue'
+import Sponsors from '../components/home/Sponsors.vue'
+import Newest from '../components/home/Newest.vue'
+import FollowUs from '../components/home/FollowUs.vue'
 import LinkAd from '../components/ads/LinkAd.vue'
 import SideAd from '../components/ads/SideAd.vue'
 import DianomiAd from '../components/ads/DianomiAd.vue'
@@ -95,7 +106,10 @@ export default {
     LinkAd,
     DianomiAd,
     SideAd,
-    OpinionsList
+    OpinionsList,
+    Sponsors,
+    Newest,
+    FollowUs,
   },
 
   asyncData ({ store, route }) {
@@ -115,8 +129,13 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
+.home-divider
+  border-top 1px dashed #E9E9EA
+  margin 25px 0
+</style>
 
+<style lang="stylus" scoped>
 .container
   box-sizing border-box
   width 1140px
@@ -167,7 +186,7 @@ export default {
 
 .opinions
   &-container
-    margin-bottom 30px
+    margin-bottom 80px
 
   &__actions
     display flex
@@ -180,11 +199,18 @@ export default {
       text-transform uppercase
       text-decoration none
       color #CCC
+      font-size 12px
+
+      &:not(:first-child)
+        margin-left 25px
 
       img
         margin-right 10px
 
 @media (max-width 991px)
+  .container
+    padding 0 10px
+
   .overview
     &-section
       &--with-ad
