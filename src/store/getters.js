@@ -76,4 +76,7 @@ export default {
     return state.premiumCompanies
   },
 
+  experts (state) {
+    return state.experts
+  }
 }

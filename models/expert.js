@@ -13,9 +13,89 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       field: 'TITLE',
      },
-   company: {
-     type: DataTypes.STRING(50),
-     field: 'COMPANY',
+    company: {
+      type: DataTypes.STRING(50),
+      field: 'COMPANY',
+    },
+    style: {
+      type: DataTypes.STRING(20),
+      field: 'STYLE',
+    },
+    comments: {
+      type: DataTypes.STRING(80),
+      field: 'COMMENTS',
+    },
+    rating: {
+      type: DataTypes.DECIMAL(3,2),
+      field: 'RATING',
+    },
+    address1: {
+      type: DataTypes.STRING(50),
+    },
+    address2: {
+      type: DataTypes.STRING(50),
+    },
+    city: {
+      type: DataTypes.STRING(30),
+    },
+    prov: {
+      type: DataTypes.STRING(2),
+    },
+    postal: {
+      type: DataTypes.STRING(10),
+    },
+    telephone: {
+      type: DataTypes.STRING(20),
+    },
+    website: {
+      type: DataTypes.STRING(100),
+    },
+    toll_free: {
+      type: DataTypes.STRING(20),
+      field: 'TollFree',
+    },
+    fax: {
+      type: DataTypes.STRING(20),
+      field: 'Fax',
+    },
+    email: {
+      type: DataTypes.STRING(50),
+      field: 'EMail',
+    },
+    bio: {
+      type: DataTypes.TEXT(),
+    },
+    first_name: {
+      type: DataTypes.STRING(25),
+      field: 'FirstName',
+    },
+    last_name: {
+      type: DataTypes.STRING(25),
+      field: 'LirstName',
+    },
+    spec_region: {
+      type: DataTypes.INT(11),
+      field: 'SpecRegion',
+    },
+    spec_type: {
+      type: DataTypes.INT(11),
+      field: 'SpecType',
+    },
+    spec_sub_type: {
+      type: DataTypes.INT(11),
+      field: 'SpecSubType',
+    },
+    spec_extra: {
+      type: DataTypes.INT(11),
+      field: 'SpecExtra',
+    },
+    ad_campaign_id: {
+      type: DataTypes.INT(11),
+      field: 'adCampaign_id',
+    },
+    show_ad: {
+      type: DataTypes.STRING(1),
+      field: 'ShowAd',
     },
     url: {
       type: DataTypes.VIRTUAL,
