@@ -13,6 +13,14 @@ const Company = db.Company
 
 export function createAPI () {
   return {
+    async fetchExperts (page) {
+      const experts = await Expert.getExperts(page)
+
+      return {
+        experts
+      }
+    },
+
     async fetchDailyOpinions (date) {
       const recentDate = await Opinion.getRecentOpinionDate()
       if (date === 'recent') {

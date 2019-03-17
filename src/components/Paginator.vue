@@ -2,6 +2,9 @@
   <section
     v-if="totalItems > 25"
     class="paginator">
+    <p>
+      Showing {{ sliceStart }} to {{ slideEnd }} of {{ totalItems }}
+    </p>
     <ul>
       <li 
         class="first" 
@@ -55,7 +58,7 @@ export default {
     },
     totalItems: {
       type: Number,
-      default: 70
+      default: 0
     },
     maxPage: {
       type: Number,
@@ -75,6 +78,13 @@ export default {
     },
     centerPage(){
       return Math.floor(this.maxArrayLength / 2)
+    },
+    sliceStart(){
+      return ((this.currentPage * this.itemsPerPage) - this.itemsPerPage) + 1
+    },
+    slideEnd(){
+      var sliceEnd = this.currentPage * this.itemsPerPage;
+      return sliceEnd > this.totalItems ? this.totalItems : sliceEnd
     },
     startIndex(){
       return (this.currentPage > (this.totalPages - this.centerPage))?
@@ -144,8 +154,10 @@ export default {
       background-image url('/assets/paginator-first.png')
       border-top-left-radius 5px
       border-bottom-left-radius 5px
+      border-right none
     .prev .btn
       background-image url('/assets/paginator-prev.png')
+      border-left 1px solid #CCC
     .items a
       display block
       padding 6px
@@ -160,6 +172,8 @@ export default {
         pointer-events none
     .next .btn
       background-image url('/assets/paginator-next.png')
+    .next.disabled .btn
+      border-right none 
     .last .btn
       background-image url('/assets/paginator-last.png')
       border-top-right-radius 5px

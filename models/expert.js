@@ -71,26 +71,26 @@ module.exports = (sequelize, DataTypes) => {
     },
     last_name: {
       type: DataTypes.STRING(25),
-      field: 'LirstName',
+      field: 'LastName',
     },
     spec_region: {
-      type: DataTypes.INT(11),
+      type: DataTypes.INTEGER(11),
       field: 'SpecRegion',
     },
     spec_type: {
-      type: DataTypes.INT(11),
+      type: DataTypes.INTEGER(11),
       field: 'SpecType',
     },
     spec_sub_type: {
-      type: DataTypes.INT(11),
+      type: DataTypes.INTEGER(11),
       field: 'SpecSubType',
     },
     spec_extra: {
-      type: DataTypes.INT(11),
+      type: DataTypes.INTEGER(11),
       field: 'SpecExtra',
     },
     ad_campaign_id: {
-      type: DataTypes.INT(11),
+      type: DataTypes.INTEGER(11),
       field: 'adCampaign_id',
     },
     show_ad: {
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
     avatar: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return (this.avatar_path) ? `https://stockchase.s3.amazonaws.com/${this.avatar_path}` : '/assets/expert-nopicture.png';
+        return (this.avatar_path) ? `https://stockchase.s3.amazonaws.com/${this.avatar_path}` : '/assets/svg/expert_profile_default.svg';
       },
     }
   }, {

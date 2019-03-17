@@ -3,6 +3,20 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
+  FETCH_EXPERTS: ({ commit, dispatch, state }, { page }) => {
+    page = page ? page : 1;
+
+    return api.fetchExperts(page)
+      .then(({ experts }) => {
+        experts.rows = _.map(experts.rows, (expert, index) => {
+          return {
+            ...expert.toJSON()
+          }
+        });
+        commit('SET_EXPERTS', experts)
+      })
+  },
+
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
     // /opinions/view/:id or /opinions/market/view/:id
     // redirects to anchor link

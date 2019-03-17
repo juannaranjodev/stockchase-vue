@@ -2,6 +2,10 @@ import Vue from 'vue'
 import _ from 'lodash'
 
 export default {
+  SET_EXPERTS: (state, experts={}) => {
+    state.experts = experts;
+  },
+
   SET_OPINIONS: (state, opinions=[]) => {
     opinions.forEach(opinion => {
       if (opinion) {

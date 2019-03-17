@@ -3,7 +3,7 @@
     <div class="card-info">
       <div :class="`card-picture ${imageSize}`">
         <img 
-          :src="`https://stockchase.s3.amazonaws.com/${imageSrc}`"
+          :src="imageSrc"
         >
       </div>
       <h6>{{ title }}</h6>
@@ -35,7 +35,7 @@ export default {
   props: {
     imageSrc: {
       type: String,
-      default: '/images/expert_profile_default.svg',
+      default: '/assets/svg/expert_profile_default.svg',
     },
     imageSize: {
       type: String,
@@ -120,6 +120,7 @@ export default {
     display inline-block
     font-size initial
     vertical-align top
+    margin-bottom 30px
     h6
       font-size 15px
       text-transform uppercase
@@ -131,9 +132,9 @@ export default {
       font-size 13px
       font-weight normal
       margin-bottom 13px
-  &-view:first-child
+  &-view:first-child, &-view:nth-child(5n+1)
     margin-left 0
-  &-view:last-child
+  &-view:last-child, &-view:nth-child(5n)
     margin-right 0
   &-picture
     width 64px
