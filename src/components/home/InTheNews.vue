@@ -5,7 +5,11 @@
 
     <table class="itn__stocks">
       <tbody>
-        <tr class="itn__stock">
+        <tr
+          v-for="post in blogPosts"
+          :key="post.id"
+          class="itn__stock"
+        >
           <td class="itn__stock-image d-none d-lg-table-cell">
             <a href="https://stockchase.com/company/view/5772/N-X">
               <img
@@ -18,7 +22,7 @@
           <td class="itn__stock-date">4/Feb</td>
           <td class="itn__stock-hint">
             <div class="itn__stock-hint-content">
-              <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> Namaste fires CEO Namaste fires CEO
+              <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> {{ post.title }}
             </div>
           </td>
           <td class="itn__stock-source">
@@ -26,90 +30,6 @@
           </td>
           <td class="itn__stock-company d-none d-lg-table-cell">
             <a href="https://stockchase.com/company/view/5772/N-X">N-X</a>
-          </td>
-        </tr>
-        <tr class="itn__stock">
-          <td class="itn__stock-image d-none d-lg-table-cell">
-            <img
-              src="~assets/images/stock-nologo.png"
-              alt="Tesla to buy battery tech maker"
-              title="Tesla to buy battery tech maker"
-            >
-          </td>
-          <td class="itn__stock-date">4/Feb</td>
-          <td class="itn__stock-hint">
-            <div class="itn__stock-hint-content">
-              23 Stock Top Picks and 3 ETF  Jan 25-31 23 Stock Top Picks and 3 ETF  Jan 25-31
-            </div>
-          </td>
-          <td class="itn__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
-          </td>
-          <td class="itn__stock-company d-none d-lg-table-cell">
-            &nbsp;
-          </td>
-        </tr>
-        <tr class="itn__stock">
-          <td class="itn__stock-image d-none d-lg-table-cell">
-            <img
-              src="~assets/images/stock-nologo.png"
-              alt="Tesla to buy battery tech maker"
-              title="Tesla to buy battery tech maker"
-            >
-          </td>
-          <td class="itn__stock-date">4/Feb</td>
-          <td class="itn__stock-hint">
-            <div class="itn__stock-hint-content">
-              23 Stock Top Picks and 3 ETF  Jan 25-31
-            </div>
-          </td>
-          <td class="itn__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
-          </td>
-          <td class="itn__stock-company d-none d-lg-table-cell">
-            &nbsp;
-          </td>
-        </tr>
-        <tr class="itn__stock">
-          <td class="itn__stock-image d-none d-lg-table-cell">
-            <img
-              src="~assets/images/stock-nologo.png"
-              alt="Tesla to buy battery tech maker"
-              title="Tesla to buy battery tech maker"
-            >
-          </td>
-          <td class="itn__stock-date">4/Feb</td>
-          <td class="itn__stock-hint">
-            <div class="itn__stock-hint-content">
-              23 Stock Top Picks and 3 ETF  Jan 25-31
-            </div>
-          </td>
-          <td class="itn__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
-          </td>
-          <td class="itn__stock-company d-none d-lg-table-cell">
-            &nbsp;
-          </td>
-        </tr>
-        <tr class="itn__stock">
-          <td class="itn__stock-image d-none d-lg-table-cell">
-            <img
-              src="~assets/images/stock-nologo.png"
-              alt="Tesla to buy battery tech maker"
-              title="Tesla to buy battery tech maker"
-            >
-          </td>
-          <td class="itn__stock-date">4/Feb</td>
-          <td class="itn__stock-hint">
-            <div class="itn__stock-hint-content">
-              23 Stock Top Picks and 3 ETF  Jan 25-31
-            </div>
-          </td>
-          <td class="itn__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">Read more</span><span class="d-lg-none">More</span></a> ]
-          </td>
-          <td class="itn__stock-company d-none d-lg-table-cell">
-            &nbsp;
           </td>
         </tr>
       </tbody>
@@ -125,10 +45,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomeInTheNews',
   serverCacheKey: () => {
     return `home::in-the-news`
+  },
+
+  computed: {
+    ...mapGetters([ 'blogPosts' ]),
   },
 }
 </script>

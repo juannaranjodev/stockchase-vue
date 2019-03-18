@@ -8,11 +8,10 @@
     <div class="market-outlook__section">
       <div class="market-outlook__section-left">
         <div class="market-outlook__avatar">
-          <a href="#">
+          <a :href="latestComment.Expert.url">
             <img
-              src="~assets/images/berman-larry.png"
-              alt="Larry Berman CFA, CMT, CTA"
-              title="Larry Berman CFA, CMT, CTA"
+              :src="latestComment.Expert.avatar"
+              :title="latestComment.Expert.name"
               width="45"
               height="45"
             >
@@ -21,33 +20,36 @@
         <div class="comments">
           <div class="comments__header">
             <div class="comments__timestamp">
-              <div class="comments__day">THU</div>
-              <div class="comments__date"><span>Feb 21</span></div>
+              <div class="comments__day">{{ latestComment.date | formatDate('ddd') }}</div>
+              <div class="comments__date"><span>{{ latestComment.date | formatDate('MMM D') }}</span></div>
             </div>
 
             <div class="comments__expert">
               <div class="comments__expert-name">
-                <a href="#">Chris Stuchberry</a>
+                <a :href="latestComment.Expert.url">
+                  {{ latestComment.Expert.name }}
+                </a>
               </div>
               <div class="comments__expert-company">&nbsp;</div>
             </div>
           </div>
 
           <div class="market-comment">
-            <div class="market-comment__content">
-              <span style="color: #ff0000;"><strong>Market.  </strong></span> Guest Sid Mokhtari of CIBC world markets guest hosted the show in Larry's absence.  Where it stands today, risk rewards are not that great.  You are close to your 200 day moving average.  The energy sector is still a relative laggard from a relative strength perspective and that is an issue for him.  Expect volatility to persist.  The message from last year's Q4 is that volatility will be with us for a while longer.  In Canada we saw last year better technical characteristics in the resource sector, except energy.  Larger caps are still the way to go in the Canadian resource sector.
-            </div>
+            <div
+              class="market-comment__content"
+              v-html="latestComment.comment"
+            />
           </div>
 
           <div class="comments__footer">
             <a
-              href="#"
+              href="/opinions/market"
               class="comments__read-all-link"
             >
               More market comments
             </a>
             <a
-              href="#"
+              href="/opinions/market"
               class="comments__read-all-button"
             >
               <span>Market Comments</span>
@@ -71,10 +73,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomeMarketOutlook',
   serverCacheKey: () => {
     return `home::market-outlook`
+  },
+
+  computed: {
+    ...mapGetters([ 'latestComment' ]),
   },
 }
 </script>
@@ -146,6 +154,7 @@ export default {
       max-height 45px
       border-radius 5px
       background-color #EEEBEB
+      overflow hidden
 
 .comments
   flex 1

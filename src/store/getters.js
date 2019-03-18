@@ -48,4 +48,12 @@ export default {
     return state.latestExperts
   },
 
+  blogPosts (state) {
+    return state.blogPosts
+  },
+
+  latestComment (state) {
+    return state.latestComment
+  },
+
 }

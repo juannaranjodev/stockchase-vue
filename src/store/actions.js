@@ -55,6 +55,18 @@ export default {
       .catch(() => commit('SET_LATEST_EXPERTS', []))
   },
 
+  FETCH_BLOG_POSTS: ({ commit, dispatch, state }) => {
+    return api.fetchBlogPosts()
+      .then(posts => commit('SET_BLOG_POSTS', posts))
+      .catch(() => commit('SET_BLOG_POSTS', []))
+  },
+
+  FETCH_LATEST_COMMENT: ({ commit, dispatch, state }) => {
+    return api.fetchLatestComment()
+      .then(comment => commit('SET_LATEST_COMMENT', comment))
+      .catch(() => commit('SET_LATEST_COMMENT', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))

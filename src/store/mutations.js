@@ -50,4 +50,12 @@ export default {
   SET_LATEST_EXPERTS: (state, latestExperts=[]) => {
     state.latestExperts = latestExperts
   },
+
+  SET_BLOG_POSTS: (state, blogPosts=[]) => {
+    state.blogPosts = blogPosts
+  },
+
+  SET_LATEST_COMMENT: (state, latestComment={}) => {
+    state.latestComment = latestComment
+  },
 }

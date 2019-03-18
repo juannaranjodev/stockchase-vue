@@ -118,6 +118,10 @@ export default {
       store.dispatch('FETCH_DISCOVER_POSTS'),
       // STOCK PICKS @MARKETCALL
       store.dispatch('FETCH_LATEST_EXPERTS', 3),
+      // STOCKS IN THE NEWS
+      store.dispatch('FETCH_BLOG_POSTS'),
+      // TODAY'S MARKET OUTLOOK
+      store.dispatch('FETCH_LATEST_COMMENT'),
       // Mobile opinions listing
       store.dispatch('FETCH_DAILY_OPINIONS', {
         type: 'opinions',

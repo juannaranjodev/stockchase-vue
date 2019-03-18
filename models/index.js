@@ -4,6 +4,7 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'mysql' });
 
 var db = {
+  BlogPost: sequelize['import']('blog_post', require('./blog_post')),
   Company: sequelize['import']('company', require('./company')),
   Expert: sequelize['import']('expert', require('./expert')),
   Group: sequelize['import']('group', require('./group')),
