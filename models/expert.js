@@ -43,5 +43,14 @@ module.exports = (sequelize, DataTypes) => {
     Expert.hasMany(models.Opinion);
   };
 
+  // Get latest `num` experts
+  // TODO change the query to order by latest opinion date
+  Expert.getLatestExperts = function(num) {
+    return Expert.findAll({
+      limit: num || 15,
+      order: [['id', 'DESC']],
+    });
+  };
+
   return Expert;
 };

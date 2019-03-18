@@ -6,37 +6,15 @@
     </div>
     <div class="market-call__experts">
       <a
+        v-for="expert in latestExperts"
+        :key="expert.id"
         class="market-call__expert"
-        href="#"
+        :href="`/expert/view/${expert.id}`"
       >
         <img
-          src="~assets/images/berman-larry.png"
-          alt="Larry Berman CFA, CMT, CTA"
-          title="Larry Berman CFA, CMT, CTA"
-          width="45"
-          height="45"
-        >
-      </a>
-      <a
-        class="market-call__expert"
-        href="#"
-      >
-        <img
-          src="~assets/images/berman-larry.png"
-          alt="Larry Berman CFA, CMT, CTA"
-          title="Larry Berman CFA, CMT, CTA"
-          width="45"
-          height="45"
-        >
-      </a>
-      <a
-        class="market-call__expert"
-        href="#"
-      >
-        <img
-          src="~assets/images/berman-larry.png"
-          alt="Larry Berman CFA, CMT, CTA"
-          title="Larry Berman CFA, CMT, CTA"
+          :src="expert.avatar"
+          :alt="expert.name"
+          :title="expert.name"
           width="45"
           height="45"
         >
@@ -62,10 +40,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomeMarketCall',
   serverCacheKey: () => {
     return `home::market-call`
+  },
+
+  computed: {
+    ...mapGetters([ 'latestExperts' ]),
   },
 }
 </script>
@@ -102,6 +86,7 @@ export default {
       max-height 45px
       border-radius 5px
       background-color #DDD
+      overflow hidden
 
     &s
       display flex

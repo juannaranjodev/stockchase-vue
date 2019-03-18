@@ -46,4 +46,8 @@ export default {
   SET_DISCOVER_POSTS: (state, discoverPosts=[]) => {
     state.discoverPosts = discoverPosts
   },
+
+  SET_LATEST_EXPERTS: (state, latestExperts=[]) => {
+    state.latestExperts = latestExperts
+  },
 }

@@ -49,6 +49,12 @@ export default {
       .catch(() => commit('SET_DISCOVER_POSTS', []))
   },
 
+  FETCH_LATEST_EXPERTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchLatestExperts(num)
+      .then(experts => commit('SET_LATEST_EXPERTS', experts))
+      .catch(() => commit('SET_LATEST_EXPERTS', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))

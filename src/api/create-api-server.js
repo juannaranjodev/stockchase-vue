@@ -1,6 +1,7 @@
 import db from '../../models'
 import * as c from '../constants'
 const Opinion = db.Opinion
+const Expert = db.Expert
 
 export function createAPI () {
   return {
@@ -64,6 +65,10 @@ export function createAPI () {
       }
 
       return posts
+    },
+
+    async fetchLatestExperts (num) {
+      return await Expert.getLatestExperts(num)
     },
   }
 }

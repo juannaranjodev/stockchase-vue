@@ -44,4 +44,8 @@ export default {
     return state.discoverPosts
   },
 
+  latestExperts (state) {
+    return state.latestExperts
+  },
+
 }

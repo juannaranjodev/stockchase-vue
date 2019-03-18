@@ -116,7 +116,9 @@ export default {
     const queries = [
       // Top discover posts
       store.dispatch('FETCH_DISCOVER_POSTS'),
-      // For mobile opinions listing
+      // STOCK PICKS @MARKETCALL
+      store.dispatch('FETCH_LATEST_EXPERTS', 3),
+      // Mobile opinions listing
       store.dispatch('FETCH_DAILY_OPINIONS', {
         type: 'opinions',
         date: 'recent',
