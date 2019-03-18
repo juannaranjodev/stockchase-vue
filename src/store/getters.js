@@ -40,4 +40,8 @@ export default {
     return state.trendingStocks
   },
 
+  discoverPosts (state) {
+    return state.discoverPosts
+  },
+
 }

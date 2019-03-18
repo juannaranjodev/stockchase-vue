@@ -2,7 +2,9 @@
   <div class="discover">
     <div class="discover-list">
       <a
-        href="#"
+        v-for="post in discoverPosts"
+        :key="post.id"
+        :href="post.url"
         class="discover__item"
       >
         <div class="discover__item-image">
@@ -14,42 +16,8 @@
           >
         </div>
         <div class="discover__item-content">
-          <span class="discover__item-title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-          <span class="discover__item-excerpt"> - Some excerpt here Some excerpt here</span>
-        </div>
-      </a>
-      <a
-        href="#"
-        class="discover__item"
-      >
-        <div class="discover__item-image">
-          <img
-            src="~assets/images/questrade-best-canadian-brokerage.png"
-            width="88"
-            height="55"
-            alt="Image"
-          >
-        </div>
-        <div class="discover__item-content">
-          <span class="discover__item-title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-          <span class="discover__item-excerpt"> - Some excerpt here Some excerpt here</span>
-        </div>
-      </a>
-      <a
-        href="#"
-        class="discover__item"
-      >
-        <div class="discover__item-image">
-          <img
-            src="~assets/images/questrade-best-canadian-brokerage.png"
-            width="88"
-            height="55"
-            alt="Image"
-          >
-        </div>
-        <div class="discover__item-content">
-          <span class="discover__item-title">Gibson Energy, Great Canadian Gaming Corp and More Earnings Reports this Week (Mar 04-08)</span>
-          <span class="discover__item-excerpt"> - Some excerpt here Some excerpt here</span>
+          <span class="discover__item-title">{{ post.title }}</span>
+          <span class="discover__item-excerpt"> - {{ post.excerpt }}</span>
         </div>
       </a>
     </div>
@@ -59,15 +27,20 @@
         href="/discover"
       >More discover posts...</a>
     </div>
-
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomeDiscover',
   serverCacheKey: () => {
     return `home::discover`
+  },
+
+  computed: {
+    ...mapGetters([ 'discoverPosts' ]),
   },
 }
 </script>

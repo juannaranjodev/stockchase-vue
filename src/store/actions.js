@@ -43,6 +43,12 @@ export default {
       })
   },
 
+  FETCH_DISCOVER_POSTS: ({ commit, dispatch, state }) => {
+    return api.fetchDiscoverPosts()
+      .then(posts => commit('SET_DISCOVER_POSTS', posts))
+      .catch(() => commit('SET_DISCOVER_POSTS', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))

@@ -42,4 +42,8 @@ export default {
   SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
     state.trendingStocks = trendingStocks
   },
+
+  SET_DISCOVER_POSTS: (state, discoverPosts=[]) => {
+    state.discoverPosts = discoverPosts
+  },
 }

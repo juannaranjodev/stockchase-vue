@@ -17,6 +17,7 @@ export function createStore () {
       user: {},
       topPicks: [],
       trendingStocks: [],
+      discoverPosts: [],
     },
     actions,
     mutations,

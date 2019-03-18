@@ -113,18 +113,21 @@ export default {
   },
 
   asyncData ({ store, route }) {
-    return store.dispatch('FETCH_DAILY_OPINIONS', {
-      type: 'opinions',
-      date: 'recent',
-    })
+    const queries = [
+      // Top discover posts
+      store.dispatch('FETCH_DISCOVER_POSTS'),
+      // For mobile opinions listing
+      store.dispatch('FETCH_DAILY_OPINIONS', {
+        type: 'opinions',
+        date: 'recent',
+      }),
+    ]
+
+    return Promise.all(queries)
   },
 
   title () {
     return 'Expert Opinions on Stock Trading'
-  },
-
-  computed: {
-    ...mapGetters([ 'shouldShowAd', 'adFree' ]),
   },
 }
 </script>

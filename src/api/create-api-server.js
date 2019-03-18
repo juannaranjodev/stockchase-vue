@@ -49,6 +49,21 @@ export function createAPI () {
       return isOpinion
         ? `/opinions/${date}/${pageIndex}#${id}`
         : `/opinions/market/${date}/${pageIndex}#${id}`
-    }
+    },
+
+    async fetchDiscoverPosts () {
+      const posts = []
+
+      for (var i = 0; i < 3; i++) {
+        posts.push({
+          id: i,
+          url: '#',
+          title: 'The growing role of Asia in the world.',
+          excerpt: 'BAT refers to Baidu.com (BIDU-Q), Tencent Holdings Ltd (0700-HK), Alibaba Group Holding (BABA-N)',
+        })
+      }
+
+      return posts
+    },
   }
 }
