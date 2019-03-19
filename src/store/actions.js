@@ -67,6 +67,12 @@ export default {
       .catch(() => commit('SET_LATEST_COMMENT', []))
   },
 
+  FETCH_MARKET_CALL_GUESTS: ({ commit, dispatch, state }) => {
+    return api.fetchMarketCallGuests()
+      .then(guests => commit('SET_MARKET_CALL_GUESTS', guests))
+      .catch(() => commit('SET_MARKET_CALL_GUESTS', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))

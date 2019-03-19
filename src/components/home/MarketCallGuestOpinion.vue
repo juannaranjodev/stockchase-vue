@@ -3,25 +3,28 @@
     <div class="opinion__figure">
       <a
         class="opinion__company-logo"
-        href="#">
-        <img src="~assets/images/stock-nologo.png">
+        :href="opinion.Company.url"
+      >
+        <img :src="opinion.Company.logo">
       </a>
       <div class="opinion__signal">
-        <div class="opinion__signal-badge buy buy-border" />
+        <div :class="`opinion__signal-badge ${signalClassName} ${signalClassName}-border`" />
       </div>
     </div>
     <div class="opinion__content">
       <div class="opinion__company">
         <a
           class="opinion__company-name"
-          href="#">
-          BMO Tactical Dividend BMO Tactical Dividend BMO Tactical Dividend
+          :href="opinion.Company.url"
+        >
+          {{ opinion.Company.name }}
         </a>
         <a
           v-if="!isTopPick"
           class="opinion__company-symbol"
-          href="#">
-          <span>[ZZZD-T]</span>
+          :href="opinion.Company.url"
+        >
+          <span>[{{ opinion.Company.symbol }}]</span>
         </a>
         <div
           v-if="!isTopPick"
@@ -39,12 +42,11 @@
       <div class="opinion__text">
         <a
           class="opinion__text-link"
-          href="#">
-          What happens when governments stop buying What happens when governments stop buying
-        </a>
+          :href="opinion.url"
+        >{{ opinion.comment | stripTags }}</a>
         <a
           class="opinion__text-more"
-          href="#">
+          :href="opinion.url">
           <span>read more</span>
         </a>
       </div>
@@ -53,6 +55,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'HomeMarketCallGuestOpinion',
   props: {
@@ -60,15 +64,23 @@ export default {
       type: Object,
       default: () => ({})
     },
-    index: {
-      type: Number,
-      default: 0
-    },
     isTopPick: {
       type: Boolean,
       default: false
     }
   },
+
+  computed: {
+    signalClassName() {
+      return this.toClassName(this.opinion.Signal.name)
+    },
+  },
+
+  methods: {
+    toClassName(signal) {
+      return _.snakeCase(signal)
+    },
+  }
 }
 </script>
 
@@ -190,7 +202,7 @@ export default {
         line-height inherit !important
         font-size inherit !important
 
-      .guest__opinion:hover &
+      .opinion:hover &
         background-color rgb(216, 216, 216)
         text-decoration underline
 

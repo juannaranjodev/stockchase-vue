@@ -1,4 +1,5 @@
 import moment from 'moment'
+import striptags from 'striptags'
 
 export function host (url) {
   const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
@@ -31,6 +32,10 @@ export function formatSignalName (signal) {
     default:
       return signal;
   }
+}
+
+export function stripTags (value) {
+  return striptags(value)
 }
 
 function pluralize (time, label) {

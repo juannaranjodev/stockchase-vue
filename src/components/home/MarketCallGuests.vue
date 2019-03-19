@@ -3,9 +3,8 @@
     <h1 class="guests__title">Latest Stock Opinions and Top Picks from Market Call Guests</h1>
 
     <market-call-guest
-      v-for="(guest, index) in guests"
-      :key="guest.id"
-      :index="index"
+      v-for="guest in marketCallGuests"
+      :key="guest.expert.id"
       :guest="guest"
     />
 
@@ -13,6 +12,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MarketCallGuest from './MarketCallGuest.vue'
 
 export default {
@@ -25,14 +25,8 @@ export default {
     MarketCallGuest
   },
 
-  data () {
-    return {
-      guests: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3, hasTopPicks: true, hasRating: true },
-      ]
-    }
+  computed: {
+    ...mapGetters([ 'marketCallGuests' ])
   },
 }
 </script>

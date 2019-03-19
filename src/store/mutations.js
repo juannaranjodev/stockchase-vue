@@ -58,4 +58,8 @@ export default {
   SET_LATEST_COMMENT: (state, latestComment={}) => {
     state.latestComment = latestComment
   },
+
+  SET_MARKET_CALL_GUESTS: (state, marketCallGuests=[]) => {
+    state.marketCallGuests = marketCallGuests
+  },
 }

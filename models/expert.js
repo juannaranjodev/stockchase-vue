@@ -52,5 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Expert.getLatestOpinionExperts = function(num) {
+    return sequelize.query(`SELECT expert_id, Date FROM New_opinion WHERE company_id <> 1970 GROUP BY Date, expert_id ORDER BY Date DESC, id ASC LIMIT 0, ${num}`);
+  }
+
   return Expert;
 };

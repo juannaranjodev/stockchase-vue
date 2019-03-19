@@ -3,6 +3,7 @@ import * as c from '../constants'
 const Opinion = db.Opinion
 const Expert = db.Expert
 const BlogPost = db.BlogPost
+const ExpertRating = db.ExpertRating
 
 export function createAPI () {
   return {
@@ -82,5 +83,35 @@ export function createAPI () {
 
       return comments[0]
     },
+
+    async fetchMarketCallGuests () {
+      // First get 3 experts from latest opinions
+      const [ results, metadata ] = await Expert.getLatestOpinionExperts(3)
+      const experts = []
+
+      // Then for each expert, get 7 opinions & 3 top picks
+      for (var i = 0; i < results.length; i++) {
+        const date = results[i].Date
+        const opinions = await Opinion.getOpinionsByExpert(results[i].expert_id, date, 7)
+        const topPicks = await Opinion.getTopPicksByExpert(results[i].expert_id, date, 3)
+        const ratings = await ExpertRating.getRatingsByExpert(results[i].expert_id)
+        const topHorizon = ratings[0]
+        const expert = opinions[0].Expert
+        const subject = opinions[0].Subject
+
+        experts.push({
+          expert,
+          subject,
+          date,
+          opinions,
+          topPicks,
+          ratings,
+          topHorizon,
+        })
+      }
+
+      return experts
+    },
+
   }
 }

@@ -56,4 +56,8 @@ export default {
     return state.latestComment
   },
 
+  marketCallGuests (state) {
+    return state.marketCallGuests
+  },
+
 }

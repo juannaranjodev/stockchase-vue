@@ -3,11 +3,10 @@
     <div class="guest__section">
       <div class="guest__section-left">
         <div class="guest__avatar">
-          <a href="#">
+          <a :href="guest.expert.url">
             <img
-              src="~assets/images/berman-larry.png"
-              alt="Larry Berman CFA, CMT, CTA"
-              title="Larry Berman CFA, CMT, CTA"
+              :src="guest.expert.avatar"
+              :title="guest.expert.name"
               width="45"
               height="45"
             >
@@ -16,32 +15,33 @@
         <div class="opinions">
           <div class="opinions__header">
             <div class="opinions__timestamp">
-              <div class="opinions__day">THU</div>
-              <div class="opinions__date"><span>Feb 21</span></div>
+              <div class="opinions__day">{{ guest.date | formatDate('ddd') }}</div>
+              <div class="opinions__date"><span>{{ guest.date | formatDate('MMM D') }}</span></div>
             </div>
 
             <div class="opinions__expert">
               <div class="opinions__expert-name">
-                <a href="#">Chris Stuchberry</a>
+                <a :href="guest.expert.url">{{ guest.expert.name }}</a>
               </div>
               <div class="opinions__expert-company">
-                NORTH AMERICAN - LARGE & GLOBAL EQUITIES
+                {{ guest.subject.name }}
               </div>
             </div>
           </div>
           <market-call-guest-opinion
-            v-for="index in 7"
-            :key="index"
+            v-for="opinion in guest.opinions"
+            :key="opinion.id"
+            :opinion="opinion"
           />
           <div class="opinions__footer">
             <a
-              href="#"
+              :href="guest.expert.url"
               class="opinions__read-all-link"
             >
-              Read all from Larry Berman CFA, CMT, CTA (2)
+              Read all from {{ guest.expert.name }}
             </a>
             <a
-              href="#"
+              :href="guest.expert.url"
               class="opinions__read-all-button"
             >
               <span>All Opinions</span>
@@ -66,9 +66,9 @@
             </div>
           </div>
           <market-call-guest-opinion
-            v-if="guest.hasTopPicks"
-            v-for="index in 3"
-            :key="index"
+            v-for="opinion in guest.topPicks"
+            :key="opinion.id"
+            :opinion="opinion"
             :is-top-pick="true"
             class="opinion opinion--top-pick"
           />
@@ -91,7 +91,7 @@
     </div>
 
     <div
-      v-if="guest.hasRating"
+      v-if="guest.ratings.length"
       class="guest__section guest__section--premium"
     >
       <div class="guest__section-left">
@@ -105,15 +105,22 @@
             <div class="premium__title">
               <a
                 class="premium__link premium__link--big"
-                href="#"
-              >Chris Stuchberry’s Top Picks Portfolio</a>
+                :href="user.premium ? ratingUrl : premiumLink"
+              >{{ guest.expert.name }}’s Top Picks Portfolio</a>
               <div class="premium__rating">
                 <img
+                  v-if="!user.premium"
                   src="~assets/images/starts-rate.png"
                   height="27">
                 <a
+                  v-if="user.premium"
                   class="premium__link"
-                  href="#"
+                  :href="ratingUrl"
+                >View Expert Rating</a>
+                <a
+                  v-else
+                  class="premium__link"
+                  :href="premiumLink"
                 >Reveal Performance</a>
               </div>
             </div>
@@ -121,8 +128,9 @@
               <div class="premium__figure">
                 <a
                   class="premium__company-logo"
-                  href="#">
-                  <img src="~assets/images/stock-nologo.png">
+                  :href="user.premium ? ratingUrl : premiumLink"
+                >
+                  <img :src="topPickCompanyLogo">
                 </a>
                 <div class="premium__company-badge">
                   <img
@@ -136,7 +144,14 @@
               <div class="premium__info-item">
                 <div class="premium__info-item-label">TOP PICKS</div>
                 <div class="premium__info-item-content">
-                  <div class="premium__info-item-value premium__info-item-value--masked">
+                  <div
+                    v-if="user.premium"
+                    class="premium__info-item-value">
+                    {{ guest.topHorizon.total_tp || '&nbsp;' }}
+                  </div>
+                  <div
+                    v-else
+                    class="premium__info-item-value premium__info-item-value--masked">
                     masked
                   </div>
                 </div>
@@ -145,16 +160,27 @@
               <div class="premium__info-item">
                 <div class="premium__info-item-label">BIG WIN</div>
                 <div class="premium__info-item-content">
-                  <div class="premium__info-item-value">
-                    8
+                  <div
+                    v-if="user.premium"
+                    class="premium__info-item-value"
+                  >
+                    {{ guest.topHorizon.big_win || '&nbsp;' }}
+                  </div>
+                  <div
+                    v-else
+                    class="premium__info-item-value premium__info-item-value--masked">
+                    masked
                   </div>
                 </div>
               </div>
 
-              <div class="premium__signup">
+              <div
+                v-if="user.loaded && !user.premium"
+                class="premium__signup"
+              >
                 <div class="premium__signup-title">This is a Premium Subscriber-Only Feature</div>
                 <a
-                  href="#"
+                  :href="premiumLink"
                   class="premium__signup-button"
                 >
                   <span>Sign up for Premium</span>
@@ -164,8 +190,16 @@
               <div class="premium__info-item">
                 <div class="premium__info-item-label">HORIZON</div>
                 <div class="premium__info-item-content">
-                  <div class="premium__info-item-value premium__info-item-value--masked">
-                    1 Month
+                  <div
+                    v-if="user.premium"
+                    class="premium__info-item-value"
+                  >
+                    {{ guest.topHorizon.period || '&nbsp;' }}
+                  </div>
+                  <div
+                    v-else
+                    class="premium__info-item-value premium__info-item-value--masked">
+                    masked
                   </div>
                 </div>
               </div>
@@ -179,6 +213,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MarketCallGuestOpinion from './MarketCallGuestOpinion.vue'
 
 export default {
@@ -188,13 +223,27 @@ export default {
       type: Object,
       default: () => ({})
     },
-    index: {
-      type: Number,
-      default: 0
-    }
   },
   components: {
     MarketCallGuestOpinion
+  },
+
+  computed: {
+    ...mapGetters([ 'user' ]),
+
+    premiumLink() {
+      return "https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
+    },
+
+    ratingUrl() {
+      return `${this.guest.expert.url}/rating`
+    },
+
+    topPickCompanyLogo() {
+      return this.guest.topPicks.length
+        ? this.guest.topPicks[0].Company.logo
+        : 'https://stockchase.com/assets/no_logo.png'
+    },
   },
 }
 </script>

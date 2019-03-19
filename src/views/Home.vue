@@ -122,6 +122,8 @@ export default {
       store.dispatch('FETCH_BLOG_POSTS'),
       // TODAY'S MARKET OUTLOOK
       store.dispatch('FETCH_LATEST_COMMENT'),
+      // TODAY'S MARKET OUTLOOK
+      store.dispatch('FETCH_MARKET_CALL_GUESTS'),
       // Mobile opinions listing
       store.dispatch('FETCH_DAILY_OPINIONS', {
         type: 'opinions',
