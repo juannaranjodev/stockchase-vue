@@ -126,7 +126,7 @@ export function createStore () {
       worstExperts: [
         {
           id: 12,
-          name: 'Brian Acker, CA',
+          name: 'Mark Karl, CA',
           index: 0,
           period: '1 Month',
           rate: 4,
@@ -138,7 +138,7 @@ export function createStore () {
         },
         {
           id: 12,
-          name: 'Brian Acker, CA',
+          name: 'Mark Karl, CA',
           index: 1,
           period: '6 Months',
           rate: 5,
@@ -150,7 +150,7 @@ export function createStore () {
         },
         {
           id: 12,
-          name: 'Brian Acker, CA',
+          name: 'Mark Karl, CA',
           index: 2,
           period: '12 Months',
           rate: 3,

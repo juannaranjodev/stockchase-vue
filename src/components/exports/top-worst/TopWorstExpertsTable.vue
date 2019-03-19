@@ -1,5 +1,5 @@
 <template>
-  <table class="table">
+  <table class="table top-worst-experts-table">
     <thead>
       <tr>
         <th>ID</th>
@@ -60,5 +60,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.top-worst-experts-table
+  .table
+    .th,
+    .td
+      border-top: 0;
 
+    .thead
+      .th
+        border-bottom: 0;
 </style>
