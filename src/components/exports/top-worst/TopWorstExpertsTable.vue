@@ -27,7 +27,7 @@
           >
             <div class="expert-avatar">
               <img
-                src=""
+                src="~assets/images/user-icon.png"
                 alt="expert-avatar"
               >
             </div>
@@ -40,7 +40,8 @@
           </div>
         </td>
         <td>
-          <span>{{ expert.period }}</span>
+          <div class="expert-period">{{ expert.period }}</div>
+          <top-worst-expert-rating />
         </td>
         <td>
           <span>{{ expert.bigLose }}</span>
@@ -63,8 +64,14 @@
 </template>
 
 <script>
+import TopWorstExpertRating from './TopWorstExpertRating'
+
 export default {
   name: 'TopWorstExpertsTable',
+
+  components: {
+    TopWorstExpertRating,
+  },
 
   props: {
     experts: {
@@ -103,6 +110,10 @@ export default {
       border-radius: 50%;
       overflow: hidden;
       margin-right: 8px;
+
+      img
+        width: 36px;
+        height: 36px;
 
     .expert-name
       margin: 0;
