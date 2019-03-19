@@ -21,7 +21,23 @@
           <span v-if="expert.index == 0">{{ expert.id }}</span>
         </td>
         <td>
-          <span v-if="expert.index == 0">{{ expert.name }}</span>
+          <div
+            v-if="expert.index == 0"
+            class="expert-details"
+          >
+            <div class="expert-avatar">
+              <img
+                src=""
+                alt="expert-avatar"
+              >
+            </div>
+            <div class="expert-info-container">
+              <p class="expert-name">{{ expert.name }}</p>
+              <p class="expert-info">
+                {{ expert.topPicks }} Top Picks | {{ expert.companies }} Total Company
+              </p>
+            </div>
+          </div>
         </td>
         <td>
           <span>{{ expert.period }}</span>
@@ -61,12 +77,39 @@ export default {
 
 <style lang="stylus" scoped>
 .top-worst-experts-table
-  .table
-    .th,
-    .td
+  thead
+    th
+      border-bottom: 0;
+      font-size: 13px;
+      color: #2B3440;
+      background-color: #F6F8FB;
+      height: 50px;
       border-top: 0;
+  tbody
+    td
+      margin-bottom: 1px solid #EEF1F7;
+      font-size: 15px;
+      color: #000000;
+      vertical-align: middle;
 
-    .thead
-      .th
-        border-bottom: 0;
+  .expert-details
+    display: flex;
+    align-items: center;
+
+    .expert-avatar
+      width: 36px;
+      height: 36px;
+      background-color: gainsboro;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-right: 8px;
+
+    .expert-name
+      margin: 0;
+      font-weight: 700;
+
+    .expert-info
+      margin: 0;
+      font-size: 12px;
+      opacity: 0.35;
 </style>
