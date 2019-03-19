@@ -3,12 +3,14 @@
     <b-button
       :variant="getVariant('top')"
       @click="$emit('changeTab', 'top')"
+      :class="getClass('top')"
     >
       Top 25
     </b-button>
     <b-button
       :variant="getVariant('worst')"
       @click="$emit('changeTab', 'worst')"
+      :class="getClass('worst')"
     >
       Worst 25
     </b-button>
@@ -31,6 +33,24 @@
       getVariant(buttonName) {
         return buttonName === this.tab ? 'danger' : 'light'
       },
+      getClass(buttonName) {
+        return buttonName === this.tab ? 'btn-tab btn-active' : 'btn-tab'
+      }
     }
   }
 </script>
+
+<style lang="stylus" scoped>
+.top-worst-experts-tab-list
+  .btn-tab
+    margin-right: 6px;
+    border-radius: 4px 4px 0 0;
+    font-size: 17px;
+
+    &:focus
+      box-shadow: none;
+
+    &--active
+      background-color: #FF4135;
+      border-color: #FF4135;
+</style>
