@@ -12,14 +12,14 @@
         class="card-social-links"
         v-if="expert"
       >
-        <li :class="hasTwitterUrl">
-          <a :href="getTwitterUrl"><i class="icon icon-twitter"/></a>
+        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.twitter }">
+          <a :href="twitterUrl"><i class="icon icon-twitter"/></a>
         </li>
-        <li :class="hasLinkedInUrl">
-          <a :href="getLinkedInUrl"><i class="icon icon-linkedin"/></a>
+        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.linkedin }">
+          <a :href="linkedInUrl"><i class="icon icon-linkedin"/></a>
         </li>
-        <li :class="hasFacebookUrl">
-          <a :href="getFacebookUrl"><i class="icon icon-facebook"/></a>
+        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.facebook }">
+          <a :href="facebookUrl"><i class="icon icon-facebook"/></a>
         </li>
       </ul>
     </div>
@@ -35,7 +35,7 @@ export default {
   props: {
     imageSrc: {
       type: String,
-      default: '/assets/svg/expert_profile_default.svg',
+      default: '/assets/svgs/expert_profile_default.svg',
     },
     imageSize: {
       type: String,
@@ -64,24 +64,15 @@ export default {
   },
 
   computed: {
-    getTwitterUrl(){
+    twitterUrl(){
       return this.socialLinks && this.socialLinks.twitter ? this.socialLinks.twitter : ''
     },
-    getLinkedInUrl(){
+    linkedInUrl(){
       return this.socialLinks && this.socialLinks.linkedin ? this.socialLinks.linkedin : ''
     },
-    getFacebookUrl(){
+    facebookUrl(){
       return this.socialLinks && this.socialLinks.facebook ? this.socialLinks.facebook : ''
     },
-    hasTwitterUrl(){
-      return this.socialLinks && this.socialLinks.twitter ? 'has-link' : null
-    },
-    hasLinkedInUrl(){
-      return this.socialLinks && this.socialLinks.linkedin ? 'has-link' : null
-    },
-    hasFacebookUrl(){
-      return this.socialLinks && this.socialLinks.facebook ? 'has-link' : null
-    }
   }
 }
 </script>
@@ -183,10 +174,10 @@ export default {
     background-repeat no-repeat
     display block
   &-twitter:after
-    background-image url('/assets/svg/social-twitter.svg')
+    background-image url('~assets/svgs/social-twitter.svg')
   &-linkedin:after
-    background-image url('/assets/svg/social-linkedin.svg')
+    background-image url('~assets/svgs/social-linkedin.svg')
   &-facebook:after
-    background-image url('/assets/svg/social-facebook.svg')
+    background-image url('~assets/svgs/social-facebook.svg')
 </style>
 
