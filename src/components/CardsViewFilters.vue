@@ -77,7 +77,7 @@ export default {
       return [
         'Most Recent',
         '0-9',
-      ].concat('abcdefghijklmnopqrstuvwxyz'.toUpperCase().split(''))
+      ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))
     },
   },
   methods: {
