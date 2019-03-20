@@ -1,5 +1,27 @@
 <template>
   <div class="home-container">
+    <div
+      class="ad-container d-none d-lg-block"
+      v-if="shouldShowAd"
+    >
+      <div class="ad">
+        <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
+        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
+        <div id='div-gpt-ad-9004875-8' />
+        <!-- End AdSlot 8 -->
+      </div>
+    </div>
+
+    <div
+      class="ad-container d-lg-none"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class="ad"
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
+    </div>
+
     <div class="container">
       <div class="overview">
         <div class="overview-section d-none d-lg-flex">
@@ -54,7 +76,10 @@
       <link-ad />
     </div>
 
-    <div class="home-divider d-none d-lg-block" />
+    <div
+      v-if="shouldShowAd"
+      class="home-divider d-none d-lg-block"
+    />
 
     <div class="container">
       <market-call-guests class="d-none d-lg-block" />
@@ -152,7 +177,17 @@ export default {
 
   computed: {
     ...mapGetters([ 'shouldShowAd', 'user' ]),
-  }
+  },
+
+  watch: {
+    shouldShowAd(should) {
+      if (!should) return
+
+      this.$nextTick(() => {
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-8') })
+      })
+    }
+  },
 }
 </script>
 
@@ -169,9 +204,6 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
-
-  &:not(:first-child)
-    padding-top 15px
 
 .home-divider
   background-color #D9D9D9
@@ -233,6 +265,17 @@ export default {
 
       img
         margin-right 10px
+
+.ad-container
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
+  border-bottom 1px solid #D9D9D9
+
+  .ad
+    width 728px
+    max-width 100%
+    min-height 90px
+    margin 0 auto
 
 @media (max-width 991px)
   .container

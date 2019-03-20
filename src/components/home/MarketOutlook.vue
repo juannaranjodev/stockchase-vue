@@ -61,7 +61,10 @@
           </div>
         </div>
       </div>
-      <div class="market-outlook__section-right">
+      <div
+        v-if="shouldShowAd"
+        class="market-outlook__section-right"
+      >
         <a
           href="https://wealthica.com/?utm_source=Stockchase&utm_medium=Text%20Link&utm_campaign=Sponsor_Link_BottomHP&utm_term=Free%20Portfolio%20and%20Stock%20Tracker"
           class="try-wealthica"
@@ -82,7 +85,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'latestComment' ]),
+    ...mapGetters([ 'latestComment', 'shouldShowAd' ]),
   },
 }
 </script>
@@ -159,6 +162,9 @@ export default {
 .comments
   flex 1
   overflow hidden
+
+  .market-outlook__section-left:only-child &
+    border-top-right-radius 4px
 
   &__header, &__footer
     padding 0 15px
