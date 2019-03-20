@@ -19,6 +19,8 @@ export function createStore () {
       trendingStocks: [],
       discoverPosts: [],
       latestExperts: [],
+      newestExperts: [],
+      newestCompanies: [],
       blogPosts: [],
       latestComment: {},
       marketCallGuests: [],

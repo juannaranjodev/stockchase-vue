@@ -52,6 +52,14 @@ export default {
     return state.latestExperts
   },
 
+  newestExperts (state) {
+    return state.newestExperts
+  },
+
+  newestCompanies (state) {
+    return state.newestCompanies
+  },
+
   blogPosts (state) {
     return state.blogPosts
   },

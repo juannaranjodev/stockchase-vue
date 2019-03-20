@@ -155,6 +155,8 @@ export default {
       store.dispatch('FETCH_PREMIUM_COMPANIES'),
       // STOCK PICKS @MARKETCALL
       store.dispatch('FETCH_LATEST_EXPERTS', 3),
+      store.dispatch('FETCH_NEWEST_EXPERTS', 6),
+      store.dispatch('FETCH_NEWEST_COMPANIES', 6),
       // STOCKS IN THE NEWS
       store.dispatch('FETCH_BLOG_POSTS'),
       // TODAY'S MARKET OUTLOOK

@@ -87,5 +87,13 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get newest `num` companies
+  Company.getNewestCompanies = function(num) {
+    return Company.findAll({
+      limit: num || 15,
+      order: [['id', 'DESC']],
+    });
+  };
+
   return Company;
 };

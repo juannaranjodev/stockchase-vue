@@ -51,6 +51,14 @@ export default {
     state.latestExperts = latestExperts
   },
 
+  SET_NEWEST_EXPERTS: (state, newestExperts=[]) => {
+    state.newestExperts = newestExperts
+  },
+
+  SET_NEWEST_COMPANIES: (state, newestCompanies=[]) => {
+    state.newestCompanies = newestCompanies
+  },
+
   SET_BLOG_POSTS: (state, blogPosts=[]) => {
     state.blogPosts = blogPosts
   },

@@ -4,13 +4,13 @@
       <h3 class="newest-section__title">Newest Companies</h3>
       <div class="newest-section__links">
         <a
-          v-for="index in 6"
-          :key="index"
-          href="https://stockchase.com/company/view/6002/0/YETI-Holdings--Inc./YETI-Q"
+          v-for="company in newestCompanies"
+          :key="company.id"
+          :href="company.url"
           class="newest-section__link"
         >
-          <strong>YETI-Q</strong>
-          <span>, YETI Holdings, Inc. YETI Holdings, Inc.</span>
+          <strong>{{ company.symbol }}</strong>
+          <span>, {{ company.name }}</span>
         </a>
       </div>
       <hr class="home-divider">
@@ -20,13 +20,13 @@
       <h3 class="newest-section__title">Newest Expert</h3>
       <div class="newest-section__links">
         <a
-          v-for="index in 6"
-          :key="index"
-          href="https://stockchase.com/company/view/6002/0/YETI-Holdings--Inc./YETI-Q"
+          v-for="expert in newestExperts"
+          :key="expert.id"
+          :href="expert.url"
           class="newest-section__link"
         >
-          <strong>Andrew Pyle</strong>
-          <span>, Senior wealth advisor Senior wealth advisor</span>
+          <strong>{{ expert.name }}</strong>
+          <span>, {{ expert.title }}</span>
         </a>
       </div>
       <hr class="home-divider">
@@ -35,10 +35,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'HomeNewest',
   serverCacheKey: () => {
     return `home::newest`
+  },
+  computed: {
+    ...mapGetters([ 'newestExperts', 'newestCompanies' ]),
   },
 }
 </script>

@@ -9,7 +9,7 @@
         v-for="expert in latestExperts"
         :key="expert.id"
         class="market-call__expert"
-        :href="`/expert/view/${expert.id}`"
+        :href="expert.url"
       >
         <img
           :src="expert.avatar"

@@ -88,6 +88,14 @@ export function createAPI () {
       return await Expert.getLatestExperts(num)
     },
 
+    async fetchNewestExperts (num) {
+      return await Expert.getNewestExperts(num)
+    },
+
+    async fetchNewestCompanies (num) {
+      return await Company.getNewestCompanies(num)
+    },
+
     async fetchBlogPosts () {
       const result = await BlogPost.getLatestBlogPosts()
       const posts = []
