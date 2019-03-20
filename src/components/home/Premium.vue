@@ -145,6 +145,7 @@ export default {
 
   &__stock
     margin 0 10px
+    padding 2px 0
     display flex
     flex-direction column
     align-items center

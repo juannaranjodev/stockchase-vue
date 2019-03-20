@@ -16,6 +16,7 @@ var db = {
   SocialRating: sequelize['import']('social_rating', require('./social_rating')),
   Source: sequelize['import']('source', require('./source')),
   Subject: sequelize['import']('subject', require('./subject')),
+  UserStock: sequelize['import']('user_stock', require('./user_stock')),
   User: sequelize['import']('user', require('./user')),
 };
 
