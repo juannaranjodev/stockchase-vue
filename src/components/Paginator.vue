@@ -6,19 +6,15 @@
       Showing {{ sliceStart }} to {{ slideEnd }} of {{ totalItems }}
     </p>
     <ul>
-      <li 
-        class="first" 
-        :class="isFirst">
+      <li :class="{ first: true, disabled: currentPage <= 3 }">
         <button
           class="btn" 
-          :disabled="isFirst"/>
+          :disabled="currentPage <= 3"/>
       </li>
-      <li 
-        class="prev"
-        :class="hasPrev">
+      <li :class="{ prev: true, disabled: currentPage < 2 }">
         <button
           class="btn"
-          :disabled="hasPrev"/>
+          :disabled="currentPage < 2"/>
       </li>
       <li
         class="items"
@@ -26,23 +22,19 @@
         :key="n">
         <a 
           href="#"
-          :class="isCurrentPage(n)">
+          :class="{ active: n === currentPage }">
           {{ n }}
         </a>
       </li>
-      <li 
-        class="next"
-        :class="hasNext">
+      <li :class="{ next: true, disabled: currentPage > (totalPages - 1) }">
         <button
           class="btn"
-          :disabled="hasNext"/>
+          :disabled="currentPage > (totalPages - 1)"/>
       </li>
-      <li
-        class="last"
-        :class="isLast">
+      <li :class="{ last: true, disabled: currentPage > (totalPages - 3) }">
         <button
           class="btn"
-          :disabled="isLast"/>
+          :disabled="currentPage > (totalPages - 3)"/>
       </li>
     </ul>
   </section>
@@ -91,29 +83,14 @@ export default {
         this.totalPages - (this.maxArrayLength - 1) :
         this.currentPage - this.centerPage
     },
-    isFirst(){
-      return (this.currentPage < (this.totalPages / 2) || this.totalPages < this.maxPage)? 'disabled' : null;
-    },
-    hasPrev(){
-      return this.currentPage < 2 ? 'disabled' : null;
-    },
     generatePageNumbers(){
       return Array.from(Array(this.maxArrayLength), (x, index) => {
         var currentIndex = index + this.startIndex;
         return (this.startIndex > 0)? currentIndex : index + 1;
       })
     },
-    hasNext(){
-      return this.currentPage > (this.totalPages - 1) ? 'disabled' : null;
-    },
-    isLast(){
-      return (this.currentPage < (this.totalPages / 2) || this.currentPage > (this.totalPages - 3))? 'disabled' : null;
-    }
   },
   methods: {
-    isCurrentPage(n){
-      return n === this.currentPage ? 'active' : null
-    },
     pageClick(){
 
     }

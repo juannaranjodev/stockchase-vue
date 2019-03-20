@@ -106,7 +106,6 @@ export default {
     getCurrentPage(){
       return 1
     },
-
     getFirstExpertRow() {
       return this.experts.rows.length < 5 ? this.experts.rows : this.experts.rows.slice(0, 5)
     },
