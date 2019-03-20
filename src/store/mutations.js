@@ -2,6 +2,10 @@ import Vue from 'vue'
 import _ from 'lodash'
 
 export default {
+  SET_TOTAL_EXPERTS: (state, total = 0) => {
+    state.totalExperts = total;
+  },
+  
   SET_EXPERTS: (state, experts={}) => {
     state.experts = experts;
   },

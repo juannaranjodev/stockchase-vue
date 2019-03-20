@@ -13,6 +13,12 @@ const Company = db.Company
 
 export function createAPI () {
   return {
+    async getTotalExperts () {
+      const total = await Expert.getTotalExperts()
+
+      return total
+    },
+
     async fetchExperts (page) {
       const experts = await Expert.getExpertsByPage(page)
 

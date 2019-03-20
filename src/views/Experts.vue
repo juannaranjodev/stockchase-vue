@@ -52,30 +52,6 @@ import CardsViewFilters from '../components/CardsViewFilters.vue'
 import Paginator from '../components/Paginator.vue'
 import { mapGetters } from 'vuex';
 
-const dummy = { // I'll just use this until I fully understand Store:actions, getters, mutations
-  experts: [
-    {
-      id:1305, // as the key
-      name:"Lorne Steinberg",
-      TITLE:"President & Portfolio Manager",
-      COMPANY:"Lorne Steinberg Wealth Management Inc",
-      total_opinion:704,
-      avatar:"experts/1305/steinberg-lorne.png",
-      social_links: { // this is only for sample purposes. data could be of different structure
-        facebook: 'https://www.facebook.com',
-      }
-    },
-    {
-      id:1392, // as the key
-      name:"Brian Madden",
-      TITLE:"Senior VP & Portfolio Manager",
-      COMPANY:"Goodreid Investment Council",
-      total_opinion:323,
-      avatar:"experts/1392/madden-brian-madden.png",
-    },
-  ],
-};
-
 export default {
   name: 'Experts',
   
@@ -95,25 +71,28 @@ export default {
   },
 
   asyncData ({ store, route }) {
-    return store.dispatch('FETCH_EXPERTS', {
-      page: 1
-    })
+    return Promise.all([
+      store.dispatch('FETCH_EXPERTS', {
+        page: 1
+      }),
+      store.dispatch('FETCH_TOTAL_EXPERTS')
+    ])
   },
 
   computed: {
-    ...mapGetters(['experts']),
+    ...mapGetters(['experts', 'totalExperts']),
 
     getCurrentPage(){
       return 1
     },
     getFirstExpertRow() {
-      return this.experts.rows.length < 5 ? this.experts.rows : this.experts.rows.slice(0, 5)
+      return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5)
     },
     getTheRestOfExperts() {
-      return this.experts.rows.length >= 5 ? this.experts.rows.slice(5) : []
+      return this.experts.length >= 5 ? this.experts.slice(5) : []
     },
     getTotalExperts(){
-      return this.experts.count
+      return this.totalExperts
     },
   },
 }

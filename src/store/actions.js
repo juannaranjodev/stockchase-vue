@@ -3,16 +3,18 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
+  FETCH_TOTAL_EXPERTS: ({ commit, dispatch, state }) => {
+    return api.getTotalExperts()
+      .then(total => {
+        commit('SET_TOTAL_EXPERTS', total)
+      })
+  },
+
   FETCH_EXPERTS: ({ commit, dispatch, state }, { page }) => {
     page = page ? page : 1;
 
     return api.fetchExperts(page)
       .then(({ experts }) => {
-        experts.rows = _.map(experts.rows, (expert, index) => {
-          return {
-            ...expert.toJSON()
-          }
-        });
         commit('SET_EXPERTS', experts)
       })
   },

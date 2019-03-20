@@ -78,5 +78,9 @@ export default {
 
   experts (state) {
     return state.experts
-  }
+  },
+
+  totalExperts (state) {
+    return state.totalExperts
+  },
 }
