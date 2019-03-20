@@ -62,4 +62,8 @@ export default {
   SET_MARKET_CALL_GUESTS: (state, marketCallGuests=[]) => {
     state.marketCallGuests = marketCallGuests
   },
+
+  SET_PREMIUM_COMPANIES: (state, premiumCompanies=[]) => {
+    state.premiumCompanies = premiumCompanies
+  },
 }

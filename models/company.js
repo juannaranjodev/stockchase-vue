@@ -81,5 +81,11 @@ module.exports = (sequelize, DataTypes) => {
     return companies[0];
   };
 
+  Company.getCompaniesBySymbols = function(symbols) {
+    return Company.findAll({
+      where: { symbol: { $in: symbols } },
+    });
+  };
+
   return Company;
 };

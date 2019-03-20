@@ -13,7 +13,7 @@
           </div>
 
           <div class="overview-section__right">
-            <div class="overview-section__block">
+            <div :class="{ 'overview-section__block': true, 'overview-section__block--no-margin': user.premium }">
               <sign-up />
             </div>
 
@@ -126,6 +126,8 @@ export default {
     const queries = [
       // Top discover posts
       store.dispatch('FETCH_DISCOVER_POSTS'),
+      // Top discover posts
+      store.dispatch('FETCH_PREMIUM_COMPANIES'),
       // STOCK PICKS @MARKETCALL
       store.dispatch('FETCH_LATEST_EXPERTS', 3),
       // STOCKS IN THE NEWS
@@ -149,7 +151,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
+    ...mapGetters([ 'shouldShowAd', 'user' ]),
   }
 }
 </script>
@@ -202,6 +204,9 @@ export default {
 
     &__block
       width 100%
+
+      &--no-margin
+        margin-bottom 0 !important
 
       &:not(:last-child):not(:only-child)
         margin-bottom 15px

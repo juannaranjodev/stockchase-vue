@@ -24,6 +24,10 @@ export default {
     return state.user
   },
 
+  loggedIn (state) {
+    return !!state.user.email
+  },
+
   adFree (state) {
     return state.user.ad_free
   },
@@ -58,6 +62,10 @@ export default {
 
   marketCallGuests (state) {
     return state.marketCallGuests
+  },
+
+  premiumCompanies (state) {
+    return state.premiumCompanies
   },
 
 }

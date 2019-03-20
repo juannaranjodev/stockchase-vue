@@ -73,6 +73,12 @@ export default {
       .catch(() => commit('SET_MARKET_CALL_GUESTS', []))
   },
 
+  FETCH_PREMIUM_COMPANIES: ({ commit, dispatch, state }) => {
+    return api.fetchPremiumCompanies()
+      .then(companies => commit('SET_PREMIUM_COMPANIES', companies))
+      .catch(() => commit('SET_PREMIUM_COMPANIES', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))

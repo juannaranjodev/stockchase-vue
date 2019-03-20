@@ -144,5 +144,8 @@ export function createAPI () {
       return experts
     },
 
+    async fetchPremiumCompanies () {
+      return await Company.getCompaniesBySymbols(['COV-X', 'PHO-T', 'GMP-T'])
+    },
   }
 }

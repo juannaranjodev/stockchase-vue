@@ -22,6 +22,7 @@ export function createStore () {
       blogPosts: [],
       latestComment: {},
       marketCallGuests: [],
+      premiumCompanies: [],
     },
     actions,
     mutations,
