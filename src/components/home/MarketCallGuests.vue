@@ -3,9 +3,10 @@
     <h1 class="guests__title">Latest Stock Opinions and Top Picks from Market Call Guests</h1>
 
     <market-call-guest
-      v-for="guest in marketCallGuests"
+      v-for="(guest, index) in marketCallGuests"
       :key="guest.expert.id"
       :guest="guest"
+      :discover-post="discoverPosts[index]"
     />
 
   </div>
@@ -26,7 +27,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'marketCallGuests' ])
+    ...mapGetters([ 'marketCallGuests', 'discoverPosts' ])
   },
 }
 </script>

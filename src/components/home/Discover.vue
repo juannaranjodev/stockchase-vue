@@ -2,14 +2,14 @@
   <div class="discover">
     <div class="discover-list">
       <a
-        v-for="post in discoverPosts"
-        :key="post.id"
-        :href="post.url"
+        v-for="(post, index) in posts"
+        :key="index"
+        :href="post.link"
         class="discover__item"
       >
         <div class="discover__item-image">
           <img
-            src="~assets/images/questrade-best-canadian-brokerage.png"
+            :src="post.image"
             width="88"
             height="55"
             alt="Image"
@@ -32,6 +32,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 
 export default {
   name: 'HomeDiscover',
@@ -41,6 +42,8 @@ export default {
 
   computed: {
     ...mapGetters([ 'discoverPosts' ]),
+
+    posts() { return _.take(this.discoverPosts, 3) },
   },
 }
 </script>

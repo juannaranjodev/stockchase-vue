@@ -1,6 +1,9 @@
 import db from '../../models'
 import * as c from '../constants'
 import _ from 'lodash'
+import request from 'request'
+import FeedParser from 'feedparser'
+import cheerio from 'cheerio'
 
 const Opinion = db.Opinion
 const Expert = db.Expert
@@ -60,14 +63,23 @@ export function createAPI () {
     async fetchDiscoverPosts () {
       const posts = []
 
-      for (var i = 0; i < 3; i++) {
-        posts.push({
-          id: i,
-          url: '#',
-          title: 'The growing role of Asia in the world.',
-          excerpt: 'BAT refers to Baidu.com (BIDU-Q), Tencent Holdings Ltd (0700-HK), Alibaba Group Holding (BABA-N)',
-        })
-      }
+      await new Promise((resolve, reject) => {
+        const parser = new FeedParser()
+
+        request('https://stockchase.com/discover/feed/')
+          .on('response', res => res.pipe(parser))
+          .on('error', err => reject(err))
+
+        parser.on('readable', function() {
+          let item
+          while (item = this.read()) {
+            const $ = cheerio.load(`<div id="root">${item.description}</div>`)
+            item.excerpt = _.truncate($('#root').text(), { length: 110 })
+            item.image = $('img').attr('src')
+            posts.push(item)
+          }
+        }).on('end', () => resolve()).on('error', err => reject(err))
+      })
 
       return posts
     },

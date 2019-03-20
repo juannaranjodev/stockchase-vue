@@ -75,14 +75,17 @@
         </div>
 
         <div class="discover">
-          <a class="discover__image">
-            <img src="~assets/images/questrade-best-canadian-brokerage.png">
+          <a
+            :href="discoverPost.link"
+            class="discover__image"
+          >
+            <img :src="discoverPost.image">
           </a>
           <div class="discover__content">
-            <span class="discover__text">Still trying to choose between Questrade versus another trading app? Look at these RedFlagDeals and Twitter po...</span>
+            <span class="discover__text">{{ discoverPost.excerpt }}</span>
             &nbsp;
             <a
-              href="#"
+              :href="discoverPost.link"
               class="discover__more"
             >read more</a>
           </div>
@@ -223,6 +226,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    discoverPost: {
+      type: Object,
+      default: () => ({})
+    }
   },
   components: {
     MarketCallGuestOpinion
@@ -410,10 +417,10 @@ export default {
 
   &__image
     display flex
+    justify-content center
 
     img
-      width 100%
-      height 100%
+      max-width 100%
 
   &__content
     font-weight lighter
