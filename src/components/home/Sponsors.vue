@@ -96,18 +96,6 @@ export default {
           image: require('../../assets/images/72rules.png'),
           featured: true,
         },
-        {
-          name: 'Amazon',
-          content: 'Free Painless Net Worth Tracking',
-          link: 'https://www.amazon.ca/gp/search?ie=UTF8&tag=stockchase-20&linkCode=ur2&linkId=630bf5cac09b03ee3fe23f265c8bac01&camp=15121&creative=330641&index=books-ca&keywords=investing%20Top',
-          image: require('../../assets/images/amazon-icon.png')
-        },
-        {
-          name: 'Hardbacon',
-          content: 'Online Course - Get 20% Discount',
-          link: 'https://stockchase.com/page/view/investing-course',
-          image: require('../../assets/images/hardbacon-icon.png')
-        },
       ]
     }
   },
