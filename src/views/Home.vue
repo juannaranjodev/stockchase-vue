@@ -23,6 +23,16 @@
           </div>
         </div>
 
+        <div class="overview-section overview-section--with-ad d-lg-none">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <div class="intro">
+                Stockchase compiles comments that experts make about stocks every day and helps you review how companies are thought of by investment experts. Sign up to get the latest news by email.
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="overview-section overview-section--with-ad">
           <div class="overview-section__left">
             <div class="overview-section__block">
@@ -30,12 +40,12 @@
             </div>
           </div>
 
-          <div class="overview-section__right">
+          <div
+            v-if="shouldShowAd"
+            class="overview-section__right d-none d-lg-block"
+          >
             <div class="overview-section__block">
-              <side-ad class="d-none d-lg-block" />
-              <div class="intro d-lg-none">
-                Stockchase compiles comments that experts make about stocks every day and helps you review how companies are thought of by investment experts. Sign up to get the latest news by email.
-              </div>
+              <side-ad />
             </div>
           </div>
         </div>
@@ -137,6 +147,10 @@ export default {
   title () {
     return 'Expert Opinions on Stock Trading'
   },
+
+  computed: {
+    ...mapGetters([ 'shouldShowAd' ]),
+  }
 }
 </script>
 
@@ -191,9 +205,6 @@ export default {
 
       &:not(:last-child):not(:only-child)
         margin-bottom 15px
-
-.intro
-  margin-bottom 30px
 
 .opinions
   &-container

@@ -10,26 +10,117 @@
           :key="post.id"
           class="itn__stock"
         >
-          <td class="itn__stock-image d-none d-lg-table-cell">
-            <a href="https://stockchase.com/company/view/5772/N-X">
-              <img
-                src="~assets/images/stock-logo.jpg"
-                alt="Tesla to buy battery tech maker"
-                title="Tesla to buy battery tech maker"
+          <td class="itn__stock-images d-none d-lg-table-cell">
+            <div
+              v-if="post.companies.length"
+              class="itn__stock-images-container"
+            >
+              <span
+                class="itn__stock-image"
+                v-for="(company, index) in post.companies"
+                :key="index"
               >
-            </a>
-          </td>
-          <td class="itn__stock-date">4/Feb</td>
-          <td class="itn__stock-hint">
-            <div class="itn__stock-hint-content">
-              <a href="https://stockchase.com/company/view/5772/N-X">Namaste Technologies Inc.</a> {{ post.title }}
+                <a
+                  v-if="company.url"
+                  :href="company.url"
+                >
+                  <img
+                    :src="company.logo"
+                    :title="company.name"
+                    :alt="company.name"
+                  >
+                </a>
+                <span v-else>
+                  <img
+                    :src="company.logo"
+                    :title="company.name"
+                    :alt="company.name"
+                  >
+                </span>
+              </span>
+            </div>
+            <div
+              v-else
+              class="itn__stock-images-container"
+            >
+              <img
+                src="https://stockchase.com/assets/no_logo.png"
+                :title="post.title"
+                :alt="post.title"
+              >
             </div>
           </td>
-          <td class="itn__stock-source">
-            [ <a href="https://www.bnnbloomberg.ca/namaste-fires-ceo-sean-dollinger-launches-strategic-review-1.1208740"><span class="d-none d-lg-inline">BNN Bloomberg</span><span class="d-lg-none">More</span></a> ]
+          <td class="itn__stock-date">{{ post.date | formatDate('D/MMM') }}</td>
+          <td class="itn__stock-hint">
+            <div class="itn__stock-hint-content">
+              <a
+                v-if="post.companies.length"
+                :href="post.companies[0].url"
+              >{{ post.companies[0].name }}</a>
+              {{ post.title }}
+            </div>
           </td>
-          <td class="itn__stock-company d-none d-lg-table-cell">
-            <a href="https://stockchase.com/company/view/5772/N-X">N-X</a>
+          <td class="itn__stock-sources">
+            <div
+              v-if="post.sources.length"
+              class="itn__stock-sources-container"
+            >
+              <span>[</span>
+              <span
+                v-for="(source, index) in post.sources"
+                :key="index"
+                class="itn__stock-source"
+              >
+                <span
+                  v-if="index > 0"
+                  class="d-none d-lg-inline"
+                >,</span>
+                <span
+                  v-if="index > 0 && source.url"
+                  class="d-lg-none"
+                >,</span>
+                <a
+                  v-if="source.url"
+                  :title="source.name"
+                  :href="source.url"
+                  class="itn__stock-source-label"
+                >
+                  <span class="d-none d-lg-inline">{{ source.name }}</span>
+
+                  <span
+                    v-if="post.sources.length > 1"
+                    class="d-lg-none"
+                  >{{ source.name }}</span>
+                  <span
+                    v-else
+                    class="d-lg-none"
+                  >More</span>
+                </a>
+
+                <span
+                  v-else
+                  class="itn__stock-source-label"
+                >
+                  <span class="d-none d-lg-inline">{{ source.name }}</span>
+                </span>
+              </span>
+              <span>]</span>
+            </div>
+          </td>
+          <td class="itn__stock-symbols d-none d-lg-table-cell">
+            <div class="itn__stock-symbols-container">
+              <span
+                v-for="(company, index) in post.companies"
+                :key="index"
+                class="itn__stock-symbol"
+              >
+                <a
+                  v-if="company.url"
+                  :href="company.url"
+                >{{ company.symbol }}</a>
+                <span v-else>{{ company.symbol }}</span>
+              </span>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -85,11 +176,19 @@ export default {
         padding-right 0
 
     &-image
-      width 50px
+      &:not(:first-child)
+        margin-left 5px
 
-      img
-        max-width 40px
-        max-height 30px
+      &s
+        min-width 50px
+
+        &-container
+          display flex
+          align-items center
+
+        img
+          max-width 40px
+          max-height 30px
 
     &-date
       color #D9AFB5
@@ -119,19 +218,42 @@ export default {
             color #EC4D4B
 
     &-source
-      color #888
-      font-size 18px
       white-space nowrap
-      width 100%
 
-      a
-        text-decoration underline
+      &-label
+        &:not(:first-child)
+          margin-left 3px
+
+      &s
         color #888
+        font-size 18px
 
-        &:hover
-          color #EC4D4B
+        &-container
+          display flex
+          align-items center
 
-    &-company
+          & > span:first-child
+            margin-right 2px
+
+          & > span:last-child
+            margin-left 2px
+
+        a
+          text-decoration none
+          color #888
+
+          &:hover
+            color #EC4D4B
+
+    &-symbol
+      &:not(:first-child)
+        margin-left 5px
+
+      &s
+        &-container
+          display flex
+          align-items center
+
       a
         font-size 18px
         font-weight bold

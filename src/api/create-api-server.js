@@ -1,9 +1,12 @@
 import db from '../../models'
 import * as c from '../constants'
+import _ from 'lodash'
+
 const Opinion = db.Opinion
 const Expert = db.Expert
 const BlogPost = db.BlogPost
 const ExpertRating = db.ExpertRating
+const Company = db.Company
 
 export function createAPI () {
   return {
@@ -74,7 +77,35 @@ export function createAPI () {
     },
 
     async fetchBlogPosts () {
-      return await BlogPost.getLatestBlogPosts()
+      const result = await BlogPost.getLatestBlogPosts()
+      const posts = []
+
+      for (var i = 0; i < result.length; i++) {
+        const post = result[i].get({ plain: true })
+        const media = post.media
+        const companies = []
+        const sources = []
+
+        for (var j = 0; j < media.length; j++) {
+          const medium = media[j]
+          const company = await Company.getCompanyBySymbol(medium.name)
+
+          if (company) {
+            const companyData = company.get({ plain: true })
+            if (medium.url) companyData.url = medium.url
+            companies.push(companyData)
+          } else {
+            sources.push(medium)
+          }
+        }
+        post.companies = companies
+        post.sources = sources
+        post.date = new Date(post.date)
+
+        posts.push(post)
+      }
+
+      return posts
     },
 
     async fetchLatestComment () {
