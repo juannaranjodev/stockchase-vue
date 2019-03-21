@@ -29,6 +29,18 @@ export function createAPI () {
       }).then((data, textStatus, jqXHR) => {
         return data
       })
+    },
+    createUserStock({ company_id }) {
+      return $.ajax({
+        url: `/api/v2/user_stocks`,
+        method: 'POST',
+        data: JSON.stringify({ company_id }),
+        contentType: 'application/json',
+        dataType: 'json',
+        beforeSend,
+      }).then((data, textStatus, jqXHR) => {
+        return data
+      })
     }
   }
 }

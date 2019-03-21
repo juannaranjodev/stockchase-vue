@@ -30,7 +30,11 @@
           v-if="!isTopPick"
           class="opinion__save"
         >
-          <a href="#">
+          <a
+            v-if="!isWatching"
+            @click="saveStock"
+            href="#"
+          >
             <img
               src="~assets/images/add-watchlist.png"
               width="28"
@@ -56,6 +60,7 @@
 
 <script>
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeMarketCallGuestOpinion',
@@ -71,15 +76,46 @@ export default {
   },
 
   computed: {
+    ...mapGetters([ 'loggedIn', 'user' ]),
+
     signalClassName() {
       return this.toClassName(this.opinion.Signal.name)
     },
+
+    isWatching() {
+      if (!this.loggedIn) return false
+
+      const user = this.user
+      const userStocks = user.UserStocks || []
+
+      return !!_.find(user.UserStocks, { user_id: user.id, company_id: this.opinion.Company.id })
+    }
   },
 
   methods: {
     toClassName(signal) {
       return _.snakeCase(signal)
     },
+
+    saveStock(e) {
+      e.preventDefault()
+
+      this.$store.dispatch('CREATE_USER_STOCK', { company_id: this.opinion.Company.id })
+        .then(() => this.$root.$emit('bv::show::modal', 'modal_stock_saved'))
+        .catch(err => {
+          if (err.status === 401) {
+            return window.location = '/member/login'
+          }
+
+          // If the stock is already in watch list, simply consider this a
+          // successful save so as to not confuse user
+          if (err.status === 409) {
+            return this.$root.$emit('bv::show::modal', 'modal_stock_saved')
+          }
+
+          alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
+        })
+    }
   }
 }
 </script>

@@ -114,4 +114,22 @@ export default {
         commit('UPDATE_OPINION', opinion)
       })
   },
+
+  CREATE_USER_STOCK: ({ commit, dispatch, state }, { company_id }) => {
+    return api.createUserStock({ company_id })
+      .then(stock => {
+        const user = _.clone(state.user)
+        user.UserStocks = user.UserStocks || []
+        const stockIndex = _.findIndex(user.UserStocks, { id: stock.id })
+
+        // If existing rating found, replace it with the new one
+        if (stockIndex !== -1) {
+          user.UserStocks[stockIndex] = stock
+        } else {
+          user.UserStocks.push(stock)
+        }
+
+        commit('SET_USER', user)
+      })
+  },
 }

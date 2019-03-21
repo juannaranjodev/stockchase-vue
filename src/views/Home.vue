@@ -107,6 +107,17 @@
       <dianomi-ad />
       <link-ad class="d-none d-lg-block" />
     </div>
+    <b-modal
+      id="modal_stock_saved"
+      centered
+      hide-footer
+      modal-class="stock-saved-modal"
+    >
+      <div class="stock-saved">
+        Stock saved to your watch list successfully.
+        <a href="/portfolio">View Watch List</a>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -197,6 +208,25 @@ export default {
 .home-divider
   border-top 1px dashed #E9E9EA
   margin 25px 0
+
+.stock-saved
+  text-align center
+  color #ABB2B9
+  font-size 18px
+  padding 0 20px 20px
+  line-height normal
+
+  a
+    color #FF2E50
+    white-space nowrap
+
+  &-modal
+    .modal-header
+      border-bottom 0
+      padding-bottom 0
+
+    .modal-body
+      padding-top 0
 </style>
 
 <style lang="stylus" scoped>
