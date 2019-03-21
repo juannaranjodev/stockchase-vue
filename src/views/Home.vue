@@ -100,7 +100,7 @@
         </div>
       </div>
 
-      <sponsors class="d-lg-none" />
+      <!-- <sponsors class="d-lg-none" /> -->
       <!-- <newest class="d-lg-none" /> -->
       <follow-us class="d-lg-none" />
 
