@@ -1,13 +1,15 @@
 <template>
   <div class="card-view">
     <div class="card-info">
-      <div :class="`card-picture ${imageSize}`">
-        <img 
-          :src="imageSrc"
-        >
-      </div>
-      <h6>{{ title }}</h6>
-      <p>{{ subTitle }}</p>
+      <a :href="cardLink">
+        <div :class="`card-picture ${imageSize}`">
+          <img 
+            :src="imageSrc"
+          >
+        </div>
+        <h6>{{ title }}</h6>
+        <p>{{ subTitle }}</p>
+      </a>
       <ul
         class="card-social-links"
         v-if="expert"
@@ -23,9 +25,11 @@
         </li>
       </ul>
     </div>
-    <div class="card-footnote">
-      {{ footnote }}
-    </div>
+    <a :href="cardLink">
+      <div class="card-footnote">
+        {{ footnote }}
+      </div>
+    </a>
   </div>
 </template>
 
@@ -60,7 +64,11 @@ export default {
     socialLinks: {
       type: Object,
       default: null
-    }
+    },
+    cardLink: {
+      type: String,
+      default: ''
+    },
   },
 
   computed: {
@@ -83,6 +91,8 @@ export default {
     min-height 290px
     padding 10px
     text-align center
+    a:hover
+      text-decoration none
   &-social-links
     padding 0
     list-style none
@@ -123,6 +133,8 @@ export default {
       font-size 13px
       font-weight normal
       margin-bottom 13px
+    > a:hover
+      text-decoration none
   &-view:first-child, &-view:nth-child(5n+1)
     margin-left 0
   &-view:last-child, &-view:nth-child(5n)
@@ -161,6 +173,8 @@ export default {
     box-sizing border-box
     text-decoration none
     font-weight bold
+  &-view:hover &-footnote
+    background-color #DDD
 .icon
   width 20px
   height 20px

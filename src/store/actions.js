@@ -15,6 +15,12 @@ export default {
 
     return api.fetchExperts(page)
       .then(({ experts }) => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
         commit('SET_EXPERTS', experts)
       })
   },

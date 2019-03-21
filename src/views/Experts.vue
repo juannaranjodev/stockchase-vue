@@ -8,7 +8,7 @@
     <div class="experts">
       <div class="first-row">
         <card-view 
-          v-for="(expert, index) in getFirstExpertRow"
+          v-for="(expert, index) in firstFiveExperts"
           :key="index"
           :expert="true"
           image-size="small"
@@ -18,13 +18,14 @@
           :sub-title="expert.title + ' at ' + expert.company"
           :footnote="expert.total_opinion + ' opinions'"
           :social-links="expert.social_links"
+          :card-link="expert.url"
         />
       </div>
       <!-- ad here -->
       <div>Test ad</div>
       <div class="second-row">
         <card-view
-          v-for="(expert, index) in getTheRestOfExperts"
+          v-for="(expert, index) in theRestOfExperts"
           :key="index"
           :expert="true"
           image-size="small"
@@ -34,12 +35,13 @@
           :sub-title="expert.title + ' at ' + expert.company"
           :footnote="expert.total_opinion + ' opinions'"
           :social-links="expert.social_links"
+          :card-link="expert.url"
         />
       </div>
     </div>
     <paginator
-      :current-page="getCurrentPage"
-      :total-items="getTotalExperts"
+      :current-page="currentPage"
+      :total-items="totalExperts"
     />
   </div>
 </template>
@@ -82,17 +84,14 @@ export default {
   computed: {
     ...mapGetters(['experts', 'totalExperts']),
 
-    getCurrentPage(){
-      return 1
+    currentPage(){
+      return 1 // replace this with url params
     },
-    getFirstExpertRow() {
+    firstFiveExperts() {
       return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5)
     },
-    getTheRestOfExperts() {
+    theRestOfExperts() {
       return this.experts.length >= 5 ? this.experts.slice(5) : []
-    },
-    getTotalExperts(){
-      return this.totalExperts
     },
   },
 }
