@@ -103,14 +103,11 @@ export default {
       this.$store.dispatch('CREATE_USER_STOCK', { company_id: this.opinion.Company.id })
         .then(() => this.$root.$emit('bv::show::modal', 'modal_stock_saved'))
         .catch(err => {
-          if (err.status === 401) {
-            return window.location = '/member/login'
-          }
-
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            return this.$root.$emit('bv::show::modal', 'modal_stock_saved')
+            this.$root.$emit('bv::show::modal', 'modal_stock_saved')
+            return
           }
 
           alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
