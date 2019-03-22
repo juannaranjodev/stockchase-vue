@@ -129,7 +129,7 @@ export default {
       line-height inherit !important
       font-size inherit !important
 
-@media (max-width 767px)
+@media (max-width 991px)
   .opinion-comments-modal
     .modal-body, .modal-footer
       padding 20px 10px
@@ -198,7 +198,7 @@ export default {
     font-size 16px
     margin 8px 0 30px
 
-@media (max-width 767px)
+@media (max-width 991px)
   .company
     align-items flex-start
 

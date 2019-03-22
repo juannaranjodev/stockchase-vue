@@ -1,5 +1,5 @@
 <template>
-  <div class="slider-container d-none d-md-block">
+  <div class="slider-container d-none d-lg-block">
     <div class="slider">
       <span
         :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': !hasPrevious}"
@@ -38,7 +38,7 @@ export default {
   props: {
     items: {
       type: Array,
-      default: () => {}
+      default: () => ({})
     },
     page: {
       type: Number,

@@ -49,7 +49,7 @@ export default {
     },
     settings: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
     value: {
       type: String,

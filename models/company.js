@@ -72,5 +72,19 @@ module.exports = (sequelize, DataTypes) => {
     return _(opinions).uniqBy('company_id').map('Company').value();
   };
 
+  Company.getCompaniesBySymbols = function(symbols) {
+    return Company.findAll({
+      where: { symbol: { $in: symbols } },
+    });
+  };
+
+  // Get newest `num` companies
+  Company.getNewestCompanies = function(num) {
+    return Company.findAll({
+      limit: num || 15,
+      order: [['id', 'DESC']],
+    });
+  };
+
   return Company;
 };

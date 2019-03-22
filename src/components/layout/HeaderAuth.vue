@@ -82,13 +82,13 @@
                 width="24"
                 src="~assets/svgs/badge_premium.svg">
             </div>
-            <span class="user-name d-none d-md-block">{{ user.username }}</span>
+            <span class="user-name d-none d-lg-block">{{ user.username }}</span>
             <img
-              class="user-dropdown-arrow d-none d-md-inline"
+              class="user-dropdown-arrow d-none d-lg-inline"
               src="~assets/svgs/white-arrow-down.svg"
               width="20">
             <img
-              class="user-dropdown-arrow d-md-none"
+              class="user-dropdown-arrow d-lg-none"
               src="~assets/svgs/arrow_down.svg"
               width="8">
           </div>
@@ -99,16 +99,16 @@
       v-else
       :class="{'header-auth__buttons': true, 'hidden': !fetched}">
       <a
-        class="button button-outline button-login d-none d-md-block"
+        class="button button-outline button-login d-none d-lg-block"
         href="/member/login">Login</a>
       <a
-        class="button button-white button-signup d-none d-md-block"
+        class="button button-white button-signup d-none d-lg-block"
         href="/member/signup">Sign Up</a>
       <a
-        class="button button-red button-mobile button-mobile-signup d-md-none"
+        class="button button-red button-mobile button-mobile-signup d-lg-none"
         href="/member/signup">Join</a>
       <a
-        class="button button-outline button-mobile d-md-none"
+        class="button button-outline button-mobile d-lg-none"
         href="/member/login"><img
           src="~assets/images/user-icon.png"
           width="20"></a>
@@ -236,7 +236,7 @@ export default {
     font-weight bold
     white-space normal
 
-@media (max-width 767px)
+@media (max-width 991px)
   .user
     &-dropdown
       margin 0
@@ -306,7 +306,7 @@ export default {
       width 40px
       margin-right 4px
 
-@media (max-width 767px)
+@media (max-width 991px)
   .header-auth
     &__buttons
       &.hidden

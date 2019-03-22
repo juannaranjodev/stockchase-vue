@@ -58,7 +58,7 @@
 
     <div
       v-if="shouldShowAd"
-      class="fixed-ad-container d-md-none"
+      class="fixed-ad-container d-lg-none"
     >
       <div class="ad">
         <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
@@ -174,7 +174,7 @@ export default {
   padding-bottom env(safe-area-inset-bottom)
   box-sizing initial
 
-@media (max-width 767px)
+@media (max-width 991px)
   .footer
     padding 0 10px
 

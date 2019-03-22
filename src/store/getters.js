@@ -24,6 +24,10 @@ export default {
     return state.user
   },
 
+  loggedIn (state) {
+    return !!state.user.email
+  },
+
   adFree (state) {
     return state.user.ad_free
   },
@@ -38,6 +42,38 @@ export default {
 
   trendingStocks (state) {
     return state.trendingStocks
+  },
+
+  discoverPosts (state) {
+    return state.discoverPosts
+  },
+
+  latestExperts (state) {
+    return state.latestExperts
+  },
+
+  newestExperts (state) {
+    return state.newestExperts
+  },
+
+  newestCompanies (state) {
+    return state.newestCompanies
+  },
+
+  blogPosts (state) {
+    return state.blogPosts
+  },
+
+  latestComment (state) {
+    return state.latestComment
+  },
+
+  marketCallGuests (state) {
+    return state.marketCallGuests
+  },
+
+  premiumCompanies (state) {
+    return state.premiumCompanies
   },
 
 }

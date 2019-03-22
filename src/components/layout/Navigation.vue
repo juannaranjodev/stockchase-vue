@@ -1,31 +1,37 @@
 <template>
   <div class="navigation">
-    <nav class="inner d-none d-md-flex">
+    <nav class="inner d-none d-lg-flex">
       <div class="inner-left">
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/$/) }">
           <a href="/">
             <img
+              v-if="isActive(/^\/$/)"
+              class="home"
+              src="~assets/images/stockchase-home-icon-red.png"
+              alt="logo">
+            <img
+              v-else
               class="home"
               src="~assets/images/stockchase-home-icon.png"
               alt="logo">
           </a>
         </div>
-        <div class="link-container active">
+        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/(?!market)/) }">
           <a href="/opinions/recent">All Opinions</a>
         </div>
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/market/) }">
           <a href="/opinions/market">Market</a>
         </div>
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/recenttop/) }">
           <a href="/opinions/recenttop">Top Picks</a>
         </div>
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/discover/) }">
           <a href="/discover/">Discover</a>
         </div>
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/company/) }">
           <a href="/company">Companies</a>
         </div>
-        <div class="link-container">
+        <div :class="{ 'link-container': true, active: isActive(/^\/expert/) }">
           <a href="/expert">Experts</a>
         </div>
       </div>
@@ -38,33 +44,33 @@
         </a>
       </div>
     </nav>
-    <nav class="inner inner--sm d-md-none">
+    <nav class="inner inner--sm d-lg-none">
       <a
-        class="link active"
+        :class="{ link: true, active: isActive(/^\/opinions\/(?!market)/) }"
         href="/opinions/recent">
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
       <a
-        class="link"
+        :class="{ link: true, active: isActive(/^\/opinions\/market/) }"
         href="/company">
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
       </a>
       <a
-        class="link"
+        :class="{ link: true, active: isActive(/^\/expert/) }"
         href="/expert">
         <span class="link__icon"><img src="~assets/svgs/icon_expert.svg"></span>
         <span class="link__label">Expert</span>
       </a>
       <a
-        class="link"
+        :class="{ link: true, active: isActive(/^\/portfolio/) }"
         href="/portfolio">
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
       </a>
       <a
-        class="link"
+        :class="{ link: true, active: isActive(/^\/opinions\/recenttop/) }"
         href="/opinions/recenttop">
         <span class="link__icon"><img src="~assets/svgs/icon_toppicks.svg"></span>
         <span class="link__label">Top Picks</span>
@@ -77,6 +83,14 @@
 
 export default {
   name: 'SiteNavigation',
+
+  methods: {
+    isActive(pathPattern) {
+      const currentPath = this.$router.currentRoute.path
+
+      return currentPath.match(pathPattern)
+    }
+  },
 }
 </script>
 
@@ -172,7 +186,7 @@ export default {
     white-space nowrap
     display block
 
-@media (max-width 767px)
+@media (max-width 991px)
   .navigation
     padding 0 10px 10px
 

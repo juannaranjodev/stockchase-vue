@@ -42,4 +42,36 @@ export default {
   SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
     state.trendingStocks = trendingStocks
   },
+
+  SET_DISCOVER_POSTS: (state, discoverPosts=[]) => {
+    state.discoverPosts = discoverPosts
+  },
+
+  SET_LATEST_EXPERTS: (state, latestExperts=[]) => {
+    state.latestExperts = latestExperts
+  },
+
+  SET_NEWEST_EXPERTS: (state, newestExperts=[]) => {
+    state.newestExperts = newestExperts
+  },
+
+  SET_NEWEST_COMPANIES: (state, newestCompanies=[]) => {
+    state.newestCompanies = newestCompanies
+  },
+
+  SET_BLOG_POSTS: (state, blogPosts=[]) => {
+    state.blogPosts = blogPosts
+  },
+
+  SET_LATEST_COMMENT: (state, latestComment={}) => {
+    state.latestComment = latestComment
+  },
+
+  SET_MARKET_CALL_GUESTS: (state, marketCallGuests=[]) => {
+    state.marketCallGuests = marketCallGuests
+  },
+
+  SET_PREMIUM_COMPANIES: (state, premiumCompanies=[]) => {
+    state.premiumCompanies = premiumCompanies
+  },
 }

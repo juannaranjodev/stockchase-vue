@@ -1,6 +1,6 @@
 <template>
   <div :class="{'pgntn': true, 'pgntn--bottom': bottom}">
-    <div :class="{'pgntn-left': true, 'd-none d-md-block': bottom}">
+    <div :class="{'pgntn-left': true, 'd-none d-lg-block': bottom}">
       <ul class="pagination">
         <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
@@ -23,7 +23,7 @@
         </li>
         <li
           v-if="top && !adFree"
-          class="page-item page-item--plain d-none d-md-block"
+          class="page-item page-item--plain d-none d-lg-block"
         >
           <span>Page {{ currentPage }}/{{ numPages }}</span>
         </li>
@@ -290,7 +290,7 @@ export default {
         .page-link
           opacity 0.3
 
-@media (max-width 767px)
+@media (max-width 991px)
   .pgntn
     &-left, &-right
       .pgntn--bottom &

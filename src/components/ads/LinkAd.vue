@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="ad-container d-none d-md-block"
+      class="ad-container d-none d-lg-block"
       v-if="shouldShowAd">
       <Adsense
-        class='ad'
+        class="ad"
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="3572899802"/>
     </div>
@@ -15,7 +15,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'OpinionsLinkAd',
+  name: 'LinkAd',
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),

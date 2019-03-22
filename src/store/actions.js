@@ -43,6 +43,54 @@ export default {
       })
   },
 
+  FETCH_DISCOVER_POSTS: ({ commit, dispatch, state }) => {
+    return api.fetchDiscoverPosts()
+      .then(posts => commit('SET_DISCOVER_POSTS', posts))
+      .catch(() => commit('SET_DISCOVER_POSTS', []))
+  },
+
+  FETCH_LATEST_EXPERTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchLatestExperts(num)
+      .then(experts => commit('SET_LATEST_EXPERTS', experts))
+      .catch(() => commit('SET_LATEST_EXPERTS', []))
+  },
+
+  FETCH_NEWEST_EXPERTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchNewestExperts(num)
+      .then(experts => commit('SET_NEWEST_EXPERTS', experts))
+      .catch(() => commit('SET_NEWEST_EXPERTS', []))
+  },
+
+  FETCH_NEWEST_COMPANIES: ({ commit, dispatch, state }, num) => {
+    return api.fetchNewestCompanies(num)
+      .then(companies => commit('SET_NEWEST_COMPANIES', companies))
+      .catch(() => commit('SET_NEWEST_COMPANIES', []))
+  },
+
+  FETCH_BLOG_POSTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchBlogPosts(num)
+      .then(posts => commit('SET_BLOG_POSTS', posts))
+      .catch(() => commit('SET_BLOG_POSTS', []))
+  },
+
+  FETCH_LATEST_COMMENT: ({ commit, dispatch, state }) => {
+    return api.fetchLatestComment()
+      .then(comment => commit('SET_LATEST_COMMENT', comment))
+      .catch(() => commit('SET_LATEST_COMMENT', []))
+  },
+
+  FETCH_MARKET_CALL_GUESTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchMarketCallGuests(num)
+      .then(guests => commit('SET_MARKET_CALL_GUESTS', guests))
+      .catch(() => commit('SET_MARKET_CALL_GUESTS', []))
+  },
+
+  FETCH_PREMIUM_COMPANIES: ({ commit, dispatch, state }) => {
+    return api.fetchPremiumCompanies()
+      .then(companies => commit('SET_PREMIUM_COMPANIES', companies))
+      .catch(() => commit('SET_PREMIUM_COMPANIES', []))
+  },
+
   FETCH_USER: ({ commit, dispatch, state }) => {
     return api.fetchUser()
       .then(user => commit('SET_USER', user))
@@ -64,6 +112,24 @@ export default {
         }
 
         commit('UPDATE_OPINION', opinion)
+      })
+  },
+
+  CREATE_USER_STOCK: ({ commit, dispatch, state }, { company_id }) => {
+    return api.createUserStock({ company_id })
+      .then(stock => {
+        const user = _.clone(state.user)
+        user.UserStocks = user.UserStocks || []
+        const stockIndex = _.findIndex(user.UserStocks, { id: stock.id })
+
+        // If existing rating found, replace it with the new one
+        if (stockIndex !== -1) {
+          user.UserStocks[stockIndex] = stock
+        } else {
+          user.UserStocks.push(stock)
+        }
+
+        commit('SET_USER', user)
       })
   },
 }

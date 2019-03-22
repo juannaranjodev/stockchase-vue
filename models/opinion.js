@@ -133,6 +133,26 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get normal opinions by expert id & date
+  Opinion.getOpinionsByExpert = function(expertId, date, limit) {
+    return Opinion.findAll({
+      where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: { $ne: 16 } },
+      order: [['date', 'DESC'], ['id', 'ASC']],
+      include: [ { all: true, nested: true } ],
+      limit: limit,
+    });
+  };
+
+  // Get top picks by expert id & date
+  Opinion.getTopPicksByExpert = function(expertId, date, limit) {
+    return Opinion.findAll({
+      where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: 16 },
+      order: [['date', 'DESC'], ['id', 'ASC']],
+      include: [ { all: true, nested: true } ],
+      limit: limit,
+    });
+  };
+
   // Get market comments for a given date
   Opinion.getMarketCommentsByDate = function(date) {
     return Opinion.findAll({
