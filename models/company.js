@@ -72,15 +72,6 @@ module.exports = (sequelize, DataTypes) => {
     return _(opinions).uniqBy('company_id').map('Company').value();
   };
 
-  Company.getCompanyBySymbol = async function(symbol) {
-    const companies = await Company.findAll({
-      where: { symbol: symbol },
-      limit: 1,
-    });
-
-    return companies[0];
-  };
-
   Company.getCompaniesBySymbols = function(symbols) {
     return Company.findAll({
       where: { symbol: { $in: symbols } },

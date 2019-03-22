@@ -96,8 +96,8 @@ export function createAPI () {
       return await Company.getNewestCompanies(num)
     },
 
-    async fetchBlogPosts () {
-      const result = await BlogPost.getLatestBlogPosts()
+    async fetchBlogPosts (num) {
+      const result = await BlogPost.getLatestBlogPosts(num)
       const posts = []
 
       for (var i = 0; i < result.length; i++) {
@@ -108,7 +108,7 @@ export function createAPI () {
 
         for (var j = 0; j < media.length; j++) {
           const medium = media[j]
-          const company = await Company.getCompanyBySymbol(medium.name)
+          const company = (await Company.getCompaniesBySymbols([medium.name]))[0]
 
           if (company) {
             const companyData = company.get({ plain: true })
@@ -120,7 +120,6 @@ export function createAPI () {
         }
         post.companies = companies
         post.sources = sources
-        post.date = new Date(post.date)
 
         posts.push(post)
       }
@@ -135,9 +134,9 @@ export function createAPI () {
       return comments[0]
     },
 
-    async fetchMarketCallGuests () {
-      // First get 3 experts from latest opinions
-      const [ results, metadata ] = await Expert.getLatestOpinionExperts(3)
+    async fetchMarketCallGuests (num) {
+      // First get num experts from latest opinions
+      const [ results, metadata ] = await Expert.getLatestOpinionExperts(num)
       const experts = []
 
       // Then for each expert, get 7 opinions & 3 top picks

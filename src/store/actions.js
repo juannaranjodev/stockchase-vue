@@ -67,8 +67,8 @@ export default {
       .catch(() => commit('SET_NEWEST_COMPANIES', []))
   },
 
-  FETCH_BLOG_POSTS: ({ commit, dispatch, state }) => {
-    return api.fetchBlogPosts()
+  FETCH_BLOG_POSTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchBlogPosts(num)
       .then(posts => commit('SET_BLOG_POSTS', posts))
       .catch(() => commit('SET_BLOG_POSTS', []))
   },
@@ -79,8 +79,8 @@ export default {
       .catch(() => commit('SET_LATEST_COMMENT', []))
   },
 
-  FETCH_MARKET_CALL_GUESTS: ({ commit, dispatch, state }) => {
-    return api.fetchMarketCallGuests()
+  FETCH_MARKET_CALL_GUESTS: ({ commit, dispatch, state }, num) => {
+    return api.fetchMarketCallGuests(num)
       .then(guests => commit('SET_MARKET_CALL_GUESTS', guests))
       .catch(() => commit('SET_MARKET_CALL_GUESTS', []))
   },

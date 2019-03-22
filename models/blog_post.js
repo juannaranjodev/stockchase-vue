@@ -23,15 +23,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT('medium'),
       field: 'post_body'
     },
-    date: {
+    date_posted: {
       type: DataTypes.INTEGER(11),
-      field: 'date_posted'
+    },
+    date: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        return moment(new Date(this.date_posted)).format('YYYY-MM-DD')
+      },
     },
     status: {
       type: DataTypes.STRING(20),
-    },
-    comment_count: {
-      type: DataTypes.INTEGER(11),
     },
     media: {
       type: DataTypes.VIRTUAL,
@@ -55,10 +57,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // Get latest blog posts
-  // TODO change the query to extract company & source from post body
-  BlogPost.getLatestBlogPosts = function() {
+  BlogPost.getLatestBlogPosts = function(limit=5) {
     return BlogPost.findAll({
-      limit: 5,
+      limit: limit,
       order: [['id', 'DESC']],
     });
   };

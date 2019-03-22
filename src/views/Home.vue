@@ -1,27 +1,5 @@
 <template>
   <div class="home-container">
-    <div
-      class="ad-container d-none d-lg-block"
-      v-if="shouldShowAd"
-    >
-      <div class="ad">
-        <!-- Async AdSlot 8 for Ad unit 'stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex' ### Size: [[728,90],'fluid'] -->
-        <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[7]]) -->
-        <div id='div-gpt-ad-9004875-8' />
-        <!-- End AdSlot 8 -->
-      </div>
-    </div>
-
-    <div
-      class="ad-container d-lg-none"
-      v-if="shouldShowAd"
-    >
-      <Adsense
-        class="ad"
-        data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="3572899802"/>
-    </div>
-
     <div class="container">
       <div class="overview">
         <div class="overview-section d-none d-lg-flex">
@@ -169,11 +147,11 @@ export default {
       // store.dispatch('FETCH_NEWEST_EXPERTS', 6),
       // store.dispatch('FETCH_NEWEST_COMPANIES', 6),
       // STOCKS IN THE NEWS
-      store.dispatch('FETCH_BLOG_POSTS'),
+      store.dispatch('FETCH_BLOG_POSTS', 5),
       // TODAY'S MARKET OUTLOOK
       store.dispatch('FETCH_LATEST_COMMENT'),
       // TODAY'S MARKET OUTLOOK
-      store.dispatch('FETCH_MARKET_CALL_GUESTS'),
+      store.dispatch('FETCH_MARKET_CALL_GUESTS', 3),
       // Mobile opinions listing
       store.dispatch('FETCH_DAILY_OPINIONS', {
         type: 'opinions',
@@ -190,16 +168,6 @@ export default {
 
   computed: {
     ...mapGetters([ 'shouldShowAd', 'user' ]),
-  },
-
-  watch: {
-    shouldShowAd(should) {
-      if (!should) return
-
-      this.$nextTick(() => {
-        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-8') })
-      })
-    }
   },
 }
 </script>
@@ -297,17 +265,6 @@ export default {
 
       img
         margin-right 10px
-
-.ad-container
-  padding 20px 0
-  background rgba(248, 248, 248, 0.7)
-  border-bottom 1px solid #D9D9D9
-
-  .ad
-    width 728px
-    max-width 100%
-    min-height 90px
-    margin 0 auto
 
 @media (max-width 991px)
   .container

@@ -6,6 +6,16 @@
       <site-navigation />
     </div>
 
+    <div
+      class="ad-container"
+      v-if="shouldShowAd"
+    >
+      <Adsense
+        class="ad"
+        data-ad-client="ca-pub-4241986024094799"
+        data-ad-slot="3572899802"/>
+    </div>
+
     <router-view />
 
     <site-footer />
@@ -26,7 +36,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'user' ]),
+    ...mapGetters([ 'user', 'shouldShowAd' ]),
   },
 
   watch: {
@@ -65,6 +75,16 @@ body
 </style>
 
 <style lang="stylus" scoped>
+.ad-container
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
+  border-bottom 1px solid #D9D9D9
+
+  .ad
+    width 728px
+    max-width 100%
+    min-height 90px
+    margin 0 auto
 
 @media (max-width 991px)
   .sticky-header
