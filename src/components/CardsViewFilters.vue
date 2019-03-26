@@ -131,7 +131,7 @@ export default {
       border 1px solid rgba(0,0,0,0.1)
       padding 7px 20px 7px 10px
       cursor pointer
-      background-image url(/assets/arrow-down.png)
+      background-image url('~assets/images/arrow-down.png')
       background-position center right
       background-size 15px
       background-repeat no-repeat
@@ -176,6 +176,6 @@ export default {
       padding-right 0
 .icon
   &-search:after{
-    background-image url(/assets/lens.png)
+    background-image url('~assets/images/lens.png')
   }
 </style>

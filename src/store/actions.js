@@ -10,9 +10,7 @@ export default {
       })
   },
 
-  FETCH_EXPERTS: ({ commit, dispatch, state }, { page, limit = 25}) => {
-    page = page ? page : 1;
-
+  FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 25}) => {
     return api.fetchExperts(page, limit)
       .then(({ experts }) => {
         experts = _.map(experts, (expert, i) => {

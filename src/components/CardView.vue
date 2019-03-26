@@ -14,13 +14,13 @@
         class="card-social-links"
         v-if="expert"
       >
-        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.twitter }">
+        <li :class="{ 'has-link': socialLinks && socialLinks.twitter }">
           <a :href="twitterUrl"><i class="icon icon-twitter"/></a>
         </li>
-        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.linkedin }">
+        <li :class="{ 'has-link': socialLinks && socialLinks.linkedin }">
           <a :href="linkedInUrl"><i class="icon icon-linkedin"/></a>
         </li>
-        <li :class="{ 'has-link': this.socialLinks && this.socialLinks.facebook }">
+        <li :class="{ 'has-link': socialLinks && socialLinks.facebook }">
           <a :href="facebookUrl"><i class="icon icon-facebook"/></a>
         </li>
       </ul>
@@ -62,8 +62,8 @@ export default {
       default: false,
     },
     socialLinks: {
-      type: Object,
-      default: null
+      type: Array,
+      default: () => []
     },
     cardLink: {
       type: String,

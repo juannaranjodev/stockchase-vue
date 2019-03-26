@@ -4,6 +4,7 @@
       :title="title" 
       :search-placeholder="searchPlaceholder"
       target-search="experts"
+
     />
     <div class="experts">
       <div class="first-row">
@@ -15,8 +16,8 @@
           :image-src="expert.avatar"
           :name="expert.name"
           :title="expert.name"
-          :sub-title="expert.title + ' at ' + expert.company"
-          :footnote="expert.total_opinion + ' opinions'"
+          :sub-title="`${expert.title} at ${expert.company}`"
+          :footnote="`${expert.total_opinion} opinions`"
           :social-links="expert.social_links"
           :card-link="expert.url"
         />
@@ -32,8 +33,8 @@
           :image-src="expert.avatar"
           :name="expert.name"
           :title="expert.name"
-          :sub-title="expert.title + ' at ' + expert.company"
-          :footnote="expert.total_opinion + ' opinions'"
+          :sub-title="`${expert.title} at ${expert.company}`"
+          :footnote="`${expert.total_opinion} opinions`"
           :social-links="expert.social_links"
           :card-link="expert.url"
         />
@@ -65,13 +66,14 @@ export default {
   //   return `experts::container`
   // },
   data(){
+    const { params } = this.$route;
     return {
       title: 'Stock Experts',
       searchPlaceholder: 'Filter by expert name',
       paginator: {
-        type: this.$route.params.type ? this.$route.params.type : 'F',
-        sort: this.$route.params.sort ? this.$route.params.sort : 'FirstName',
-        direction: this.$route.params.direction ? this.$route.params.direction : 'desc',
+        type: params.type ? params.type : 'F',
+        sort: params.sort ? params.sort : 'FirstName',
+        direction: params.direction ? params.direction : 'desc',
       },
     }
   },

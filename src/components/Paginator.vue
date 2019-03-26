@@ -22,7 +22,7 @@
       </li>
       <li
         class="items"
-        v-for="n in generatePageNumbers"
+        v-for="n in pageNumbers"
         :key="n">
         <a 
           :href="generateURL(n)"
@@ -112,7 +112,7 @@ export default {
         this.totalPages - (this.maxArrayLength - 1) :
         this.currentPage - this.centerPage
     },
-    generatePageNumbers(){
+    pageNumbers(){
       return Array.from(Array(this.maxArrayLength), (x, index) => {
         var currentIndex = index + this.startIndex;
         return (this.startIndex > 0)? currentIndex : index + 1;
@@ -121,7 +121,6 @@ export default {
   },
   methods: {
     generateURL(page = 1){
-      console.log('page', page);
       if(page < 2) return this.main;
       return this.main+this.pattern.replace(':type', this.type)
         .replace(':sort', this.sort)
@@ -129,9 +128,6 @@ export default {
         .replace(':direction', this.direction)
         .replace(':itemsPerPage', this.itemsPerPage)
     },
-    pageClick(){
-
-    }
   },
 }
 </script>
@@ -166,12 +162,12 @@ export default {
       opacity 0.3
     .first .btn
       border-left 1px solid #CCC
-      background-image url('/assets/paginator-first.png')
+      background-image url('~assets/images/paginator-first.png')
       border-top-left-radius 5px
       border-bottom-left-radius 5px
       border-right none
     .prev .btn
-      background-image url('/assets/paginator-prev.png')
+      background-image url('~assets/images/paginator-prev.png')
       border-left 1px solid #CCC
     .items a
       display block
@@ -186,11 +182,11 @@ export default {
         border-color #FF4135
         pointer-events none
     .next .btn
-      background-image url('/assets/paginator-next.png')
+      background-image url('~assets/images/paginator-next.png')
     .next.disabled .btn
       border-right none 
     .last .btn
-      background-image url('/assets/paginator-last.png')
+      background-image url('~assets/images/paginator-last.png')
       border-top-right-radius 5px
       border-bottom-right-radius 5px
 </style>
