@@ -7,34 +7,42 @@
     </p>
     <ul>
       <li :class="{ first: true, disabled: currentPage <= 3 }">
-        <button
-          class="btn" 
-          :disabled="currentPage <= 3"/>
+        <a 
+          class="btn"
+          :href="main"
+          :disabled="currentPage <= 3"
+          title="First Page"/>
       </li>
       <li :class="{ prev: true, disabled: currentPage < 2 }">
-        <button
+        <a 
           class="btn"
-          :disabled="currentPage < 2"/>
+          :href="generateURL(currentPage - 1)"
+          :disabled="currentPage < 2"
+          title="Previous Page"/>
       </li>
       <li
         class="items"
         v-for="n in generatePageNumbers"
         :key="n">
         <a 
-          href="#"
-          :class="{ active: n === currentPage }">
+          :href="generateURL(n)"
+          :class="{ active: n == currentPage }">
           {{ n }}
         </a>
       </li>
       <li :class="{ next: true, disabled: currentPage > (totalPages - 1) }">
-        <button
+        <a 
           class="btn"
-          :disabled="currentPage > (totalPages - 1)"/>
+          :href="generateURL(currentPage + 1)"
+          :disabled="currentPage > (totalPages - 1)"
+          title="Next Page"/>
       </li>
       <li :class="{ last: true, disabled: currentPage > (totalPages - 3) }">
-        <button
+        <a 
           class="btn"
-          :disabled="currentPage > (totalPages - 3)"/>
+          :href="generateURL(totalPages)"
+          :disabled="currentPage > (totalPages - 3)"
+          title="Last Page"/>
       </li>
     </ul>
   </section>
@@ -44,10 +52,6 @@
 export default {
   name: 'CardsFilter',
   props: {
-    currentPage: {
-      type: Number,
-      default: 1
-    },
     totalItems: {
       type: Number,
       default: 0
@@ -58,8 +62,33 @@ export default {
     },
     itemsPerPage: {
       type: Number,
-      default: 25
+      default: 15
     },
+    type: {
+      type: String,
+      default: ''
+    },
+    sort: {
+      type: String,
+      default: '',
+    },
+    direction: {
+      type: String,
+      default: 'desc'
+    },
+    main: {
+      type: String,
+      default: '/'
+    },
+    pattern: {
+      type: String,
+      default: '/'
+    }
+  },
+  data(){
+    return {
+      currentPage: this.$route.params.page ? parseInt(this.$route.params.page) : 1,
+    }
   },
   computed: {
     totalPages(){
@@ -91,6 +120,15 @@ export default {
     },
   },
   methods: {
+    generateURL(page = 1){
+      console.log('page', page);
+      if(page < 2) return this.main;
+      return this.main+this.pattern.replace(':type', this.type)
+        .replace(':sort', this.sort)
+        .replace(':page', page)
+        .replace(':direction', this.direction)
+        .replace(':itemsPerPage', this.itemsPerPage)
+    },
     pageClick(){
 
     }

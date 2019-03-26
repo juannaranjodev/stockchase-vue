@@ -40,8 +40,12 @@
       </div>
     </div>
     <paginator
-      :current-page="currentPage"
+      :type="paginator.type"
+      :sort="paginator.sort"
+      :direction="paginator.direction"
       :total-items="totalExperts"
+      :main="'/expert'"
+      :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
   </div>
 </template>
@@ -57,13 +61,18 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Experts',
   
-  serverCacheKey: () => {
-    return `experts::container`
-  },
-  data: () => {
+  // serverCacheKey: () => { // spent hours fixing on why the pagination keeps on pointing on the wrong page, this turns out to be the culprit. arg....
+  //   return `experts::container`
+  // },
+  data(){
     return {
       title: 'Stock Experts',
       searchPlaceholder: 'Filter by expert name',
+      paginator: {
+        type: this.$route.params.type ? this.$route.params.type : 'F',
+        sort: this.$route.params.sort ? this.$route.params.sort : 'FirstName',
+        direction: this.$route.params.direction ? this.$route.params.direction : 'desc',
+      },
     }
   },
   components: {
@@ -73,9 +82,12 @@ export default {
   },
 
   asyncData ({ store, route }) {
+    const { params } = route;
+
     return Promise.all([
       store.dispatch('FETCH_EXPERTS', {
-        page: 1
+        page: params.page ?  parseInt(params.page) : 1,
+        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
       }),
       store.dispatch('FETCH_TOTAL_EXPERTS')
     ])
@@ -84,9 +96,6 @@ export default {
   computed: {
     ...mapGetters(['experts', 'totalExperts']),
 
-    currentPage(){
-      return 1 // replace this with url params
-    },
     firstFiveExperts() {
       return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5)
     },
