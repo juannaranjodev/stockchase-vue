@@ -95,10 +95,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(11),
       field: 'adCampaign_id',
     },
-    show_ad: {
-      type: DataTypes.STRING(1),
-      field: 'ShowAd',
-    },
     url: {
       type: DataTypes.VIRTUAL,
       get: function() {

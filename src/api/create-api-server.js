@@ -19,7 +19,7 @@ export function createAPI () {
       return total
     },
 
-    async fetchExperts (page, limit = 25) {
+    async getExpertsByPage (page, limit = 25) {
       const experts = await Expert.getExpertsByPage(page, limit)
 
       return {
