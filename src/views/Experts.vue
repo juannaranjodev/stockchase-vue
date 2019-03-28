@@ -4,7 +4,8 @@
       :title="title" 
       :search-placeholder="searchPlaceholder"
       target-search="experts"
-
+      reset-url="/expert"
+      :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
     <div class="experts">
       <div class="first-row">
@@ -45,6 +46,7 @@
       :sort="paginator.sort"
       :direction="paginator.direction"
       :total-items="totalExperts"
+      :items-per-page="this.$route.params.itemsPerPage"
       :main="'/expert'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
@@ -67,6 +69,7 @@ export default {
   // },
   data(){
     const { params } = this.$route;
+    
     return {
       title: 'Stock Experts',
       searchPlaceholder: 'Filter by expert name',
@@ -84,15 +87,24 @@ export default {
   },
 
   asyncData ({ store, route }) {
-    const { params } = route;
+    const { params, query } = route;
 
-    return Promise.all([
+    let promises = (Object.keys(query).length > 0) ? [
+      store.dispatch('FETCH_EXPERTS_BY_NAME', {
+        term: decodeURI(query.search),
+        page: params.page ?  parseInt(params.page) : 1,
+        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
+      }),
+      store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
+    ] : [
       store.dispatch('FETCH_EXPERTS', {
         page: params.page ?  parseInt(params.page) : 1,
         limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
       }),
-      store.dispatch('FETCH_TOTAL_EXPERTS')
-    ])
+      store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
+    ];
+
+    return Promise.all(promises)
   },
 
   computed: {

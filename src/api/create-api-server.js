@@ -13,13 +13,21 @@ const Company = db.Company
 
 export function createAPI () {
   return {
-    async getTotalExperts () {
-      const total = await Expert.getTotalExperts()
+    async getExpertsByName (term, page = 1, limit = 15) {
+      const experts = await Expert.getExpertsByName(term, page, limit)
+
+      return {
+        experts
+      }
+    },
+
+    async getTotalExperts (term = null) {
+      const total = await Expert.getTotalExperts(term)
 
       return total
     },
 
-    async getExpertsByPage (page, limit = 25) {
+    async getExpertsByPage (page = 1, limit = 15) {
       const experts = await Expert.getExpertsByPage(page, limit)
 
       return {

@@ -3,14 +3,27 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
-  FETCH_TOTAL_EXPERTS: ({ commit, dispatch, state }) => {
-    return api.getTotalExperts()
+  FETCH_EXPERTS_BY_NAME: ({ commit, dispatch, state }, { term, page = 1, limit = 15}) => {
+    return api.getExpertsByName(term, page, limit)
+      .then(({ experts }) => {
+        experts = _.filter(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
+        commit('SET_EXPERTS', experts)
+      })
+  },
+
+  FETCH_TOTAL_EXPERTS: ({ commit, dispatch, state }, { term = null } ) => {
+    return api.getTotalExperts(term)
       .then(total => {
         commit('SET_TOTAL_EXPERTS', total)
       })
   },
 
-  FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 25}) => {
+  FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 15}) => {
     return api.getExpertsByPage(page, limit)
       .then(({ experts }) => {
         experts = _.map(experts, (expert, i) => {

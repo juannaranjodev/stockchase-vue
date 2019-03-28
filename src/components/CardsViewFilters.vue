@@ -11,16 +11,12 @@
       <div class="col-md-4">
         <label>Show</label>
         <ul class="filters-count">
-          <li>
+          <li
+            v-for="n in [15, 30, 60]"
+            :key="n">
             <a 
-              href="#"
-              class="active">15</a>
-          </li>
-          <li>
-            <a href="#">30</a>
-          </li>
-          <li>
-            <a href="#">60</a>
+              :href="generateURL(n)"
+              :class="itemsPerPage(n)">{{ n }}</a>
           </li>
         </ul>
       </div>
@@ -39,17 +35,25 @@
             ref="search"
             :placeholder="searchPlaceholder"
             autocomplete="off"
+            @keyup="onSearchKeyUp"
           >
           <button 
             class="btn-search"
-            @click="submitSearch">
+            @click="onSubmitSearch">
             <i class="icon icon-search"/>
           </button>
         </div>
       </div>
     </div>
+    <div
+      class="cards-search"
+      v-if="this.$route.query.search">
+      You searched for: <code>{{ this.$route.query.search }}</code>
+      <a 
+        :href="resetUri"
+        class="btn btn-primary btn-sm search-reset" >Reset</a>
+    </div>
   </section>
-
 </template>
 
 <script>
@@ -69,41 +73,85 @@ export default {
     targetSearch: {
       type: String,
       default: 'experts'
+    },
+    resetUri: {
+      type: String,
+      default: '',
+    },
+    pattern: {
+      type: String,
+      default: '/'
     }
   },
   computed: {
     ...mapGetters(['shouldShowAd']),
-    sortedOptions: () => {
-      return [
-        'Most Recent',
-        '0-9',
-      ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''))
-    },
+    sortedOptions: () => [
+      'Most Recent',
+      '0-9',
+    ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')),
   },
   methods: {
-    submitSearch(){
+    itemsPerPage(pages = 15) {
+      return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (pages == 15)? 'active' : null
+    },
+    generateURL(pages = 15){
+      const { params, query } = this.$route;
+      let url = this.resetUri + this.pattern
+        .replace(':type', params.type || 'F')
+        .replace(':sort', params.sort || 'FirstName')
+        .replace(':page', params.page || '1')
+        .replace(':direction', params.direction || 'desc' )
+        .replace(':itemsPerPage', pages)
+  
+      return query.search ? `${url}?search=${query.search}` : url
+    },
+    onSubmitSearch(){
       if(this.$refs.search.value.length > 3){
-        console.log(this.$refs.search.value);
+        var query = encodeURI(this.$refs.search.value);
         // do something here
+        window.location = `?search=${query}`
       }
-    }
+    },
+    onSearchKeyUp(e){
+      console.log(e.target.value);
+      // do search here
+    },
   },
 }
 </script>
 
 
 <style lang="stylus">
+  code
+    padding 2px 4px
+    font-size 90%
+    color #c7254e
+    background-color #f9f2f4
+    border-radius 4px
+  .search-reset
+    border-color #CB361C
+    background-color #FF5030
+    float right
+    font-size 12px
   .cards
     &-title
       font-size 1.6em
       margin 0.75em 0
       color #111
       font-weight normal
+    &-filter
+      border-bottom 11px solid #474747
+      margin-bottom 20px
+      padding-bottom 10px
+    &-search 
+      margin-top 10px
+      border 1px solid rgba(0,0,0,0.1)
+      padding 8px 15px
+      border-radius 4px
+      line-height 2
   .filters
-    border-bottom 11px solid #474747
     border-top 1px solid rgba(0,0,0,0.1)
-    padding 10px 0
-    margin-bottom 20px
+    padding 10px 0 0
     &-count
       display inline-block
       padding 0

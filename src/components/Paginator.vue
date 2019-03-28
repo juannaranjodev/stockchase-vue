@@ -1,6 +1,6 @@
 <template>
   <section
-    v-if="totalItems > 25"
+    v-if="totalItems > itemsPerPage"
     class="paginator">
     <p>
       Showing {{ sliceStart }} to {{ slideEnd }} of {{ totalItems }}
@@ -121,12 +121,16 @@ export default {
   },
   methods: {
     generateURL(page = 1){
-      if(page < 2) return this.main;
-      return this.main+this.pattern.replace(':type', this.type)
+      const { query } = this.$route;
+      let url = this.main;
+
+      if(page > 1) url = url+this.pattern.replace(':type', this.type)
         .replace(':sort', this.sort)
         .replace(':page', page)
         .replace(':direction', this.direction)
         .replace(':itemsPerPage', this.itemsPerPage)
+  
+      return query.search ? `${url}?search=${query.search}` : url
     },
   },
 }
