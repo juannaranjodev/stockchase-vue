@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     itemsPerPage(pages = 15) {
-      return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (pages == 15)? 'active' : null
+      return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
     },
     generateURL(pages = 15){
       const { params, query } = this.$route;

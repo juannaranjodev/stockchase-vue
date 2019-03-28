@@ -4,7 +4,7 @@
       :title="title" 
       :search-placeholder="searchPlaceholder"
       target-search="experts"
-      reset-url="/expert"
+      :reset-uri="'/expert'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
     <div class="experts">
@@ -23,8 +23,7 @@
           :card-link="expert.url"
         />
       </div>
-      <!-- ad here -->
-      <div>Test ad</div>
+      <in-feed-ad/>
       <div class="second-row">
         <card-view
           v-for="(expert, index) in theRestOfExperts"
@@ -56,6 +55,7 @@
 <script>
 import * as c from '../constants'
 
+import InFeedAd from '../components/ads/InFeedAd.vue'
 import CardView from '../components/CardView.vue'
 import CardsViewFilters from '../components/CardsViewFilters.vue'
 import Paginator from '../components/Paginator.vue'
