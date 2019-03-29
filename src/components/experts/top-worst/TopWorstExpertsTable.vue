@@ -15,7 +15,7 @@
     <tbody>
       <tr
         v-for="expert in experts"
-        :key="expert.id + '-' + expert.index"
+        :key="`${expert.id}-${expert.index}`"
       >
         <td>
           <span v-if="expert.index == 0">{{ expert.id }}</span>
