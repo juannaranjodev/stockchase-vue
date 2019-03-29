@@ -1,6 +1,7 @@
-import api from '../api'
-import * as c from '../constants'
+import api from '../../api'
+import * as c from '../../constants'
 import _ from 'lodash'
+import expertActions from './expertActions'
 
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
@@ -132,4 +133,6 @@ export default {
         commit('SET_USER', user)
       })
   },
+
+  ...expertActions,
 }

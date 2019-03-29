@@ -24,7 +24,7 @@ export default {
 
   data() {
     return {
-      selectedTab: 'top' // Or 'worst'
+      selectedTab: 'top', // Or 'worst',
     }
   },
 
@@ -41,6 +41,21 @@ export default {
       this.selectedTab = tab
     },
   },
+
+  asyncData ({ store, route }) {
+    return Promise.all([
+      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
+      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
+    ])
+  },
+
+  updated() {
+    console.log('topExperts', this.topExperts)
+  },
+
+  mounted() {
+    console.log('mounted', this.topExperts)
+  }
 }
 </script>
 

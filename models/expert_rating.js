@@ -50,9 +50,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Get top/worst experts
-  ExpertRating.getTopOrWorstExperts = function(limit = 25, top = true) {
-    const order = top ? 'DESC' : 'ASC';
-    return sequelize.query(`
+  ExpertRating.getTopOrWorstExperts = async function(top = true, limit = 25) {
+    const order = top ? 'DESC' : 'ASC'
+    return await sequelize.query(`
       SELECT
         new_expert_rates.*,
         top_rates.rate,
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
             SUM(big_win + win) AS wins
           FROM new_expert_rates
           GROUP BY expert_id
-          ORDER BY rate :order, wins :order
+          ORDER BY rate ${order}, wins ${order}
           LIMIT :limit
         ) AS top_rates,
         new_expert_rates,
@@ -83,10 +83,14 @@ module.exports = (sequelize, DataTypes) => {
         top_rates.expert_id = new_expert.id;
     `, {
       replacements: {
-        limit,
-        order
+        limit
       },
+      model: ExpertRating,
+      mapToModel: true
+    }).then((experts) => {
+      return experts
     });
   };
+
   return ExpertRating;
 };
