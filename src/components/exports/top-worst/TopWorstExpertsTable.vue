@@ -41,7 +41,7 @@
         </td>
         <td>
           <div class="expert-period">{{ expert.period }}</div>
-          <top-worst-expert-rating />
+          <top-worst-expert-rating :rate="expert.rate" />
         </td>
         <td>
           <span>{{ expert.bigLose }}</span>

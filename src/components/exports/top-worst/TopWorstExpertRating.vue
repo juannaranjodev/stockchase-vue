@@ -1,16 +1,46 @@
 <template>
   <div class="top-worst-expert-rate">
-    <img src="~assets/images/stars/star_whole.png">
-    <img src="~assets/images/stars/star_whole.png">
-    <img src="~assets/images/stars/star_whole.png">
-    <img src="~assets/images/stars/star_half.png">
-    <img src="~assets/images/stars/star_empty.png">
+    <img
+      v-for="(count, index) in countWhole"
+      :key="`whole-star-${index}`"
+      src="~assets/images/stars/star_whole.png"
+    >
+    <img
+      v-if="hasHalf"
+      src="~assets/images/stars/star_half.png"
+    >
+    <img
+      v-for="(count, index) in countEmpty"
+      :key="`empty-star-${index}`"
+      src="~assets/images/stars/star_empty.png"
+    >
   </div>
 </template>
 
 <script>
 export default {
   name: 'TopWorstExpertRating',
+
+  props: {
+    rate: {
+      type: Number,
+      default: 0,
+    }
+  },
+
+  computed: {
+    countWhole() {
+      return Math.floor(this.rate);
+    },
+
+    hasHalf() {
+      return Math.ceil(this.rate) - Math.floor(this.rate) === 1;
+    },
+
+    countEmpty() {
+      return 5 - Math.ceil(this.rate);
+    },
+  }
 }
 </script>
 
