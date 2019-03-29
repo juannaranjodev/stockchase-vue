@@ -49,5 +49,44 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get top/worst experts
+  ExpertRating.getTopOrWorstExperts = function(limit = 25, top = true) {
+    const order = top ? 'DESC' : 'ASC';
+    return sequelize.query(`
+      SELECT
+        new_expert_rates.*,
+        top_rates.rate,
+        new_expert.name
+      FROM
+        (
+          SELECT
+            expert_id,
+            AVG(
+              CASE
+                WHEN big_win + win - lose - big_lose > 10  THEN 5
+                WHEN big_win + win - lose - big_lose < 11 AND big_win + win - lose - big_lose > 0 THEN 4
+                WHEN big_win + win - lose - big_lose > -11 AND big_win + win - lose - big_lose < 0 THEN 2
+                WHEN big_win + win - lose - big_lose < -11  THEN 1
+                ELSE 3
+              END
+            ) AS rate,
+            SUM(big_win + win) AS wins
+          FROM new_expert_rates
+          GROUP BY expert_id
+          ORDER BY rate :order, wins :order
+          LIMIT :limit
+        ) AS top_rates,
+        new_expert_rates,
+        new_expert
+      where
+        top_rates.expert_id = new_expert_rates.expert_id AND
+        top_rates.expert_id = new_expert.id;
+    `, {
+      replacements: {
+        limit,
+        order
+      },
+    });
+  };
   return ExpertRating;
 };
