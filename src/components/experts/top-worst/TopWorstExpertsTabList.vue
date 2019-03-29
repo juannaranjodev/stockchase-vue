@@ -1,16 +1,16 @@
 <template>
   <div class="top-worst-experts-tab-list">
     <b-button
-      :variant="btnVariant('top')"
+      :variant="getVariant('top')"
       @click="$emit('changeTab', 'top')"
-      :class="btnClass('top')"
+      :class="{ 'btn-tab': true, 'btn-tab--active': tab === 'top' }"
     >
       Top 25
     </b-button>
     <b-button
-      :variant="btnVariant('worst')"
+      :variant="getVariant('worst')"
       @click="$emit('changeTab', 'worst')"
-      :class="btnClass('worst')"
+      :class="{ 'btn-tab': true, 'btn-tab--active': tab === 'worst' }"
     >
       Worst 25
     </b-button>
@@ -29,12 +29,9 @@
       },
     },
 
-    computed: {
-      btnVariant() {
-        return buttonName => buttonName === this.tab ? 'danger' : 'light'
-      },
-      btnClass() {
-        return buttonName => buttonName === this.tab ? 'btn-tab btn-active' : 'btn-tab'
+    methods: {
+      getVariant(buttonName) {
+        return buttonName === this.tab ? 'danger' : 'light'
       }
     }
   }
