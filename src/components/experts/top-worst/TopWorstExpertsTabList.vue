@@ -43,14 +43,14 @@
 <style lang="stylus" scoped>
 .top-worst-experts-tab-list
   .btn-tab
-    margin-right: 6px;
-    border-radius: 4px 4px 0 0;
-    font-size: 17px;
+    margin-right: 6px
+    border-radius: 4px 4px 0 0
+    font-size: 17px
 
     &:focus
-      box-shadow: none;
+      box-shadow: none
 
     &--active
-      background-color: #FF4135;
-      border-color: #FF4135;
+      background-color: #FF4135
+      border-color: #FF4135
 </style>

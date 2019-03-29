@@ -46,10 +46,10 @@ export default {
 
 <style lang="stylus" scoped>
 .top-worst-expert-rate
-  display: flex;
+  display: flex
 
   img
-    width: 13px;
-    height: 13px;
-    margin-right: 4px;
+    width: 13px
+    height: 13px
+    margin-right: 4px
 </style>

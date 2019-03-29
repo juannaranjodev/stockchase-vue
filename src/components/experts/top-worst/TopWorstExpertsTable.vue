@@ -86,41 +86,41 @@ export default {
 .top-worst-experts-table
   thead
     th
-      border-bottom: 0;
-      font-size: 13px;
-      color: #2B3440;
-      background-color: #F6F8FB;
-      height: 50px;
-      border-top: 0;
+      border-bottom: 0
+      font-size: 13px
+      color: #2B3440
+      background-color: #F6F8FB
+      height: 50px
+      border-top: 0
   tbody
     td
-      margin-bottom: 1px solid #EEF1F7;
-      font-size: 15px;
-      color: #000000;
-      vertical-align: middle;
+      margin-bottom: 1px solid #EEF1F7
+      font-size: 15px
+      color: #000000
+      vertical-align: middle
 
   .expert-details
-    display: flex;
-    align-items: center;
+    display: flex
+    align-items: center
 
     .expert-avatar
-      width: 36px;
-      height: 36px;
-      background-color: gainsboro;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-right: 8px;
+      width: 36px
+      height: 36px
+      background-color: gainsboro
+      border-radius: 50%
+      overflow: hidden
+      margin-right: 8px
 
       img
-        width: 36px;
-        height: 36px;
+        width: 36px
+        height: 36px
 
     .expert-name
-      margin: 0;
-      font-weight: 700;
+      margin: 0
+      font-weight: 700
 
     .expert-info
-      margin: 0;
-      font-size: 12px;
-      opacity: 0.35;
+      margin: 0
+      font-size: 12px
+      opacity: 0.35
 </style>
