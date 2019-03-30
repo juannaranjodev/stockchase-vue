@@ -1,10 +1,12 @@
 <template>
   <div class="container">
+    <div class="top-worst-experts-container-title">
+      Stock Experts Top Picks Portfolios Ratings
+    </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
       @changeTab="changeTab"
     />
-
     <top-worst-expert-table :experts="experts"/>
   </div>
 </template>
@@ -58,4 +60,10 @@ export default {
   max-width 100%
   padding 0 20px 20px
   margin 0 auto
+
+  .top-worst-experts-container-title
+    font-size: 44px
+    color: #2B3440
+    text-align: center
+    padding: 2rem
 </style>
