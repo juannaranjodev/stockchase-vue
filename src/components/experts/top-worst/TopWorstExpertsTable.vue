@@ -36,7 +36,7 @@
                 :href="expert.url"
                 class="expert-name">{{ expert.name }}</a>
               <p class="expert-info">
-                {{ expert.total_tp }} Top Picks | {{ expert.companies }} Total Company
+                {{ expert.total_tp }} Top Picks | {{ expert.companies }} Total Companies
               </p>
             </div>
           </div>
