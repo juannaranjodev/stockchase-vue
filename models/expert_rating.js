@@ -90,11 +90,12 @@ module.exports = (sequelize, DataTypes) => {
       type: sequelize.QueryTypes.SELECT
     }).then(experts => {
       let beforeExpertId = null
+      let expertRank = 1
       return experts.map(expert => {
         expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg'
         if (beforeExpertId !== expert.expert_id) {
           beforeExpertId = expert.expert_id
-          expert.firstPeriod = true
+          expert.expertRank = expertRank++
         }
         return expert
       })

@@ -18,11 +18,11 @@
         :key="`${expert.id}-${rateIndex}`"
       >
         <td>
-          <span v-if="expert.firstPeriod">{{ expert.expert_id }}</span>
+          <span v-if="expert.expertRank">{{ expert.expertRank }}</span>
         </td>
         <td>
           <div
-            v-if="expert.firstPeriod"
+            v-if="expert.expertRank"
             class="expert-details"
           >
             <div class="expert-avatar">
