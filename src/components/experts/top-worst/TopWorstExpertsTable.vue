@@ -2,7 +2,7 @@
   <table class="table top-worst-experts-table">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Rank</th>
         <th>Name</th>
         <th>Period</th>
         <th>Big Lose</th>
@@ -15,7 +15,7 @@
     <tbody>
       <tr
         v-for="(expert, rateIndex) in experts"
-        :key="`${expert.id}-${rateIndex}`"
+        :key="`${expert.expert_id}-${rateIndex}`"
       >
         <td>
           <span v-if="expert.expertRank">{{ expert.expertRank }}</span>
@@ -32,7 +32,9 @@
               >
             </div>
             <div class="expert-info-container">
-              <p class="expert-name">{{ expert.name }}</p>
+              <a
+                :href="expert.url"
+                class="expert-name">{{ expert.name }}</a>
               <p class="expert-info">
                 {{ expert.total_tp }} Top Picks | {{ expert.companies }} Total Company
               </p>
