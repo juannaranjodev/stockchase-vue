@@ -86,6 +86,8 @@ export default {
 
 <style lang="stylus" scoped>
 .top-worst-experts-table
+  margin-top: .5rem
+
   thead
     th
       border-bottom: 0
