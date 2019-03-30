@@ -6,7 +6,6 @@ export default {
       .then(experts => {
         const actionName = isTop ? 'SET_TOP_EXPERTS' : 'SET_WORST_EXPERTS'
         commit(actionName, experts)
-        console.log('action name:', actionName)
       })
   }
 }

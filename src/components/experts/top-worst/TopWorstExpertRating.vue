@@ -23,7 +23,7 @@ export default {
 
   props: {
     rate: {
-      type: Number,
+      type: [Number, String],
       default: 0,
     }
   },

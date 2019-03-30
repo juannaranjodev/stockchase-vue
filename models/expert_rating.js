@@ -56,7 +56,8 @@ module.exports = (sequelize, DataTypes) => {
       SELECT
         new_expert_rates.*,
         top_rates.rate,
-        new_expert.name
+        new_expert.name,
+        new_expert.avatar
       FROM
         (
           SELECT
@@ -80,17 +81,25 @@ module.exports = (sequelize, DataTypes) => {
         new_expert
       where
         top_rates.expert_id = new_expert_rates.expert_id AND
-        top_rates.expert_id = new_expert.id;
+        top_rates.expert_id = new_expert.id
+      ORDER BY top_rates.rate ${order}, top_rates.wins ${order}, top_rates.expert_id, FIELD(new_expert_rates.period, '1 Month', '6 Months', '12 Months', '2 Years', '5 Years');
     `, {
       replacements: {
         limit
       },
-      model: ExpertRating,
-      mapToModel: true
-    }).then((experts) => {
-      return experts
-    });
-  };
+      type: sequelize.QueryTypes.SELECT
+    }).then(experts => {
+      let beforeExpertId = null
+      return experts.map(expert => {
+        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg'
+        if (beforeExpertId !== expert.expert_id) {
+          beforeExpertId = expert.expert_id
+          expert.firstPeriod = true
+        }
+        return expert
+      })
+    })
+  }
 
-  return ExpertRating;
+  return ExpertRating
 };

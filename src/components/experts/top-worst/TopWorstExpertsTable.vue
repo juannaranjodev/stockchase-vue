@@ -14,27 +14,27 @@
     </thead>
     <tbody>
       <tr
-        v-for="expert in experts"
-        :key="`${expert.id}-${expert.index}`"
+        v-for="(expert, rateIndex) in experts"
+        :key="`${expert.id}-${rateIndex}`"
       >
         <td>
-          <span v-if="expert.index == 0">{{ expert.id }}</span>
+          <span v-if="expert.firstPeriod">{{ expert.expert_id }}</span>
         </td>
         <td>
           <div
-            v-if="expert.index == 0"
+            v-if="expert.firstPeriod"
             class="expert-details"
           >
             <div class="expert-avatar">
               <img
-                src="~assets/images/user-icon.png"
+                :src="expert.avatar"
                 alt="expert-avatar"
               >
             </div>
             <div class="expert-info-container">
               <p class="expert-name">{{ expert.name }}</p>
               <p class="expert-info">
-                {{ expert.topPicks }} Top Picks | {{ expert.companies }} Total Company
+                {{ expert.total_tp }} Top Picks | {{ expert.companies }} Total Company
               </p>
             </div>
           </div>
@@ -44,19 +44,19 @@
           <top-worst-expert-rating :rate="expert.rate" />
         </td>
         <td>
-          <span>{{ expert.bigLose }}</span>
+          <span>{{ expert.big_lose }}</span>
         </td>
         <td>
           <span>{{ expert.lose }}</span>
         </td>
         <td>
-          <span>{{ expert.noChange }}</span>
+          <span>{{ expert.no_change }}</span>
         </td>
         <td>
           <span>{{ expert.win }}</span>
         </td>
         <td>
-          <span>{{ expert.bigWin }}</span>
+          <span>{{ expert.big_win }}</span>
         </td>
       </tr>
     </tbody>
