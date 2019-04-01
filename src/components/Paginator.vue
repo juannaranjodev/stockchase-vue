@@ -124,7 +124,7 @@ export default {
       const { query } = this.$route;
       let url = this.main;
 
-      if(page > 1) url = url+this.pattern.replace(':type', this.type)
+      if (page > 1) url = url + this.pattern.replace(':type', this.type)
         .replace(':sort', this.sort)
         .replace(':page', page)
         .replace(':direction', this.direction)

@@ -61,10 +61,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Experts',
-  
-  // serverCacheKey: () => { // spent hours fixing on why the pagination keeps on pointing on the wrong page, this turns out to be the culprit. arg....
-  //   return `experts::container`
-  // },
+
   data(){
     const { params } = this.$route;
     
@@ -78,6 +75,7 @@ export default {
       },
     }
   },
+
   components: {
     CardsViewFilters,
     CardView,

@@ -16,7 +16,7 @@
             :key="n">
             <a 
               :href="generateURL(n)"
-              :class="itemsPerPage(n)">{{ n }}</a>
+              :class="getItemsPerPage(n)">{{ n }}</a>
           </li>
         </ul>
       </div>
@@ -47,8 +47,8 @@
     </div>
     <div
       class="cards-search"
-      v-if="this.$route.query.search">
-      You searched for: <code>{{ this.$route.query.search }}</code>
+      v-if="searchQuery">
+      You searched for: <code>{{ searchQuery }}</code>
       <a 
         :href="resetUri"
         class="btn btn-primary btn-sm search-reset" >Reset</a>
@@ -89,9 +89,12 @@ export default {
       'Most Recent',
       '0-9',
     ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')),
+    searchQuery() {
+      return this.$route.query.search
+    }
   },
   methods: {
-    itemsPerPage(pages = 15) {
+    getItemsPerPage(pages = 15) {
       return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
     },
     generateURL(pages = 15){
@@ -107,7 +110,7 @@ export default {
     },
     onSubmitSearch(){
       if(this.$refs.search.value.length > 3){
-        var query = encodeURI(this.$refs.search.value);
+        let query = encodeURI(this.$refs.search.value);
         // do something here
         window.location = `?search=${query}`
       }

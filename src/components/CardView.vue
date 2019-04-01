@@ -69,13 +69,13 @@ export default {
 
   computed: {
     twitterUrl(){
-      return this.socialLinks && this.socialLinks.twitter ? this.socialLinks.twitter : ''
+      return this.socialLinks && this.socialLinks.twitter || ''
     },
     linkedInUrl(){
-      return this.socialLinks && this.socialLinks.linkedin ? this.socialLinks.linkedin : ''
+      return this.socialLinks && this.socialLinks.linkedin || ''
     },
     facebookUrl(){
-      return this.socialLinks && this.socialLinks.facebook ? this.socialLinks.facebook : ''
+      return this.socialLinks && this.socialLinks.facebook || ''
     },
   }
 }
