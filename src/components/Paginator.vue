@@ -3,7 +3,7 @@
     v-if="totalItems > itemsPerPage"
     class="paginator">
     <p>
-      Showing {{ sliceStart }} to {{ slideEnd }} of {{ totalItems }}
+      Showing {{ sliceStart }} to {{ sliceEnd }} of {{ totalItems }}
     </p>
     <ul>
       <li :class="{ first: true, disabled: currentPage <= 3 }">
@@ -103,7 +103,7 @@ export default {
     sliceStart(){
       return ((this.currentPage * this.itemsPerPage) - this.itemsPerPage) + 1
     },
-    slideEnd(){
+    sliceEnd(){
       var sliceEnd = this.currentPage * this.itemsPerPage;
       return sliceEnd > this.totalItems ? this.totalItems : sliceEnd
     },

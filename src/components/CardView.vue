@@ -12,7 +12,7 @@
       </a>
       <ul
         class="card-social-links"
-        v-if="expert"
+        v-if="socialLinks"
       >
         <li :class="{ 'has-link': socialLinks && socialLinks.twitter }">
           <a :href="twitterUrl"><i class="icon icon-twitter"/></a>
@@ -57,13 +57,9 @@ export default {
       type: String,
       default: '`footnote` here',
     },
-    expert: {
-      type: Boolean,
-      default: false,
-    },
     socialLinks: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => null
     },
     cardLink: {
       type: String,

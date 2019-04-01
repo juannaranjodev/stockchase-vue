@@ -12,14 +12,13 @@
         <card-view 
           v-for="(expert, index) in firstFiveExperts"
           :key="index"
-          :expert="true"
           image-size="small"
           :image-src="expert.avatar"
           :name="expert.name"
           :title="expert.name"
           :sub-title="`${expert.title} at ${expert.company}`"
           :footnote="`${expert.total_opinion} opinions`"
-          :social-links="expert.social_links"
+          :social-links="expert.social_links || {}"
           :card-link="expert.url"
         />
       </div>
@@ -28,14 +27,13 @@
         <card-view
           v-for="(expert, index) in theRestOfExperts"
           :key="index"
-          :expert="true"
           image-size="small"
           :image-src="expert.avatar"
           :name="expert.name"
           :title="expert.name"
           :sub-title="`${expert.title} at ${expert.company}`"
           :footnote="`${expert.total_opinion} opinions`"
-          :social-links="expert.social_links"
+          :social-links="expert.social_links || {}"
           :card-link="expert.url"
         />
       </div>
