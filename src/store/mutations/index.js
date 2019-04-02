@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import _ from 'lodash'
-import expertMutations from './expertMutations'
+import expertMutations from './expert'
 
 export default {
   SET_OPINIONS: (state, opinions=[]) => {

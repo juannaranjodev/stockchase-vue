@@ -1,7 +1,7 @@
 import api from '../../api'
 import * as c from '../../constants'
 import _ from 'lodash'
-import expertActions from './expertActions'
+import expertActions from './expert'
 
 export default {
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
