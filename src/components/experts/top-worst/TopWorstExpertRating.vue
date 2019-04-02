@@ -22,7 +22,7 @@ export default {
   name: 'TopWorstExpertRating',
 
   props: {
-    rate: {
+    rating: {
       type: [Number, String],
       default: 0,
     }
@@ -30,15 +30,15 @@ export default {
 
   computed: {
     countWhole() {
-      return Math.floor(this.rate);
+      return Math.floor(this.rating);
     },
 
     hasHalf() {
-      return Math.ceil(this.rate) - Math.floor(this.rate) === 1;
+      return this.rating % 1 > 0;
     },
 
     countEmpty() {
-      return 5 - Math.ceil(this.rate);
+      return 5 - Math.ceil(this.rating);
     },
   }
 }
