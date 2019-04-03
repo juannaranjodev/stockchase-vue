@@ -18,10 +18,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'DianomiAd',
-  // http://ssr.vuejs.org/en/caching.html#component-level-caching
-  serverCacheKey: () => {
-    return `ads::dianomi-ad`
-  },
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),

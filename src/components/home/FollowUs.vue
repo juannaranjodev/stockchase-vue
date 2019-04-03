@@ -24,9 +24,6 @@
 <script>
 export default {
   name: 'HomeFollowUs',
-  serverCacheKey: () => {
-    return `home::follow-us`
-  },
 }
 </script>
 

@@ -44,9 +44,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeMarketCall',
-  serverCacheKey: () => {
-    return `home::market-call`
-  },
 
   computed: {
     ...mapGetters([ 'latestExperts' ]),

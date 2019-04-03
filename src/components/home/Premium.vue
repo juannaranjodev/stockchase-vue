@@ -75,9 +75,6 @@ import _ from 'lodash'
 
 export default {
   name: 'HomePremium',
-  serverCacheKey: () => {
-    return `home::premium`
-  },
 
   computed: {
     ...mapGetters([ 'user', 'premiumCompanies' ]),
