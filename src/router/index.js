@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Home from '../views/Home'
 import TopWorstExpertList from '../views/TopWorstExpertList'
 import ExpertsView from '../views/Experts'
+import CompanyView from '../views/Company'
 
 Vue.use(Router)
 
@@ -28,6 +29,7 @@ export function createRouter () {
       { path: '/expert', component: ExpertsView },
       { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: ExpertsView },
       { path: '/expert/index/:character/:type', component: ExpertsView },
+      { path: '/company/view/:id', component: CompanyView },
     ]
   })
 }
