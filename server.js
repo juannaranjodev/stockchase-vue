@@ -61,7 +61,6 @@ app.use(favicon('./public/assets/favicon.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 function render (req, res) {
   const s = Date.now()
