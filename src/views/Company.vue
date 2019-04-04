@@ -7,6 +7,7 @@
       <div class="opinions-container">
         <opinions-list :items="opinions" />
         <link-ad class="d-none d-lg-block" />
+        <number-pagination />
       </div>
 
       <dianomi-ad />
@@ -19,10 +20,11 @@
 import { mapGetters } from 'vuex'
 import { stripTags } from '../util/filters'
 
-import CompanyHeader from '../components/company/Header.vue'
-import LinkAd from '../components/ads/LinkAd.vue'
-import DianomiAd from '../components/ads/DianomiAd.vue'
-import OpinionsList from '../components/opinions/List.vue'
+import CompanyHeader from '../components/Company/Header.vue'
+import LinkAd from '../components/Ads/LinkAd.vue'
+import DianomiAd from '../components/Ads/DianomiAd.vue'
+import OpinionsList from '../components/Opinions/List.vue'
+import NumberPagination from '../components/NumberPagination.vue'
 
 export default {
   name: 'Company',
@@ -32,6 +34,7 @@ export default {
     LinkAd,
     DianomiAd,
     OpinionsList,
+    NumberPagination
   },
 
   asyncData ({ store, route }) {
