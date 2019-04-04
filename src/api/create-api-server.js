@@ -186,7 +186,10 @@ export function createAPI () {
     },
 
     async fetchPremiumCompanies () {
-      return await Company.getCompaniesBySymbols(['COV-X', 'PHO-T', 'GMP-T'])
+      const symbols = ['V-N', 'RY-T', 'TD-T']
+      const companies = await Company.getCompaniesBySymbols(symbols)
+
+      return _.sortBy(companies, company => symbols.indexOf(company.symbol))
     },
   }
 }

@@ -162,10 +162,6 @@ export default {
     return Promise.all(queries)
   },
 
-  title () {
-    return 'Expert Opinions on Stock Trading'
-  },
-
   computed: {
     ...mapGetters([ 'shouldShowAd', 'user' ]),
   },
