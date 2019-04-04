@@ -149,6 +149,8 @@ export default {
       if (!symbol && !page) return Promise.reject({ url: `/company/view/${id}/${company.symbol}` })
 
       commit('SET_COMPANY', company)
+      page = page || 1
+      perPage = perPage || 15
 
       return Promise.all([
         api.countOpinionsByCompany(id),

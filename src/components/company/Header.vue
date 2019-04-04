@@ -1,26 +1,13 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <h2 class="title">
-        Latest Expert Opinions
-      </h2>
-      <div class="links">
-        <a
-          :class="{ link: true, active: type === 'opinions' }"
-          href="/opinions/recent"
-        >Stocks</a>
-        <a
-          :class="{ link: true, active: type === 'comments' }"
-          href="/opinions/market"
-        >Market</a>
-      </div>
+      <h2 class="title">What the experts are saying about {{ company.symbol }}</h2>
     </div>
     <div class="header-right">
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe d-none d-lg-inline"
-      >Too many ads? Remove ads !</a>
+        class="subscribe d-none d-lg-inline">Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -29,16 +16,10 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Header',
-  props: {
-    type: {
-      type: String,
-      default: 'opinions',
-    }
-  },
+  name: 'CompanyHeader',
 
   computed: {
-    ...mapGetters(['shouldShowAd'])
+    ...mapGetters(['shouldShowAd', 'company'])
   },
 }
 </script>
@@ -69,26 +50,6 @@ export default {
     margin-bottom 0
     margin-right 30px
 
-  .link
-    padding 5px 20px
-    font-size 16px
-    border-radius 15px
-    color black
-    line-height 1.1
-
-    &:not(:last-child)
-      margin-right 10px
-
-    &s
-      display flex
-      align-items center
-      margin 10px 0
-
-    &.active
-      background #A3A2A2
-      color white
-      pointer-events none
-
   .subscribe
     color black
     text-decoration underline
@@ -109,7 +70,5 @@ export default {
 
     .title
       margin-right 0
-    .links
-      margin-bottom 0
 
 </style>

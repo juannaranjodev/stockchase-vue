@@ -1,7 +1,16 @@
 <template>
   <div class="company-container">
     <div class="container">
-      <h1>this is company view page for {{ company.name }} ({{ company.symbol }}), {{ numOpinionPages }} opinion pages, {{ perPage }} per page, page #{{ page }}</h1>
+      <company-header />
+      <link-ad />
+
+      <div class="opinions-container">
+        <opinions-list :items="opinions" />
+        <link-ad class="d-none d-lg-block" />
+      </div>
+
+      <dianomi-ad />
+      <link-ad class="d-none d-lg-block" />
     </div>
   </div>
 </template>
@@ -10,8 +19,20 @@
 import { mapGetters } from 'vuex'
 import { stripTags } from '../util/filters'
 
+import CompanyHeader from '../components/company/Header.vue'
+import LinkAd from '../components/ads/LinkAd.vue'
+import DianomiAd from '../components/ads/DianomiAd.vue'
+import OpinionsList from '../components/opinions/List.vue'
+
 export default {
   name: 'Company',
+
+  components: {
+    CompanyHeader,
+    LinkAd,
+    DianomiAd,
+    OpinionsList,
+  },
 
   asyncData ({ store, route }) {
     return store.dispatch('FETCH_COMPANY', {
@@ -55,6 +76,10 @@ export default {
       return +this.$route.params.perPage || 15
     }
   },
+
+  updated() {
+    DISQUSWIDGETS.getCount({reset: true})
+  }
 }
 </script>
 
@@ -65,9 +90,6 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
-
-h1
-  color green
 
 @media (max-width 991px)
   .container
