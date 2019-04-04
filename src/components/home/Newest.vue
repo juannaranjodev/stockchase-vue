@@ -39,9 +39,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeNewest',
-  serverCacheKey: () => {
-    return `home::newest`
-  },
+
   computed: {
     ...mapGetters([ 'newestExperts', 'newestCompanies' ]),
   },

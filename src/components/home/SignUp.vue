@@ -83,9 +83,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeSignUp',
-  serverCacheKey: () => {
-    return `home::sign-up`
-  },
 
   computed: {
     ...mapGetters([ 'loggedIn', 'user' ]),

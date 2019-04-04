@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const _ = require('lodash')
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -50,14 +51,14 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [
+        include: _.compact([
           resolve('src'),
           resolve('models'),
           // node modules that are written in ES6 should be added here for the build
           resolve('node_modules/bootstrap-vue'),
           resolve('node_modules/vue-disqus'),
-          resolve('node_modules/striptags'),
-        ],
+          isProd ? resolve('node_modules/striptags') : null,
+        ]),
       },
       {
         test: /\.js$/,

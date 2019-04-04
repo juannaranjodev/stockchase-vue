@@ -140,9 +140,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeInTheNews',
-  serverCacheKey: () => {
-    return `home::in-the-news`
-  },
 
   computed: {
     ...mapGetters([ 'blogPosts' ]),
