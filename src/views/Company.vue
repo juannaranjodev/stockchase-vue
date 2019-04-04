@@ -1,19 +1,31 @@
 <template>
   <div class="company-container">
     <div class="container">
-      <h1>this is company view page</h1>
+      <h1>this is company view page for {{ company.name }} ({{ company.symbol }})</h1>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Company',
 
-  title () {
-    return 'Canadian Imperial Bank of Commerce (CM-T) Stock Predictions - Stockchase'
+  asyncData ({ store, route }) {
+    return store.dispatch('FETCH_COMPANY', {
+      id: route.params.id,
+      symbol: route.params.symbol
+    })
   },
+
+  title () {
+    return `${this.company.name} (${this.company.symbol}) Stock Predictions`
+  },
+
+  computed: {
+    ...mapGetters([ 'company' ]),
+  }
 }
 </script>
 

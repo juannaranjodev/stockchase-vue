@@ -32,6 +32,7 @@ export function createStore () {
       totalExperts: 0,
       searchedExperts: [],
       totalSearchedExperts: 0,
+      company: {},
     },
     actions,
     mutations,

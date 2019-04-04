@@ -140,4 +140,15 @@ export default {
     return api.fetchDisqusCommentsCount()
       .then(count => commit('SET_DISQUS_COMMENTS_COUNT', count))
   },
+
+  FETCH_COMPANY: ({ commit, dispatch, state }, { id, symbol }) => {
+    if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 })
+
+    return api.fetchCompanyById(id).then(company => {
+      if (!company) return Promise.reject({ code: 404 })
+      if (!symbol) return Promise.reject({ url: `/company/view/${id}/${company.symbol}` })
+
+      commit('SET_COMPANY', company)
+    })
+  },
 }

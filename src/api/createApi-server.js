@@ -221,6 +221,10 @@ export function createAPI () {
 
       const now = moment()
       return _.filter(comments, comment => moment(comment.createdAt).diff(now, 'days') <= 7).length
-    }
+    },
+
+    async fetchCompanyById (id) {
+      return await Company.findByPk(id)
+    },
   }
 }

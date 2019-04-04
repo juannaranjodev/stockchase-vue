@@ -99,4 +99,8 @@ export default {
   numDisqusComments (state) {
     return state.numDisqusComments
   },
+
+  company (state) {
+    return state.company
+  },
 }

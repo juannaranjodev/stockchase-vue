@@ -81,4 +81,8 @@ export default {
   SET_DISQUS_COMMENTS_COUNT: (state, numDisqusComments) => {
     state.numDisqusComments = numDisqusComments
   },
+
+  SET_COMPANY: (state, company={}) => {
+    state.company = company
+  },
 }
