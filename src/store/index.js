@@ -27,6 +27,7 @@ export function createStore () {
       premiumCompanies: [],
       topExperts: [],
       worstExperts: [],
+      experts: [],
     },
     actions,
     mutations,

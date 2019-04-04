@@ -83,4 +83,16 @@ export default {
   worstExperts (state) {
     return state.worstExperts
   },
+
+  experts (state) {
+    return state.experts
+  },
+
+  totalExperts (state) {
+    return state.totalExperts
+  },
+
+  searchedExperts (state) {
+    return state.searchedExperts
+  },
 }

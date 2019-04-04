@@ -49,6 +49,15 @@ export function createAPI () {
         contentType: 'application/json',
         dataType: 'json',
       }).then((data, textStatus, jqXHR) => data)
+    },
+    searchExperts({ term, limit = 5 }){
+      return ajax({
+        url: `/api/v2/experts/search`,
+        method: 'POST',
+        data: JSON.stringify({ term, limit }),
+        contentType: 'application/json',
+        dataType: 'json',
+      }).then(data => data).catch(error => console.log(error));
     }
   }
 }

@@ -31,9 +31,6 @@ export default {
       default: 'opinions',
     }
   },
-  serverCacheKey: ({ type }) => {
-    return `opinions::${type}::header`
-  },
 
   computed: {
     ...mapGetters(['shouldShowAd'])

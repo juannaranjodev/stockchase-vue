@@ -1,7 +1,6 @@
 require('dotenv').load()
 const fs = require('fs')
 const path = require('path')
-const LRU = require('lru-cache')
 const express = require('express')
 const favicon = require('serve-favicon')
 const compression = require('compression')
@@ -18,11 +17,6 @@ const app = express()
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return createBundleRenderer(bundle, Object.assign(options, {
-    // for component caching
-    cache: LRU({
-      max: 1000,
-      maxAge: 1000 * 60 * 15
-    }),
     // this is only needed when vue-server-renderer is npm-linked
     basedir: resolve('./dist'),
     // recommended for performance
@@ -67,7 +61,6 @@ app.use(favicon('./public/assets/favicon.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
-app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 function render (req, res) {
   const s = Date.now()
@@ -89,7 +82,11 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Daily Stock Opinions - Stockchase', // default title
+    // Default meta (homepage)
+    title: 'Expert Opinions on Stock Trading — Stockchase',
+    previewTitle: '',
+    description: 'Browse a daily summary of experts opinions on stocks and stock investment information.',
+    image: 'https://stockchase.com/images/sc-ograph.png',
     url: req.url,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
     DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,

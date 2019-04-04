@@ -36,9 +36,6 @@ import _ from 'lodash'
 
 export default {
   name: 'HomeDiscover',
-  serverCacheKey: () => {
-    return `home::discover`
-  },
 
   computed: {
     ...mapGetters([ 'discoverPosts' ]),

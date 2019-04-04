@@ -18,9 +18,6 @@ import MarketCallGuest from './MarketCallGuest.vue'
 
 export default {
   name: 'HomeMarketCallGuests',
-  serverCacheKey: () => {
-    return `home::market-call-guests`
-  },
 
   components: {
     MarketCallGuest

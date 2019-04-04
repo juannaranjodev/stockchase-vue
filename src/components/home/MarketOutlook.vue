@@ -80,9 +80,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'HomeMarketOutlook',
-  serverCacheKey: () => {
-    return `home::market-outlook`
-  },
 
   computed: {
     ...mapGetters([ 'latestComment', 'shouldShowAd' ]),

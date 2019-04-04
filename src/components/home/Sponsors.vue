@@ -65,9 +65,7 @@
 <script>
 export default {
   name: 'HomePremium',
-  serverCacheKey: () => {
-    return `home::premium`
-  },
+
   data() {
     return {
       sponsors: [
