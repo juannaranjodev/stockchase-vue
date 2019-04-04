@@ -36,7 +36,7 @@
     "select2": "^4.0.6-rc.1",
     "sequelize": "^4.41.2",
     "serve-favicon": "^2.4.5",
-    "striptags": "^3.1.1",
+    "striptags": "^2.2.1",
     "tippy.js": "^3.2.0",
     "vue": "^2.5.16",
     "vue-disqus": "^3.0.5",

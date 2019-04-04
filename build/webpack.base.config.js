@@ -57,7 +57,6 @@ module.exports = {
           // node modules that are written in ES6 should be added here for the build
           resolve('node_modules/bootstrap-vue'),
           resolve('node_modules/vue-disqus'),
-          isProd ? resolve('node_modules/striptags') : null,
         ]),
       },
       {
