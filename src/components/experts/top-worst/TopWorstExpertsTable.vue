@@ -106,6 +106,7 @@ export default {
   .expert-details
     display: flex
     align-items: center
+    min-width: 180px
 
     .expert-avatar
       width: 36px
@@ -114,6 +115,7 @@ export default {
       border-radius: 50%
       overflow: hidden
       margin-right: 8px
+      min-width: 36px
 
       img
         width: 36px
