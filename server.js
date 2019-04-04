@@ -82,7 +82,11 @@ function render (req, res) {
   }
 
   const context = {
-    title: 'Daily Stock Opinions - Stockchase', // default title
+    // Default meta (homepage)
+    title: 'Expert Opinions on Stock Trading — Stockchase',
+    previewTitle: '',
+    description: 'Browse a daily summary of experts opinions on stocks and stock investment information.',
+    image: 'https://stockchase.com/images/sc-ograph.png',
     url: req.url,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
     DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,

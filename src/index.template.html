@@ -6,7 +6,7 @@
     <title>{{ title }}</title>
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <meta name="description" content="Browse a daily summary of experts opinions on stocks and  stock investment information."/>
+    <meta name="description" content="{{ description }}"/>
     <meta name="keywords" content="expert,stock,investment,stock market today,best stocks,dow jones,stock market news,financial,bnn,The Business News Network,Canadian,Canada,gold,points,international,target,price,oil,large cap,small cap,resource,potash,top picks, US stock market,canadian stock market toronto stock market stock market quotes,yahoo finance canada"/>
     <meta name="robots" content="noarchive"/>
     <link rel="shortcut icon" href="/assets/favicon.png"/>
@@ -21,10 +21,10 @@
 
     <meta property="fb:app_id" content="278856235958604"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Expert Opinions on Stock Trading — Stockchase"/>
-    <meta property="og:url" content="https://stockchase.com"/>
-    <meta property="og:image" content="https://stockchase.com/images/sc-ograph.png"/>
-    <meta property="og:description" content="Browse a daily summary of experts opinions on stocks and stock investment information."/>
+    <meta property="og:title" content="{{ previewTitle || title }}"/>
+    <meta property="og:url" content="https://stockchase.com{{ url }}"/>
+    <meta property="og:image" content="{{ image }}"/>
+    <meta property="og:description" content="{{ description }}"/>
 
     <!-- Facebook Pixel Code -->
     <script>

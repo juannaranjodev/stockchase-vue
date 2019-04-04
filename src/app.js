@@ -3,7 +3,7 @@ import App from './App.vue'
 import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
-import titleMixin from './util/title'
+import mixins from './mixins'
 import * as filters from './util/filters'
 
 // TODO extract the following `Vue.use` to separate 'plugin' files
@@ -25,13 +25,11 @@ Vue.use(Ads.Adsense)
 Vue.use(Ads.InArticleAdsense)
 Vue.use(Ads.InFeedAdsense)
 
-// mixin for handling title
-Vue.mixin(titleMixin)
+// register global mixins.
+Object.keys(mixins).forEach(key => Vue.mixin(mixins[key]))
 
 // register global utility filters.
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)

@@ -54,3 +54,56 @@ npm run build
 # serve in production mode
 NODE_ENV=production node_modules/.bin/forever -f -w server.js
 ```
+
+## Development guidelines
+
+### Overriding html metadata
+
+For SEO / social sharing purposes some pages require custom metadata. We can set custom content for the following tags:
+
+- `<title>` page title. Change this by defining a `title` property in the view
+- `<description>` page description. Change this via the `description` view property.
+- `<meta property="og:title">` open graph title. Change this via the `previewTitle` view property.
+- `<meta property="og:image">` open graph image. Change this via the `image` view property.
+- `<meta property="og:description">` open graph description. This is the same content as page description, so change this via the `description` view property.
+
+Notes:
+
+1. All override properties can be functions
+2. If an override property is not defined, a default content will be used. See default metadata in `server.js` (`const context` definition).
+
+Example:
+
+```
+<template>
+  <div class="expert-container">
+    Content
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'ExpertView',
+
+  computed: {
+    ...mapGetters([ 'expert' ]),
+  },
+
+  title () {
+    return `${this.expert.name} - Stockchase`
+  },
+
+  previewTitle () {
+    return this.title()
+  },
+
+  description: 'This is just a plain string',
+
+  image () {
+    return this.expert.avatar
+  },
+}
+</script>
+```
