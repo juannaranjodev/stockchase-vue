@@ -141,20 +141,25 @@ export default {
       .then(count => commit('SET_DISQUS_COMMENTS_COUNT', count))
   },
 
-  FETCH_COMPANY: ({ commit, dispatch, state }, { id, symbol }) => {
+  FETCH_COMPANY: ({ commit, dispatch, state }, { id, symbol, page, perPage }) => {
     if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 })
 
     return api.fetchCompanyById(id).then(company => {
       if (!company) return Promise.reject({ code: 404 })
-      if (!symbol) return Promise.reject({ url: `/company/view/${id}/${company.symbol}` })
+      if (!symbol && !page) return Promise.reject({ url: `/company/view/${id}/${company.symbol}` })
 
       commit('SET_COMPANY', company)
-    })
-  },
 
-  FETCH_COMPANY_OPINIONS: ({ commit, dispatch, state }, { id }) => {
-    return api.fetchOpinionsByCompany(id).then(opinions => {
-      commit('SET_COMPANY_OPINIONS', opinions)
+      return Promise.all([
+        api.countOpinionsByCompany(id),
+        api.fetchOpinionsByCompany(id, page, perPage),
+      ]).then(result => {
+        const [ numOpinions, pageOpinions ] = result
+        const numOpinionPages = Math.ceil(numOpinions / perPage)
+
+        commit('SET_NUM_OPINION_PAGES', numOpinionPages)
+        commit('SET_OPINIONS', pageOpinions)
+      })
     })
   },
 }

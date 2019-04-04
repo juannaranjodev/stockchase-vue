@@ -227,8 +227,12 @@ export function createAPI () {
       return await Company.findByPk(id)
     },
 
-    async fetchOpinionsByCompany (id) {
-      return await Opinion.getOpinionsByCompany(id)
+    async countOpinionsByCompany (id) {
+      return await Opinion.countOpinionsByCompany(id)
+    },
+
+    async fetchOpinionsByCompany (id, page, perPage) {
+      return await Opinion.getOpinionsByCompany(id, page, perPage)
     },
   }
 }

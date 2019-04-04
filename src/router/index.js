@@ -31,6 +31,7 @@ export function createRouter () {
       { path: '/expert/index/:character/:type', component: ExpertsView },
       { path: '/company/view/:id', component: CompanyView },
       { path: '/company/view/:id/:symbol', component: CompanyView },
+      { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: CompanyView },
     ]
   })
 }

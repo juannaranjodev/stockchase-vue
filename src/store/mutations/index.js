@@ -17,6 +17,10 @@ export default {
     Vue.set(state.opinions, opinion.id, opinion)
   },
 
+  SET_NUM_OPINION_PAGES: (state, numOpinionPages=1) => {
+    state.numOpinionPages = numOpinionPages
+  },
+
   SET_DATE: (state, date) => {
     state.date = date
   },
@@ -84,9 +88,5 @@ export default {
 
   SET_COMPANY: (state, company={}) => {
     state.company = company
-  },
-
-  SET_COMPANY_OPINIONS: (state, companyOpinions=[]) => {
-    state.companyOpinions = companyOpinions
   },
 }

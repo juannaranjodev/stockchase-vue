@@ -1,7 +1,7 @@
 <template>
   <div class="company-container">
     <div class="container">
-      <h1>this is company view page for {{ company.name }} ({{ company.symbol }})</h1>
+      <h1>this is company view page for {{ company.name }} ({{ company.symbol }}), {{ numOpinionPages }} opinion pages, {{ perPage }} per page, page #{{ page }}</h1>
     </div>
   </div>
 </template>
@@ -16,11 +16,9 @@ export default {
   asyncData ({ store, route }) {
     return store.dispatch('FETCH_COMPANY', {
       id: route.params.id,
-      symbol: route.params.symbol
-    }).then(() => {
-      return store.dispatch('FETCH_COMPANY_OPINIONS', {
-        id: route.params.id,
-      })
+      symbol: route.params.symbol,
+      page: +route.params.page,
+      perPage: +route.params.perPage,
     })
   },
 
@@ -37,16 +35,24 @@ export default {
   },
 
   description () {
-    const latestOpinion = this.companyOpinions[0]
+    const latestOpinion = this.opinions[0]
 
     if (latestOpinion) return stripTags(latestOpinion.comment)
   },
 
   computed: {
-    ...mapGetters([ 'company', 'companyOpinions' ]),
+    ...mapGetters([ 'company', 'opinions', 'numOpinionPages' ]),
 
     title() {
       return `${this.company.name} (${this.company.symbol})`
+    },
+
+    page () {
+      return +this.$route.params.page || 1
+    },
+
+    perPage () {
+      return +this.$route.params.perPage || 15
     }
   },
 }

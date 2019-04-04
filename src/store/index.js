@@ -10,6 +10,7 @@ export function createStore () {
   return new Vuex.Store({
     state: {
       opinions: {},
+      numOpinionPages: 1,
       date: null,
       adjacentDates: [],
       olderDate: null,
@@ -36,7 +37,6 @@ export function createStore () {
       // For single company page
       // TODO consider moving single company page data to a module
       company: {},
-      companyOpinions: [],
     },
     actions,
     mutations,
