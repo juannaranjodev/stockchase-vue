@@ -3,10 +3,23 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
+  SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
+    return api.searchExperts({ term })
+      .then(experts => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
+        commit('SET_SEARCHED_EXPERTS', experts)
+      })
+  },
+
   FETCH_EXPERTS_BY_NAME: ({ commit, dispatch, state }, { term, page = 1, limit = 15}) => {
     return api.getExpertsByName(term, page, limit)
       .then(({ experts }) => {
-        experts = _.filter(experts, (expert, i) => {
+        experts = _.map(experts, (expert, i) => {
           return {
             ...expert,
             url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`

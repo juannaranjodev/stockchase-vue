@@ -242,5 +242,34 @@ module.exports = (sequelize, DataTypes) => {
     });
   }
 
+  Expert.searchExperts = function(term, limit = 5) {
+    return sequelize.query(`
+      SELECT 
+        e.id, 
+        e.name, 
+        e.FirstName AS first_name, 
+        e.LastName AS last_name, 
+        e.TITLE as title, 
+        e.COMPANY as company, 
+        e.avatar
+      FROM New_expert AS e
+      WHERE 
+        e.id <> 1176 &&
+        ( LOWER(e.name) LIKE :term ) 
+      ORDER BY e.name ASC
+      LIMIT :limit`, {
+      replacements: {
+        term: `%${term.toLowerCase()}%`,
+        limit: limit,
+      },
+      type: sequelize.QueryTypes.SELECT,
+    }).then(function(experts) {
+      return _.map(experts, expert => {
+        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+        return expert
+      });
+    });
+  }
+
   return Expert;
 };

@@ -35,13 +35,26 @@
             ref="search"
             :placeholder="searchPlaceholder"
             autocomplete="off"
-            @keyup="onSearchKeyUp"
+            @input="onSearchTyping"
           >
           <button 
             class="btn-search"
             @click="onSubmitSearch">
             <i class="icon icon-search"/>
           </button>
+          <div class="suggestion">
+            <span
+              v-if="isTyping"
+              class="loading"
+            />
+            <ul v-if="matches.length > 0">
+              <li
+                v-for="row in matches"
+                :key="row.id"
+                @click="onSearchResultsItemClick(row)"
+              >{{ row.name }}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -58,6 +71,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { setTimeout, clearTimeout } from 'timers';
+
+let wait;
 
 export default {
   name: 'CardsFilter',
@@ -83,21 +99,27 @@ export default {
       default: '/'
     }
   },
+  data(){
+    return {
+      matches: [],
+      isTyping: false,
+    }
+  },
   computed: {
-    ...mapGetters(['shouldShowAd']),
+    ...mapGetters(['shouldShowAd', 'searchedExperts']),
     sortedOptions: () => [
       'Most Recent',
       '0-9',
     ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')),
     searchQuery() {
       return this.$route.query.search
-    }
+    },
   },
   methods: {
     getItemsPerPage(pages = 15) {
       return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
     },
-    generateURL(pages = 15){
+    generateURL(pages = 15) {
       const { params, query } = this.$route;
       let url = this.resetUri + this.pattern
         .replace(':type', params.type || 'F')
@@ -115,10 +137,31 @@ export default {
         window.location = `?search=${query}`
       }
     },
-    onSearchKeyUp(e){
-      console.log(e.target.value);
-      // do search here
+    onSearchTyping(e) {
+      this.matches = [];
+
+      if(wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
+
+      if(e.target.value.length > 2){
+        this.isTyping = true;
+
+        wait = setTimeout(async () => {
+          if(this.targetSearch === 'company'){
+            
+          }else{
+            await this.$store.dispatch('SEARCH_EXPERTS', {
+              term: e.target.value,
+            }).then(() => {
+              this.matches = this.$store.state.searchedExperts;
+              this.isTyping = false;
+            })
+          }
+        }, 500)
+      }
     },
+    onSearchResultsItemClick(expert, e) {
+      if(expert.id) window.location = expert.url;
+    }
   },
 }
 </script>
@@ -209,6 +252,24 @@ export default {
         bottom 0
         border none
         cursor pointer
+      .suggestion
+        position absolute
+        bottom 0
+        width 100%
+        z-index 10
+        > *
+          position absolute
+          top 0
+          min-height 30px
+          background-color #EEE
+          border 1px solid #DDD
+          box-shadow 0 3px 8px rgba(175,175,175,0.6)
+          min-width 80%
+        .loading
+          background-image url('~assets/svgs/loading.svg')
+          background-size contain
+          background-position center
+          background-repeat no-repeat
     label
       display inline-block
       font-weight 700
