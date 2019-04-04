@@ -3,6 +3,52 @@ import * as c from '../constants'
 import _ from 'lodash'
 
 export default {
+  SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
+    return api.searchExperts({ term })
+      .then(experts => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
+        commit('SET_SEARCHED_EXPERTS', experts)
+      })
+  },
+
+  FETCH_EXPERTS_BY_NAME: ({ commit, dispatch, state }, { term, page = 1, limit = 15}) => {
+    return api.getExpertsByName(term, page, limit)
+      .then(({ experts }) => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
+        commit('SET_EXPERTS', experts)
+      })
+  },
+
+  FETCH_TOTAL_EXPERTS: ({ commit, dispatch, state }, { term = null } ) => {
+    return api.getTotalExperts(term)
+      .then(total => {
+        commit('SET_TOTAL_EXPERTS', total)
+      })
+  },
+
+  FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 15}) => {
+    return api.getExpertsByPage(page, limit)
+      .then(({ experts }) => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+          };
+        })
+        commit('SET_EXPERTS', experts)
+      })
+  },
+
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
     // /opinions/view/:id or /opinions/market/view/:id
     // redirects to anchor link

@@ -76,4 +76,15 @@ export default {
     return state.premiumCompanies
   },
 
+  experts (state) {
+    return state.experts
+  },
+
+  totalExperts (state) {
+    return state.totalExperts
+  },
+
+  searchedExperts (state) {
+    return state.searchedExperts
+  },
 }

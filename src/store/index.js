@@ -25,6 +25,7 @@ export function createStore () {
       latestComment: {},
       marketCallGuests: [],
       premiumCompanies: [],
+      experts: [],
     },
     actions,
     mutations,
