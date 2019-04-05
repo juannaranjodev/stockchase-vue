@@ -3,9 +3,9 @@
     <select
       :class="selectClass"
       :placeholder="placeholder"
-      :disabled="disabled"/>
+      :disabled="disabled"
+    />
   </div>
-
 </template>
 
 <script>
@@ -17,11 +17,6 @@ if (process.browser) {
 
 export default {
   name: 'Select2',
-  data() {
-    return {
-      select2: null
-    }
-  },
   model: {
     event: 'change',
     prop: 'value'
@@ -45,7 +40,6 @@ export default {
     },
     disabled: {
       type: Boolean,
-      default: false
     },
     settings: {
       type: Object,
@@ -56,6 +50,11 @@ export default {
       default: ''
     }
   },
+  data() {
+    return {
+      select2: null
+    }
+  },
   watch: {
     options(val) {
       this.setOption(val)
@@ -63,24 +62,6 @@ export default {
     value(val) {
       this.setValue(val)
     }
-  },
-  methods: {
-    setOption(data = []) {
-      this.select2.empty()
-      this.select2.select2({
-        ...this.settings,
-        data
-      })
-      this.setValue(this.value)
-    },
-    setValue(val) {
-      if (val instanceof Array) {
-        this.select2.val([...val])
-      } else {
-        this.select2.val([val])
-      }
-      this.select2.trigger('change')
-    },
   },
   mounted() {
     this.select2 = $(this.$el)
@@ -107,6 +88,24 @@ export default {
   beforeDestroy() {
     $(this.$el).off('keyup.select2vue', '.select2-search__field')
     this.select2.select2('destroy')
+  },
+  methods: {
+    setOption(data = []) {
+      this.select2.empty()
+      this.select2.select2({
+        ...this.settings,
+        data
+      })
+      this.setValue(this.value)
+    },
+    setValue(val) {
+      if (val instanceof Array) {
+        this.select2.val([...val])
+      } else {
+        this.select2.val([val])
+      }
+      this.select2.trigger('change')
+    },
   }
 }
 </script>

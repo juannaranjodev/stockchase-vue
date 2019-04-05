@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import TopWorstExpertList from '../views/TopWorstExpertList'
+import ExpertsView from '../views/Experts'
 
 Vue.use(Router)
 
 // route-level code splitting
 const createListView = type => () => import('../views/CreateListView').then(m => m.default(type))
-const expertsView = import('../views/Experts.vue')
 
 export function createRouter () {
   return new Router({
@@ -21,8 +21,8 @@ export function createRouter () {
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
       { path: '/expert/top', component: TopWorstExpertList },
-      { path: '/expert', component: () => expertsView },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: () => expertsView },
+      { path: '/expert', component: ExpertsView },
+      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: ExpertsView },
     ]
   })
 }

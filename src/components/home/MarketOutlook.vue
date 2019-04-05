@@ -1,6 +1,8 @@
 <template>
   <div class="market-outlook">
-    <h1 class="market-outlook__title">Today's Market Outlook</h1>
+    <h1 class="market-outlook__title">
+      Today's Market Outlook
+    </h1>
     <div class="market-outlook__subtitle">
       <a href="/opinions/market">Read all answers</a>
     </div>
@@ -20,8 +22,12 @@
         <div class="comments">
           <div class="comments__header">
             <div class="comments__timestamp">
-              <div class="comments__day">{{ latestComment.date | formatDate('ddd') }}</div>
-              <div class="comments__date"><span>{{ latestComment.date | formatDate('MMM D') }}</span></div>
+              <div class="comments__day">
+                {{ latestComment.date | formatDate('ddd') }}
+              </div>
+              <div class="comments__date">
+                <span>{{ latestComment.date | formatDate('MMM D') }}</span>
+              </div>
             </div>
 
             <div class="comments__expert">
@@ -30,7 +36,9 @@
                   {{ latestComment.Expert.name }}
                 </a>
               </div>
-              <div class="comments__expert-company">&nbsp;</div>
+              <div class="comments__expert-company">
+&nbsp;
+              </div>
             </div>
           </div>
 
@@ -71,7 +79,6 @@
         >Try Wealthica : Free Portfolio and Stock Tracker</a>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -79,7 +86,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeMarketOutlook',
+  name: 'MarketOutlook',
 
   computed: {
     ...mapGetters([ 'latestComment', 'shouldShowAd' ]),

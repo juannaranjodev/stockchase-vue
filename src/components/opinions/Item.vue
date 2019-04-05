@@ -1,15 +1,18 @@
 <template>
   <div
-    class="opinions-row"
     :id="item.id"
-    :class="{'opinions-row--ad d-none d-lg-flex': item.ad}">
+    class="opinions-row"
+    :class="{ 'opinions-row--ad d-none d-lg-flex': item.ad }"
+  >
     <div
+      v-if="!item.ad"
       class="signal-cell"
-      v-if="!item.ad">
+    >
       <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-lg-block`">
         <div class="signal-badge">
           <div
-            :class="`${signalClassName}-border`">
+            :class="`${signalClassName}-border`"
+          >
             {{ item.Signal.name | formatSignalName }}
           </div>
         </div>
@@ -18,14 +21,16 @@
         <div class="opinion-mini__left">
           <a
             class="opinion-mini__logo"
-            :href="item.Company.url">
+            :href="item.Company.url"
+          >
             <img :src="item.Company.logo">
           </a>
           <div class="opinion-mini__signal">
             <div :class="`opinion-mini__signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
               <div class="opinion-mini__signal-badge">
                 <div
-                  :class="`${signalClassName}-border`">
+                  :class="`${signalClassName}-border`"
+                >
                   {{ item.Signal.name | formatSignalName }}
                 </div>
               </div>
@@ -36,14 +41,16 @@
           <div class="opinion-mini__header">
             <a
               class="opinion-mini__name-symbol"
-              :href="item.Company.url">
+              :href="item.Company.url"
+            >
               <span class="opinion-mini__name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
               <span
+                v-if="isOpinion"
                 class="opinion-mini__symbol"
-                v-if="isOpinion">({{ item.Company.symbol }})</span>
+              >({{ item.Company.symbol }})</span>
             </a>
             <a
-              :class="{'opinion-mini__toggle': true, active: expanded}"
+              :class="{ 'opinion-mini__toggle': true, active: expanded }"
               @click="toggleContent"
             >
               <img
@@ -59,30 +66,35 @@
           <div
             class="opinion-mini__comment"
             @click="toggleContent"
-            v-html="item.comment"/>
+            v-html="item.comment"
+          />
         </div>
       </div>
     </div>
 
     <div
-      :class="{'opinion-cell': true, 'd-none d-lg-block': !expanded}"
-      v-if="!item.ad">
+      v-if="!item.ad"
+      :class="{ 'opinion-cell': true, 'd-none d-lg-block': !expanded }"
+    >
       <div class="opinion">
         <div class="opinion-main">
           <div class="company d-none d-lg-flex">
             <a
               class="company-logo"
-              :href="item.Company.url">
+              :href="item.Company.url"
+            >
               <img :src="item.Company.logo">
             </a>
             <div class="company-meta">
               <a
                 class="company-name-symbol"
-                :href="item.Company.url">
+                :href="item.Company.url"
+              >
                 <span class="company-name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
                 <span
+                  v-if="isOpinion"
                   class="company-symbol"
-                  v-if="isOpinion">({{ item.Company.symbol }})</span>
+                >({{ item.Company.symbol }})</span>
               </a>
               <div class="opinion-date">
                 {{ item.date | formatDate }}
@@ -105,13 +117,17 @@
           </div>
           <div
             class="opinion-comment"
-            v-html="item.comment"/>
+            v-html="item.comment"
+          />
         </div>
         <div class="opinion-footer">
           <div class="opinion-footer-left">
             <div
               v-if="isOpinion && item.Company.Sector.name !== '0'"
-              class="opinion-sector-badge">{{ item.Company.Sector.name }}</div>
+              class="opinion-sector-badge"
+            >
+              {{ item.Company.Sector.name }}
+            </div>
           </div>
           <div class="opinion-footer-right">
             <div style="display: none">
@@ -123,25 +139,30 @@
             <div
               ref="userReactions"
               :class="{ 'opinion-rating': true, 'no-rating': !myRating }"
-              @click="showComments">
+              @click="showComments"
+            >
               <img
                 v-if="!myRating"
                 src="~assets/images/smileys/smiley-glasses.png"
-                width="25">
+                width="25"
+              >
               <img
                 v-if="myRating"
                 :src="myRatingImage"
-                width="35">
-              <span v-if="myRating" >You, and {{ numSameRatings }} Others</span>
+                width="35"
+              >
+              <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
             </div>
 
             <a
               class="btn-comment"
-              @click="showComments">
+              @click="showComments"
+            >
               <img src="~assets/svgs/comment_icon.svg">
               <span
                 class="disqus-comment-count"
-                :data-disqus-url="absoluteUrl">0 Comments</span>
+                :data-disqus-url="absoluteUrl"
+              >0 Comments</span>
             </a>
           </div>
         </div>
@@ -149,44 +170,53 @@
     </div>
 
     <div
-      :class="{'expert-cell': true, 'd-none d-lg-block': !expanded}"
-      v-if="!item.ad">
+      v-if="!item.ad"
+      :class="{ 'expert-cell': true, 'd-none d-lg-block': !expanded }"
+    >
       <a
         :href="item.Expert.url"
-        class="expert-name">
+        class="expert-name"
+      >
         {{ item.Expert.name }}
       </a>
       <div
         class="expert-title"
-        :title="`${item.Expert.title}, ${item.Expert.company}`">
+        :title="`${item.Expert.title}, ${item.Expert.company}`"
+      >
         {{ item.Expert.title }}, {{ item.Expert.company }}
       </div>
 
       <div
+        v-if="isOpinion"
         class="expert-meta"
-        v-if="isOpinion">
+      >
         <div
           v-b-tooltip.hover
-          title="Price">
+          title="Price"
+        >
           <img
             src="~assets/images/price_icon@2x.png"
             width="18"
-            alt="Price">
+            alt="Price"
+          >
         </div>
         <div>
           ${{ item.price }}
         </div>
       </div>
       <div
+        v-if="isOpinion"
         class="expert-meta"
-        v-if="isOpinion">
+      >
         <div
           v-b-tooltip.hover
-          title="Owned">
+          title="Owned"
+        >
           <img
             src="~assets/images/owned_icon@2x.png"
             width="18"
-            alt="Owned">
+            alt="Owned"
+          >
         </div>
         <div>
           {{ item.Ownership.name }}
@@ -195,8 +225,9 @@
     </div>
 
     <div
+      v-if="item.ad"
       class="in-feed-ad-cell"
-      v-if="item.ad">
+    >
       <in-feed-ad />
     </div>
   </div>
@@ -217,7 +248,19 @@ if (process.browser) {
 }
 
 export default {
-  name: 'OpinionsItem',
+  name: 'Item',
+
+  components: {
+    UserReactions,
+    InFeedAd,
+  },
+
+  filters: {
+    toClassName (signal) {
+      return this.toClassName(signal)
+    }
+  },
+
   props: {
     item: {
       type: Object,
@@ -234,11 +277,6 @@ export default {
       expanded: false,
       origin: '',
     }
-  },
-
-  components: {
-    UserReactions,
-    InFeedAd,
   },
 
   computed: {
@@ -302,6 +340,15 @@ export default {
     }
   },
 
+  mounted() {
+    this.origin = window.location.origin
+    this.initTippy()
+  },
+
+  beforeDestroy() {
+    this.destroyTippy()
+  },
+
   methods: {
     showComments() {
       this.$emit('showComments', this.item.id)
@@ -334,21 +381,6 @@ export default {
 
     toggleContent() {
       this.expanded = !this.expanded
-    }
-  },
-
-  mounted() {
-    this.origin = window.location.origin
-    this.initTippy()
-  },
-
-  beforeDestroy() {
-    this.destroyTippy()
-  },
-
-  filters: {
-    toClassName (signal) {
-      return this.toClassName(signal)
     }
   }
 }

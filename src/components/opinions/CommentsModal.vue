@@ -10,34 +10,42 @@
       <div class="company">
         <a
           class="company-logo"
-          :href="item.Company.url">
+          :href="item.Company.url"
+        >
           <img :src="item.Company.logo">
         </a>
         <div class="company-meta">
           <a
             class="expert-avatar"
-            :href="item.Expert.url">
+            :href="item.Expert.url"
+          >
             <img :src="item.Expert.avatar">
           </a>
           <a
             class="meta-link"
-            :href="item.Company.url">{{ item.Company.name }}</a>
+            :href="item.Company.url"
+          >{{ item.Company.name }}</a>
           <a
             class="meta-link"
-            :href="item.Expert.url">{{ item.Expert.name }}</a>
+            :href="item.Expert.url"
+          >{{ item.Expert.name }}</a>
         </div>
       </div>
 
       <div
         class="opinion-comment"
-        v-html="item.comment"/>
-      <div class="opinion-date">{{ item.date | formatDate }}</div>
+        v-html="item.comment"
+      />
+      <div class="opinion-date">
+        {{ item.date | formatDate }}
+      </div>
       <user-reactions :item="item" />
       <div class="opinion-comments">
         <vue-disqus
           :shortname="disqusShortName"
           :identifier="disqusIdentifier"
-          :url="absoluteUrl"/>
+          :url="absoluteUrl"
+        />
       </div>
     </div>
 
@@ -46,7 +54,9 @@
         size="sm"
         class="btn btn-danger"
         @click="hideModal"
-      >Close</b-button>
+      >
+        Close
+      </b-button>
     </template>
   </b-modal>
 </template>
@@ -70,10 +80,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.origin = window.location.origin
-  },
-
   computed: {
     ...mapGetters([ 'opinions' ]),
 
@@ -92,6 +98,10 @@ export default {
     absoluteUrl() {
       return `${this.origin}${this.item.url}`
     }
+  },
+
+  mounted() {
+    this.origin = window.location.origin
   },
 
   methods: {

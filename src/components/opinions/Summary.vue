@@ -1,14 +1,20 @@
 <template>
   <div class="summary">
     <div class="summary-box">
-      <div class="summary-label">Opinions<br>Today :</div>
+      <div class="summary-label">
+        Opinions<br>Today :
+      </div>
       <div class="summary-content">
-        <div class="summary-value">{{ items.length }}</div>
+        <div class="summary-value">
+          {{ items.length }}
+        </div>
       </div>
     </div>
 
     <div class="summary-box">
-      <div class="summary-label">Recent<br>experts :</div>
+      <div class="summary-label">
+        Recent<br>experts :
+      </div>
       <div class="summary-content">
         <a
           v-for="expert in recentExperts"
@@ -21,7 +27,8 @@
           <img
             width="50"
             height="50"
-            :src="expert.avatar">
+            :src="expert.avatar"
+          >
         </a>
       </div>
     </div>
@@ -32,7 +39,7 @@
 import _ from 'lodash'
 
 export default {
-  name: 'OpinionsSummary',
+  name: 'Summary',
   props: {
     items: {
       type: Array,

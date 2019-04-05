@@ -1,19 +1,23 @@
 <template>
-  <div :class="{footer: true, 'footer--with-ad': shouldShowAd}">
+  <div :class="{ footer: true, 'footer--with-ad': shouldShowAd }">
     <nav class="inner">
       <div class="footer__left">
         <img
           src="~assets/svgs/stockchase-by-wealthica-white-logo.svg"
           width="190"
-          style="float: left;">
+          style="float: left;"
+        >
       </div>
       <div class="footer__center">
         <div style="width: 87%;">
           <p>Stockchase,  in its reporting on what has been discussed by individuals on business television programs (in particular Business News Network), neither recommends nor promotes any investment strategies.</p>
 
-          <p>We paraphrase the experts by hand, we watch the shows and write down what we understood from the experts’ comments. <span style="font-weight: bold;">We are human and can make mistakes</span>, help us fix any errors. If you see something that you know is not right or if there is a problem with the site, feel free to email us at : <a
-            href="mailto:hello@stockchase.com"
-            style="color: #FFFFFF;">hello@stockchase.com</a>.</p>
+          <p>
+            We paraphrase the experts by hand, we watch the shows and write down what we understood from the experts’ comments. <span style="font-weight: bold;">We are human and can make mistakes</span>, help us fix any errors. If you see something that you know is not right or if there is a problem with the site, feel free to email us at : <a
+              href="mailto:hello@stockchase.com"
+              style="color: #FFFFFF;"
+            >hello@stockchase.com</a>.
+          </p>
         </div>
 
         <ul class="footer-list-menu">
@@ -32,29 +36,39 @@
         <div class="footer-social-links">
           <a
             href="/rss/toppicks"
-            style="margin-right: 7px;"><img
-              src="~assets/images/rss-light-icon.png"
-              width="35"></a>
+            style="margin-right: 7px;"
+          ><img
+            src="~assets/images/rss-light-icon.png"
+            width="35"
+          ></a>
           <a
             href="/rss/daily"
-            style="margin-right: 7px;"><img
-              src="~assets/images/rss-light-icon.png"
-              width="35"></a>
+            style="margin-right: 7px;"
+          ><img
+            src="~assets/images/rss-light-icon.png"
+            width="35"
+          ></a>
           <a
             href="https://www.facebook.com/stockchase"
-            style="margin-right: 7px;"><img
-              src="~assets/svgs/facebook-footer-icon.svg"
-              width="35"></a>
+            style="margin-right: 7px;"
+          ><img
+            src="~assets/svgs/facebook-footer-icon.svg"
+            width="35"
+          ></a>
           <a
             href="http://twitter.com/stockchase"
-            style="margin-right: 0;"><img
-              src="~assets/svgs/twitter-footer-icon.svg"
-              width="35"></a>
+            style="margin-right: 0;"
+          ><img
+            src="~assets/svgs/twitter-footer-icon.svg"
+            width="35"
+          ></a>
         </div>
       </div>
-      <div style="clear: both;"/>
+      <div style="clear: both;" />
     </nav>
-    <div class="copyright">© Stockchase Inc.</div>
+    <div class="copyright">
+      © Stockchase Inc.
+    </div>
 
     <div
       v-if="shouldShowAd"
@@ -63,7 +77,7 @@
       <div class="ad">
         <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
         <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
-        <div id='div-gpt-ad-9004875-9' />
+        <div id="div-gpt-ad-9004875-9" />
         <!-- End AdSlot 9 -->
       </div>
     </div>
@@ -74,7 +88,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'SiteFooter',
+  name: 'Footer',
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),

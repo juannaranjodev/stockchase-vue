@@ -10,7 +10,8 @@
       <link-ad />
       <opinions-summary
         v-if="!isOpinions"
-        :items="items" />
+        :items="items"
+      />
 
       <div class="opinions-container">
         <opinions-pagination
@@ -44,14 +45,7 @@ import OpinionsPagination from '../components/opinions/Pagination.vue'
 import OpinionsList from '../components/opinions/List.vue'
 
 export default {
-  name: 'OpinionsListView',
-
-  props: {
-    type: {
-      type: String,
-      default: 'opinions'
-    }
-  },
+  name: 'OpinionsList',
 
   components: {
     OpinionsHeader,
@@ -61,6 +55,13 @@ export default {
     DianomiAd,
     OpinionsPagination,
     OpinionsList,
+  },
+
+  props: {
+    type: {
+      type: String,
+      default: 'opinions'
+    }
   },
 
   computed: {

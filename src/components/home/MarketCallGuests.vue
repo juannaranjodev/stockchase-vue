@@ -1,6 +1,8 @@
 <template>
   <div class="guests">
-    <h1 class="guests__title">Latest Stock Opinions and Top Picks from Market Call Guests</h1>
+    <h1 class="guests__title">
+      Latest Stock Opinions and Top Picks from Market Call Guests
+    </h1>
 
     <market-call-guest
       v-for="(guest, index) in marketCallGuests"
@@ -8,7 +10,6 @@
       :guest="guest"
       :discover-post="discoverPosts[index]"
     />
-
   </div>
 </template>
 
@@ -17,7 +18,7 @@ import { mapGetters } from 'vuex'
 import MarketCallGuest from './MarketCallGuest.vue'
 
 export default {
-  name: 'HomeMarketCallGuests',
+  name: 'MarketCallGuests',
 
   components: {
     MarketCallGuest

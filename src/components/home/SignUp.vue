@@ -4,8 +4,12 @@
       v-if="loggedIn"
       class="welcome-back__container"
     >
-      <h2 class="welcome-back__title">Welcome back {{ user.name }} !</h2>
-      <div class="welcome-back__subtitle">You are watching {{ user.UserStocks.length }} stocks.</div>
+      <h2 class="welcome-back__title">
+        Welcome back {{ user.name }} !
+      </h2>
+      <div class="welcome-back__subtitle">
+        You are watching {{ user.UserStocks.length }} stocks.
+      </div>
       <div class="welcome-back__links">
         <a
           href="/portfolio"
@@ -72,7 +76,9 @@
           required="required"
           class="sign-up__input"
         >
-        <button class="sign-up__button">SIGN ME UP</button>
+        <button class="sign-up__button">
+          SIGN ME UP
+        </button>
       </form>
     </div>
   </div>
@@ -82,7 +88,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeSignUp',
+  name: 'SignUp',
 
   computed: {
     ...mapGetters([ 'loggedIn', 'user' ]),

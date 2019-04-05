@@ -7,71 +7,129 @@
         class="user-dropdown"
         toggle-class="user-dropdown-toggle"
         @mouseover.native="onMouseOver"
-        @mouseleave.native="onMouseLeave">
-        <b-dropdown-item href="/profile">My Profile</b-dropdown-item>
-        <b-dropdown-item href="/portfolio">My Watch List</b-dropdown-item>
+        @mouseleave.native="onMouseLeave"
+      >
+        <b-dropdown-item href="/profile">
+          My Profile
+        </b-dropdown-item>
+        <b-dropdown-item href="/portfolio">
+          My Watch List
+        </b-dropdown-item>
 
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/opinions">Opinions Advanced Filters (Table View)</b-dropdown-item>
+          href="/tables/opinions"
+        >
+          Opinions Advanced Filters (Table View)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/experts">Experts Advanced Filters (Table View)</b-dropdown-item>
+          href="/tables/experts"
+        >
+          Experts Advanced Filters (Table View)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/companies">Company Advanced Filters (Table View)</b-dropdown-item>
+          href="/tables/companies"
+        >
+          Company Advanced Filters (Table View)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/admin">Site Management</b-dropdown-item>
+          href="/admin"
+        >
+          Site Management
+        </b-dropdown-item>
 
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/blog/admin">Blog Posts (Editor)</b-dropdown-item>
+          href="/blog/admin"
+        >
+          Blog Posts (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/page/admin">Static Pages (Editor)</b-dropdown-item>
+          href="/page/admin"
+        >
+          Static Pages (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/admin/ads">Text Ad Editor (Editor)</b-dropdown-item>
+          href="/admin/ads"
+        >
+          Text Ad Editor (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/admin/pix">Image Manager (Editor)</b-dropdown-item>
+          href="/admin/pix"
+        >
+          Image Manager (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/admin/editor">Editor Functions (Editor)</b-dropdown-item>
+          href="/admin/editor"
+        >
+          Editor Functions (Editor)
+        </b-dropdown-item>
 
         <b-dropdown-item
           v-if="user.admin"
-          href="/auth/index">User Editor (Admin)</b-dropdown-item>
+          href="/auth/index"
+        >
+          User Editor (Admin)
+        </b-dropdown-item>
 
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/region">Region (Editor)</b-dropdown-item>
+          href="/tables/region"
+        >
+          Region (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/sector">Sector (Editor)</b-dropdown-item>
+          href="/tables/sector"
+        >
+          Sector (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/bias">Bias (Editor)</b-dropdown-item>
+          href="/tables/bias"
+        >
+          Bias (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/topic">Topic (Editor)</b-dropdown-item>
+          href="/tables/topic"
+        >
+          Topic (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/source">Source (Editor)</b-dropdown-item>
+          href="/tables/source"
+        >
+          Source (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/signal">Signal (Editor)</b-dropdown-item>
+          href="/tables/signal"
+        >
+          Signal (Editor)
+        </b-dropdown-item>
         <b-dropdown-item
           v-if="user.editor || user.admin"
-          href="/tables/ad">Advertising (Editor)</b-dropdown-item>
+          href="/tables/ad"
+        >
+          Advertising (Editor)
+        </b-dropdown-item>
 
-        <b-dropdown-item href="/auth/logout">Logout</b-dropdown-item>
+        <b-dropdown-item href="/auth/logout">
+          Logout
+        </b-dropdown-item>
         <template slot="button-content">
           <div class="user-dropdown-label">
             <div class="user-avatar">
               <gravatar
-                :class="{'user-avatar__image': true, 'user-avatar__image--premium': user.premium}"
+                :class="{ 'user-avatar__image': true, 'user-avatar__image--premium': user.premium }"
                 :email="user.email"
                 :size="82"
                 default-img=""
@@ -80,38 +138,47 @@
                 v-if="user.premium"
                 class="user-avatar__badge"
                 width="24"
-                src="~assets/svgs/badge_premium.svg">
+                src="~assets/svgs/badge_premium.svg"
+              >
             </div>
             <span class="user-name d-none d-lg-block">{{ user.username }}</span>
             <img
               class="user-dropdown-arrow d-none d-lg-inline"
               src="~assets/svgs/white-arrow-down.svg"
-              width="20">
+              width="20"
+            >
             <img
               class="user-dropdown-arrow d-lg-none"
               src="~assets/svgs/arrow_down.svg"
-              width="8">
+              width="8"
+            >
           </div>
         </template>
       </b-dropdown>
     </div>
     <div
       v-else
-      :class="{'header-auth__buttons': true, 'hidden': !fetched}">
+      :class="{ 'header-auth__buttons': true, 'hidden': !fetched }"
+    >
       <a
         class="button button-outline button-login d-none d-lg-block"
-        href="/member/login">Login</a>
+        href="/member/login"
+      >Login</a>
       <a
         class="button button-white button-signup d-none d-lg-block"
-        href="/member/signup">Sign Up</a>
+        href="/member/signup"
+      >Sign Up</a>
       <a
         class="button button-red button-mobile button-mobile-signup d-lg-none"
-        href="/member/signup">Join</a>
+        href="/member/signup"
+      >Join</a>
       <a
         class="button button-outline button-mobile d-lg-none"
-        href="/member/login"><img
-          src="~assets/images/user-icon.png"
-          width="20"></a>
+        href="/member/login"
+      ><img
+        src="~assets/images/user-icon.png"
+        width="20"
+      ></a>
     </div>
   </div>
 </template>
@@ -135,6 +202,10 @@ export default {
     ...mapGetters(['user'])
   },
 
+  beforeMount () {
+    this.fetchUser()
+  },
+
   methods: {
     onMouseOver() {
       this.$refs.userDropdown.show()
@@ -149,10 +220,6 @@ export default {
         this.fetched = true
       })
     }
-  },
-
-  beforeMount () {
-    this.fetchUser()
   },
 }
 </script>

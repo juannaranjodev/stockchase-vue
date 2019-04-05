@@ -7,13 +7,14 @@
     </div>
 
     <div
-      class="ad-container"
       v-if="shouldShowAd"
+      class="ad-container"
     >
-      <Adsense
+      <adsense
         class="ad"
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="3572899802"/>
+        data-ad-slot="3572899802"
+      />
     </div>
 
     <router-view />

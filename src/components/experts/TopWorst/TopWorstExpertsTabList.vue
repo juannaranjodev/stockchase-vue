@@ -2,15 +2,15 @@
   <div class="top-worst-experts-tab-list">
     <b-button
       :variant="getVariant('top')"
-      @click="$emit('changeTab', 'top')"
       :class="{ 'btn-tab': true, 'btn-tab--active': tab === 'top' }"
+      @click="$emit('changeTab', 'top')"
     >
       Top 25
     </b-button>
     <b-button
       :variant="getVariant('worst')"
-      @click="$emit('changeTab', 'worst')"
       :class="{ 'btn-tab': true, 'btn-tab--active': tab === 'worst' }"
+      @click="$emit('changeTab', 'worst')"
     >
       Worst 25
     </b-button>
@@ -18,23 +18,23 @@
 </template>
 
 <script>
-  export default {
-    name: 'TopWorstExpertsTabList',
+export default {
+  name: 'TopWorstExpertsTabList',
 
-    props: {
-      tab: {
-        type: String,
-        required: true,
-        validator: (value) => ['top', 'worst'].indexOf(value) !== -1,
-      },
+  props: {
+    tab: {
+      type: String,
+      required: true,
+      validator: (value) => ['top', 'worst'].indexOf(value) !== -1,
     },
+  },
 
-    methods: {
-      getVariant(buttonName) {
-        return buttonName === this.tab ? 'danger' : 'light'
-      }
+  methods: {
+    getVariant(buttonName) {
+      return buttonName === this.tab ? 'danger' : 'light'
     }
   }
+}
 </script>
 
 <style lang="stylus" scoped>

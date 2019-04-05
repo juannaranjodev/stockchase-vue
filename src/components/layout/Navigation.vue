@@ -8,12 +8,14 @@
               v-if="isActive(/^\/$/)"
               class="home"
               src="~assets/images/stockchase-home-icon-red.png"
-              alt="logo">
+              alt="logo"
+            >
             <img
               v-else
               class="home"
               src="~assets/images/stockchase-home-icon.png"
-              alt="logo">
+              alt="logo"
+            >
           </a>
         </div>
         <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/(?!market)/) }">
@@ -38,7 +40,8 @@
       <div class="inner-right">
         <a
           class="watchlist"
-          href="/portfolio">
+          href="/portfolio"
+        >
           <img src="~assets/svgs/icon_watchlist_gray.svg">
           Watch List
         </a>
@@ -47,31 +50,36 @@
     <nav class="inner inner--sm d-lg-none">
       <a
         :class="{ link: true, active: isActive(/^\/opinions\/(?!market)/) }"
-        href="/opinions/recent">
+        href="/opinions/recent"
+      >
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>
         <span class="link__label">Opinions</span>
       </a>
       <a
         :class="{ link: true, active: isActive(/^\/opinions\/market/) }"
-        href="/company">
+        href="/company"
+      >
         <span class="link__icon"><img src="~assets/svgs/icon_company.svg"></span>
         <span class="link__label">Company</span>
       </a>
       <a
         :class="{ link: true, active: isActive(/^\/expert/) }"
-        href="/expert">
+        href="/expert"
+      >
         <span class="link__icon"><img src="~assets/svgs/icon_expert.svg"></span>
         <span class="link__label">Expert</span>
       </a>
       <a
         :class="{ link: true, active: isActive(/^\/portfolio/) }"
-        href="/portfolio">
+        href="/portfolio"
+      >
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
       </a>
       <a
         :class="{ link: true, active: isActive(/^\/opinions\/recenttop/) }"
-        href="/opinions/recenttop">
+        href="/opinions/recenttop"
+      >
         <span class="link__icon"><img src="~assets/svgs/icon_toppicks.svg"></span>
         <span class="link__label">Top Picks</span>
       </a>
@@ -82,7 +90,7 @@
 <script>
 
 export default {
-  name: 'SiteNavigation',
+  name: 'Navigation',
 
   methods: {
     isActive(pathPattern) {

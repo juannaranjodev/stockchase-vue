@@ -108,8 +108,8 @@ import MarketOutlook from '../components/home/MarketOutlook.vue'
 import SignUp from '../components/home/SignUp.vue'
 import Premium from '../components/home/Premium.vue'
 import InTheNews from '../components/home/InTheNews.vue'
-import Sponsors from '../components/home/Sponsors.vue'
-import Newest from '../components/home/Newest.vue'
+// import Sponsors from '../components/home/Sponsors.vue'
+// import Newest from '../components/home/Newest.vue'
 import FollowUs from '../components/home/FollowUs.vue'
 import LinkAd from '../components/ads/LinkAd.vue'
 import SideAd from '../components/ads/SideAd.vue'
@@ -131,9 +131,13 @@ export default {
     DianomiAd,
     SideAd,
     OpinionsList,
-    Sponsors,
-    Newest,
+    // Sponsors,
+    // Newest,
     FollowUs,
+  },
+
+  computed: {
+    ...mapGetters([ 'shouldShowAd', 'user' ]),
   },
 
   asyncData ({ store, route }) {
@@ -160,10 +164,6 @@ export default {
     ]
 
     return Promise.all(queries)
-  },
-
-  computed: {
-    ...mapGetters([ 'shouldShowAd', 'user' ]),
   },
 }
 </script>

@@ -7,14 +7,14 @@
       :tab="selectedTab"
       @changeTab="changeTab"
     />
-    <top-worst-expert-table :experts="experts"/>
+    <top-worst-expert-table :experts="experts" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import TopWorstExpertsTabList from '../components/experts/top-worst/TopWorstExpertsTabList'
-import TopWorstExpertTable from '../components/experts/top-worst/TopWorstExpertsTable'
+import TopWorstExpertsTabList from '../components/experts/TopWorst/TopWorstExpertsTabList'
+import TopWorstExpertTable from '../components/experts/TopWorst/TopWorstExpertsTable'
 
 export default {
   name: 'TopWorstExpertList',
@@ -38,17 +38,17 @@ export default {
     }
   },
 
-  methods: {
-    changeTab(tab) {
-      this.selectedTab = tab
-    },
-  },
-
   asyncData ({ store, route }) {
     return Promise.all([
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
     ])
+  },
+
+  methods: {
+    changeTab(tab) {
+      this.selectedTab = tab
+    },
   },
 }
 </script>

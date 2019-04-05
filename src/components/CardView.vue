@@ -11,17 +11,17 @@
         <p>{{ subTitle }}</p>
       </a>
       <ul
-        class="card-social-links"
         v-if="socialLinks"
+        class="card-social-links"
       >
         <li :class="{ 'has-link': socialLinks && socialLinks.twitter }">
-          <a :href="twitterUrl"><i class="icon icon-twitter"/></a>
+          <a :href="twitterUrl"><i class="icon icon-twitter" /></a>
         </li>
         <li :class="{ 'has-link': socialLinks && socialLinks.linkedin }">
-          <a :href="linkedInUrl"><i class="icon icon-linkedin"/></a>
+          <a :href="linkedInUrl"><i class="icon icon-linkedin" /></a>
         </li>
         <li :class="{ 'has-link': socialLinks && socialLinks.facebook }">
-          <a :href="facebookUrl"><i class="icon icon-facebook"/></a>
+          <a :href="facebookUrl"><i class="icon icon-facebook" /></a>
         </li>
       </ul>
     </div>

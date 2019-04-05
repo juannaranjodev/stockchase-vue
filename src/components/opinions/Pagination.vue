@@ -1,6 +1,6 @@
 <template>
-  <div :class="{'pgntn': true, 'pgntn--bottom': bottom}">
-    <div :class="{'pgntn-left': true, 'd-none d-lg-block': bottom}">
+  <div :class="{ 'pgntn': true, 'pgntn--bottom': bottom }">
+    <div :class="{ 'pgntn-left': true, 'd-none d-lg-block': bottom }">
       <ul class="pagination">
         <li class="page-item page-item--bordered">
           <b-dropdown toggle-class="page-link">
@@ -9,11 +9,15 @@
               :key="`adjacentDate_${adjacentDate.date}`"
               :active="adjacentDate.date === date"
               :href="getDateUrl(adjacentDate.date)"
-            >{{ adjacentDate.date | formatFullDate }}</b-dropdown-item>
+            >
+              {{ adjacentDate.date | formatFullDate }}
+            </b-dropdown-item>
             <b-dropdown-item
               :key="`adjacentDate_more_${lastAdjacentDate.date}`"
               :href="getDateUrl(lastAdjacentDate.date)"
-            >More...</b-dropdown-item>
+            >
+              More...
+            </b-dropdown-item>
 
             <template slot="button-content">
               <span>{{ date | formatFullDate }}</span>
@@ -31,48 +35,70 @@
     </div>
 
     <div class="pgntn-right">
-      <ul class="pagination">
+      <ul
+        v-if="bottom"
+        class="pagination"
+      >
         <li
-          v-if="bottom"
-          :class="{'page-item page-item--prev page-item--bordered': true, 'disabled': !prevPage && !newerDate}"
+          :class="{ 'page-item page-item--prev page-item--bordered': true, 'disabled': !prevPage && !newerDate }"
         >
           <a
             v-if="prevPage || newerDate"
             :href="prevPage ? prevPageUrl : newerUrl"
-            class="page-link"><img src="~assets/svgs/arrow_down.svg"></a>
+            class="page-link"
+          ><img src="~assets/svgs/arrow_down.svg"></a>
           <span
             v-else
-            class="page-link"><img src="~assets/svgs/arrow_down.svg"></span>
+            class="page-link"
+          ><img src="~assets/svgs/arrow_down.svg"></span>
         </li>
 
         <li
-          v-if="bottom && !adFree"
           v-for="page in numPages"
           :key="`page_${page}`"
-          :class="{'page-item page-item--number': true, active: page === currentPage}"
+          :class="{ 'page-item page-item--number': true, active: page === currentPage }"
         >
           <span
             v-if="page === currentPage"
-            class="page-link">{{ page }}</span>
+            class="page-link"
+          >{{ page }}</span>
           <a
             v-else
             class="page-link"
-            :href="getPaginationUrl(date, page)">{{ page }}</a>
+            :href="getPaginationUrl(date, page)"
+          >{{ page }}</a>
         </li>
 
-        <li :class="{'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate}">
+        <li :class="{ 'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate }">
           <a
             v-if="nextPage || olderDate"
             :href="nextPage ? nextPageUrl : olderUrl"
-            class="page-link"><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></a>
+            class="page-link"
+          ><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></a>
           <span
             v-else
-            class="page-link"><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></span>
+            class="page-link"
+          ><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></span>
+        </li>
+      </ul>
+      <ul
+        v-else
+        class="pagination"
+      >
+        <li :class="{ 'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate }">
+          <a
+            v-if="nextPage || olderDate"
+            :href="nextPage ? nextPageUrl : olderUrl"
+            class="page-link"
+          ><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></a>
+          <span
+            v-else
+            class="page-link"
+          ><span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg"></span>
         </li>
       </ul>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -82,7 +108,18 @@ import { mapGetters } from 'vuex'
 import * as c from '../../constants'
 
 export default {
-  name: 'OpinionsPagination',
+  name: 'Pagination',
+
+  filters: {
+    formatFullDate (val) {
+      return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`
+    },
+
+    formatWeekday (val) {
+      return `${moment(val).format('dddd')}`
+    }
+  },
+
   props: {
     type: {
       type: String,
@@ -90,11 +127,9 @@ export default {
     },
     top: {
       type: Boolean,
-      default: false
     },
     bottom: {
       type: Boolean,
-      default: false
     },
   },
 
@@ -117,7 +152,7 @@ export default {
     olderUrl() { return this.olderDateUrl },
 
     numPages() {
-      return Math.ceil(this.opinions.length / c.PER_PAGE)
+      return this.adFree ? 0 : Math.ceil(this.opinions.length / c.PER_PAGE)
     },
 
     currentPage() {
@@ -125,7 +160,7 @@ export default {
     },
 
     prevPage() {
-      if (this.currentPage > 1) return this.currentPage - 1
+      return (this.currentPage > 1) ? this.currentPage - 1 : null
     },
 
     prevPageUrl() {
@@ -134,7 +169,7 @@ export default {
     },
 
     nextPage() {
-      if (this.currentPage < this.numPages) return this.currentPage + 1
+      return (this.currentPage < this.numPages) ? this.currentPage + 1 : null
     },
 
     nextPageUrl() {
@@ -162,16 +197,6 @@ export default {
       return this.getPaginationUrl(date, 1)
     },
   },
-
-  filters: {
-    formatFullDate (val) {
-      return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`
-    },
-
-    formatWeekday (val) {
-      return `${moment(val).format('dddd')}`
-    }
-  }
 }
 </script>
 
