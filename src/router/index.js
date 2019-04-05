@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import TopWorstExpertList from '../views/TopWorstExpertList'
 
 Vue.use(Router)
 
@@ -19,6 +20,7 @@ export function createRouter () {
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
+      { path: '/expert/top', component: TopWorstExpertList },
       { path: '/expert', component: () => expertsView },
       { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: () => expertsView },
     ]

@@ -1,6 +1,7 @@
-import api from '../api'
-import * as c from '../constants'
+import api from '../../api'
+import * as c from '../../constants'
 import _ from 'lodash'
+import expertActions from './expert'
 
 export default {
   SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
@@ -178,4 +179,6 @@ export default {
         commit('SET_USER', user)
       })
   },
+
+  ...expertActions,
 }

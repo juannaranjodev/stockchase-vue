@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import _ from 'lodash'
+import expertMutations from './expert'
 
 export default {
   SET_SEARCHED_EXPERTS: (state, experts = []) => {
@@ -86,4 +87,6 @@ export default {
   SET_PREMIUM_COMPANIES: (state, premiumCompanies=[]) => {
     state.premiumCompanies = premiumCompanies
   },
+
+  ...expertMutations,
 }

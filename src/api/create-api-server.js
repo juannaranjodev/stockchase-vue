@@ -114,6 +114,10 @@ export function createAPI () {
       return await Expert.getNewestExperts(num)
     },
 
+    async fetchTopOrWorstExperts(isTop) {
+      return await ExpertRating.getTopOrWorstExperts(isTop)
+    },
+
     async fetchNewestCompanies (num) {
       return await Company.getNewestCompanies(num)
     },
