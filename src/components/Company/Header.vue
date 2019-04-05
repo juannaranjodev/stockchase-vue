@@ -1,13 +1,16 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <h2 class="title">What the experts are saying about {{ company.symbol }}</h2>
+      <h2 class="title">
+        What the experts are saying about {{ company.symbol }}
+      </h2>
     </div>
     <div class="header-right">
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe d-none d-lg-inline">Too many ads? Remove ads !</a>
+        class="subscribe d-none d-lg-inline"
+      >Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -16,7 +19,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'CompanyHeader',
+  name: 'Header',
 
   computed: {
     ...mapGetters(['shouldShowAd', 'company'])

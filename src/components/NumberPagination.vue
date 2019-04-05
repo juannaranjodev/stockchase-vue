@@ -2,7 +2,8 @@
   <div class="pgntn">
     <div class="pgntn-left">
       <a
-        href="#"
+        v-if="prevPageUrl"
+        :href="prevPageUrl"
         class="page-link page-link--highlight page-link--prev"
       >
         <img src="~assets/svgs/arrow_down_white.svg"><span>Previous</span>
@@ -11,11 +12,27 @@
 
     <div class="pgntn-center">
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">&laquo;</span>
+        <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
+          <a
+            v-if="currentPage > 1"
+            :href="firstPageUrl"
+            class="page-link"
+          >&laquo;</a>
+          <span
+            v-else
+            class="page-link"
+          >&laquo;</span>
         </li>
-        <li class="page-item disabled">
-          <span class="page-link">&lsaquo;</span>
+        <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
+          <a
+            v-if="currentPage > 1"
+            :href="prevPageUrl"
+            class="page-link"
+          >&lsaquo;</a>
+          <span
+            v-else
+            class="page-link"
+          >&lsaquo;</span>
         </li>
 
         <li
@@ -26,7 +43,7 @@
           <a
             v-if="page !== currentPage"
             class="page-link"
-            href="#"
+            :href="getPageUrl(page)"
           >{{ page }}</a>
           <span
             v-else
@@ -34,24 +51,35 @@
           >{{ page }}</span>
         </li>
 
-        <li class="page-item">
+        <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
           <a
-            href="#"
+            v-if="currentPage < numTotalPages"
+            :href="nextPageUrl"
             class="page-link"
           >&rsaquo;</a>
+          <span
+            v-else
+            class="page-link"
+          >&rsaquo;</span>
         </li>
-        <li class="page-item">
+        <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
           <a
-            href="#"
+            v-if="currentPage < numTotalPages"
+            :href="lastPageUrl"
             class="page-link"
           >&raquo;</a>
+          <span
+            v-else
+            class="page-link"
+          >&raquo;</span>
         </li>
       </ul>
     </div>
 
     <div class="pgntn-right">
       <a
-        href="#"
+        v-if="nextPageUrl"
+        :href="nextPageUrl"
         class="page-link page-link--highlight page-link--next"
       >
         <span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg">
@@ -82,7 +110,42 @@ export default {
 
   computed: {
     pages () {
-      return [1,2,3,4,5]
+      let firstPage = Math.max(this.currentPage - 2, 1)
+      const lastPage = Math.min(firstPage + 4, this.numTotalPages)
+      // Adjust first page to make sure 5 page buttons are displayed if possible
+      firstPage = Math.max(lastPage - 4, 1)
+
+      return _.map(new Array(lastPage - firstPage + 1), (page, index) => firstPage + index)
+    },
+
+    prevPage () {
+      return this.currentPage - 1
+    },
+
+    nextPage () {
+      return this.currentPage + 1
+    },
+
+    firstPageUrl () {
+      return this.getPageUrl(1)
+    },
+
+    lastPageUrl () {
+      return this.getPageUrl(this.numTotalPages)
+    },
+
+    prevPageUrl () {
+      return (this.prevPage > 0) ? this.getPageUrl(this.prevPage) : null
+    },
+
+    nextPageUrl () {
+      return (this.nextPage <= this.numTotalPages) ? this.getPageUrl(this.nextPage) : null
+    },
+  },
+
+  methods: {
+    getPageUrl (page) {
+      return this.urlPattern.replace(':page', page)
     }
   },
 }
@@ -154,8 +217,6 @@ export default {
     margin 10px 0
 
   .page-item
-
-
     &.active
       >>> .page-link
         background-color #ec4d4b

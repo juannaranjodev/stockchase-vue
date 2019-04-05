@@ -7,7 +7,11 @@
       <div class="opinions-container">
         <opinions-list :items="opinions" />
         <link-ad class="d-none d-lg-block" />
-        <number-pagination />
+        <number-pagination
+          :num-total-pages="numOpinionPages"
+          :current-page="currentPage"
+          :url-pattern="urlPattern"
+        />
       </div>
 
       <dianomi-ad />
@@ -37,6 +41,26 @@ export default {
     NumberPagination
   },
 
+  computed: {
+    ...mapGetters([ 'company', 'opinions', 'numOpinionPages' ]),
+
+    title() {
+      return `${this.company.name} (${this.company.symbol})`
+    },
+
+    currentPage () {
+      return +this.$route.params.page || 1
+    },
+
+    perPage () {
+      return +this.$route.params.perPage || 15
+    },
+
+    urlPattern () {
+      return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`
+    }
+  },
+
   asyncData ({ store, route }) {
     return store.dispatch('FETCH_COMPANY', {
       id: route.params.id,
@@ -62,22 +86,6 @@ export default {
     const latestOpinion = this.opinions[0]
 
     if (latestOpinion) return stripTags(latestOpinion.comment)
-  },
-
-  computed: {
-    ...mapGetters([ 'company', 'opinions', 'numOpinionPages' ]),
-
-    title() {
-      return `${this.company.name} (${this.company.symbol})`
-    },
-
-    page () {
-      return +this.$route.params.page || 1
-    },
-
-    perPage () {
-      return +this.$route.params.perPage || 15
-    }
   },
 
   updated() {
