@@ -162,5 +162,15 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get normal opinions by company id
+  Opinion.getOpinionsByCompany = function(companyId) {
+    return Opinion.findAll({
+      where: { company_id: companyId },
+      order: [['date', 'DESC'], ['id', 'ASC']],
+      include: [ { all: true, nested: true } ],
+      limit: 15,
+    });
+  };
+
   return Opinion;
 };

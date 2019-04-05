@@ -32,7 +32,11 @@ export function createStore () {
       totalExperts: 0,
       searchedExperts: [],
       totalSearchedExperts: 0,
+
+      // For single company page
+      // TODO consider moving single company page data to a module
       company: {},
+      companyOpinions: [],
     },
     actions,
     mutations,

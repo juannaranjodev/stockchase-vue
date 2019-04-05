@@ -226,5 +226,9 @@ export function createAPI () {
     async fetchCompanyById (id) {
       return await Company.findByPk(id)
     },
+
+    async fetchOpinionsByCompany (id) {
+      return await Opinion.getOpinionsByCompany(id)
+    },
   }
 }

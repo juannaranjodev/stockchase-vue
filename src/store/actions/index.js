@@ -151,4 +151,10 @@ export default {
       commit('SET_COMPANY', company)
     })
   },
+
+  FETCH_COMPANY_OPINIONS: ({ commit, dispatch, state }, { id }) => {
+    return api.fetchOpinionsByCompany(id).then(opinions => {
+      commit('SET_COMPANY_OPINIONS', opinions)
+    })
+  },
 }

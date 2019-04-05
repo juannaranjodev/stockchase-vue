@@ -103,4 +103,9 @@ export default {
   company (state) {
     return state.company
   },
+
+  companyOpinions (state) {
+    return state.companyOpinions
+  },
+
 }

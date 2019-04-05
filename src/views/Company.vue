@@ -8,6 +8,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { stripTags } from '../util/filters'
 
 export default {
   name: 'Company',
@@ -16,16 +17,38 @@ export default {
     return store.dispatch('FETCH_COMPANY', {
       id: route.params.id,
       symbol: route.params.symbol
+    }).then(() => {
+      return store.dispatch('FETCH_COMPANY_OPINIONS', {
+        id: route.params.id,
+      })
     })
   },
 
   title () {
-    return `${this.company.name} (${this.company.symbol}) Stock Predictions`
+    return `${this.title} Stock Predictions`
+  },
+
+  previewTitle () {
+    return this.title
+  },
+
+  image () {
+    return this.company.logo
+  },
+
+  description () {
+    const latestOpinion = this.companyOpinions[0]
+
+    if (latestOpinion) return stripTags(latestOpinion.comment)
   },
 
   computed: {
-    ...mapGetters([ 'company' ]),
-  }
+    ...mapGetters([ 'company', 'companyOpinions' ]),
+
+    title() {
+      return `${this.company.name} (${this.company.symbol})`
+    }
+  },
 }
 </script>
 

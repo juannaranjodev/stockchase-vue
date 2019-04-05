@@ -85,4 +85,8 @@ export default {
   SET_COMPANY: (state, company={}) => {
     state.company = company
   },
+
+  SET_COMPANY_OPINIONS: (state, companyOpinions=[]) => {
+    state.companyOpinions = companyOpinions
+  },
 }
