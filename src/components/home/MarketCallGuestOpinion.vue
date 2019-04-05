@@ -32,8 +32,8 @@
         >
           <a
             v-if="!isWatching"
-            @click="saveStock"
             href="#"
+            @click="saveStock"
           >
             <img
               src="~assets/images/add-watchlist.png"
@@ -50,7 +50,8 @@
         >{{ opinion.comment | stripTags }}</a>
         <a
           class="opinion__text-more"
-          :href="opinion.url">
+          :href="opinion.url"
+        >
           <span>read more</span>
         </a>
       </div>
@@ -63,7 +64,7 @@ import _ from 'lodash'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeMarketCallGuestOpinion',
+  name: 'MarketCallGuestOpinion',
   props: {
     opinion: {
       type: Object,
@@ -71,7 +72,6 @@ export default {
     },
     isTopPick: {
       type: Boolean,
-      default: false
     }
   },
 

@@ -2,28 +2,31 @@
   <div class="slider-container d-none d-lg-block">
     <div class="slider">
       <span
-        :class="{'carousel-control carousel-control-prev-icon': true, 'hidden': !hasPrevious}"
-        @click="prev"/>
+        :class="{ 'carousel-control carousel-control-prev-icon': true, 'hidden': !hasPrevious }"
+        @click="prev"
+      />
       <div class="slider-content">
         <a
           v-for="item in displayedItems"
           :key="item.id"
-          :href="item.anchor_url"
           v-b-tooltip.hover
+          :href="item.anchor_url"
           :title="item.Company.name"
           class="company"
         >
           <div
             class="company-logo"
-            :href="item.Company.url">
+            :href="item.Company.url"
+          >
             <img :src="item.Company.logo">
           </div>
           <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name | formatSignalName }}</div>
         </a>
       </div>
       <span
-        :class="{'carousel-control carousel-control-next-icon': true, 'hidden': !hasNext}"
-        @click="next"/>
+        :class="{ 'carousel-control carousel-control-next-icon': true, 'hidden': !hasNext }"
+        @click="next"
+      />
     </div>
   </div>
 </template>
@@ -34,7 +37,7 @@ import { mapGetters } from 'vuex'
 import * as c from '../../constants'
 
 export default {
-  name: 'OpinionsSlider',
+  name: 'Slider',
   props: {
     items: {
       type: Array,

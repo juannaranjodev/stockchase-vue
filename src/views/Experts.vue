@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <cards-view-filters 
-      :title="title" 
+    <cards-view-filters
+      :title="title"
       :search-placeholder="searchPlaceholder"
       target-search="experts"
       :reset-uri="'/expert'"
@@ -9,7 +9,7 @@
     />
     <div class="experts">
       <div class="first-row">
-        <card-view 
+        <card-view
           v-for="(expert, index) in firstFiveExperts"
           :key="index"
           image-size="small"
@@ -62,9 +62,15 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Experts',
 
+  components: {
+    CardsViewFilters,
+    CardView,
+    Paginator
+  },
+
   data(){
     const { params } = this.$route;
-    
+
     return {
       title: 'Stock Experts',
       searchPlaceholder: 'Filter by expert name',
@@ -76,10 +82,15 @@ export default {
     }
   },
 
-  components: {
-    CardsViewFilters,
-    CardView,
-    Paginator
+  computed: {
+    ...mapGetters(['experts', 'totalExperts']),
+
+    firstFiveExperts() {
+      return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5)
+    },
+    theRestOfExperts() {
+      return this.experts.length >= 5 ? this.experts.slice(5) : []
+    },
   },
 
   asyncData ({ store, route }) {
@@ -101,17 +112,6 @@ export default {
     ];
 
     return Promise.all(promises)
-  },
-
-  computed: {
-    ...mapGetters(['experts', 'totalExperts']),
-
-    firstFiveExperts() {
-      return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5)
-    },
-    theRestOfExperts() {
-      return this.experts.length >= 5 ? this.experts.slice(5) : []
-    },
   },
 }
 </script>

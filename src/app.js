@@ -17,6 +17,7 @@ import SocialSharing from 'vue-social-sharing'
 Vue.use(SocialSharing)
 
 import NoSSR from 'vue-no-ssr'
+// eslint-disable-next-line vue/match-component-file-name
 Vue.component('no-ssr', NoSSR)
 
 import Ads from 'vue-google-adsense'

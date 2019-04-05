@@ -1,6 +1,8 @@
 <template>
   <div class="sponsors">
-    <h3 class="sponsors__title">Premium Sponsors & Offers</h3>
+    <h3 class="sponsors__title">
+      Premium Sponsors & Offers
+    </h3>
 
     <div class="sponsors__list">
       <div
@@ -22,7 +24,9 @@
                 :title="sponsor.name"
               >{{ sponsor.name }}</a>
             </h4>
-            <div class="sponsors__featured-item-text">{{ sponsor.content }}</div>
+            <div class="sponsors__featured-item-text">
+              {{ sponsor.content }}
+            </div>
             <a
               :href="sponsor.link"
               target="_blank"
@@ -64,7 +68,7 @@
 
 <script>
 export default {
-  name: 'HomePremium',
+  name: 'Sponsors',
 
   data() {
     return {

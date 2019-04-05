@@ -1,7 +1,9 @@
 <template>
   <div class="newest">
     <div class="newest-section">
-      <h3 class="newest-section__title">Newest Companies</h3>
+      <h3 class="newest-section__title">
+        Newest Companies
+      </h3>
       <div class="newest-section__links">
         <a
           v-for="company in newestCompanies"
@@ -17,7 +19,9 @@
     </div>
 
     <div class="newest-section">
-      <h3 class="newest-section__title">Newest Expert</h3>
+      <h3 class="newest-section__title">
+        Newest Expert
+      </h3>
       <div class="newest-section__links">
         <a
           v-for="expert in newestExperts"
@@ -38,7 +42,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeNewest',
+  name: 'Newest',
 
   computed: {
     ...mapGetters([ 'newestExperts', 'newestCompanies' ]),

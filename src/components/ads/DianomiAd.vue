@@ -1,14 +1,16 @@
 <template>
   <div>
     <div
+      v-if="shouldShowAd"
       class="ad-container"
-      v-if="shouldShowAd">
+    >
       <iframe
         class="ad"
         width="1100"
         height="550"
         scrolling="NO"
-        src="//www.dianomi.com/smartads.epl?id=4223"/>
+        src="//www.dianomi.com/smartads.epl?id=4223"
+      />
     </div>
   </div>
 </template>

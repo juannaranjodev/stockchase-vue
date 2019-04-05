@@ -15,8 +15,12 @@
         <div class="opinions">
           <div class="opinions__header">
             <div class="opinions__timestamp">
-              <div class="opinions__day">{{ guest.date | formatDate('ddd') }}</div>
-              <div class="opinions__date"><span>{{ guest.date | formatDate('MMM D') }}</span></div>
+              <div class="opinions__day">
+                {{ guest.date | formatDate('ddd') }}
+              </div>
+              <div class="opinions__date">
+                <span>{{ guest.date | formatDate('MMM D') }}</span>
+              </div>
             </div>
 
             <div class="opinions__expert">
@@ -56,7 +60,9 @@
       <div class="guest__section-right">
         <div class="top-picks">
           <div class="top-picks__header">
-            <div class="top-picks__title">Top Picks</div>
+            <div class="top-picks__title">
+              Top Picks
+            </div>
             <div class="top-picks__image">
               <img
                 src="~assets/svgs/top-pick-star.svg"
@@ -114,7 +120,8 @@
                 <img
                   v-if="!user.premium"
                   src="~assets/images/starts-rate.png"
-                  height="27">
+                  height="27"
+                >
                 <a
                   v-if="user.premium"
                   class="premium__link"
@@ -145,23 +152,29 @@
               </div>
 
               <div class="premium__info-item">
-                <div class="premium__info-item-label">TOP PICKS</div>
+                <div class="premium__info-item-label">
+                  TOP PICKS
+                </div>
                 <div class="premium__info-item-content">
                   <div
                     v-if="user.premium"
-                    class="premium__info-item-value">
+                    class="premium__info-item-value"
+                  >
                     {{ guest.topHorizon.total_tp || '&nbsp;' }}
                   </div>
                   <div
                     v-else
-                    class="premium__info-item-value premium__info-item-value--masked">
+                    class="premium__info-item-value premium__info-item-value--masked"
+                  >
                     masked
                   </div>
                 </div>
               </div>
 
               <div class="premium__info-item">
-                <div class="premium__info-item-label">BIG WIN</div>
+                <div class="premium__info-item-label">
+                  BIG WIN
+                </div>
                 <div class="premium__info-item-content">
                   <div
                     v-if="user.premium"
@@ -171,7 +184,8 @@
                   </div>
                   <div
                     v-else
-                    class="premium__info-item-value premium__info-item-value--masked">
+                    class="premium__info-item-value premium__info-item-value--masked"
+                  >
                     masked
                   </div>
                 </div>
@@ -181,7 +195,9 @@
                 v-if="user.loaded && !user.premium"
                 class="premium__signup"
               >
-                <div class="premium__signup-title">This is a Premium Subscriber-Only Feature</div>
+                <div class="premium__signup-title">
+                  This is a Premium Subscriber-Only Feature
+                </div>
                 <a
                   :href="premiumLink"
                   class="premium__signup-button"
@@ -191,7 +207,9 @@
               </div>
 
               <div class="premium__info-item">
-                <div class="premium__info-item-label">HORIZON</div>
+                <div class="premium__info-item-label">
+                  HORIZON
+                </div>
                 <div class="premium__info-item-content">
                   <div
                     v-if="user.premium"
@@ -201,7 +219,8 @@
                   </div>
                   <div
                     v-else
-                    class="premium__info-item-value premium__info-item-value--masked">
+                    class="premium__info-item-value premium__info-item-value--masked"
+                  >
                     masked
                   </div>
                 </div>
@@ -220,7 +239,10 @@ import { mapGetters } from 'vuex'
 import MarketCallGuestOpinion from './MarketCallGuestOpinion.vue'
 
 export default {
-  name: 'HomeMarketCallGuest',
+  name: 'MarketCallGuest',
+  components: {
+    MarketCallGuestOpinion
+  },
   props: {
     guest: {
       type: Object,
@@ -230,9 +252,6 @@ export default {
       type: Object,
       default: () => ({})
     }
-  },
-  components: {
-    MarketCallGuestOpinion
   },
 
   computed: {

@@ -15,7 +15,7 @@ module.exports = merge(base, {
   },
   resolve: {
     alias: {
-      'create-api': './create-api-server.js'
+      'createApi': './createApi-server.js'
     }
   },
   // https://webpack.js.org/configuration/externals/#externals

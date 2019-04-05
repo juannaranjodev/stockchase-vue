@@ -1,12 +1,14 @@
 <template>
   <div>
     <div
+      v-if="shouldShowAd"
       class="ad-container d-none d-lg-block"
-      v-if="shouldShowAd">
-      <Adsense
+    >
+      <adsense
         class="ad"
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="8310443638"/>
+        data-ad-slot="8310443638"
+      />
     </div>
   </div>
 </template>

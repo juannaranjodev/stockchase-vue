@@ -8,7 +8,8 @@
       <img
         :src="ratingImageFor(rating.rating)"
         width="50"
-        @click="rate(rating.rating)">
+        @click="rate(rating.rating)"
+      >
       <span>{{ rating.count }}</span>
     </div>
   </div>
@@ -20,7 +21,7 @@ import * as c from '../../constants'
 import { getPossibleRatings, getRatingImage } from '../../util/rating'
 
 export default {
-  name: 'OpinionUserReactions',
+  name: 'UserReactions',
   props: {
     item: {
       type: Object,

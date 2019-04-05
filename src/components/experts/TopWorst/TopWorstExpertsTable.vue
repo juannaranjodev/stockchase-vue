@@ -34,7 +34,8 @@
             <div class="expert-info-container">
               <a
                 :href="expert.url"
-                class="expert-name">{{ expert.name }}</a>
+                class="expert-name"
+              >{{ expert.name }}</a>
               <p class="expert-info">
                 {{ expert.total_tp }} Top Picks | {{ expert.companies }} Total Companies
               </p>
@@ -42,7 +43,9 @@
           </div>
         </td>
         <td>
-          <div class="expert-period">{{ expert.period }}</div>
+          <div class="expert-period">
+            {{ expert.period }}
+          </div>
           <top-worst-expert-rating :rating="expert.rate" />
         </td>
         <td>

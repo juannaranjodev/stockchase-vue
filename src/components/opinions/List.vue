@@ -3,9 +3,15 @@
     <div class="opinions-table">
       <div class="opinions-table__thead">
         <div class="opinions-table__tr">
-          <div class="opinions-table__th opinions-table__th--signal"><span>Signal</span></div>
-          <div class="opinions-table__th opinions-table__th--opinion"><span>Opinion</span></div>
-          <div class="opinions-table__th opinions-table__th--expert"><span>Expert</span></div>
+          <div class="opinions-table__th opinions-table__th--signal">
+            <span>Signal</span>
+          </div>
+          <div class="opinions-table__th opinions-table__th--opinion">
+            <span>Opinion</span>
+          </div>
+          <div class="opinions-table__th opinions-table__th--expert">
+            <span>Expert</span>
+          </div>
         </div>
       </div>
       <div class="opinions-table__tbody">
@@ -21,7 +27,6 @@
 
     <comments-modal ref="commentsModal" />
   </div>
-
 </template>
 
 <script>
@@ -31,7 +36,12 @@ import Item from './Item.vue'
 import CommentsModal from './CommentsModal.vue'
 
 export default {
-  name: 'OpinionsList',
+  name: 'List',
+
+  components: {
+    Item,
+    CommentsModal
+  },
 
   props: {
     items: {
@@ -42,11 +52,6 @@ export default {
       type: Number,
       default: 1
     },
-  },
-
-  components: {
-    Item,
-    CommentsModal
   },
 
   computed: {

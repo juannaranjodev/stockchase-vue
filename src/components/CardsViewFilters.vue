@@ -5,42 +5,49 @@
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe d-none d-md-inline">Too many ads? Remove ads !</a>
+        class="subscribe d-none d-md-inline"
+      >Too many ads? Remove ads !</a>
     </h1>
     <div class="filters">
       <div class="col-md-4">
         <label>Show</label>
         <ul class="filters-count">
           <li
-            v-for="n in [15, 30, 60]"
-            :key="n">
-            <a 
+            v-for="n in [ 15, 30, 60 ]"
+            :key="n"
+          >
+            <a
               :href="generateURL(n)"
-              :class="getItemsPerPage(n)">{{ n }}</a>
+              :class="getItemsPerPage(n)"
+            >{{ n }}</a>
           </li>
         </ul>
       </div>
       <div class="col-md-4">
         <select class="filters-listby">
-          <option 
-            v-for="option in sortedOptions" 
+          <option
+            v-for="option in sortedOptions"
             :key="option"
-            :value="option">{{ option }}</option>
+            :value="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
       <div class="col-md-4">
         <div class="filters-search">
           <input
-            type="text"
             ref="search"
+            type="text"
             :placeholder="searchPlaceholder"
             autocomplete="off"
             @input="onSearchTyping"
           >
-          <button 
+          <button
             class="btn-search"
-            @click="onSubmitSearch">
-            <i class="icon icon-search"/>
+            @click="onSubmitSearch"
+          >
+            <i class="icon icon-search" />
           </button>
           <div class="suggestion">
             <span
@@ -52,19 +59,23 @@
                 v-for="row in matches"
                 :key="row.id"
                 @click="onSearchResultsItemClick(row)"
-              >{{ row.name }}</li>
+              >
+                {{ row.name }}
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
     <div
+      v-if="searchQuery"
       class="cards-search"
-      v-if="searchQuery">
+    >
       You searched for: <code>{{ searchQuery }}</code>
-      <a 
+      <a
         :href="resetUri"
-        class="btn btn-primary btn-sm search-reset" >Reset</a>
+        class="btn btn-primary btn-sm search-reset"
+      >Reset</a>
     </div>
   </section>
 </template>
@@ -76,7 +87,7 @@ import { setTimeout, clearTimeout } from 'timers';
 let wait;
 
 export default {
-  name: 'CardsFilter',
+  name: 'CardsViewFilters',
   props: {
     title: {
       type: String,
@@ -127,7 +138,7 @@ export default {
         .replace(':page', params.page || '1')
         .replace(':direction', params.direction || 'desc' )
         .replace(':itemsPerPage', pages)
-  
+
       return query.search ? `${url}?search=${query.search}` : url
     },
     onSubmitSearch(){
@@ -147,7 +158,7 @@ export default {
 
         wait = setTimeout(async () => {
           if(this.targetSearch === 'company'){
-            
+
           }else{
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
@@ -189,7 +200,7 @@ export default {
       border-bottom 11px solid #474747
       margin-bottom 20px
       padding-bottom 10px
-    &-search 
+    &-search
       margin-top 10px
       border 1px solid rgba(0,0,0,0.1)
       padding 8px 15px
@@ -218,7 +229,7 @@ export default {
           padding 2px 7px
           border-radius 3px
           pointer-events none
-    &-listby 
+    &-listby
       -webkit-appearance none
       -moz-appearance none
       -o-appearance none

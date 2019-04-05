@@ -1,6 +1,8 @@
 <template>
   <div class="follow-us">
-    <h3 class="follow-us__title">Follow Us</h3>
+    <h3 class="follow-us__title">
+      Follow Us
+    </h3>
 
     <div class="follow-us__links">
       <a
@@ -23,7 +25,7 @@
 
 <script>
 export default {
-  name: 'HomeFollowUs',
+  name: 'FollowUs',
 }
 </script>
 

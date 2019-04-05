@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar">
-    <Select2
+    <select2
       wrapper-class="web-search-wrap d-none d-lg-block"
       select-class="web-search-header nav-select"
       :placeholder="baseSettings.placeholder"
@@ -9,7 +9,7 @@
       @enterPressed="onEnterPressed"
     />
 
-    <Select2
+    <select2
       wrapper-class="web-search-wrap d-lg-none"
       select-class="web-search-header nav-select"
       :placeholder="smallScreenSettings.placeholder"
@@ -44,61 +44,61 @@ export default {
         },
         quietMillis: 250,
         data: function (term, page) {
-            return {
-              q: term.term, // search term
-            };
+          return {
+            q: term.term, // search term
+          };
         },
         processResults: function (data, page) { // parse the results into the format expected by Select2.
-            // since we are using custom formatting functions we do not need to alter the remote JSON data
-            var baseUrl = location.origin;
-            var avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
+          // since we are using custom formatting functions we do not need to alter the remote JSON data
+          var baseUrl = location.origin;
+          var avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
 
-            var result = {
-              results: [],
-              more: false,
-            };
+          var result = {
+            results: [],
+            more: false,
+          };
 
-            if(data.companies.length > 0){
-              result.results.push({
-                text: 'Companies',
-                children: data.companies.map(function(company){
-                  var symbol = company.symbol.replace(' (Dead)', '');
-
-                  return {
-                    id: company.id,
-                    text: company.name+' ('+symbol+')',
-                    url: '/company/view/'+company.id+'/'+company.symbol,
-                    avatar: 'https://data.wealthica.com/api/securities/'+company.symbol+'/logo?default='+baseUrl+'images/no logo icon @2x.png',
-                    term: data.query,
-                  };
-                }),
-              });
-            }
-
-            if(data.experts.length > 0){
-              result.results.push({
-                text: 'Experts',
-                children: data.experts.map(function(expert){
-                  return {
-                    id: expert.id,
-                    text: expert.name,
-                    url: '/expert/view/'+expert.id,
-                    avatar: (expert.avatar)? avatarBaseUrl+expert.avatar : `${baseUrl}/images/expert_profile_default.svg`,
-                    term: data.query,
-                  };
-                }),
-              });
-            }
-
+          if(data.companies.length > 0){
             result.results.push({
-              text: 'More results for '+data.query,
-              url: '/search/?q='+data.query,
-              term: data.query,
-              avatar: 'https://www.google.com/images/branding/product/ico/googleg_lodp.ico',
-              search: true,
-            });
+              text: 'Companies',
+              children: data.companies.map(function(company){
+                var symbol = company.symbol.replace(' (Dead)', '');
 
-            return result;
+                return {
+                  id: company.id,
+                  text: company.name+' ('+symbol+')',
+                  url: '/company/view/'+company.id+'/'+company.symbol,
+                  avatar: 'https://data.wealthica.com/api/securities/'+company.symbol+'/logo?default='+baseUrl+'images/no logo icon @2x.png',
+                  term: data.query,
+                };
+              }),
+            });
+          }
+
+          if(data.experts.length > 0){
+            result.results.push({
+              text: 'Experts',
+              children: data.experts.map(function(expert){
+                return {
+                  id: expert.id,
+                  text: expert.name,
+                  url: '/expert/view/'+expert.id,
+                  avatar: (expert.avatar)? avatarBaseUrl+expert.avatar : `${baseUrl}/images/expert_profile_default.svg`,
+                  term: data.query,
+                };
+              }),
+            });
+          }
+
+          result.results.push({
+            text: 'More results for '+data.query,
+            url: '/search/?q='+data.query,
+            term: data.query,
+            avatar: 'https://www.google.com/images/branding/product/ico/googleg_lodp.ico',
+            search: true,
+          });
+
+          return result;
         },
       },
       templateResult: function(state){

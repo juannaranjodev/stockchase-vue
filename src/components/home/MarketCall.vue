@@ -1,6 +1,8 @@
 <template>
   <div class="market-call">
-    <h2 class="market-call__title">STOCK PICKS @MARKETCALL</h2>
+    <h2 class="market-call__title">
+      STOCK PICKS @MARKETCALL
+    </h2>
     <div class="market-call__testimonial">
       The only website on earth that has documented the stock picks and pans of every single guest who's appeared on BNN Market Call programs since the year 2000. — The Globe & Mail
     </div>
@@ -43,7 +45,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeMarketCall',
+  name: 'MarketCall',
 
   computed: {
     ...mapGetters([ 'latestExperts' ]),

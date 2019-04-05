@@ -57,6 +57,45 @@ NODE_ENV=production node_modules/.bin/forever -f -w server.js
 
 ## Development guidelines
 
+### Code style guideline
+
+Code style should follow Vue style guide https://vuejs.org/v2/style-guide. We use ESLint with the official Vue plugin to help with code linting during development. When in doubt, check the style guide.
+
+### File/directory naming
+
+#### `src/`
+
+Currently there's a mix in file naming, but the following general rules should apply to anything under `src/`:
+
+- `camelCase` for files that export a function. For example
+
+    // createListView.js
+    export default function createListView (type) {}
+
+- `PascalCase` for components / view classes (as per Vue style guide). For example `OpinionsList.vue`
+
+    // OpinionList.vue
+    export default {
+      name: 'OpinionsList',
+      ...
+    }
+
+- `snake_case` for files under `src/assets/`. For legacy reasons some files have `kebab-case` but we should stick to `snake_case` when we can.
+
+Notes: certain files have `-client` or `-server` suffix, that is for the build pipeline to know which file to use in the server side and which in the client side (since this is a VueSSR project). This is not considered `kebab-case`, and has nothing to do with the file naming conventions we use. These files can be `camelCase-client.js` or `PascalCase-client.vue`
+
+#### `api/`
+
+Since we use glob to turn the file names into api paths, these files should follow our desired api path naming convention, which is `snake_case`
+
+#### `models/`
+
+These files currently use `snake_case`. TODO: Maybe we should change these to `PascalCase` to match the class names?
+
+#### Anything under the project root
+
+No naming convention, it depends on the file's usage, for example `docker-compose.yml`, `README.md`...
+
 ### Overriding html metadata
 
 For SEO / social sharing purposes some pages require custom metadata. We can set custom content for the following tags:

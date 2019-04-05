@@ -1,21 +1,26 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <h2 class="title">Latest Expert Opinions</h2>
+      <h2 class="title">
+        Latest Expert Opinions
+      </h2>
       <div class="links">
         <a
           :class="{ link: true, active: type === 'opinions' }"
-          href="/opinions/recent">Stocks</a>
+          href="/opinions/recent"
+        >Stocks</a>
         <a
           :class="{ link: true, active: type === 'comments' }"
-          href="/opinions/market">Market</a>
+          href="/opinions/market"
+        >Market</a>
       </div>
     </div>
     <div class="header-right">
       <a
         v-if="shouldShowAd"
         href="/premium"
-        class="subscribe d-none d-lg-inline">Too many ads? Remove ads !</a>
+        class="subscribe d-none d-lg-inline"
+      >Too many ads? Remove ads !</a>
     </div>
   </div>
 </template>
@@ -24,7 +29,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'OpinionsHeader',
+  name: 'Header',
   props: {
     type: {
       type: String,

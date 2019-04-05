@@ -35,7 +35,7 @@ import { mapGetters } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  name: 'HomeDiscover',
+  name: 'Discover',
 
   computed: {
     ...mapGetters([ 'discoverPosts' ]),

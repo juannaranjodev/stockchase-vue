@@ -10,7 +10,7 @@ const config = merge(base, {
   },
   resolve: {
     alias: {
-      'create-api': './create-api-client.js'
+      'createApi': './createApi-client.js'
     }
   },
   plugins: [

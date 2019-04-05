@@ -1,7 +1,11 @@
 <template>
   <div class="itn">
-    <h3 class="itn__title d-none d-lg-block">Stocks In The News</h3>
-    <h3 class="itn__title d-lg-none">Daily Market Highlights</h3>
+    <h3 class="itn__title d-none d-lg-block">
+      Stocks In The News
+    </h3>
+    <h3 class="itn__title d-lg-none">
+      Daily Market Highlights
+    </h3>
 
     <table class="itn__stocks">
       <tbody>
@@ -16,9 +20,9 @@
               class="itn__stock-images-container"
             >
               <span
-                class="itn__stock-image"
                 v-for="(company, index) in post.companies"
                 :key="index"
+                class="itn__stock-image"
               >
                 <a
                   v-if="company.url"
@@ -50,7 +54,9 @@
               >
             </div>
           </td>
-          <td class="itn__stock-date">{{ post.date | formatDate('D/MMM') }}</td>
+          <td class="itn__stock-date">
+            {{ post.date | formatDate('D/MMM') }}
+          </td>
           <td class="itn__stock-hint">
             <div class="itn__stock-hint-content">
               <a
@@ -139,7 +145,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HomeInTheNews',
+  name: 'InTheNews',
 
   computed: {
     ...mapGetters([ 'blogPosts' ]),

@@ -74,7 +74,7 @@ import { mapGetters } from 'vuex'
 import _ from 'lodash'
 
 export default {
-  name: 'HomePremium',
+  name: 'Premium',
 
   computed: {
     ...mapGetters([ 'user', 'premiumCompanies' ]),

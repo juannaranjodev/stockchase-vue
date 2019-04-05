@@ -1,48 +1,55 @@
 <template>
   <section
     v-if="totalItems > itemsPerPage"
-    class="paginator">
+    class="paginator"
+  >
     <p>
       Showing {{ sliceStart }} to {{ sliceEnd }} of {{ totalItems }}
     </p>
     <ul>
       <li :class="{ first: true, disabled: currentPage <= 3 }">
-        <a 
+        <a
           class="btn"
           :href="main"
           :disabled="currentPage <= 3"
-          title="First Page"/>
+          title="First Page"
+        />
       </li>
       <li :class="{ prev: true, disabled: currentPage < 2 }">
-        <a 
+        <a
           class="btn"
           :href="generateURL(currentPage - 1)"
           :disabled="currentPage < 2"
-          title="Previous Page"/>
+          title="Previous Page"
+        />
       </li>
       <li
-        class="items"
         v-for="n in pageNumbers"
-        :key="n">
-        <a 
+        :key="n"
+        class="items"
+      >
+        <a
           :href="generateURL(n)"
-          :class="{ active: n == currentPage }">
+          :class="{ active: n === currentPage }"
+        >
           {{ n }}
         </a>
       </li>
       <li :class="{ next: true, disabled: currentPage > (totalPages - 1) }">
-        <a 
+        <a
           class="btn"
           :href="generateURL(currentPage + 1)"
           :disabled="currentPage > (totalPages - 1)"
-          title="Next Page"/>
+          title="Next Page"
+        />
       </li>
       <li :class="{ last: true, disabled: currentPage > (totalPages - 3) }">
-        <a 
+        <a
           class="btn"
           :href="generateURL(totalPages)"
           :disabled="currentPage > (totalPages - 3)"
-          title="Last Page"/>
+          title="Last Page"
+        />
       </li>
     </ul>
   </section>
@@ -50,7 +57,7 @@
 
 <script>
 export default {
-  name: 'CardsFilter',
+  name: 'Paginator',
   props: {
     totalItems: {
       type: Number,
@@ -129,7 +136,7 @@ export default {
         .replace(':page', page)
         .replace(':direction', this.direction)
         .replace(':itemsPerPage', this.itemsPerPage)
-  
+
       return query.search ? `${url}?search=${query.search}` : url
     },
   },
@@ -188,7 +195,7 @@ export default {
     .next .btn
       background-image url('~assets/images/paginator-next.png')
     .next.disabled .btn
-      border-right none 
+      border-right none
     .last .btn
       background-image url('~assets/images/paginator-last.png')
       border-top-right-radius 5px
