@@ -43,10 +43,12 @@
           </div>
 
           <div class="market-comment">
+            <!-- eslint-disable vue/no-v-html -->
             <div
               class="market-comment__content"
               v-html="latestComment.comment"
             />
+            <!-- eslint-enable vue/no-v-html -->
           </div>
 
           <div class="comments__footer">

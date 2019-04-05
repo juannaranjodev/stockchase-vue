@@ -63,11 +63,13 @@
           <div class="opinion-mini__date">
             {{ item.date | formatDate }}
           </div>
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="opinion-mini__comment"
             @click="toggleContent"
             v-html="item.comment"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </div>
       </div>
     </div>
@@ -115,10 +117,12 @@
               </social-sharing>
             </div>
           </div>
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="opinion-comment"
             v-html="item.comment"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </div>
         <div class="opinion-footer">
           <div class="opinion-footer-left">
