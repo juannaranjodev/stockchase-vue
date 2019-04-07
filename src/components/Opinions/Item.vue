@@ -241,7 +241,7 @@
 import { timeAgo } from '../../util/filters'
 import { getRatingImage } from '../../util/rating'
 import UserReactions from './UserReactions.vue'
-import InFeedAd from '../ads/InFeedAd.vue'
+import InFeedAd from '../Ads/InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
 import { mapGetters } from 'vuex'

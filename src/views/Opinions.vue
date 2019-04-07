@@ -36,16 +36,16 @@
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import _ from 'lodash'
-import OpinionsHeader from '../components/opinions/Header.vue'
-import OpinionsSlider from '../components/opinions/Slider.vue'
-import OpinionsSummary from '../components/opinions/Summary.vue'
-import LinkAd from '../components/ads/LinkAd.vue'
-import DianomiAd from '../components/ads/DianomiAd.vue'
-import OpinionsPagination from '../components/opinions/Pagination.vue'
-import OpinionsList from '../components/opinions/List.vue'
+import OpinionsHeader from '../components/Opinions/Header.vue'
+import OpinionsSlider from '../components/Opinions/Slider.vue'
+import OpinionsSummary from '../components/Opinions/Summary.vue'
+import LinkAd from '../components/Ads/LinkAd.vue'
+import DianomiAd from '../components/Ads/DianomiAd.vue'
+import OpinionsPagination from '../components/Opinions/Pagination.vue'
+import OpinionsList from '../components/Opinions/List.vue'
 
 export default {
-  name: 'OpinionsList',
+  name: 'Opinions',
 
   components: {
     OpinionsHeader,

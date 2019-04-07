@@ -25,9 +25,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import SiteHeader from './components/layout/Header.vue'
-import SiteNavigation from './components/layout/Navigation.vue'
-import SiteFooter from './components/layout/Footer.vue'
+import SiteHeader from './components/Layout/Header.vue'
+import SiteNavigation from './components/Layout/Navigation.vue'
+import SiteFooter from './components/Layout/Footer.vue'
 
 export default {
   components: {

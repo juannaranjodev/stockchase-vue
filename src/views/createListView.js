@@ -1,4 +1,4 @@
-import OpinionsList from './OpinionsList.vue'
+import Opinions from './Opinions.vue'
 
 // This is a factory function for dynamically creating root-level list views,
 // since they share most of the logic except for the type of items to display.
@@ -34,7 +34,7 @@ export default function createListView (type) {
     },
 
     render (h) {
-      return h(OpinionsList, { props: { type }})
+      return h(Opinions, { props: { type }})
     }
   }
 }
