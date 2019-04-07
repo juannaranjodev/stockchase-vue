@@ -105,10 +105,10 @@
 import _ from 'lodash'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
-import * as c from '../../constants'
+import * as c from '../constants'
 
 export default {
-  name: 'Pagination',
+  name: 'DatePagination',
 
   filters: {
     formatFullDate (val) {
@@ -121,9 +121,9 @@ export default {
   },
 
   props: {
-    type: {
-      type: String,
-      default: 'opinions'
+    numDateItems: {
+      type: Number,
+      default: 1,
     },
     top: {
       type: Boolean,
@@ -131,10 +131,14 @@ export default {
     bottom: {
       type: Boolean,
     },
+    urlPattern: {
+      type: String,
+      default: '',
+    },
   },
 
   computed: {
-    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'opinions', 'adFree' ]),
+    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'adFree' ]),
 
     newerDateUrl() {
       return this.getPaginationUrl(this.newerDate.date, 1)
@@ -152,7 +156,7 @@ export default {
     olderUrl() { return this.olderDateUrl },
 
     numPages() {
-      return this.adFree ? 0 : Math.ceil(this.opinions.length / c.PER_PAGE)
+      return this.adFree ? 0 : Math.ceil(this.numDateItems / c.PER_PAGE)
     },
 
     currentPage() {
@@ -184,9 +188,7 @@ export default {
 
   methods: {
     getPaginationUrl(date, page) {
-      let url = this.type === 'opinions'
-        ? `/opinions/${date}`
-        : `/opinions/market/${date}`
+      let url = this.urlPattern.replace(':date', date)
 
       if (!this.adFree) url = `${url}/${page}`
 
@@ -200,7 +202,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .pgntn
   display flex
   align-items center
@@ -224,7 +226,7 @@ export default {
     justify-content space-between
     margin 10px 0
 
-    .page-link
+    >>> .page-link
       color #25292B !important
       font-size 14px
       font-weight bold
@@ -247,7 +249,7 @@ export default {
       img
         margin-top 2px
 
-      .page-link
+      >>> .page-link
         span + img
           margin-left 7px
 
@@ -255,16 +257,16 @@ export default {
           margin-left 7px
 
       &--number
-        .page-link
+        >>> .page-link
           height 30px
           min-width 30px
 
       &--number, &--highlight
-        .page-link
+        >>> .page-link
           border 0
 
       &--bordered
-        .page-link
+        >>> .page-link
           width fit-content
           border 1px solid #dee2e6 !important
           box-shadow 0 1px 3px rgba(black, 0.1) !important
@@ -282,7 +284,7 @@ export default {
           transform rotate(-90deg)
 
       &--highlight
-        .page-link
+        >>> .page-link
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
@@ -292,7 +294,7 @@ export default {
             border-color lighten(#ec4d4b, 5%)
 
       &.active
-        .page-link
+        >>> .page-link
           background-color #ec4d4b
           border-color #ec4d4b
           color white !important
@@ -300,7 +302,7 @@ export default {
             cursor inherit
 
       .show
-        .page-link
+        >>> .page-link
           background-color rgba(black, 0.1) !important
         .dropdown-item
           font-size 14px
@@ -312,7 +314,7 @@ export default {
             color #212529
 
       &.disabled
-        .page-link
+        >>> .page-link
           opacity 0.3
 
 @media (max-width 991px)
