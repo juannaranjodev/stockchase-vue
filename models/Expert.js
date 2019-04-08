@@ -244,7 +244,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.searchExperts = function(term, limit = 5) {
     return sequelize.query(`
-      SELECT 
+      SELECT
         e.id, 
         e.name, 
         e.FirstName AS first_name, 
@@ -256,18 +256,19 @@ module.exports = (sequelize, DataTypes) => {
       WHERE 
         e.id <> 1176 &&
         ( LOWER(e.name) LIKE :term ) 
-      ORDER BY e.name ASC
-      LIMIT :limit`, {
+      ORDER BY e.name ASC`, {
       replacements: {
         term: `%${term.toLowerCase()}%`,
-        limit: limit,
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(experts) {
-      return _.map(experts, expert => {
-        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-        return expert
-      });
+      return {
+        rows: _.map(experts.slice(0, limit), expert => {
+          expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+          return expert
+        }),
+        total: experts.length
+      };
     });
   }
 

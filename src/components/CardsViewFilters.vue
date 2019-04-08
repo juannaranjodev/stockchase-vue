@@ -58,10 +58,14 @@
               <li
                 v-for="row in matches"
                 :key="row.id"
+                v-html="renderSearchResultItem(row.name)"
                 @click="onSearchResultsItemClick(row)"
-              >
-                {{ row.name }}
-              </li>
+              />
+              <li
+                class="link"
+                v-if="totalSearchedExperts > 5"
+                @click="onSubmitSearch"
+              >See all {{ totalSearchedExperts }} results</li>
             </ul>
           </div>
         </div>
@@ -114,6 +118,7 @@ export default {
     return {
       matches: [],
       isTyping: false,
+      totalSearchedExperts: 0,
     }
   },
   computed: {
@@ -127,6 +132,9 @@ export default {
     },
   },
   methods: {
+    renderSearchResultItem(name) {
+      return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
+    },
     getItemsPerPage(pages = 15) {
       return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
     },
@@ -163,16 +171,21 @@ export default {
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
+              console.log(this.$store.state.totalSearchedExperts);
               this.matches = this.$store.state.searchedExperts;
+              this.totalSearchedExperts = this.$store.state.totalSearchedExperts;
               this.isTyping = false;
             })
           }
         }, 500)
+      }else{
+        this.matches = [];
+        this.isTyping = false;
       }
     },
     onSearchResultsItemClick(expert, e) {
       if(expert.id) window.location = expert.url;
-    }
+    },
   },
 }
 </script>
@@ -276,6 +289,20 @@ export default {
           border 1px solid #DDD
           box-shadow 0 3px 8px rgba(175,175,175,0.6)
           min-width 80%
+        ul
+          list-style none
+          padding 0
+          li
+            padding 3px 15px
+            text-transform capitalize
+            &:hover
+              cursor pointer
+              background-color rgba(175,175,175,0.2)
+          span
+            font-weight bold
+          .link
+            color #EC4D4B
+            text-transform inherit
         .loading
           background-image url('~assets/svgs/loading.svg')
           background-size contain

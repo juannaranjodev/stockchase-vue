@@ -5,6 +5,10 @@ import expertMutations from './expert'
 export default {
   ...expertMutations,
 
+  SET_TOTAL_SEARCHED_EXPERTS: (state, total = 0) => {
+    state.totalSearchedExperts = total;
+  },
+
   SET_SEARCHED_EXPERTS: (state, experts = []) => {
     state.searchedExperts = experts;
   },

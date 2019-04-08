@@ -9,13 +9,14 @@ export default {
   SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
     return api.searchExperts({ term })
       .then(experts => {
-        experts = _.map(experts, (expert, i) => {
+        experts.rows = _.map(experts.rows, (expert, i) => {
           return {
             ...expert,
             url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
           };
         })
-        commit('SET_SEARCHED_EXPERTS', experts)
+        commit('SET_SEARCHED_EXPERTS', experts.rows)
+        commit('SET_TOTAL_SEARCHED_EXPERTS', experts.total)
       })
   },
 

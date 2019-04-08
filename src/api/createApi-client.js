@@ -57,7 +57,7 @@ export function createAPI () {
         data: JSON.stringify({ term, limit }),
         contentType: 'application/json',
         dataType: 'json',
-      }).then(data => data).catch(error => console.log(error));
+      }).catch(error => console.log(error));
     }
   }
 }
