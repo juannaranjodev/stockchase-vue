@@ -32,10 +32,12 @@
         </div>
       </div>
 
+      <!-- eslint-disable vue/no-v-html -->
       <div
         class="opinion-comment"
         v-html="item.comment"
       />
+      <!-- eslint-enable vue/no-v-html -->
       <div class="opinion-date">
         {{ item.date | formatDate }}
       </div>

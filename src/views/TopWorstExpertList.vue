@@ -13,8 +13,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import TopWorstExpertsTabList from '../components/experts/TopWorst/TopWorstExpertsTabList'
-import TopWorstExpertTable from '../components/experts/TopWorst/TopWorstExpertsTable'
+import TopWorstExpertsTabList from '../components/Experts/TopWorst/TopWorstExpertsTabList'
+import TopWorstExpertTable from '../components/Experts/TopWorst/TopWorstExpertsTable'
 
 export default {
   name: 'TopWorstExpertList',

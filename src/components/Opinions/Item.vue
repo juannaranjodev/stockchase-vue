@@ -63,11 +63,13 @@
           <div class="opinion-mini__date">
             {{ item.date | formatDate }}
           </div>
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="opinion-mini__comment"
             @click="toggleContent"
             v-html="item.comment"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </div>
       </div>
     </div>
@@ -115,10 +117,12 @@
               </social-sharing>
             </div>
           </div>
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="opinion-comment"
             v-html="item.comment"
           />
+          <!-- eslint-enable vue/no-v-html -->
         </div>
         <div class="opinion-footer">
           <div class="opinion-footer-left">
@@ -237,7 +241,7 @@
 import { timeAgo } from '../../util/filters'
 import { getRatingImage } from '../../util/rating'
 import UserReactions from './UserReactions.vue'
-import InFeedAd from '../ads/InFeedAd.vue'
+import InFeedAd from '../Ads/InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
 import { mapGetters } from 'vuex'

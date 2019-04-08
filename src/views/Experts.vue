@@ -53,7 +53,7 @@
 <script>
 import * as c from '../constants'
 
-import InFeedAd from '../components/ads/InFeedAd.vue'
+import InFeedAd from '../components/Ads/InFeedAd.vue'
 import CardView from '../components/CardView.vue'
 import CardsViewFilters from '../components/CardsViewFilters.vue'
 import Paginator from '../components/Paginator.vue'
