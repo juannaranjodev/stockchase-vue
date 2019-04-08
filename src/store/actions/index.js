@@ -157,9 +157,8 @@ export default {
         api.fetchOpinionsByCompany(id, page, perPage),
       ]).then(result => {
         const [ numOpinions, pageOpinions ] = result
-        const numOpinionPages = Math.ceil(numOpinions / perPage)
 
-        commit('SET_NUM_OPINION_PAGES', numOpinionPages)
+        commit('SET_NUM_TOTAL_OPINIONS', numOpinions)
         commit('SET_OPINIONS', pageOpinions)
       })
     })

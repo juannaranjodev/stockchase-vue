@@ -6,6 +6,7 @@
 
       <div class="opinions-container">
         <opinions-list :items="opinions" />
+        <div class="opinions-count">Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries</div>
         <link-ad class="d-none d-lg-block" />
         <number-pagination
           :num-total-pages="numOpinionPages"
@@ -42,7 +43,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'company', 'opinions', 'numOpinionPages' ]),
+    ...mapGetters([ 'company', 'opinions', 'numTotalOpinions' ]),
 
     title() {
       return `${this.company.name} (${this.company.symbol})`
@@ -56,9 +57,21 @@ export default {
       return +this.$route.params.perPage || 15
     },
 
+    numOpinionPages () {
+      return Math.ceil(this.numTotalOpinions / this.perPage)
+    },
+
+    startPosition () {
+      return (this.currentPage - 1) * this.perPage + 1
+    },
+
+    endPosition () {
+      return this.startPosition + this.opinions.length - 1
+    },
+
     urlPattern () {
       return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`
-    }
+    },
   },
 
   asyncData ({ store, route }) {
@@ -101,6 +114,10 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
+
+.opinions-count
+  color black
+  margin 5px 0
 
 @media (max-width 991px)
   .container

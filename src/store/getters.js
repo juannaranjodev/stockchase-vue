@@ -4,8 +4,8 @@ export default {
     return _.values(state.opinions)
   },
 
-  numOpinionPages (state, getters) {
-    return state.numOpinionPages
+  numTotalOpinions (state, getters) {
+    return state.numTotalOpinions
   },
 
   date (state, getters) {

@@ -17,8 +17,8 @@ export default {
     Vue.set(state.opinions, opinion.id, opinion)
   },
 
-  SET_NUM_OPINION_PAGES: (state, numOpinionPages=1) => {
-    state.numOpinionPages = numOpinionPages
+  SET_NUM_TOTAL_OPINIONS: (state, numTotalOpinions=1) => {
+    state.numTotalOpinions = numTotalOpinions
   },
 
   SET_DATE: (state, date) => {

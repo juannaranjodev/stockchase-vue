@@ -10,7 +10,7 @@ export function createStore () {
   return new Vuex.Store({
     state: {
       opinions: {},
-      numOpinionPages: 1,
+      numTotalOpinions: 1,
       date: null,
       adjacentDates: [],
       olderDate: null,
