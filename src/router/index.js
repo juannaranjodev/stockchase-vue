@@ -23,15 +23,15 @@ export function createRouter () {
       }
     },
     routes: [
-      { path: '/', component: Home },
-      { path: '/opinions/market', component: createListViewFor('comments') },
-      { path: '/opinions/market/:date', component: createListViewFor('comments') },
-      { path: '/opinions/market/:date/:page', component: createListViewFor('comments') },
-      { path: '/opinions/:date', component: createListViewFor('opinions') },
-      { path: '/opinions/:date/:page', component: createListViewFor('opinions') },
-      { path: '/expert/top', component: TopWorstExpertList },
-      { path: '/expert', component: ExpertsView },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: ExpertsView },
+      { path: '/', component: () => import('../views/Home.vue') },
+      { path: '/opinions/market', component: createListView('comments') },
+      { path: '/opinions/market/:date', component: createListView('comments') },
+      { path: '/opinions/market/:date/:page', component: createListView('comments') },
+      { path: '/opinions/:date', component: createListView('opinions') },
+      { path: '/opinions/:date/:page', component: createListView('opinions') },
+      { path: '/expert', component: () => expertsView },
+      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: () => expertsView },
+      { path: '/expert/index/:character/:type', component: () => expertsView },
     ]
   })
 }

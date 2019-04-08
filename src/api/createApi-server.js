@@ -14,6 +14,14 @@ const Company = db.Company
 
 export function createAPI () {
   return {
+    async getExpertsByFirstCharacter (character, type = 'L', page = 1, limit = 15) {
+      const experts = await Expert.getExpertsByCharacter(character, type === 'L' ? 'LastName' : 'FirstName', page, limit)
+
+      return {
+        experts
+      }
+    },
+
     async getExpertsByName (term, page = 1, limit = 15) {
       const experts = await Expert.getExpertsByName(term, page, limit)
 

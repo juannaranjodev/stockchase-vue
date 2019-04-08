@@ -43,7 +43,7 @@
       :sort="paginator.sort"
       :direction="paginator.direction"
       :total-items="totalExperts"
-      :items-per-page="this.$route.params.itemsPerPage"
+      :items-per-page="parseInt(this.$route.params.itemsPerPage)"
       :main="'/expert'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
@@ -94,19 +94,27 @@ export default {
 
   asyncData ({ store, route }) {
     const { params, query } = route;
+    const { page, itemsPerPage, character, type } = params;
 
     let promises = (Object.keys(query).length > 0) ? [
       store.dispatch('FETCH_EXPERTS_BY_NAME', {
         term: decodeURI(query.search),
-        page: params.page ?  parseInt(params.page) : 1,
-        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
+        page: page ?  parseInt(page) : 1,
+        limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
       }),
       store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
     ] : [
-      store.dispatch('FETCH_EXPERTS', {
-        page: params.page ?  parseInt(params.page) : 1,
-        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
-      }),
+      character ? 
+        store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
+          character: character,
+          type: type,
+          page: page ?  parseInt(page) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+        }) : 
+        store.dispatch('FETCH_EXPERTS', {
+          page: page ?  parseInt(page) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+        }),
       store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
     ];
 

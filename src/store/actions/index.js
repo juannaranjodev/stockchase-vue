@@ -2,9 +2,23 @@ import api from '../../api'
 import * as c from '../../constants'
 import _ from 'lodash'
 import expertActions from './expert'
+import { generateExpertLink } from '../util/helpers'
 
 export default {
   ...expertActions,
+  
+  FETCH_EXPERTS_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L', page = 1, limit = 15}) => {
+    return api.getExpertsByFirstCharacter(character, type, page, limit)
+      .then(({ experts }) => {
+        experts = _.map(experts, (expert, i) => {
+          return {
+            ...expert,
+            url: generateExpertLink(expert)
+          };
+        })
+        commit('SET_EXPERTS', experts)
+      })
+  },
 
   SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
     return api.searchExperts({ term })
@@ -12,7 +26,7 @@ export default {
         experts.rows = _.map(experts.rows, (expert, i) => {
           return {
             ...expert,
-            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+            url: generateExpertLink(expert)
           };
         })
         commit('SET_SEARCHED_EXPERTS', experts.rows)
@@ -26,7 +40,7 @@ export default {
         experts = _.map(experts, (expert, i) => {
           return {
             ...expert,
-            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+            url: generateExpertLink(expert)
           };
         })
         commit('SET_EXPERTS', experts)
@@ -46,7 +60,7 @@ export default {
         experts = _.map(experts, (expert, i) => {
           return {
             ...expert,
-            url: `/expert/view/${expert.id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`
+            url: generateExpertLink(expert)
           };
         })
         commit('SET_EXPERTS', experts)

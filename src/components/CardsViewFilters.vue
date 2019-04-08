@@ -24,14 +24,14 @@
         </ul>
       </div>
       <div class="col-md-4">
-        <select class="filters-listby">
-          <option
-            v-for="option in sortedOptions"
+        <select
+          class="filters-listby"
+          @change="onSortChange">
+          <option 
+            v-for="option in sortedOptions" 
             :key="option"
-            :value="option"
-          >
-            {{ option }}
-          </option>
+            :selected="setSelectDefault(option)"
+            :value="option.toLowerCase()">{{ option }}</option>
         </select>
       </div>
       <div class="col-md-4">
@@ -41,9 +41,8 @@
             type="text"
             :placeholder="searchPlaceholder"
             autocomplete="off"
-            @input="onSearchTyping"
-          >
-          <button
+            @input="onSearchTyping">
+          <button 
             class="btn-search"
             @click="onSubmitSearch"
           >
@@ -52,20 +51,17 @@
           <div class="suggestion">
             <span
               v-if="isTyping"
-              class="loading"
-            />
+              class="loading"/>
             <ul v-if="matches.length > 0">
               <li
                 v-for="row in matches"
                 :key="row.id"
                 v-html="renderSearchResultItem(row.name)"
-                @click="onSearchResultsItemClick(row)"
-              />
+                @click="onSearchResultsItemClick(row)"/>
               <li
                 class="link"
-                v-if="totalSearchedExperts > 5"
-                @click="onSubmitSearch"
-              >See all {{ totalSearchedExperts }} results</li>
+                v-if="totalSearchedResults > 5"
+                @click="onSubmitSearch">See all {{ totalSearchedResults }} results</li>
             </ul>
           </div>
         </div>
@@ -118,7 +114,7 @@ export default {
     return {
       matches: [],
       isTyping: false,
-      totalSearchedExperts: 0,
+      totalSearchedResults: 0,
     }
   },
   computed: {
@@ -132,6 +128,9 @@ export default {
     },
   },
   methods: {
+    setSelectDefault(option) {
+      return this.$route.params.character && option.toLowerCase() === this.$route.params.character
+    },
     renderSearchResultItem(name) {
       return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
     },
@@ -166,25 +165,38 @@ export default {
 
         wait = setTimeout(async () => {
           if(this.targetSearch === 'company'){
-
+            // do something for companies page
           }else{
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
-              console.log(this.$store.state.totalSearchedExperts);
               this.matches = this.$store.state.searchedExperts;
-              this.totalSearchedExperts = this.$store.state.totalSearchedExperts;
+              this.totalSearchedResults = this.$store.state.totalSearchedExperts;
               this.isTyping = false;
             })
           }
         }, 500)
       }else{
         this.matches = [];
+        this.totalSearchedResults = 0;
         this.isTyping = false;
       }
     },
     onSearchResultsItemClick(expert, e) {
       if(expert.id) window.location = expert.url;
+    },
+    onSortChange(e) {
+      if(this.targetSearch === 'company'){
+        // do something for companies page
+      }else{
+        const pattern = `/expert/index/:character/L`;
+
+        if(e.target.value !== '0-9' && e.target.value !== 'most recent'){
+          window.location = pattern.replace(':character', e.target.value);
+        }else{
+          window.location = this.resetUri;
+        }
+      }
     },
   },
 }
