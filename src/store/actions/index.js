@@ -7,7 +7,14 @@ import { generateExpertLink } from '../util/helpers'
 export default {
   ...expertActions,
   
-  FETCH_EXPERTS_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L', page = 1, limit = 15}) => {
+  FETCH_EXPERTS_TOTAL_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L' }) => {
+    return api.getExpertsTotalByCharacter(character, type)
+    .then(total => {
+      commit('SET_TOTAL_EXPERTS', total)
+    })
+  },
+
+  FETCH_EXPERTS_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L', page = 1, limit = 15 }) => {
     return api.getExpertsByFirstCharacter(character, type, page, limit)
       .then(({ experts }) => {
         experts = _.map(experts, (expert, i) => {

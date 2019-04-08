@@ -314,5 +314,24 @@ module.exports = (sequelize, DataTypes) => {
     });
   }
 
+  Expert.getExpertsTotalByCharacter = async function(character, column = 'FirstName') {
+    var result = await Expert.count({
+      where: { 
+        $and: [
+          { 
+            id: { $ne: 1176 },
+          },
+          sequelize.where(
+            sequelize.fn('lower', sequelize.col(column)),
+            {
+              $like: `${character}%`
+            }
+          )
+        ],
+      },
+    });
+    return result;
+  }
+
   return Expert;
 };
