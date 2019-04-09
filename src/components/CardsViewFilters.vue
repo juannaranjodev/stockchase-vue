@@ -26,12 +26,16 @@
       <div class="col-md-4">
         <select
           class="filters-listby"
-          @change="onSortChange">
+          @change="onSortChange"
+        >
           <option 
             v-for="option in sortedOptions" 
             :key="option"
             :selected="setSelectDefault(option)"
-            :value="option.toLowerCase()">{{ option }}</option>
+            :value="option.toLowerCase()"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
       <div class="col-md-4">
@@ -41,7 +45,8 @@
             type="text"
             :placeholder="searchPlaceholder"
             autocomplete="off"
-            @input="onSearchTyping">
+            @input="onSearchTyping"
+          >
           <button 
             class="btn-search"
             @click="onSubmitSearch"
@@ -51,17 +56,23 @@
           <div class="suggestion">
             <span
               v-if="isTyping"
-              class="loading"/>
+              class="loading"
+            />
             <ul v-if="matches.length > 0">
               <li
                 v-for="row in matches"
                 :key="row.id"
-                v-html="renderSearchResultItem(row.name)"
-                @click="onSearchResultsItemClick(row)"/>
+                @click="onSearchResultsItemClick(row)"
+              >
+                {{ renderSearchResultItem(row.name) }}
+              </li>
               <li
-                class="link"
                 v-if="totalSearchedResults > 5"
-                @click="onSubmitSearch">See all {{ totalSearchedResults }} results</li>
+                class="link"
+                @click="onSubmitSearch"
+              >
+                See all {{ totalSearchedResults }} results
+              </li>
             </ul>
           </div>
         </div>

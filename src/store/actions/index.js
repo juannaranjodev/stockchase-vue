@@ -2,7 +2,7 @@ import api from '../../api'
 import * as c from '../../constants'
 import _ from 'lodash'
 import expertActions from './expert'
-import { generateExpertLink } from '../util/helpers'
+import { generateExpertLink } from '../../util/helpers'
 
 export default {
   ...expertActions,

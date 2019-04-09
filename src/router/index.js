@@ -29,9 +29,9 @@ export function createRouter () {
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
-      { path: '/expert', component: () => expertsView },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: () => expertsView },
-      { path: '/expert/index/:character/:type', component: () => expertsView },
+      { path: '/expert', component: () => ExpertsView },
+      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: () => ExpertsView },
+      { path: '/expert/index/:character/:type', component: () => ExpertsView },
     ]
   })
 }
