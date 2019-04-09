@@ -1,11 +1,10 @@
 <template>
-  <div>
-    <div
-      v-if="shouldShowAd"
-      class="ad-container d-none d-lg-block"
-    >
-      <adsense
-        class="ad"
+  <div
+    v-if="shouldShowAd"
+    class="ad-container d-none d-lg-block"
+  >
+    <div class="ad">
+      <in-article-adsense
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="8310443638"
       />

@@ -429,6 +429,9 @@ export default {
     border-top-width 0
     border-left-width 0
 
+    &.in-feed-ad-cell
+      min-height 0
+
     &:first-child
       border-left-width 1px
 
