@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div
-      v-if="shouldShowAd"
-      class="ad-container d-none d-lg-block"
-    >
+  <div
+    v-if="shouldShowAd"
+    class="ad-container d-none d-lg-block"
+  >
+    <div class="ad">
       <adsense
         class="ad"
         data-ad-client="ca-pub-4241986024094799"

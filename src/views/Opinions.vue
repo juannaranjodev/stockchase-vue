@@ -1,5 +1,7 @@
 <template>
   <div class="opinions-container">
+    <leaderboard-ad ad-slot="3572899802" />
+
     <div class="container">
       <opinions-header :type="type" />
       <opinions-slider
@@ -43,6 +45,7 @@ import OpinionsSlider from '../components/Opinions/Slider.vue'
 import OpinionsSummary from '../components/Opinions/Summary.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue'
 import DatePagination from '../components/DatePagination.vue'
 import OpinionsList from '../components/Opinions/List.vue'
 
@@ -55,6 +58,7 @@ export default {
     OpinionsSlider,
     OpinionsSummary,
     DianomiAd,
+    LeaderboardAd,
     DatePagination,
     OpinionsList,
   },

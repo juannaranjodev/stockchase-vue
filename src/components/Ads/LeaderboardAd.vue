@@ -6,7 +6,7 @@
     <div class="ad">
       <adsense
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="5979276843"
+        :data-ad-slot="adSlot"
       />
     </div>
   </div>
@@ -16,7 +16,14 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'InFeedAd',
+  name: 'LeaderboardAd',
+
+  props: {
+    adSlot: {
+      type: String,
+      default: '5979276843'
+    }
+  },
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),
@@ -26,7 +33,9 @@ export default {
 
 <style lang="stylus" scoped>
 .ad-container
-  padding 30px 0
+  padding 20px 0
+  background rgba(248, 248, 248, 0.7)
+  border-bottom 1px solid #D9D9D9
 
   .ad
     width 728px

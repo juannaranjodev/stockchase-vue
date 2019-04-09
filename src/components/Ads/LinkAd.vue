@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <div
-      v-if="shouldShowAd"
-      class="ad-container d-none d-lg-block"
-    >
-      <adsense
-        class="ad"
-        data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="3572899802"
-      />
-    </div>
+  <div
+    v-if="shouldShowAd"
+    class="ad-container d-none d-lg-block"
+  >
+    <adsense
+      class="ad"
+      data-ad-client="ca-pub-4241986024094799"
+      data-ad-slot="3572899802"
+    />
   </div>
 </template>
 
