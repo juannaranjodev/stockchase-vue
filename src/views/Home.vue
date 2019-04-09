@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="overview-section overview-section--with-ad d-lg-none">
+        <div class="overview-section d-lg-none">
           <div class="overview-section__left">
             <div class="overview-section__block">
               <div class="intro">
@@ -42,10 +42,7 @@
             </div>
           </div>
 
-          <div
-            v-if="shouldShowAd"
-            class="overview-section__right d-none d-lg-block"
-          >
+          <div :class="{ 'overview-section__right d-none d-lg-block': true, 'overview-section__right--empty': !shouldShowAd }">
             <div class="overview-section__block">
               <side-ad />
             </div>
@@ -223,6 +220,13 @@ export default {
       width calc(50% - 15px/2)
       flex-grow 0
       flex-shrink 0
+
+      &--empty
+        display none !important
+
+      &:only-child
+        flex 1
+        width auto
 
     &--with-ad
       .overview-section__left

@@ -4,8 +4,7 @@
     class="ad-container d-none d-lg-block"
   >
     <div class="ad">
-      <adsense
-        class="ad"
+      <in-article-adsense
         data-ad-client="ca-pub-4241986024094799"
         data-ad-slot="8310443638"
       />
