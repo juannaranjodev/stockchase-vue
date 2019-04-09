@@ -6,6 +6,8 @@
       <site-navigation />
     </div>
 
+    <leaderboard-ad />
+
     <router-view />
 
     <site-footer />
@@ -17,12 +19,14 @@ import { mapGetters } from 'vuex'
 import SiteHeader from './components/Layout/Header.vue'
 import SiteNavigation from './components/Layout/Navigation.vue'
 import SiteFooter from './components/Layout/Footer.vue'
+import LeaderboardAd from './components/Ads/LeaderboardAd.vue'
 
 export default {
   components: {
     SiteHeader,
     SiteNavigation,
     SiteFooter,
+    LeaderboardAd,
   },
 
   computed: {

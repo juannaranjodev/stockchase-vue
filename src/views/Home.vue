@@ -1,7 +1,5 @@
 <template>
   <div class="home-container">
-    <leaderboard-ad />
-
     <div class="container">
       <div class="overview">
         <div class="overview-section d-none d-lg-flex">
@@ -112,7 +110,6 @@ import InTheNews from '../components/Home/InTheNews.vue'
 import FollowUs from '../components/Home/FollowUs.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import SideAd from '../components/Ads/SideAd.vue'
-import LeaderboardAd from '../components/Ads/LeaderboardAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
 import OpinionsList from '../components/Opinions/List.vue'
 
@@ -130,7 +127,6 @@ export default {
     LinkAd,
     DianomiAd,
     SideAd,
-    LeaderboardAd,
     OpinionsList,
     // Sponsors,
     // Newest,
