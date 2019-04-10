@@ -27,8 +27,11 @@ export default {
 
 <style lang="stylus" scoped>
 .ad-container
-  padding 20px 0
-  margin-bottom 20px
+  padding-top 20px
+
+  &:last-child
+    margin-bottom 20px
+    padding-bottom 20px
 
   .ad
     max-width 100%
