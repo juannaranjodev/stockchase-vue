@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     date: {
       type: DataTypes.VIRTUAL,
       get: function() {
-        return moment(new Date(this.date_posted)).format('YYYY-MM-DD')
+        return moment.unix(new Date(this.date_posted)).format('YYYY-MM-DD')
       },
     },
     status: {
