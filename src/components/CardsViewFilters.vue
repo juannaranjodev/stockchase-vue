@@ -46,6 +46,7 @@
             :placeholder="searchPlaceholder"
             autocomplete="off"
             @input="onSearchTyping"
+            @blur="onSearchFocusOut"
           >
           <button 
             class="btn-search"
@@ -59,13 +60,13 @@
               class="loading"
             />
             <ul v-if="matches.length > 0">
+              <!-- eslint-disable vue/no-v-html -->
               <li
                 v-for="row in matches"
                 :key="row.id"
                 @click="onSearchResultsItemClick(row)"
-              >
-                {{ renderSearchResultItem(row.name) }}
-              </li>
+                v-html="renderSearchResultItem(row.name)"
+              />
               <li
                 v-if="totalSearchedResults > 5"
                 class="link"
@@ -208,6 +209,11 @@ export default {
           window.location = this.resetUri;
         }
       }
+    },
+    onSearchFocusOut(e) {
+      this.matches = [];
+      this.totalSearchedResults = 0;
+      this.isTyping = false;
     },
   },
 }

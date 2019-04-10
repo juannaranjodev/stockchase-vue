@@ -2,77 +2,9 @@ import api from '../../api'
 import * as c from '../../constants'
 import _ from 'lodash'
 import expertActions from './expert'
-import { generateExpertLink } from '../../util/helpers'
 
 export default {
   ...expertActions,
-  
-  FETCH_EXPERTS_TOTAL_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L' }) => {
-    return api.getExpertsTotalByCharacter(character, type)
-    .then(total => {
-      commit('SET_TOTAL_EXPERTS', total)
-    })
-  },
-
-  FETCH_EXPERTS_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L', page = 1, limit = 15 }) => {
-    return api.getExpertsByFirstCharacter(character, type, page, limit)
-      .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
-        commit('SET_EXPERTS', experts)
-      })
-  },
-
-  SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
-    return api.searchExperts({ term })
-      .then(experts => {
-        experts.rows = _.map(experts.rows, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
-        commit('SET_SEARCHED_EXPERTS', experts.rows)
-        commit('SET_TOTAL_SEARCHED_EXPERTS', experts.total)
-      })
-  },
-
-  FETCH_EXPERTS_BY_NAME: ({ commit, dispatch, state }, { term, page = 1, limit = 15}) => {
-    return api.getExpertsByName(term, page, limit)
-      .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
-        commit('SET_EXPERTS', experts)
-      })
-  },
-
-  FETCH_TOTAL_EXPERTS: ({ commit, dispatch, state }, { term = null } ) => {
-    return api.getTotalExperts(term)
-      .then(total => {
-        commit('SET_TOTAL_EXPERTS', total)
-      })
-  },
-
-  FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 15}) => {
-    return api.getExpertsByPage(page, limit)
-      .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
-        commit('SET_EXPERTS', experts)
-      })
-  },
 
   FETCH_DAILY_OPINIONS: ({ commit, dispatch, state }, { type, date, page }) => {
     // /opinions/view/:id or /opinions/market/view/:id

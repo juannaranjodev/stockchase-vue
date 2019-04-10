@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import api from '../../api'
 
 export default {
@@ -19,12 +20,6 @@ export default {
   FETCH_EXPERTS_BY_CHARACTER: ({ commit, dispatch, state }, { character, type = 'L', page = 1, limit = 15 }) => {
     return api.getExpertsByFirstCharacter(character, type, page, limit)
       .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
         commit('SET_EXPERTS', experts)
       })
   },
@@ -32,12 +27,6 @@ export default {
   SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
     return api.searchExperts({ term })
       .then(experts => {
-        experts.rows = _.map(experts.rows, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
         commit('SET_SEARCHED_EXPERTS', experts.rows)
         commit('SET_TOTAL_SEARCHED_EXPERTS', experts.total)
       })
@@ -46,12 +35,6 @@ export default {
   FETCH_EXPERTS_BY_NAME: ({ commit, dispatch, state }, { term, page = 1, limit = 15}) => {
     return api.getExpertsByName(term, page, limit)
       .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
         commit('SET_EXPERTS', experts)
       })
   },
@@ -66,12 +49,6 @@ export default {
   FETCH_EXPERTS: ({ commit, dispatch, state }, { page = 1, limit = 15}) => {
     return api.getExpertsByPage(page, limit)
       .then(({ experts }) => {
-        experts = _.map(experts, (expert, i) => {
-          return {
-            ...expert,
-            url: generateExpertLink(expert)
-          };
-        })
         commit('SET_EXPERTS', experts)
       })
   },
