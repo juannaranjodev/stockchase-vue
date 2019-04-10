@@ -237,6 +237,7 @@ export default {
       box-shadow 0px 8px 16px 0px rgba(0,0,0,0.2)
       min-width 128px
       border 0
+      transition none
 
     .dropdown-item
       color #000000
