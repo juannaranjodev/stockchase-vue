@@ -77,7 +77,7 @@
 
       <!-- <sponsors class="d-lg-none" /> -->
       <!-- <newest class="d-lg-none" /> -->
-      <follow-us class="d-lg-none" />
+      <!-- <follow-us class="d-lg-none" /> -->
 
       <dianomi-ad />
       <link-ad class="d-none d-lg-block" />
@@ -107,7 +107,7 @@ import Premium from '../components/Home/Premium.vue'
 import InTheNews from '../components/Home/InTheNews.vue'
 // import Sponsors from '../components/Home/Sponsors.vue'
 // import Newest from '../components/Home/Newest.vue'
-import FollowUs from '../components/Home/FollowUs.vue'
+// import FollowUs from '../components/Home/FollowUs.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import SideAd from '../components/Ads/SideAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
@@ -130,7 +130,7 @@ export default {
     OpinionsList,
     // Sponsors,
     // Newest,
-    FollowUs,
+    // FollowUs,
   },
 
   computed: {
