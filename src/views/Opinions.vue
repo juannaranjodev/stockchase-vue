@@ -102,7 +102,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 .container
   box-sizing border-box
   width 1140px

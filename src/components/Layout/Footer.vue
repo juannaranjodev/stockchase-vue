@@ -81,14 +81,21 @@
         <!-- End AdSlot 9 -->
       </div>
     </div>
+
+    <sticky-comments />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import StickyComments from './StickyComments.vue'
 
 export default {
   name: 'Footer',
+
+  components: {
+    StickyComments
+  },
 
   computed: {
     ...mapGetters([ 'shouldShowAd' ]),
