@@ -19,7 +19,7 @@
           :url-pattern="urlPattern"
           :num-date-items="items.length"
         />
-        <opinions-list />
+        <opinions-list :items="pageItems" />
         <link-ad class="d-none d-lg-block" />
         <date-pagination
           bottom
@@ -38,6 +38,7 @@
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import _ from 'lodash'
+import * as c from '../constants'
 import OpinionsHeader from '../components/Opinions/Header.vue'
 import OpinionsSlider from '../components/Opinions/Slider.vue'
 import OpinionsSummary from '../components/Opinions/Summary.vue'
@@ -67,7 +68,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'opinions' ]),
+    ...mapGetters([ 'opinions', 'adFree' ]),
+
+    pageItems() {
+      // Skip number paging & show all opinions for the date
+      if (this.adFree) return this.items
+
+      const startIndex = (this.currentPage - 1) * c.PER_PAGE
+      return this.items.slice(startIndex, startIndex + c.PER_PAGE)
+    },
 
     currentPage() {
       return +this.$route.params.page || 1

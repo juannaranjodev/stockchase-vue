@@ -106,7 +106,7 @@
               <social-sharing
                 :title="sharingContent"
                 :hashtags="sharingHashtag"
-                :url="paginatedUrl"
+                :url="paginatedUrl || absoluteUrl"
                 inline-template
               >
                 <network network="twitter">
@@ -270,10 +270,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    page: {
-      type: Number,
-      default: 1
-    },
   },
 
   data () {
@@ -285,6 +281,10 @@ export default {
 
   computed: {
     ...mapGetters([ 'date' ]),
+
+    currentPage() {
+      return +this.$route.params.page || 1
+    },
 
     isOpinion() {
       return this.item.Company.id !== 1970
@@ -299,7 +299,7 @@ export default {
     },
 
     paginatedUrl() {
-      return `/opinions/${this.date}/${this.page}#${this.item.id}`
+      return this.date ? `${this.origin}/opinions/${this.date}/${this.currentPage}#${this.item.id}` : null
     },
 
     myRating() {

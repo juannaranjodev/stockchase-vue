@@ -61,16 +61,12 @@
       <market-outlook class="d-none d-lg-block" />
 
       <div class="opinions-container d-lg-none">
-        <opinions-list />
+        <opinions-list :items="displayedOpinions" />
+
         <div class="opinions__actions">
           <a href="/opinions/recent">
             <img src="~assets/images/more.png">
-            <span>Show 25 More</span>
-          </a>
-
-          <a href="/opinions/recent">
-            <img src="~assets/images/table.png">
-            <span>Opinions Table</span>
+            <span>Read More</span>
           </a>
         </div>
       </div>
@@ -98,6 +94,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import Discover from '../components/Home/Discover.vue'
 import MarketCall from '../components/Home/MarketCall.vue'
 import MarketCallGuests from '../components/Home/MarketCallGuests.vue'
@@ -134,7 +131,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd', 'user' ]),
+    ...mapGetters([ 'shouldShowAd', 'user', 'opinions' ]),
+
+    displayedOpinions () {
+      return _.take(this.opinions, 10)
+    }
   },
 
   asyncData ({ store, route }) {

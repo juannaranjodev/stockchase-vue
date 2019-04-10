@@ -16,10 +16,9 @@
       </div>
       <div class="opinions-table__tbody">
         <item
-          v-for="item in pageItems"
+          v-for="item in displayedItems"
           :key="item.id"
           :item="item"
-          :page="currentPage"
           @showComments="showComments"
         />
       </div>
@@ -31,6 +30,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import * as c from '../../constants'
 import Item from './Item.vue'
 import CommentsModal from './CommentsModal.vue'
@@ -48,26 +48,17 @@ export default {
       type: Array,
       default: () => ([])
     },
-    page: {
-      type: Number,
-      default: 1
-    },
   },
 
   computed: {
-    ...mapGetters([ 'opinions', 'shouldShowAd', 'adFree' ]),
+    ...mapGetters([ 'shouldShowAd' ]),
 
-    pageItems() {
-      if (this.adFree) return this.opinions
+    displayedItems() {
+      const displayedItems = _.clone(this.items)
 
-      const startIndex = (this.currentPage - 1) * c.PER_PAGE
-      const pageItems = this.opinions.slice(startIndex, startIndex + c.PER_PAGE)
-      if (this.shouldShowAd) pageItems.splice(1, 0, { ad: true })
-      return pageItems
-    },
+      if (this.shouldShowAd) displayedItems.splice(1, 0, { ad: true })
 
-    currentPage() {
-      return +this.$route.params.page || 1
+      return displayedItems
     },
   },
 
