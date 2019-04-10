@@ -13,9 +13,15 @@ const createListViewFor = type => createListView(type)
 
 export function createRouter () {
   return new Router({
-    mode: 'history',
+    mode: 'abstract',
     fallback: false,
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: function(to, from, savedPosition) {
+      if (to.hash) {
+        return { selector: to.hash }
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
     routes: [
       { path: '/', component: Home },
       { path: '/opinions/market', component: createListViewFor('comments') },

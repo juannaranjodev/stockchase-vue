@@ -61,23 +61,19 @@
       <market-outlook class="d-none d-lg-block" />
 
       <div class="opinions-container d-lg-none">
-        <opinions-list />
+        <opinions-list :items="displayedOpinions" />
+
         <div class="opinions__actions">
           <a href="/opinions/recent">
             <img src="~assets/images/more.png">
-            <span>Show 25 More</span>
-          </a>
-
-          <a href="/opinions/recent">
-            <img src="~assets/images/table.png">
-            <span>Opinions Table</span>
+            <span>Read More</span>
           </a>
         </div>
       </div>
 
       <!-- <sponsors class="d-lg-none" /> -->
       <!-- <newest class="d-lg-none" /> -->
-      <follow-us class="d-lg-none" />
+      <!-- <follow-us class="d-lg-none" /> -->
 
       <dianomi-ad />
       <link-ad class="d-none d-lg-block" />
@@ -98,6 +94,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import Discover from '../components/Home/Discover.vue'
 import MarketCall from '../components/Home/MarketCall.vue'
 import MarketCallGuests from '../components/Home/MarketCallGuests.vue'
@@ -107,7 +104,7 @@ import Premium from '../components/Home/Premium.vue'
 import InTheNews from '../components/Home/InTheNews.vue'
 // import Sponsors from '../components/Home/Sponsors.vue'
 // import Newest from '../components/Home/Newest.vue'
-import FollowUs from '../components/Home/FollowUs.vue'
+// import FollowUs from '../components/Home/FollowUs.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import SideAd from '../components/Ads/SideAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
@@ -130,11 +127,15 @@ export default {
     OpinionsList,
     // Sponsors,
     // Newest,
-    FollowUs,
+    // FollowUs,
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd', 'user' ]),
+    ...mapGetters([ 'shouldShowAd', 'user', 'opinions' ]),
+
+    displayedOpinions () {
+      return _.take(this.opinions, 10)
+    }
   },
 
   asyncData ({ store, route }) {
@@ -158,6 +159,7 @@ export default {
         type: 'opinions',
         date: 'recent',
       }),
+      store.dispatch('FETCH_DISQUS_COMMENTS_COUNT'),
     ]
 
     return Promise.all(queries)

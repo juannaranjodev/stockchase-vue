@@ -86,7 +86,7 @@ function render (req, res) {
     title: 'Expert Opinions on Stock Trading — Stockchase',
     previewTitle: '',
     description: 'Browse a daily summary of experts opinions on stocks and stock investment information.',
-    image: 'https://stockchase.com/images/sc-ograph.png',
+    image: 'https://stockchase.com/assets/sc-ograph.jpg',
     url: req.url,
     MIXPANEL_TOKEN: process.env.MIXPANEL_TOKEN,
     DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,

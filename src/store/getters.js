@@ -95,4 +95,8 @@ export default {
   searchedExperts (state) {
     return state.searchedExperts
   },
+
+  numDisqusComments (state) {
+    return state.numDisqusComments
+  },
 }
