@@ -4,6 +4,8 @@ import _ from 'lodash'
 import expertActions from './expert'
 
 export default {
+  ...expertActions,
+
   SEARCH_EXPERTS: ({ commit, dispatch, state }, { term }) => {
     return api.searchExperts({ term })
       .then(experts => {
@@ -180,5 +182,8 @@ export default {
       })
   },
 
-  ...expertActions,
+  FETCH_DISQUS_COMMENTS_COUNT: ({ commit, dispatch, state }) => {
+    return api.fetchDisqusCommentsCount()
+      .then(count => commit('SET_DISQUS_COMMENTS_COUNT', count))
+  },
 }

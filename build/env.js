@@ -6,6 +6,7 @@ const baseEnv = {
 }
 const serverEnv = merge(baseEnv, {
   DATABASE_URL: process.env.DATABASE_URL,
+  DISQUS_PUBLIC_KEY: process.env.DISQUS_PUBLIC_KEY,
 })
 const clientEnv = merge(baseEnv, {})
 

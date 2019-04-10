@@ -3,6 +3,8 @@ import _ from 'lodash'
 import expertMutations from './expert'
 
 export default {
+  ...expertMutations,
+
   SET_SEARCHED_EXPERTS: (state, experts = []) => {
     state.searchedExperts = experts;
   },
@@ -10,7 +12,7 @@ export default {
   SET_TOTAL_EXPERTS: (state, total = 0) => {
     state.totalExperts = total;
   },
-  
+
   SET_EXPERTS: (state, experts={}) => {
     state.experts = experts;
   },
@@ -88,5 +90,7 @@ export default {
     state.premiumCompanies = premiumCompanies
   },
 
-  ...expertMutations,
+  SET_DISQUS_COMMENTS_COUNT: (state, numDisqusComments) => {
+    state.numDisqusComments = numDisqusComments
+  },
 }

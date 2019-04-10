@@ -1,5 +1,8 @@
 <template>
-  <div class="sticky-comments d-none d-lg-block">
+  <div
+    v-if="numDisqusComments > 0"
+    class="sticky-comments d-none d-lg-block"
+  >
     <div class="container">
       <div class="sticky-comments__container">
         <div :class="{ 'sticky-comments__panel': true, 'sticky-comments__panel--hidden': !opened }">
@@ -48,7 +51,7 @@
               Join the discussion
             </div>
             <div class="sticky-comments__cta-content">
-              4 comments in the last 7 days
+              {{ numDisqusComments }} comments in the last 7 days
             </div>
           </div>
           <div
@@ -62,7 +65,7 @@
               >
             </div>
             <div class="sticky-comments__badge-label">
-              4+
+              {{ roundedNumDisqusComments }}
             </div>
           </div>
         </div>
@@ -72,6 +75,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'StickyComments',
 
@@ -79,8 +84,28 @@ export default {
     return { opened: false }
   },
 
+  computed: {
+    ...mapGetters([ 'numDisqusComments' ]),
+
+    roundedNumDisqusComments() {
+      const num = this.numDisqusComments
+
+      if (num > 50) return '50+'
+      if (num > 25) return '25+'
+      if (num > 10) return '10+'
+
+      return num
+    }
+  },
+
   mounted() {
     this.$nextTick(() => {
+      if (!this.$refs.commentsContainer) return
+
+      // Inserting the comments list fetched during page load outside of Vue
+      // (see src/index.template.html)
+      // This is because the Disqus comments script uses document.write that is
+      // not compatible with how Vue works
       this.$refs.commentsContainer.innerHTML = document.getElementsByClassName('dsq-widget-list')[0].outerHTML
     })
   },
@@ -145,12 +170,17 @@ export default {
       position absolute
       bottom 0
       right 0
-      padding 3px
+      padding 0 3px
       background-color red
-      border-radius 99px
       font-size 12px
       font-weight bold
       color white
+      height 22px
+      min-width 22px
+      border-radius 22px
+      display flex
+      align-items center
+      justify-content center
 
   &__cta
     height 50px

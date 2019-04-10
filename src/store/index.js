@@ -28,6 +28,7 @@ export function createStore () {
       topExperts: [],
       worstExperts: [],
       experts: [],
+      numDisqusComments: 0,
     },
     actions,
     mutations,

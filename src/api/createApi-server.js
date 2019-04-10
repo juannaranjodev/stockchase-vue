@@ -1,6 +1,7 @@
 import db from '../../models'
 import * as c from '../constants'
 import _ from 'lodash'
+import moment from 'moment'
 import request from 'request'
 import FeedParser from 'feedparser'
 import cheerio from 'cheerio'
@@ -195,5 +196,21 @@ export function createAPI () {
 
       return _.sortBy(companies, company => symbols.indexOf(company.symbol))
     },
+
+    async fetchDisqusCommentsCount () {
+      const comments = await new Promise((resolve, reject) => {
+        request({
+          url: `https://disqus.com/api/3.0/forums/listPosts.json?limit=51&forum=${process.env.DISQUS_SHORTNAME}&api_key=${process.env.DISQUS_PUBLIC_KEY}`,
+          json: true
+        }, (err, response, body) => {
+          if (err) return reject(error)
+
+          resolve(body.response)
+        })
+      })
+
+      const now = moment()
+      return _.filter(comments, comment => moment(comment.createdAt).diff(now, 'days') <= 7).length
+    }
   }
 }
