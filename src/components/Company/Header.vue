@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="header-container">
     <div class="header">
       <div class="header-left">
         <h2 class="title">
@@ -9,19 +9,21 @@
     </div>
     <div class="header">
       <div class="header-left">
-        <div class="filters-label">
-          Show
-        </div>
-        <div
-          v-for="num in perPageOptions"
-          :key="num"
-          class="filters-button"
-        >
-          <span v-if="num === perPage">{{ num }}</span>
-          <a
-            v-else
-            :href="getUrl(num)"
-          >{{ num }}</a>
+        <div class="per-page-controls">
+          <div class="per-page-controls-label">
+            Show
+          </div>
+          <div
+            v-for="num in perPageOptions"
+            :key="num"
+            class="per-page-controls-button"
+          >
+            <span v-if="num === perPage">{{ num }}</span>
+            <a
+              v-else
+              :href="getUrl(num)"
+            >{{ num }}</a>
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +68,9 @@ export default {
   padding 5px 0
   min-height 59px
 
+  &-container
+    margin-bottom 15px
+
   &-left, &-right
     display flex
     align-items center
@@ -82,7 +87,11 @@ export default {
   margin-bottom 0
   margin-right 30px
 
-.filters
+.per-page-controls
+  display flex
+  align-items center
+  flex-wrap wrap
+
   &-label
     font-weight bold
     color black
@@ -111,8 +120,9 @@ export default {
 @media (max-width 991px)
   .header
     border-bottom 0
-    padding-top 15px
     padding-bottom 0
+    min-height 0
+    padding-top 15px
 
     &-left
       margin-right 0

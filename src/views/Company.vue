@@ -1,12 +1,67 @@
 <template>
   <div class="company-container">
     <div class="container">
+      <div class="overview">
+        <div class="overview-section">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <company-overview />
+            </div>
+          </div>
+
+          <div class="overview-section__right">
+            <div class="overview-section__block">
+              <join-discussion />
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-section overview-section--with-ad">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <div>
+                <h1>Company chart</h1>
+              </div>
+            </div>
+          </div>
+
+          <div
+            v-if="shouldShowAd"
+            class="overview-section__right d-none d-lg-block"
+          >
+            <div class="overview-section__block">
+              <side-ad />
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-section">
+          <div class="overview-section__left">
+            <div class="overview-section__block">
+              <div>
+                <h1>About {{ company.name }} ({{ company.symbol }})</h1>
+              </div>
+            </div>
+          </div>
+
+          <div class="overview-section__right">
+            <div class="overview-section__block">
+              <div>
+                <h1>Press links</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <company-header />
       <link-ad />
 
       <div class="opinions-container">
         <opinions-list :items="opinions" />
-        <div class="opinions-count">Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries</div>
+        <div class="opinions-count">
+          Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
+        </div>
         <link-ad class="d-none d-lg-block" />
         <number-pagination
           :num-total-pages="numOpinionPages"
@@ -26,8 +81,11 @@ import { mapGetters } from 'vuex'
 import { stripTags } from '../util/filters'
 
 import CompanyHeader from '../components/Company/Header.vue'
+import CompanyOverview from '../components/Company/Overview.vue'
+import JoinDiscussion from '../components/Company/JoinDiscussion.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
+import SideAd from '../components/Ads/SideAd.vue'
 import OpinionsList from '../components/Opinions/List.vue'
 import NumberPagination from '../components/NumberPagination.vue'
 
@@ -36,14 +94,17 @@ export default {
 
   components: {
     CompanyHeader,
+    CompanyOverview,
+    JoinDiscussion,
     LinkAd,
     DianomiAd,
+    SideAd,
     OpinionsList,
     NumberPagination
   },
 
   computed: {
-    ...mapGetters([ 'company', 'opinions', 'numTotalOpinions' ]),
+    ...mapGetters([ 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd' ]),
 
     title() {
       return `${this.company.name} (${this.company.symbol})`
@@ -119,8 +180,44 @@ export default {
   color black
   margin 5px 0
 
+.overview
+  &-section
+    margin-bottom 30px
+    margin-top 30px
+    display flex
+    align-items flex-start
+    flex-wrap nowrap
+    justify-content space-between
+
+    &__left, &__right
+      width calc(50% - 15px/2)
+      flex-grow 0
+      flex-shrink 0
+
+    &__left
+      flex 1
+      width auto
+
+    &__right
+      width 300px
+      margin-left 40px
+      flex-shrink 0
+
+    &__block
+      width 100%
+
 @media (max-width 991px)
   .container
     padding 0 10px
+
+  .overview
+    &-section
+      display flex
+      flex-direction column-reverse
+      align-items center
+
+      &__left, &__right
+        width 100%
+        margin 0
 
 </style>
