@@ -26,7 +26,7 @@
       <div class="col-md-4">
         <select
           class="filters-listby"
-          @change="onAlpabeticalChange"
+          @change="onAlphabeticalChange"
         >
           <option 
             v-for="option in sortedOptions" 
@@ -162,7 +162,7 @@ export default {
       return query.search ? `${url}?search=${query.search}` : url
     },
     onSubmitSearch(){
-      if(this.$refs.search.value.length > 3){
+      if (this.$refs.search.value.length > 3) {
         let query = encodeURI(this.$refs.search.value);
         // do something here
         window.location = `?search=${query}`
@@ -171,15 +171,15 @@ export default {
     onSearchTyping(e) {
       this.matches = [];
 
-      if(wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
+      if (wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
 
-      if(e.target.value.length > 2){
+      if (e.target.value.length > 2) {
         this.isTyping = true;
 
         wait = setTimeout(async () => {
-          if(this.targetSearch === 'company'){
+          if (this.targetSearch === 'company') {
             // do something for companies page
-          }else{
+          } else {
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
@@ -189,25 +189,25 @@ export default {
             })
           }
         }, 500)
-      }else{
+      } else {
         this.matches = [];
         this.totalSearchedResults = 0;
         this.isTyping = false;
       }
     },
     onSearchResultsItemClick(expert, e) {
-      if(expert.id) window.location = expert.url;
+      if (expert.id) window.location = expert.url;
     },
-    onAlpabeticalChange(e) {
+    onAlphabeticalChange(e) {
       console.log('going in');
-      if(this.targetSearch === 'company'){
+      if (this.targetSearch === 'company') {
         // do something for companies page
-      }else{
+      } else {
         const pattern = `/expert/index/:character/L`;
 
-        if(e.target.value !== '0-9' && e.target.value !== 'most recent'){
+        if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
           window.location = pattern.replace(':character', e.target.value);
-        }else{
+        } else {
           window.location = this.resetUri;
         }
       }

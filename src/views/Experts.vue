@@ -23,8 +23,8 @@
         />
       </div>
 
-      <in-feed-ad/>
-      
+      <in-feed-ad />
+
       <div class="second-row">
         <card-view
           v-for="(expert, index) in theRestOfExperts"
@@ -110,7 +110,7 @@ export default {
         }),
         store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
       ]
-    }else if (character) {
+    } else if (character) {
       promises = [
         store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
           character: character,
@@ -123,7 +123,7 @@ export default {
           type: type,
         })
       ]
-    }else {
+    } else {
       promises = [
         store.dispatch('FETCH_EXPERTS', {
           page: page ?  parseInt(page) : 1,
