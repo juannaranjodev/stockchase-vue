@@ -40,6 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     Company.belongsTo(models.Sector);
     Company.hasMany(models.Opinion);
     Company.hasMany(models.UserStock);
+    // FIXME: Need to find how to join social ratings only where content_type="opinion"
+    // Currently both opinion and expert ratings are returned
+    Company.hasMany(models.SocialRating, { foreignKey: 'content_id' });
   };
 
   // Get the 10 companies with the most opinions in the last 3 months

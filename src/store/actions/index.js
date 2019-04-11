@@ -118,6 +118,24 @@ export default {
       })
   },
 
+  RATE_COMPANY: ({ commit, dispatch, state }, { id, rating }) => {
+    return api.rateCompany({ id, rating })
+      .then(rating => {
+        const company = _.clone(state.company)
+        company.SocialRatings = company.SocialRatings || []
+        const ratingIndex = _.findIndex(company.SocialRatings, { id: rating.id })
+
+        // If existing rating found, replace it with the new one
+        if (ratingIndex !== -1) {
+          company.SocialRatings[ratingIndex] = rating
+        } else {
+          company.SocialRatings.push(rating)
+        }
+
+        commit('SET_COMPANY', company)
+      })
+  },
+
   CREATE_USER_STOCK: ({ commit, dispatch, state }, { company_id }) => {
     return api.createUserStock({ company_id })
       .then(stock => {

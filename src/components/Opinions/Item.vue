@@ -136,7 +136,10 @@
           <div class="opinion-footer-right">
             <div style="display: none">
               <div ref="reactionsTooltip">
-                <user-reactions :item="item" />
+                <user-reactions
+                  :item="item"
+                  type="opinion"
+                />
               </div>
             </div>
 
@@ -146,14 +149,14 @@
               @click="showComments"
             >
               <img
-                v-if="!myRating"
-                src="~assets/images/smileys/smiley-glasses.png"
-                width="25"
-              >
-              <img
                 v-if="myRating"
                 :src="myRatingImage"
                 width="35"
+              >
+              <img
+                v-else
+                src="~assets/images/smileys/smiley-glasses.png"
+                width="25"
               >
               <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
             </div>
@@ -240,12 +243,13 @@
 <script>
 import { timeAgo } from '../../util/filters'
 import { getRatingImage } from '../../util/rating'
-import UserReactions from './UserReactions.vue'
+import UserReactions from '../UserReactions.vue'
 import InFeedAd from '../Ads/InFeedAd.vue'
 import _ from 'lodash'
 import md5 from 'md5'
 import { mapGetters } from 'vuex'
 
+// TODO this is ugly
 let tippy
 if (process.browser) {
   tippy = require('tippy.js').default
@@ -280,7 +284,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date' ]),
+    ...mapGetters([ 'date', 'user', ]),
 
     currentPage() {
       return +this.$route.params.page || 1
@@ -306,7 +310,7 @@ export default {
       const ratings = this.item.SocialRatings || []
       if (!ratings.length) return
 
-      return _.find(ratings, { user_id: this.$store.getters.user.id })
+      return _.find(ratings, { user_id: this.user.id })
     },
 
     myRatingImage() {
@@ -346,7 +350,10 @@ export default {
 
   mounted() {
     this.origin = window.location.origin
-    this.initTippy()
+
+    this.$nextTick(() => {
+      this.initTippy()
+    })
   },
 
   beforeDestroy() {
@@ -391,27 +398,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.tippy-popper
-  max-width 700px
-.tippy-tooltip
-  max-width 700px
-  &.stockchase-theme
-    padding 12px 12px 12px 15px
-    margin 0 0 15px 0
-    background white
-    border-radius 40px
-    font-size 16px
-    border 2px solid #dbdbdb
-    box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
-    .tippy-backdrop
-      padding 12px 12px 12px 15px
-      margin 0 0 15px 0
-      background white
-      border-radius 40px
-      font-size 16px
-      border 2px solid #dbdbdb
-      box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
-
 .opinions-row
   display flex
   align-items stretch

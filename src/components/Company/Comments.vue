@@ -1,69 +1,18 @@
 <template>
-  <b-modal
-    id="modal_comments"
-    ref="commentsModal"
-    title="Comments"
-    modal-class="opinion-comments-modal"
-    @hide="onModalHidden"
-  >
-    <div v-if="item.id">
-      <div class="company">
-        <a
-          class="company-logo"
-          :href="item.Company.url"
-        >
-          <img :src="item.Company.logo">
-        </a>
-        <div class="company-meta">
-          <a
-            class="expert-avatar"
-            :href="item.Expert.url"
-          >
-            <img :src="item.Expert.avatar">
-          </a>
-          <a
-            class="meta-link"
-            :href="item.Company.url"
-          >{{ item.Company.name }}</a>
-          <a
-            class="meta-link"
-            :href="item.Expert.url"
-          >{{ item.Expert.name }}</a>
-        </div>
-      </div>
+  <div class="company-comments-container">
+    <user-reactions
+      :item="item"
+      type="company"
+    />
 
-      <!-- eslint-disable vue/no-v-html -->
-      <div
-        class="opinion-comment"
-        v-html="item.comment"
+    <div class="company-comments">
+      <vue-disqus
+        :shortname="disqusShortName"
+        :identifier="disqusIdentifier"
+        :url="absoluteUrl"
       />
-      <!-- eslint-enable vue/no-v-html -->
-      <div class="opinion-date">
-        {{ item.date | formatDate }}
-      </div>
-      <user-reactions
-        :item="item"
-        type="opinion"
-      />
-      <div class="opinion-comments">
-        <vue-disqus
-          :shortname="disqusShortName"
-          :identifier="disqusIdentifier"
-          :url="absoluteUrl"
-        />
-      </div>
     </div>
-
-    <template slot="modal-footer">
-      <b-button
-        size="sm"
-        class="btn btn-danger"
-        @click="hideModal"
-      >
-        Close
-      </b-button>
-    </template>
-  </b-modal>
+  </div>
 </template>
 
 <script>
@@ -74,23 +23,18 @@ import * as c from '../../constants'
 import UserReactions from '../UserReactions.vue'
 
 export default {
-  name: 'CommentsModal',
+  name: 'Comments',
 
   components: { UserReactions },
 
   data () {
     return {
-      id: null,
       origin: '',
     };
   },
 
   computed: {
-    ...mapGetters([ 'opinions' ]),
-
-    item() {
-      return _.find(this.opinions, { id: this.id }) || {}
-    },
+    ...mapGetters([ 'company' ]),
 
     disqusIdentifier() {
       return md5(this.absoluteUrl)
@@ -101,30 +45,13 @@ export default {
     },
 
     absoluteUrl() {
-      return `${this.origin}${this.item.url}`
+      return `${this.origin}${this.company.url}`
     }
   },
 
   mounted() {
     this.origin = window.location.origin
   },
-
-  methods: {
-    setupComments(id) {
-      this.id = id
-    },
-
-    hideModal (e) {
-      e && e.preventDefault()
-      this.$refs.commentsModal.hide()
-    },
-
-    onModalHidden (e) {
-      // Reset id to guarantee re-rendering next time the modal is opened
-      this.id = null
-      DISQUSWIDGETS.getCount({reset: true})
-    },
-  }
 }
 </script>
 

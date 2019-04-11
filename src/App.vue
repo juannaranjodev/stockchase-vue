@@ -66,6 +66,26 @@ body
 *
   transition all 200ms ease-in-out
 
+.tippy-popper
+  max-width 700px
+.tippy-tooltip
+  max-width 700px
+  &.stockchase-theme
+    padding 12px 12px 12px 15px
+    margin 0 0 15px 0
+    background white
+    border-radius 40px
+    font-size 16px
+    border 2px solid #dbdbdb
+    box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
+    .tippy-backdrop
+      padding 12px 12px 12px 15px
+      margin 0 0 15px 0
+      background white
+      border-radius 40px
+      font-size 16px
+      border 2px solid #dbdbdb
+      box-shadow 0px 0px 5px 0px rgba(0,0,0,0.15)
 </style>
 
 <style lang="stylus" scoped>

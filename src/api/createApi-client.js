@@ -41,6 +41,15 @@ export function createAPI () {
         dataType: 'json',
       }).then((data, textStatus, jqXHR) => data)
     },
+    rateCompany({ id, rating }) {
+      return ajax({
+        url: `/api/v2/companies/${id}/ratings`,
+        method: 'POST',
+        data: JSON.stringify({ rating }),
+        contentType: 'application/json',
+        dataType: 'json',
+      }).then((data, textStatus, jqXHR) => data)
+    },
     createUserStock({ company_id }) {
       return ajax({
         url: `/api/v2/user_stocks`,

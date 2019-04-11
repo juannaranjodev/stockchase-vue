@@ -54,21 +54,79 @@
         </div>
       </div>
 
-      <company-header />
-      <link-ad />
+      <b-tabs nav-class="company-tabs">
+        <b-tab active>
+          <company-header />
+          <link-ad />
 
-      <div class="opinions-container">
-        <opinions-list :items="opinions" />
-        <div class="opinions-count">
-          Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
-        </div>
-        <link-ad class="d-none d-lg-block" />
-        <number-pagination
-          :num-total-pages="numOpinionPages"
-          :current-page="currentPage"
-          :url-pattern="urlPattern"
-        />
-      </div>
+          <div class="opinions-container">
+            <opinions-list :items="opinions" />
+            <div class="opinions-count">
+              Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
+            </div>
+            <link-ad class="d-none d-lg-block" />
+            <number-pagination
+              :num-total-pages="numOpinionPages"
+              :current-page="currentPage"
+              :url-pattern="urlPattern"
+            />
+          </div>
+
+          <template slot="title">
+            <div class="company-tab">
+              Expert Opinions
+            </div>
+          </template>
+        </b-tab>
+
+        <b-tab>
+          <h2>This is the Comments tab</h2>
+
+          <template slot="title">
+            <div class="company-tab">
+              <img
+                src="~assets/svgs/comment_icon.svg"
+                width="20"
+              >
+              <span
+                class="disqus-comment-count"
+                :data-disqus-url="absoluteUrl"
+              >0 Comments</span>
+            </div>
+          </template>
+        </b-tab>
+
+        <template slot="tabs">
+          <div class="company-tab--right">
+            <div style="display: none">
+              <div ref="reactionsTooltip">
+                <user-reactions
+                  :item="company"
+                  type="company"
+                />
+              </div>
+            </div>
+
+            <div
+              ref="userReactions"
+              :class="{ 'company-rating': true, 'no-rating': !myRating }"
+            >
+              <img
+                v-if="myRating"
+                :src="myRatingImage"
+                width="35"
+              >
+              <img
+                v-else
+                src="~assets/images/smileys/smiley-glasses.png"
+                width="25"
+              >
+              <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
+              <span v-else>Your Reaction</span>
+            </div>
+          </div>
+        </template>
+      </b-tabs>
 
       <dianomi-ad />
       <link-ad class="d-none d-lg-block" />
@@ -78,7 +136,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 import { stripTags } from '../util/filters'
+import { getRatingImage } from '../util/rating'
 
 import CompanyHeader from '../components/Company/Header.vue'
 import CompanyOverview from '../components/Company/Overview.vue'
@@ -88,6 +148,13 @@ import DianomiAd from '../components/Ads/DianomiAd.vue'
 import SideAdx from '../components/Ads/SideAdx.vue'
 import OpinionsList from '../components/Opinions/List.vue'
 import NumberPagination from '../components/NumberPagination.vue'
+import UserReactions from '../components/UserReactions.vue'
+
+// TODO this is ugly
+let tippy
+if (process.browser) {
+  tippy = require('tippy.js').default
+}
 
 export default {
   name: 'Company',
@@ -100,11 +167,18 @@ export default {
     DianomiAd,
     SideAdx,
     OpinionsList,
-    NumberPagination
+    NumberPagination,
+    UserReactions,
+  },
+
+  data() {
+    return {
+      origin: '',
+    }
   },
 
   computed: {
-    ...mapGetters([ 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd' ]),
+    ...mapGetters([ 'user', 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd' ]),
 
     title() {
       return `${this.company.name} (${this.company.symbol})`
@@ -133,6 +207,35 @@ export default {
     urlPattern () {
       return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`
     },
+
+    absoluteUrl() {
+      return `${this.origin}${this.company.url}`
+    },
+
+    myRating() {
+      const ratings = this.company.SocialRatings || []
+      if (!ratings.length) return
+
+      return _.find(ratings, { user_id: this.user.id })
+    },
+
+    myRatingImage() {
+      return getRatingImage(this.myRating.rating)
+    },
+
+    numSameRatings() {
+      const myRating = this.myRating
+      if (!myRating) return
+
+      const ratings = this.company.SocialRatings || []
+      return _.countBy(ratings, 'rating')[myRating.rating] - 1
+    },
+  },
+
+  watch: {
+    myRating(rating) {
+      this.resetTippy()
+    }
   },
 
   asyncData ({ store, route }) {
@@ -162,9 +265,41 @@ export default {
     if (latestOpinion) return stripTags(latestOpinion.comment)
   },
 
-  updated() {
-    DISQUSWIDGETS.getCount({reset: true})
-  }
+  mounted() {
+    this.origin = window.location.origin
+
+    this.$nextTick(() => {
+      this.initTippy()
+      DISQUSWIDGETS.getCount({reset: true})
+    })
+  },
+
+  beforeDestroy() {
+    this.destroyTippy()
+  },
+
+  methods: {
+    initTippy() {
+      tippy(this.$refs.userReactions, {
+        content: this.$refs.reactionsTooltip,
+        interactive: true,
+        theme: 'stockchase',
+        animateFill: false,
+        distance: 5
+      })
+    },
+
+    destroyTippy() {
+      if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
+        this.$refs.userReactions._tippy.destroy()
+      }
+    },
+
+    resetTippy() {
+      this.destroyTippy()
+      this.initTippy()
+    },
+  },
 }
 </script>
 
@@ -205,6 +340,51 @@ export default {
 
     &__block
       width 100%
+
+.company
+  &-container
+    >>> .company-tab
+      display flex
+      align-items center
+      color #495057
+      font-size 18px
+      margin 5px 0
+
+      &--right
+        display flex
+        align-items center
+        justify-content flex-end
+        flex 1
+
+      &s
+        position relative
+        margin-bottom 45px
+        display flex
+        flex-wrap nowrap
+
+      img
+        margin-right 3px
+        margin-top 2px
+
+  &-rating
+    color #06c
+    display flex
+    align-items center
+    font-size 15px
+
+    &.no-rating
+      img
+        opacity 0.6
+
+    &:hover
+      cursor pointer
+      color #09f
+
+      img
+        opacity 1 !important
+
+    span
+      margin-left 10px
 
 @media (max-width 991px)
   .container
