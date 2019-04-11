@@ -26,7 +26,7 @@
       <div class="col-md-4">
         <select
           class="filters-listby"
-          @change="onSortChange"
+          @change="onAlpabeticalChange"
         >
           <option 
             v-for="option in sortedOptions" 
@@ -197,7 +197,8 @@ export default {
     onSearchResultsItemClick(expert, e) {
       if(expert.id) window.location = expert.url;
     },
-    onSortChange(e) {
+    onAlpabeticalChange(e) {
+      console.log('going in');
       if(this.targetSearch === 'company'){
         // do something for companies page
       }else{

@@ -22,7 +22,9 @@
           :card-link="expert.url"
         />
       </div>
-      <!-- <in-feed-ad/> -->
+
+      <in-feed-ad/>
+      
       <div class="second-row">
         <card-view
           v-for="(expert, index) in theRestOfExperts"
