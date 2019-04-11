@@ -67,6 +67,7 @@
                 @click="onSearchResultsItemClick(row)"
                 v-html="renderSearchResultItem(row.name)"
               />
+              <!-- eslint-enable vue/no-v-html -->
               <li
                 v-if="totalSearchedResults > 5"
                 class="link"

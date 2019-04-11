@@ -314,8 +314,8 @@ module.exports = (sequelize, DataTypes) => {
     });
   }
 
-  Expert.getExpertsTotalByCharacter = async function(character, column = 'FirstName') {
-    var result = await Expert.count({
+  Expert.getExpertsTotalByCharacter = function(character, column = 'FirstName') {
+    return Expert.count({
       where: { 
         $and: [
           { 
@@ -330,7 +330,6 @@ module.exports = (sequelize, DataTypes) => {
         ],
       },
     });
-    return result;
   }
 
   return Expert;

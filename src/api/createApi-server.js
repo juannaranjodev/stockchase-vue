@@ -14,10 +14,8 @@ const Company = db.Company
 
 export function createAPI () {
   return {
-    async getExpertsTotalByCharacter (character, type = 'L') {
-      const total = await Expert.getExpertsTotalByCharacter(character, type === 'L' ? 'LastName' : 'FirstName')
-
-      return total
+    getExpertsTotalByCharacter (character, type = 'L') {
+      return Expert.getExpertsTotalByCharacter(character, type === 'L' ? 'LastName' : 'FirstName')
     },
 
     async getExpertsByFirstCharacter (character, type = 'L', page = 1, limit = 15) {
@@ -36,10 +34,8 @@ export function createAPI () {
       }
     },
 
-    async getTotalExperts (term = null) {
-      const total = await Expert.getTotalExperts(term)
-
-      return total
+    getTotalExperts (term = null) {
+      return Expert.getTotalExperts(term)
     },
 
     async getExpertsByPage (page = 1, limit = 15) {
