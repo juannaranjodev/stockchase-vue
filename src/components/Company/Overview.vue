@@ -4,18 +4,26 @@
       <img :src="company.logo">
     </div>
     <div class="company-meta">
-      <div
+      <h1
         class="company-name-symbol"
       >
         <div class="company-name">
           {{ company.name }}
         </div>
         <div class="company-symbol">
-          ({{ company.symbol }})
+          {{ company.symbol }}
+          <img
+            src="~assets/svgs/top-pick-star.svg"
+            width="20"
+          >
         </div>
-      </div>
+      </h1>
       <div class="company-watching">
-        64 watching
+        <img
+          src="~assets/svgs/new-watchlist-icon.svg"
+          width="30"
+        >
+        <span>{{ company.user_stocks_count }} watching</span>
       </div>
     </div>
   </div>
@@ -43,7 +51,7 @@ export default {
     width 120px
     height 120px
     border-radius 5px
-    margin 0 10px 0 0
+    margin 0 20px 0 0
     border 1px solid #ccc
     background white
     position relative
@@ -66,18 +74,47 @@ export default {
 
   &-name-symbol
     display flex
-    align-items center
-    font-size 21px
-    font-weight bold
-    text-decoration none
-    color #000
+    align-items flex-start
+    margin 0
+    line-height 1
 
   &-name
-    color inherit
+    font-size 23px
+    color #111
+    font-weight normal
+    overflow hidden
+    text-overflow -o-ellipsis-lastline
+    text-overflow ellipsis
+    /* autoprefixer: off */
+    display -webkit-box
+    -webkit-line-clamp 3
+    -webkit-box-orient vertical
+    max-height 3em
 
   &-symbol
-    color #ABB3B9
-    margin-left 3px
+    color #25325A
+    margin-left 20px
     white-space nowrap
+    background-color #D8D8D8
+    font-size 15px
+    font-weight bold
+    padding 5px 10px
+    border-radius 3px
+    position relative
+
+    img
+      position absolute
+      top -7px
+      right -10px
+
+  &-watching
+    display flex
+    align-items center
+    font-size 16px
+    color #666666
+    margin-top 20px
+
+    img
+      margin-right 3px
 
 </style>

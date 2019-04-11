@@ -11,6 +11,7 @@ const Expert = db.Expert
 const BlogPost = db.BlogPost
 const ExpertRating = db.ExpertRating
 const Company = db.Company
+const UserStock = db.UserStock
 
 export function createAPI () {
   return {
@@ -224,15 +225,15 @@ export function createAPI () {
     },
 
     async fetchCompanyById (id) {
-      return await Company.findByPk(id)
+      return Company.getCompanyById(id)
     },
 
     async countOpinionsByCompany (id) {
-      return await Opinion.countOpinionsByCompany(id)
+      return Opinion.countOpinionsByCompany(id)
     },
 
     async fetchOpinionsByCompany (id, page, perPage) {
-      return await Opinion.getOpinionsByCompany(id, page, perPage)
+      return Opinion.getOpinionsByCompany(id, page, perPage)
     },
   }
 }

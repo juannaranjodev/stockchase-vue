@@ -220,4 +220,7 @@ export default {
         width 100%
         margin 0
 
+      &__block
+        margin-bottom 25px
+
 </style>

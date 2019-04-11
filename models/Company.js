@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   Company.associate = function(models) {
     Company.belongsTo(models.Sector);
     Company.hasMany(models.Opinion);
+    Company.hasMany(models.UserStock);
   };
 
   // Get the 10 companies with the most opinions in the last 3 months
@@ -83,6 +84,18 @@ module.exports = (sequelize, DataTypes) => {
     return Company.findAll({
       limit: num || 15,
       order: [['id', 'DESC']],
+    });
+  };
+
+  Company.getCompanyById = function(id) {
+    return Company.findOne({
+      where: { id: id },
+      attributes: {
+        include: [[sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count']]
+      },
+      include: [{
+        model: sequelize.models.UserStock, attributes: []
+      }]
     });
   };
 
