@@ -29,15 +29,7 @@ export function createRouter () {
   return new Router({
     mode: 'history',
     fallback: false,
-    scrollBehavior: (to, from, savedPosition) => {
-      if (to.hash) {
-        return { selector: to.hash }
-      } else if (savedPosition) {
-        return savedPosition
-      } else {
-        return { x: 0, y: 0 }
-      }
-    },
+    scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', component: Home },
       { path: '/opinions/market', component: createListView('comments') },
