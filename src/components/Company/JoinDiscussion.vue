@@ -4,8 +4,8 @@
       Join the Discussion
     </div>
     <a
-      href="#"
       class="join-discussion__link"
+      href="#comments"
     >
       Comment Now
     </a>

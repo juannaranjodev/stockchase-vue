@@ -54,12 +54,15 @@
         </div>
       </div>
 
+      <div id="opinions" />
+      <div id="comments" />
+
       <b-tabs
+        v-model="tabIndex"
         nav-class="company-tabs"
-        :model="tabIndex"
         @input="onTabChange"
       >
-        <b-tab active>
+        <b-tab @click="onTabClick">
           <company-header />
           <link-ad />
 
@@ -83,7 +86,7 @@
           </template>
         </b-tab>
 
-        <b-tab>
+        <b-tab @click="onTabClick">
           <user-reactions
             :item="company"
             type="company"
@@ -256,12 +259,20 @@ export default {
       const ratings = this.company.SocialRatings || []
       return _.countBy(ratings, 'rating')[myRating.rating] - 1
     },
+
+    routeHash() {
+      return this.$route.hash
+    }
   },
 
   watch: {
     myRating(rating) {
       this.resetTippy()
-    }
+    },
+
+    routeHash(hash) {
+      this.onRouteHashChange(hash)
+    },
   },
 
   asyncData ({ store, route }) {
@@ -296,6 +307,7 @@ export default {
 
     this.$nextTick(() => {
       this.initTippy()
+      this.onRouteHashChange(this.routeHash)
 
       if (typeof(DISQUSWIDGETS) !== 'undefined') DISQUSWIDGETS.getCount({ reset: true })
     })
@@ -307,12 +319,33 @@ export default {
 
   methods: {
     onTabChange(tabIndex) {
-      // Trigger window resize to adjust the disqus comments height
-      if (tabIndex === 1)  {
+      if (tabIndex === 1) {
+        // Trigger window resize to adjust the disqus comments height
         this.$nextTick(() => {
           window.dispatchEvent(new Event('resize'))
         })
       }
+    },
+
+    onTabClick() {
+      console.log('onTabClick', this.tabIndex)
+      // Sync tab with anchor
+      if (this.tabIndex === 0) {
+        location.hash = '#opinions'
+      } else if (this.tabIndex === 1) {
+        location.hash = '#comments'
+      }
+    },
+
+    onRouteHashChange(hash) {
+      console.log('onRouteHashChange', hash)
+      // Sync anchor with tab
+      if (!hash || hash === '#opinions') {
+        this.tabIndex = 0
+      } else if (hash === '#comments') {
+        this.tabIndex = 1
+      }
+      location.hash = hash
     },
 
     initTippy() {
