@@ -27,6 +27,7 @@ export function createRouter () {
       { path: '/expert/top', component: TopWorstExpertList },
       { path: '/expert', component: ExpertsView },
       { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: ExpertsView },
+      { path: '/expert/index/:character/:type', component: ExpertsView },
     ]
   })
 }

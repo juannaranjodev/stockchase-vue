@@ -5,18 +5,6 @@ import expertMutations from './expert'
 export default {
   ...expertMutations,
 
-  SET_SEARCHED_EXPERTS: (state, experts = []) => {
-    state.searchedExperts = experts;
-  },
-
-  SET_TOTAL_EXPERTS: (state, total = 0) => {
-    state.totalExperts = total;
-  },
-
-  SET_EXPERTS: (state, experts={}) => {
-    state.experts = experts;
-  },
-
   SET_OPINIONS: (state, opinions=[]) => {
     opinions.forEach(opinion => {
       if (opinion) {

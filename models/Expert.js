@@ -244,7 +244,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.searchExperts = function(term, limit = 5) {
     return sequelize.query(`
-      SELECT 
+      SELECT
         e.id, 
         e.name, 
         e.FirstName AS first_name, 
@@ -256,11 +256,54 @@ module.exports = (sequelize, DataTypes) => {
       WHERE 
         e.id <> 1176 &&
         ( LOWER(e.name) LIKE :term ) 
-      ORDER BY e.name ASC
-      LIMIT :limit`, {
+      ORDER BY e.name ASC`, {
       replacements: {
         term: `%${term.toLowerCase()}%`,
-        limit: limit,
+      },
+      type: sequelize.QueryTypes.SELECT,
+    }).then(function(experts) {
+      return {
+        rows: _.map(experts.slice(0, limit), expert => {
+          expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+          return expert
+        }),
+        total: experts.length
+      };
+    });
+  }
+
+  Expert.getExpertsByCharacter = function(character, column = 'FirstName', page = 1, limit = 15) {
+    return sequelize.query(`
+      SELECT 
+        e.id, 
+        e.name, 
+        e.FirstName AS first_name, 
+        e.LastName AS last_name, 
+        e.TITLE as title, 
+        e.COMPANY as company, 
+        IFNULL(o.total_opinion, 0) AS total_opinion, 
+        o.latest_opinion_date, 
+        e.avatar
+      FROM New_expert AS e
+      LEFT JOIN (
+        SELECT 
+          o.expert_id, 
+          COUNT(o.expert_id) AS total_opinion, 
+          MAX(o.Date) AS latest_opinion_date 
+        FROM New_opinion AS o
+        GROUP BY o.expert_id 
+        ORDER BY latest_opinion_date DESC) AS o 
+        ON o.expert_id = e.id
+      WHERE 
+        e.id <> 1176 &&
+        ( LOWER(e.${column}) LIKE :term ) 
+      ORDER BY o.latest_opinion_date desc 
+      LIMIT :limit 
+      OFFSET :offset`, {
+      replacements: {
+        term: `${character.toLowerCase()}%`,
+        limit,
+        offset: (page - 1) * limit
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(experts) {
@@ -268,6 +311,24 @@ module.exports = (sequelize, DataTypes) => {
         expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
         return expert
       });
+    });
+  }
+
+  Expert.getExpertsTotalByCharacter = function(character, column = 'FirstName') {
+    return Expert.count({
+      where: { 
+        $and: [
+          { 
+            id: { $ne: 1176 },
+          },
+          sequelize.where(
+            sequelize.fn('lower', sequelize.col(column)),
+            {
+              $like: `${character}%`
+            }
+          )
+        ],
+      },
     });
   }
 

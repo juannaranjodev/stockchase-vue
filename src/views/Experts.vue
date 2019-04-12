@@ -22,7 +22,9 @@
           :card-link="expert.url"
         />
       </div>
-      <!-- <in-feed-ad/> -->
+
+      <in-feed-ad />
+
       <div class="second-row">
         <card-view
           v-for="(expert, index) in theRestOfExperts"
@@ -43,7 +45,7 @@
       :sort="paginator.sort"
       :direction="paginator.direction"
       :total-items="totalExperts"
-      :items-per-page="this.$route.params.itemsPerPage"
+      :items-per-page="paginator.itemsPerPage"
       :main="'/expert'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
@@ -77,6 +79,7 @@ export default {
         type: params.type ? params.type : 'F',
         sort: params.sort ? params.sort : 'FirstName',
         direction: params.direction ? params.direction : 'desc',
+        itemsPerPage: params.itemsPerPage ? params.itemsPerPage : 15
       },
     }
   },
@@ -94,23 +97,43 @@ export default {
 
   asyncData ({ store, route }) {
     const { params, query } = route;
+    const { page, itemsPerPage, character, type } = params;
 
-    let promises = (Object.keys(query).length > 0) ? [
-      store.dispatch('FETCH_EXPERTS_BY_NAME', {
-        term: decodeURI(query.search),
-        page: params.page ?  parseInt(params.page) : 1,
-        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
-      }),
-      store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
-    ] : [
-      store.dispatch('FETCH_EXPERTS', {
-        page: params.page ?  parseInt(params.page) : 1,
-        limit: params.itemsPerPage ? parseInt(params.itemsPerPage) : 15,
-      }),
-      store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
-    ];
+    let promises = null;
 
-    return Promise.all(promises)
+    if (Object.keys(query).length > 0) { // if doing a search query
+      promises = [
+        store.dispatch('FETCH_EXPERTS_BY_NAME', {
+          term: decodeURI(query.search),
+          page: page ?  parseInt(page) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+        }),
+        store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
+      ]
+    } else if (character) {
+      promises = [
+        store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
+          character: character,
+          type: type,
+          page: page ?  parseInt(page) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+        }),
+        store.dispatch('FETCH_EXPERTS_TOTAL_BY_CHARACTER', {
+          character: character,
+          type: type,
+        })
+      ]
+    } else {
+      promises = [
+        store.dispatch('FETCH_EXPERTS', {
+          page: page ?  parseInt(page) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+        }),
+        store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
+      ]
+    }
+
+    return promises ? Promise.all(promises) : null
   },
 }
 </script>

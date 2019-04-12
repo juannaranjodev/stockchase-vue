@@ -24,11 +24,15 @@
         </ul>
       </div>
       <div class="col-md-4">
-        <select class="filters-listby">
-          <option
-            v-for="option in sortedOptions"
+        <select
+          class="filters-listby"
+          @change="onAlphabeticalChange"
+        >
+          <option 
+            v-for="option in sortedOptions" 
             :key="option"
-            :value="option"
+            :selected="setSelectDefault(option)"
+            :value="option.toLowerCase()"
           >
             {{ option }}
           </option>
@@ -42,8 +46,9 @@
             :placeholder="searchPlaceholder"
             autocomplete="off"
             @input="onSearchTyping"
+            @blur="onSearchFocusOut"
           >
-          <button
+          <button 
             class="btn-search"
             @click="onSubmitSearch"
           >
@@ -55,12 +60,20 @@
               class="loading"
             />
             <ul v-if="matches.length > 0">
+              <!-- eslint-disable vue/no-v-html -->
               <li
                 v-for="row in matches"
                 :key="row.id"
                 @click="onSearchResultsItemClick(row)"
+                v-html="renderSearchResultItem(row.name)"
+              />
+              <!-- eslint-enable vue/no-v-html -->
+              <li
+                v-if="totalSearchedResults > 5"
+                class="link"
+                @click="onSubmitSearch"
               >
-                {{ row.name }}
+                See all {{ totalSearchedResults }} results
               </li>
             </ul>
           </div>
@@ -114,6 +127,7 @@ export default {
     return {
       matches: [],
       isTyping: false,
+      totalSearchedResults: 0,
     }
   },
   computed: {
@@ -127,6 +141,12 @@ export default {
     },
   },
   methods: {
+    setSelectDefault(option) {
+      return this.$route.params.character && option.toLowerCase() === this.$route.params.character
+    },
+    renderSearchResultItem(name) {
+      return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
+    },
     getItemsPerPage(pages = 15) {
       return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
     },
@@ -142,7 +162,7 @@ export default {
       return query.search ? `${url}?search=${query.search}` : url
     },
     onSubmitSearch(){
-      if(this.$refs.search.value.length > 3){
+      if (this.$refs.search.value.length > 3) {
         let query = encodeURI(this.$refs.search.value);
         // do something here
         window.location = `?search=${query}`
@@ -151,28 +171,52 @@ export default {
     onSearchTyping(e) {
       this.matches = [];
 
-      if(wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
+      if (wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
 
-      if(e.target.value.length > 2){
+      if (e.target.value.length > 2) {
         this.isTyping = true;
 
         wait = setTimeout(async () => {
-          if(this.targetSearch === 'company'){
-
-          }else{
+          if (this.targetSearch === 'company') {
+            // do something for companies page
+          } else {
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
               this.matches = this.$store.state.searchedExperts;
+              this.totalSearchedResults = this.$store.state.totalSearchedExperts;
               this.isTyping = false;
             })
           }
         }, 500)
+      } else {
+        this.matches = [];
+        this.totalSearchedResults = 0;
+        this.isTyping = false;
       }
     },
     onSearchResultsItemClick(expert, e) {
-      if(expert.id) window.location = expert.url;
-    }
+      if (expert.id) window.location = expert.url;
+    },
+    onAlphabeticalChange(e) {
+      console.log('going in');
+      if (this.targetSearch === 'company') {
+        // do something for companies page
+      } else {
+        const pattern = `/expert/index/:character/L`;
+
+        if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
+          window.location = pattern.replace(':character', e.target.value);
+        } else {
+          window.location = this.resetUri;
+        }
+      }
+    },
+    onSearchFocusOut(e) {
+      this.matches = [];
+      this.totalSearchedResults = 0;
+      this.isTyping = false;
+    },
   },
 }
 </script>
@@ -276,6 +320,20 @@ export default {
           border 1px solid #DDD
           box-shadow 0 3px 8px rgba(175,175,175,0.6)
           min-width 80%
+        ul
+          list-style none
+          padding 0
+          li
+            padding 3px 15px
+            text-transform capitalize
+            &:hover
+              cursor pointer
+              background-color rgba(175,175,175,0.2)
+          span
+            font-weight bold
+          .link
+            color #EC4D4B
+            text-transform inherit
         .loading
           background-image url('~assets/svgs/loading.svg')
           background-size contain
