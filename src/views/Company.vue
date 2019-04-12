@@ -38,17 +38,13 @@
         <div class="overview-section">
           <div class="overview-section__left">
             <div class="overview-section__block">
-              <div>
-                <h1>About {{ company.name }} ({{ company.symbol }})</h1>
-              </div>
+              <company-about />
             </div>
           </div>
 
           <div class="overview-section__right">
             <div class="overview-section__block">
-              <div>
-                <h1>Press links</h1>
-              </div>
+              <company-links />
             </div>
           </div>
         </div>
@@ -162,6 +158,8 @@ import { getRatingImage } from '../util/rating'
 
 import CompanyHeader from '../components/Company/Header.vue'
 import CompanyOverview from '../components/Company/Overview.vue'
+import CompanyAbout from '../components/Company/About.vue'
+import CompanyLinks from '../components/Company/Links.vue'
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue'
 import LinkAd from '../components/Ads/LinkAd.vue'
 import DianomiAd from '../components/Ads/DianomiAd.vue'
@@ -182,6 +180,8 @@ export default {
   components: {
     CompanyHeader,
     CompanyOverview,
+    CompanyAbout,
+    CompanyLinks,
     JoinDiscussion,
     LinkAd,
     DianomiAd,
@@ -328,7 +328,6 @@ export default {
     },
 
     onTabClick() {
-      console.log('onTabClick', this.tabIndex)
       // Sync tab with anchor
       if (this.tabIndex === 0) {
         location.hash = '#opinions'
@@ -338,7 +337,6 @@ export default {
     },
 
     onRouteHashChange(hash) {
-      console.log('onRouteHashChange', hash)
       // Sync anchor with tab
       if (!hash || hash === '#opinions') {
         this.tabIndex = 0
