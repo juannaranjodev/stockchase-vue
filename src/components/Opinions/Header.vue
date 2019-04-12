@@ -51,6 +51,7 @@ export default {
   justify-content space-between
   border-bottom 2px solid #E9E9EA
   padding 5px 0
+  min-height 59px
 
   &-left, &-right
     display flex

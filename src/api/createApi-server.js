@@ -11,6 +11,7 @@ const Expert = db.Expert
 const BlogPost = db.BlogPost
 const ExpertRating = db.ExpertRating
 const Company = db.Company
+const UserStock = db.UserStock
 
 export function createAPI () {
   return {
@@ -221,6 +222,34 @@ export function createAPI () {
 
       const now = moment()
       return _.filter(comments, comment => moment(comment.createdAt).diff(now, 'days') <= 7).length
-    }
+    },
+
+    async fetchCompanyById (id) {
+      const company = await Company.getCompanyById(id)
+
+      const data = await new Promise((resolve, reject) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
+          json: true
+        }, (err, response, body) => {
+          if (err) return resolve({}) // do not throw
+
+          resolve(body)
+        })
+      })
+
+      return {
+        ...company.toJSON(),
+        data,
+      }
+    },
+
+    async countOpinionsByCompany (id) {
+      return Opinion.countOpinionsByCompany(id)
+    },
+
+    async fetchOpinionsByCompany (id, page, perPage) {
+      return Opinion.getOpinionsByCompany(id, page, perPage)
+    },
   }
 }

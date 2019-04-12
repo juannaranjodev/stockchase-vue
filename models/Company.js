@@ -30,6 +30,57 @@ module.exports = (sequelize, DataTypes) => {
         return `/company/view/${this.id}/${this.symbol}`;
       },
     },
+    google_symbol: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        const [symbol, exchange] = this.symbol.split('-');
+
+        switch (exchange) {
+          case 'T': // toronto
+            return `TSE:${symbol}`;
+          case 'X': // TSX Venture
+            return `CVE:${symbol}`;
+          case 'N': // New york
+            return `NYSE:${symbol}`;
+          case 'A': // American
+          case 'Q': // nasdaq
+            return `NASDAQ:${symbol}`;
+          case 'Q2': // OTCBB
+            return `OTC:${symbol}`;
+          case 'M': // montreal
+          case 'I': // index
+          default:
+            return symbol;
+        }
+      },
+    },
+    yahoo_symbol: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        const [symbol, exchange] = this.symbol.split('-');
+        let yahooSymbol = symbol;
+
+        switch (exchange) {
+          case 'T': // toronto
+            yahooSymbol = `${symbol}.TO`;
+            break;
+          case 'X': // TSX Venture
+            yahooSymbol = `${symbol}.V`;
+            break;
+          case 'Q2': // OTCBB
+            yahooSymbol = `${symbol}.OB`;
+            break;
+          case 'N': // New york
+          case 'A': // American
+          case 'Q': // nasdaq
+          case 'M': // montreal
+          case 'I': // index
+          default:
+        }
+
+        return yahooSymbol.toLowerCase();
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,
@@ -39,6 +90,10 @@ module.exports = (sequelize, DataTypes) => {
   Company.associate = function(models) {
     Company.belongsTo(models.Sector);
     Company.hasMany(models.Opinion);
+    Company.hasMany(models.UserStock);
+    // FIXME: Need to find how to join social ratings only where content_type="opinion"
+    // Currently both opinion and expert ratings are returned
+    Company.hasMany(models.SocialRating, { foreignKey: 'content_id' });
   };
 
   // Get the 10 companies with the most opinions in the last 3 months
@@ -83,6 +138,18 @@ module.exports = (sequelize, DataTypes) => {
     return Company.findAll({
       limit: num || 15,
       order: [['id', 'DESC']],
+    });
+  };
+
+  Company.getCompanyById = function(id) {
+    return Company.findOne({
+      where: { id: id },
+      attributes: {
+        include: [[sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count']]
+      },
+      include: [{
+        model: sequelize.models.UserStock, attributes: []
+      }]
     });
   };
 

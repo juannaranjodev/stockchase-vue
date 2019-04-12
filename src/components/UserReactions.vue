@@ -17,8 +17,8 @@
 
 <script>
 import _ from 'lodash'
-import * as c from '../../constants'
-import { getPossibleRatings, getRatingImage } from '../../util/rating'
+import * as c from '../constants'
+import { getPossibleRatings, getRatingImage } from '../util/rating'
 
 export default {
   name: 'UserReactions',
@@ -26,6 +26,10 @@ export default {
     item: {
       type: Object,
       default: () => ({})
+    },
+    type: {
+      type: String,
+      default: ''
     },
   },
 
@@ -45,12 +49,23 @@ export default {
         rating,
         count: this.counts[rating] || 0
       }))
+    },
+
+    rateActionName() {
+      switch (this.type) {
+      case 'opinion':
+        return 'RATE_OPINION'
+      case 'company':
+        return 'RATE_COMPANY'
+      default:
+        return null
+      }
     }
   },
 
   methods: {
     rate(rating) {
-      this.$store.dispatch('RATE_OPINION', { id: this.item.id, rating }).catch(err => {
+      this.$store.dispatch(this.rateActionName, { id: this.item.id, rating }).catch(err => {
         alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
       })
     },

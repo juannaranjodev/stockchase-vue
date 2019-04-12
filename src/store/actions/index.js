@@ -118,6 +118,24 @@ export default {
       })
   },
 
+  RATE_COMPANY: ({ commit, dispatch, state }, { id, rating }) => {
+    return api.rateCompany({ id, rating })
+      .then(rating => {
+        const company = _.clone(state.company)
+        company.SocialRatings = company.SocialRatings || []
+        const ratingIndex = _.findIndex(company.SocialRatings, { id: rating.id })
+
+        // If existing rating found, replace it with the new one
+        if (ratingIndex !== -1) {
+          company.SocialRatings[ratingIndex] = rating
+        } else {
+          company.SocialRatings.push(rating)
+        }
+
+        commit('SET_COMPANY', company)
+      })
+  },
+
   CREATE_USER_STOCK: ({ commit, dispatch, state }, { company_id }) => {
     return api.createUserStock({ company_id })
       .then(stock => {
@@ -139,5 +157,28 @@ export default {
   FETCH_DISQUS_COMMENTS_COUNT: ({ commit, dispatch, state }) => {
     return api.fetchDisqusCommentsCount()
       .then(count => commit('SET_DISQUS_COMMENTS_COUNT', count))
+  },
+
+  FETCH_COMPANY: ({ commit, dispatch, state }, { id, symbol, page, perPage }) => {
+    if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 })
+
+    return api.fetchCompanyById(id).then(company => {
+      if (!company) return Promise.reject({ code: 404 })
+      if (!symbol && !page) return Promise.reject({ url: `/company/view/${id}/${company.symbol}` })
+
+      commit('SET_COMPANY', company)
+      page = page || 1
+      perPage = perPage || 15
+
+      return Promise.all([
+        api.countOpinionsByCompany(id),
+        api.fetchOpinionsByCompany(id, page, perPage),
+      ]).then(result => {
+        const [ numOpinions, pageOpinions ] = result
+
+        commit('SET_NUM_TOTAL_OPINIONS', numOpinions)
+        commit('SET_OPINIONS', pageOpinions)
+      })
+    })
   },
 }

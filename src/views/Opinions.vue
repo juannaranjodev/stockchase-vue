@@ -96,7 +96,7 @@ export default {
   },
 
   updated() {
-    DISQUSWIDGETS.getCount({reset: true})
+    DISQUSWIDGETS.getCount({ reset: true })
   }
 }
 </script>

@@ -17,6 +17,10 @@ export default {
     Vue.set(state.opinions, opinion.id, opinion)
   },
 
+  SET_NUM_TOTAL_OPINIONS: (state, numTotalOpinions=1) => {
+    state.numTotalOpinions = numTotalOpinions
+  },
+
   SET_DATE: (state, date) => {
     state.date = date
   },
@@ -80,5 +84,9 @@ export default {
 
   SET_DISQUS_COMMENTS_COUNT: (state, numDisqusComments) => {
     state.numDisqusComments = numDisqusComments
+  },
+
+  SET_COMPANY: (state, company={}) => {
+    state.company = company
   },
 }

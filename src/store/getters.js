@@ -4,6 +4,10 @@ export default {
     return _.values(state.opinions)
   },
 
+  numTotalOpinions (state, getters) {
+    return state.numTotalOpinions
+  },
+
   date (state, getters) {
     return state.date
   },
@@ -99,4 +103,9 @@ export default {
   numDisqusComments (state) {
     return state.numDisqusComments
   },
+
+  company (state) {
+    return state.company
+  },
+
 }
