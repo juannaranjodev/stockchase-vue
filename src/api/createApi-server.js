@@ -225,7 +225,23 @@ export function createAPI () {
     },
 
     async fetchCompanyById (id) {
-      return Company.getCompanyById(id)
+      const company = await Company.getCompanyById(id)
+
+      const data = await new Promise((resolve, reject) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
+          json: true
+        }, (err, response, body) => {
+          if (err) return resolve({}) // do not throw
+
+          resolve(body)
+        })
+      })
+
+      return {
+        ...company.toJSON(),
+        data,
+      }
     },
 
     async countOpinionsByCompany (id) {

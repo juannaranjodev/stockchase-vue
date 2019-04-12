@@ -1,13 +1,21 @@
 <template>
-  <div class="company-about">
+  <div
+    v-if="company.data.description"
+    class="company-about"
+  >
     <h4 class="company-about__title">
-      About Abbott Labs (ABT-N)
+      About {{ company.name }} ({{ company.symbol }})
     </h4>
 
     <div class="company-about__content">
-      Abbott Laboratories is a multinational health care company with headquarters in Lake Bluff, Illinois.
+      {{ company.data.description }}
 
-      <a href="#">More at Wikipedia</a>
+      <a
+        :href="company.data.description_source"
+        target="_blank"
+      >
+        More at Wikipedia
+      </a>
     </div>
   </div>
 </template>
