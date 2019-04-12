@@ -122,7 +122,7 @@ export default {
     onModalHidden (e) {
       // Reset id to guarantee re-rendering next time the modal is opened
       this.id = null
-      DISQUSWIDGETS.getCount({reset: true})
+      DISQUSWIDGETS.getCount({ reset: true })
     },
   }
 }

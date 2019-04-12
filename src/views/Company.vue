@@ -54,7 +54,11 @@
         </div>
       </div>
 
-      <b-tabs nav-class="company-tabs">
+      <b-tabs
+        nav-class="company-tabs"
+        :model="tabIndex"
+        @input="onTabChange"
+      >
         <b-tab active>
           <company-header />
           <link-ad />
@@ -80,7 +84,17 @@
         </b-tab>
 
         <b-tab>
-          <h2>This is the Comments tab</h2>
+          <user-reactions
+            :item="company"
+            type="company"
+          />
+          <div class="company-comments">
+            <vue-disqus
+              :shortname="disqusShortName"
+              :identifier="disqusIdentifier"
+              :url="absoluteUrl"
+            />
+          </div>
 
           <template slot="title">
             <div class="company-tab">
@@ -137,6 +151,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
+import md5 from 'md5'
+
+import * as c from '../constants'
 import { stripTags } from '../util/filters'
 import { getRatingImage } from '../util/rating'
 
@@ -174,6 +191,7 @@ export default {
   data() {
     return {
       origin: '',
+      tabIndex: 0
     }
   },
 
@@ -206,6 +224,14 @@ export default {
 
     urlPattern () {
       return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`
+    },
+
+    disqusIdentifier() {
+      return md5(this.absoluteUrl)
+    },
+
+    disqusShortName() {
+      return c.DISQUS_SHORTNAME
     },
 
     absoluteUrl() {
@@ -270,7 +296,8 @@ export default {
 
     this.$nextTick(() => {
       this.initTippy()
-      DISQUSWIDGETS.getCount({reset: true})
+
+      if (typeof(DISQUSWIDGETS) !== 'undefined') DISQUSWIDGETS.getCount({ reset: true })
     })
   },
 
@@ -279,6 +306,15 @@ export default {
   },
 
   methods: {
+    onTabChange(tabIndex) {
+      // Trigger window resize to adjust the disqus comments height
+      if (tabIndex === 1)  {
+        this.$nextTick(() => {
+          window.dispatchEvent(new Event('resize'))
+        })
+      }
+    },
+
     initTippy() {
       tippy(this.$refs.userReactions, {
         content: this.$refs.reactionsTooltip,
@@ -385,6 +421,9 @@ export default {
 
     span
       margin-left 10px
+
+  &-comments
+    margin 20px 0
 
 @media (max-width 991px)
   .container
