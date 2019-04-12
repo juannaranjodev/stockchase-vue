@@ -1,23 +1,43 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-import Home from '../views/Home'
-import TopWorstExpertList from '../views/TopWorstExpertList'
-import ExpertsView from '../views/Experts'
-import CompanyView from '../views/Company'
-
 Vue.use(Router)
 
+// IMPORTANT route component must be a function that returns the import statement
+// otherwise we get weird router behaviors
+// BAD (will automatically redirect to same url without url hash)
+//   import Home from '../views/Home'
+//   ...
+//   { path: '/', component: Home }
+// BAD (will hang)
+//   import Home from '../views/Home'
+//   ...
+//   { path: '/', component: () => Home }
+// GOOD
+//   const Home = () => import('../views/Home')
+//   ...
+//   { path: '/', component: Home }
+
+const Home = () => import('../views/Home')
+const TopWorstExpertList = () => import('../views/TopWorstExpertList')
+const Experts = () => import('../views/Experts')
+const Company = () => import('../views/Company')
+
 // route-level code splitting
-// Note must return a function, otherwise we get weird router behavior
-// (automatically redirect to same url without hashbang)
 const createListView = type => () => import('../views/createListView').then(m => m.default(type))
 
 export function createRouter () {
   return new Router({
     mode: 'history',
     fallback: false,
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: (to, from, savedPosition) => {
+      if (to.hash) {
+        return { selector: to.hash }
+      } else if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
     routes: [
       { path: '/', component: Home },
       { path: '/opinions/market', component: createListView('comments') },
@@ -26,12 +46,12 @@ export function createRouter () {
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
       { path: '/expert/top', component: TopWorstExpertList },
-      { path: '/expert', component: ExpertsView },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: ExpertsView },
-      { path: '/expert/index/:character/:type', component: ExpertsView },
-      { path: '/company/view/:id', component: CompanyView },
-      { path: '/company/view/:id/:symbol', component: CompanyView },
-      { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: CompanyView },
+      { path: '/expert', component: Experts },
+      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: Experts },
+      { path: '/expert/index/:character/:type', component: Experts },
+      { path: '/company/view/:id', component: Company },
+      { path: '/company/view/:id/:symbol', component: Company },
+      { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
     ]
   })
 }
