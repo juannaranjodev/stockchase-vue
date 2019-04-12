@@ -30,6 +30,57 @@ module.exports = (sequelize, DataTypes) => {
         return `/company/view/${this.id}/${this.symbol}`;
       },
     },
+    google_symbol: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        const [symbol, exchange] = this.symbol.split('-');
+
+        switch (exchange) {
+          case 'T': // toronto
+            return `TSE:${symbol}`;
+          case 'X': // TSX Venture
+            return `CVE:${symbol}`;
+          case 'N': // New york
+            return `NYSE:${symbol}`;
+          case 'A': // American
+          case 'Q': // nasdaq
+            return `NASDAQ:${symbol}`;
+          case 'Q2': // OTCBB
+            return `OTC:${symbol}`;
+          case 'M': // montreal
+          case 'I': // index
+          default:
+            return symbol;
+        }
+      },
+    },
+    yahoo_symbol: {
+      type: DataTypes.VIRTUAL,
+      get: function() {
+        const [symbol, exchange] = this.symbol.split('-');
+        let yahooSymbol = symbol;
+
+        switch (exchange) {
+          case 'T': // toronto
+            yahooSymbol = `${symbol}.TO`;
+            break;
+          case 'X': // TSX Venture
+            yahooSymbol = `${symbol}.V`;
+            break;
+          case 'Q2': // OTCBB
+            yahooSymbol = `${symbol}.OB`;
+            break;
+          case 'N': // New york
+          case 'A': // American
+          case 'Q': // nasdaq
+          case 'M': // montreal
+          case 'I': // index
+          default:
+        }
+
+        return yahooSymbol.toLowerCase();
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,

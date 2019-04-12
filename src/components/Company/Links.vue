@@ -15,7 +15,7 @@
     <li>
       <a
         class="company-link"
-        :href="`http://finance.google.ca/finance?q=${company.symbol}`"
+        :href="`http://finance.google.ca/finance?q=${company.google_symbol}`"
       >
         <img
           src="~assets/svgs/google-icon.svg"
@@ -27,7 +27,7 @@
     <li>
       <a
         class="company-link"
-        :href="`http://finance.yahoo.com/q?s=${company.symbol}`"
+        :href="`http://finance.yahoo.com/q?s=${company.yahoo_symbol}`"
       >
         <img
           src="~assets/svgs/yahoo-icon.svg"
