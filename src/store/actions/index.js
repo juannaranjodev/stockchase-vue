@@ -103,7 +103,7 @@ export default {
   RATE_OPINION: ({ commit, dispatch, state }, { id, rating }) => {
     return api.rateOpinion({ id, rating })
       .then(rating => {
-        const opinion = _.clone(state.opinions[rating.opinion])
+        const opinion = _.clone(state.opinions[id])
         opinion.SocialRatings = opinion.SocialRatings || []
         const ratingIndex = _.findIndex(opinion.SocialRatings, { id: rating.id })
 

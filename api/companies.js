@@ -12,7 +12,7 @@ router.param('id', async function(req, res, next, id) {
   next();
 });
 
-// Create or update user rating for an company
+// Create or update user rating for a company
 router.post('/:id/ratings', async function(req, res) {
   if (!req.body.rating) return res.status(400).end();
 
@@ -22,7 +22,7 @@ router.post('/:id/ratings', async function(req, res) {
   socialRating.rating = req.body.rating;
   socialRating.date_rated = Math.trunc(Date.now() / 1000);
 
-  socialRating.save();
+  await socialRating.save();
 
   res.json(socialRating);
 });

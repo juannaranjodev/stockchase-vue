@@ -2,10 +2,6 @@
 
 module.exports = (sequelize, DataTypes) => {
   var SocialRating = sequelize.define('SocialRating', {
-    id: {
-      type: DataTypes.INTEGER(11),
-      primaryKey: true,
-    },
     content_type: {
       type: DataTypes.STRING(30),
     },

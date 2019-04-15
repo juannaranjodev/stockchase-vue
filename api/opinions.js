@@ -22,7 +22,7 @@ router.post('/:id/ratings', async function(req, res) {
   socialRating.rating = req.body.rating;
   socialRating.date_rated = Math.trunc(Date.now() / 1000);
 
-  socialRating.save();
+  await socialRating.save();
 
   res.json(socialRating);
 });
