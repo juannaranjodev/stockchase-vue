@@ -46,7 +46,11 @@
           <div class="expert-period">
             {{ expert.period }}
           </div>
-          <top-worst-expert-rating :rating="expert.rate" />
+          <top-worst-expert-rating
+            :rating="expert.rate"
+            :total-loses="expert.totalLoses"
+            :total-wins="expert.totalWins"
+          />
         </td>
         <td>
           <span>{{ expert.big_lose }}</span>

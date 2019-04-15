@@ -1,8 +1,8 @@
 <template>
   <div
-    class="top-worst-expert-rate"
     v-b-tooltip.hover
-    :title="Math.round(rating * 100) / 100"
+    class="top-worst-expert-rate"
+    :title="tooltip"
   >
     <img
       v-for="(count, index) in countWhole"
@@ -30,6 +30,14 @@ export default {
       type: [Number, String],
       default: 0,
     },
+    totalWins: {
+      type: [Number],
+      default: 0,
+    },
+    totalLoses: {
+      type: [Number],
+      default: 0,
+    },
   },
 
   computed: {
@@ -43,6 +51,10 @@ export default {
 
     countEmpty() {
       return 5 - Math.ceil(this.rating);
+    },
+
+    tooltip() {
+      return `exact score: ${Math.round(this.rating * 100) / 100}, total wins: ${this.totalWins}, total loses: ${this.totalLoses}`;
     },
   },
 };

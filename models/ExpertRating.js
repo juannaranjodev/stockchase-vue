@@ -91,16 +91,40 @@ module.exports = (sequelize, DataTypes) => {
     }).then((experts) => {
       let beforeExpertId = null;
       let expertRank = 1;
-      return experts.map((expert) => {
+      let totalWins = 0;
+      let totalLoses = 0;
+      const totalWinsById = {};
+      const totalLosesById = {};
+
+      experts.map((expert) => {
         const result = expert;
-        result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-        result.url = `/expert/view/${expert.expert_id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
         if (beforeExpertId !== expert.expert_id) {
-          beforeExpertId = expert.expert_id;
           result.expertRank = expertRank++;
+          result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
+          result.url = `/expert/view/${expert.expert_id}/${this.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
+          totalWinsById[beforeExpertId] = totalWins;
+          totalLosesById[beforeExpertId] = totalLoses;
+          beforeExpertId = expert.expert_id;
+          totalWins = 0;
+          totalLoses = 0;
         }
+        totalWins += expert.big_win + expert.win;
+        totalLoses += expert.big_lose + expert.lose;
+
         return result;
       });
+
+      totalWinsById[beforeExpertId] = totalWins;
+      totalLosesById[beforeExpertId] = totalLoses;
+
+      experts.map((expert) => {
+        const result = expert;
+        result.totalWins = totalWinsById[expert.expert_id];
+        result.totalLoses = totalLosesById[expert.expert_id];
+        return result;
+      });
+
+      return experts;
     });
   };
 
