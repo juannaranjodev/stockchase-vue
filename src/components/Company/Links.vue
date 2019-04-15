@@ -15,7 +15,7 @@
     <li>
       <a
         class="company-link"
-        :href="`http://finance.google.ca/finance?q=${company.google_symbol}`"
+        :href="`http://finance.google.ca/finance?q=${googleSymbol}`"
       >
         <img
           src="~assets/svgs/google-icon.svg"
@@ -27,7 +27,7 @@
     <li>
       <a
         class="company-link"
-        :href="`http://finance.yahoo.com/q?s=${company.yahoo_symbol}`"
+        :href="`http://finance.yahoo.com/q?s=${yahooSymbol}`"
       >
         <img
           src="~assets/svgs/yahoo-icon.svg"
@@ -47,6 +47,53 @@ export default {
 
   computed: {
     ...mapGetters(['company']),
+
+    googleSymbol() {
+      const [symbol, exchange] = this.company.symbol.split('-')
+
+      switch (exchange) {
+      case 'T': // toronto
+        return `TSE:${symbol}`
+      case 'X': // TSX Venture
+        return `CVE:${symbol}`
+      case 'N': // New york
+        return `NYSE:${symbol}`
+      case 'A': // American
+      case 'Q': // nasdaq
+        return `NASDAQ:${symbol}`
+      case 'Q2': // OTCBB
+        return `OTC:${symbol}`
+      case 'M': // montreal
+      case 'I': // index
+      default:
+        return symbol
+      }
+    },
+
+    yahooSymbol() {
+      const [symbol, exchange] = this.company.symbol.split('-')
+      let yahooSymbol = symbol
+
+      switch (exchange) {
+      case 'T': // toronto
+        yahooSymbol = `${symbol}.TO`
+        break
+      case 'X': // TSX Venture
+        yahooSymbol = `${symbol}.V`
+        break
+      case 'Q2': // OTCBB
+        yahooSymbol = `${symbol}.OB`
+        break
+      case 'N': // New york
+      case 'A': // American
+      case 'Q': // nasdaq
+      case 'M': // montreal
+      case 'I': // index
+      default:
+      }
+
+      return yahooSymbol.toLowerCase()
+    }
   },
 }
 </script>
