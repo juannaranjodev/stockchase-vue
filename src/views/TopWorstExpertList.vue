@@ -31,10 +31,19 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['topExperts', 'worstExperts']),
+    ...mapGetters(['user', 'topExperts', 'worstExperts']),
 
     experts() {
       return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
+    },
+  },
+
+
+  watch: {
+    user(user) {
+      if (!user.admin && !user.premium) {
+        this.$router.replace('/');
+      }
     },
   },
 
