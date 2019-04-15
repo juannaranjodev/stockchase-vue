@@ -52,21 +52,21 @@ export default {
       const [symbol, exchange] = this.company.symbol.split('-')
 
       switch (exchange) {
-      case 'T': // toronto
-        return `TSE:${symbol}`
-      case 'X': // TSX Venture
-        return `CVE:${symbol}`
-      case 'N': // New york
-        return `NYSE:${symbol}`
-      case 'A': // American
-      case 'Q': // nasdaq
-        return `NASDAQ:${symbol}`
-      case 'Q2': // OTCBB
-        return `OTC:${symbol}`
-      case 'M': // montreal
-      case 'I': // index
-      default:
-        return symbol
+        case 'T': // toronto
+          return `TSE:${symbol}`
+        case 'X': // TSX Venture
+          return `CVE:${symbol}`
+        case 'N': // New york
+          return `NYSE:${symbol}`
+        case 'A': // American
+        case 'Q': // nasdaq
+          return `NASDAQ:${symbol}`
+        case 'Q2': // OTCBB
+          return `OTC:${symbol}`
+        case 'M': // montreal
+        case 'I': // index
+        default:
+          return symbol
       }
     },
 
@@ -75,21 +75,21 @@ export default {
       let yahooSymbol = symbol
 
       switch (exchange) {
-      case 'T': // toronto
-        yahooSymbol = `${symbol}.TO`
-        break
-      case 'X': // TSX Venture
-        yahooSymbol = `${symbol}.V`
-        break
-      case 'Q2': // OTCBB
-        yahooSymbol = `${symbol}.OB`
-        break
-      case 'N': // New york
-      case 'A': // American
-      case 'Q': // nasdaq
-      case 'M': // montreal
-      case 'I': // index
-      default:
+        case 'T': // toronto
+          yahooSymbol = `${symbol}.TO`
+          break
+        case 'X': // TSX Venture
+          yahooSymbol = `${symbol}.V`
+          break
+        case 'Q2': // OTCBB
+          yahooSymbol = `${symbol}.OB`
+          break
+        case 'N': // New york
+        case 'A': // American
+        case 'Q': // nasdaq
+        case 'M': // montreal
+        case 'I': // index
+        default:
       }
 
       return yahooSymbol.toLowerCase()

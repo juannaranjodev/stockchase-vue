@@ -30,7 +30,7 @@ module.exports = {
     "vue/no-restricted-syntax": "error",
     "vue/object-curly-spacing": ["error", "always"],
     "vue/require-direct-export": "error",
-    "vue/script-indent": ["error", 2],
+    "vue/script-indent": ["error", 2, { switchCase: 1 }],
     "vue/space-infix-ops": "error",
     "vue/space-unary-ops": "error",
     "vue/v-on-function-call": ["error", "never"]

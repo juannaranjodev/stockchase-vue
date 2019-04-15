@@ -25,12 +25,12 @@ export function formatDate (date, format) {
 
 export function formatSignalName (signal) {
   switch (signal) {
-  case 'BUY on WEAKNESS':
-    return 'BUY WEAKNESS';
-  case 'SELL ON STRENGTH':
-    return 'SELL STRENGTH';
-  default:
-    return signal;
+    case 'BUY on WEAKNESS':
+      return 'BUY WEAKNESS';
+    case 'SELL ON STRENGTH':
+      return 'SELL STRENGTH';
+    default:
+      return signal;
   }
 }
 

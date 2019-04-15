@@ -53,12 +53,12 @@ export default {
 
     rateActionName() {
       switch (this.type) {
-      case 'opinion':
-        return 'RATE_OPINION'
-      case 'company':
-        return 'RATE_COMPANY'
-      default:
-        return null
+        case 'opinion':
+          return 'RATE_OPINION'
+        case 'company':
+          return 'RATE_COMPANY'
+        default:
+          return null
       }
     }
   },
