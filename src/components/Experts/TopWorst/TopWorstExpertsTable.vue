@@ -54,18 +54,30 @@
         </td>
         <td>
           <span>{{ expert.big_lose }}</span>
+          <span class="expert-tp-count-percent">
+            {{ getPercent(expert.big_lose, expert.totalLoses) }}
+          </span>
         </td>
         <td>
           <span>{{ expert.lose }}</span>
+          <span class="expert-tp-count-percent">
+            {{ getPercent(expert.lose, expert.totalLoses) }}
+          </span>
         </td>
         <td>
           <span>{{ expert.no_change }}</span>
         </td>
         <td>
           <span>{{ expert.win }}</span>
+          <span class="expert-tp-count-percent">
+            {{ getPercent(expert.win, expert.totalWins) }}
+          </span>
         </td>
         <td>
           <span>{{ expert.big_win }}</span>
+          <span class="expert-tp-count-percent">
+            {{ getPercent(expert.big_win, expert.totalWins) }}
+          </span>
         </td>
       </tr>
     </tbody>
@@ -86,6 +98,14 @@ export default {
     experts: {
       type: Array,
       required: true,
+    },
+  },
+
+  methods: {
+    getPercent(a, b) {
+      if (a < 1) return '';
+      const v = b < 1 ? 0.0 : Math.round(a * 1000 / b) / 10;
+      return `(${v}%)`;
     },
   },
 };
@@ -136,4 +156,9 @@ export default {
       margin: 0
       font-size: 12px
       opacity: 0.35
+
+  .expert-tp-count-percent
+    font-size: 12px
+    opacity: 0.35
+    padding-left: 4px
 </style>
