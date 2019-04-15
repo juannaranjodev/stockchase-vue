@@ -49,25 +49,46 @@ export default {
     ...mapGetters(['company']),
 
     googleSymbol() {
-      const [symbol, exchange] = this.company.symbol.split('-')
+      // Logic copied from https://github.com/wealthica/wealthica-data/blob/master/app.js
+      const symbol = this.company.symbol.toUpperCase();
 
-      switch (exchange) {
-        case 'T': // toronto
-          return `TSE:${symbol}`
-        case 'X': // TSX Venture
-          return `CVE:${symbol}`
-        case 'N': // New york
-          return `NYSE:${symbol}`
-        case 'A': // American
-        case 'Q': // nasdaq
-          return `NASDAQ:${symbol}`
-        case 'Q2': // OTCBB
-          return `OTC:${symbol}`
-        case 'M': // montreal
-        case 'I': // index
-        default:
-          return symbol
-      }
+      // Canadian
+      if (symbol.match(/\-T$/)) return 'TSE:' + symbol.split('-')[0]
+      if (symbol.match(/\-X$/)) return 'CVE:' + symbol.split('-')[0]
+      if (symbol.match(/\-CN$/)) return 'CNSX:' + symbol.split('-')[0] // CSE
+
+      // US
+      if (symbol.match(/\-Q$/)) return 'NASDAQ:' + symbol.split('-')[0]
+
+      // For the -N suffix which is generally used for NYSE it gets a litte complicated
+      // It seems some symbols on the NYSEARCA, BATS or NYSEAMERICAN (formely AMEX) use -N
+      // For example IGM-N is on NYSEARCA, IGV-A on BATS and APT-A on NYSEAMERICAN
+      if (symbol.match(/\-[NA]$/)) return ['NYSE', 'NYSEARCA', 'BATS', 'NYSEAMERICAN'].map(exchange => {
+        return [exchange, symbol.split('-')[0]].join(':')
+      })
+
+      // US OTC
+      if (symbol.match(/\-OTC$/)) return 'OTCMKTS:' + symbol.split('-')[0]
+
+      // France (Euronext Paris)
+      if (symbol.match(/\-FP$/)) return 'EPA:' + symbol.split('-')[0]
+
+      // Germany (Frankfurt)
+      if (symbol.match(/\-(GR|DE)$/)) return 'FRA:' + symbol.split('-')[0]
+
+      // Japan
+      if (symbol.match(/\-(JP|TYO)$/)) return 'TYO:' + symbol.split('-')[0]
+
+      // Hong Kong
+      if (symbol.match(/\-HK$/)) return 'HKG:' + padStart(symbol.split('-')[0], 4, '0')
+
+      // Korean
+      if (symbol.match(/\-(KS|KRX)$/)) return 'KRX:' + symbol.split('-')[0]
+
+      // Fallback to allow anything that "looks" to be a valid symbol
+      if (symbol.match(/^[A-Z0-9:\.\-]{1,12}$/)) return symbol
+
+      return null
     },
 
     yahooSymbol() {
