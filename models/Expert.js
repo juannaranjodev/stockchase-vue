@@ -119,13 +119,20 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.associate = function(models) {
     Expert.hasMany(models.Opinion);
+    Expert.hasMany(models.SocialRating, {
+      foreignKey: 'content_id' ,
+      constraints: false,
+      scope: {
+        content_type: 'expert'
+      }
+    });
   };
 
   Expert.getTotalExperts = async function(term = null){
     var result = await Expert.count({
-      where: term ? { 
+      where: term ? {
         $and: [
-          { 
+          {
             id: { $ne: 1176 },
           },
           sequelize.where(
@@ -142,25 +149,25 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.getExpertsByPage = async function(page = 1, limit = 25){
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
       WHERE e.id <> 1176
       ORDER BY o.latest_opinion_date desc
@@ -202,29 +209,29 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.getExpertsByName = function(term, page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.name) LIKE :term ) 
+        ( LOWER(e.name) LIKE :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
@@ -245,17 +252,17 @@ module.exports = (sequelize, DataTypes) => {
   Expert.searchExperts = function(term, limit = 5) {
     return sequelize.query(`
       SELECT
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
         e.avatar
       FROM New_expert AS e
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.name) LIKE :term ) 
+        ( LOWER(e.name) LIKE :term )
       ORDER BY e.name ASC`, {
       replacements: {
         term: `%${term.toLowerCase()}%`,
@@ -274,31 +281,31 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.getExpertsByCharacter = function(character, column = 'FirstName', page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.${column}) LIKE :term ) 
-      ORDER BY o.latest_opinion_date desc 
-      LIMIT :limit 
+        ( LOWER(e.${column}) LIKE :term )
+      ORDER BY o.latest_opinion_date desc
+      LIMIT :limit
       OFFSET :offset`, {
       replacements: {
         term: `${character.toLowerCase()}%`,
@@ -316,9 +323,9 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.getExpertsTotalByCharacter = function(character, column = 'FirstName') {
     return Expert.count({
-      where: { 
+      where: {
         $and: [
-          { 
+          {
             id: { $ne: 1176 },
           },
           sequelize.where(

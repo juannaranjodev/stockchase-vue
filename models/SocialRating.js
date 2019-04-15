@@ -21,18 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     date_rated: {
       type: DataTypes.INTEGER(11),
     },
-    opinion: {
-      type: DataTypes.VIRTUAL,
-      get: function() {
-        return (this.content_type === 'opinion') ? this.content_id : undefined;
-      },
-    },
-    expert: {
-      type: DataTypes.VIRTUAL,
-      get: function() {
-        return (this.content_type === 'expert') ? this.content_id : undefined;
-      },
-    },
   }, {
     timestamps: false,
     underscored: true,
@@ -41,6 +29,23 @@ module.exports = (sequelize, DataTypes) => {
 
   SocialRating.associate = function(models) {
     SocialRating.belongsTo(models.User);
+
+    // See http://docs.sequelizejs.com/manual/associations.html, Advance Concepts
+    SocialRating.belongsTo(models.Opinion, {
+      foreignKey: 'content_id',
+      constraints: false,
+      as: 'opinion'
+    });
+    SocialRating.belongsTo(models.Company, {
+      foreignKey: 'content_id',
+      constraints: false,
+      as: 'company'
+    });
+    SocialRating.belongsTo(models.Expert, {
+      foreignKey: 'content_id',
+      constraints: false,
+      as: 'expert'
+    });
   };
 
   return SocialRating;

@@ -234,7 +234,7 @@ export function createAPI () {
         }, (err, response, body) => {
           if (err) return resolve({}) // do not throw
 
-          resolve(body)
+          resolve(body || {})
         })
       })
 

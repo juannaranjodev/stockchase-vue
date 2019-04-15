@@ -48,6 +48,25 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
     tableName: 'New_opinion',
+    scopes: {
+      includeAll () {
+        return {
+          order: [['date', 'DESC'], ['id', 'ASC']],
+          include: [
+            { model: sequelize.models.Expert },
+            { model: sequelize.models.Subject },
+            { model: sequelize.models.Signal },
+            { model: sequelize.models.Ownership },
+            { model: sequelize.models.Source },
+            { model: sequelize.models.SocialRating },
+            {
+                model: sequelize.models.Company,
+                include: [ sequelize.models.Sector ]
+            },
+          ],
+        }
+      }
+    }
   });
 
   Opinion.associate = function(models) {
@@ -57,9 +76,13 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Subject);
     Opinion.belongsTo(models.Signal);
     Opinion.belongsTo(models.Ownership);
-    // FIXME: Need to find how to join social ratings only where content_type="opinion"
-    // Currently both opinion and expert ratings are returned
-    Opinion.hasMany(models.SocialRating, { foreignKey: 'content_id' });
+    Opinion.hasMany(models.SocialRating, {
+      foreignKey: 'content_id' ,
+      constraints: false,
+      scope: {
+        content_type: 'opinion'
+      }
+    });
   };
 
   // Get the date of the most recent opinion
@@ -126,48 +149,38 @@ module.exports = (sequelize, DataTypes) => {
 
   // Get opinions for a given date
   Opinion.getOpinionsByDate = function(date) {
-    return Opinion.findAll({
+    return Opinion.scope('includeAll').findAll({
       where: { date: date, company_id: { $ne: 1970 } }, // Ignore market comments
-      order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true, nested: true } ],
     });
   };
 
   // Get normal opinions by expert id & date
   Opinion.getOpinionsByExpert = function(expertId, date, limit) {
-    return Opinion.findAll({
+    return Opinion.scope('includeAll').findAll({
       where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: { $ne: 16 } },
-      order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true, nested: true } ],
       limit: limit,
     });
   };
 
   // Get top picks by expert id & date
   Opinion.getTopPicksByExpert = function(expertId, date, limit) {
-    return Opinion.findAll({
+    return Opinion.scope('includeAll').findAll({
       where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: 16 },
-      order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true, nested: true } ],
       limit: limit,
     });
   };
 
   // Get market comments for a given date
   Opinion.getMarketCommentsByDate = function(date) {
-    return Opinion.findAll({
+    return Opinion.scope('includeAll').findAll({
       where: { date: date, company_id: 1970 }, // Market comments
-      order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true, nested: true } ],
     });
   };
 
   // Get opinions by company id
   Opinion.getOpinionsByCompany = function(companyId, page=1, perPage=15) {
-    return Opinion.findAll({
+    return Opinion.scope('includeAll').findAll({
       where: { company_id: companyId },
-      order: [['date', 'DESC'], ['id', 'ASC']],
-      include: [ { all: true, nested: true } ],
       offset: (page - 1) * perPage,
       limit: perPage,
     });

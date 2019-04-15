@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
   UserStock.associate = function(models) {
     UserStock.belongsTo(models.User);
+    UserStock.belongsTo(models.Company);
   };
 
   return UserStock;
