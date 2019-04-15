@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
       let beforeExpertId = null;
       let expertRank = 1;
       return experts.map((expert) => {
-        const result = expert.toJSON();
+        const result = expert;
         result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
         result.url = `/expert/view/${expert.expert_id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
         if (beforeExpertId !== expert.expert_id) {

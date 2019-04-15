@@ -1,5 +1,9 @@
 <template>
-  <div class="top-worst-expert-rate">
+  <div
+    class="top-worst-expert-rate"
+    v-b-tooltip.hover
+    :title="Math.round(rating * 100) / 100"
+  >
     <img
       v-for="(count, index) in countWhole"
       :key="`whole-star-${index}`"
