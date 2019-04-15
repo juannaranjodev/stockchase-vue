@@ -85,15 +85,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MarketOutlook',
 
   computed: {
-    ...mapGetters([ 'latestComment', 'shouldShowAd' ]),
+    ...mapGetters(['latestComment', 'shouldShowAd']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

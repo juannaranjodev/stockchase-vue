@@ -40,7 +40,10 @@
         class="pagination"
       >
         <li
-          :class="{ 'page-item page-item--prev page-item--bordered': true, 'disabled': !prevPage && !newerDate }"
+          :class="{
+            'page-item page-item--prev page-item--bordered': true,
+            'disabled': !prevPage && !newerDate,
+          }"
         >
           <a
             v-if="prevPage || newerDate"
@@ -69,7 +72,12 @@
           >{{ page }}</a>
         </li>
 
-        <li :class="{ 'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate }">
+        <li
+          :class="{
+            'page-item page-item--next page-item--highlight': true,
+            'disabled': !nextPage && !olderDate,
+          }"
+        >
           <a
             v-if="nextPage || olderDate"
             :href="nextPage ? nextPageUrl : olderUrl"
@@ -85,7 +93,12 @@
         v-else
         class="pagination"
       >
-        <li :class="{ 'page-item page-item--next page-item--highlight': true, 'disabled': !nextPage && !olderDate }">
+        <li
+          :class="{
+            'page-item page-item--next page-item--highlight': true,
+            'disabled': !nextPage && !olderDate,
+          }"
+        >
           <a
             v-if="nextPage || olderDate"
             :href="nextPage ? nextPageUrl : olderUrl"
@@ -102,22 +115,21 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import moment from 'moment'
-import { mapGetters } from 'vuex'
-import * as c from '../constants'
+import moment from 'moment';
+import { mapGetters } from 'vuex';
+import * as c from '../constants';
 
 export default {
   name: 'DatePagination',
 
   filters: {
-    formatFullDate (val) {
-      return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`
+    formatFullDate(val) {
+      return `${moment(val).format('dddd')}, ${moment(val).format('LL')}`;
     },
 
-    formatWeekday (val) {
-      return `${moment(val).format('dddd')}`
-    }
+    formatWeekday(val) {
+      return `${moment(val).format('dddd')}`;
+    },
   },
 
   props: {
@@ -138,68 +150,68 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'date', 'adjacentDates', 'olderDate', 'newerDate', 'adFree' ]),
+    ...mapGetters(['date', 'adjacentDates', 'olderDate', 'newerDate', 'adFree']),
 
     newerDateUrl() {
-      return this.getPaginationUrl(this.newerDate.date, 1)
+      return this.getPaginationUrl(this.newerDate.date, 1);
     },
 
     olderDateUrl() {
-      return this.getPaginationUrl(this.olderDate.date, 1)
+      return this.getPaginationUrl(this.olderDate.date, 1);
     },
 
     newerUrl() {
-      const numPages = Math.ceil(this.newerDate.count / c.PER_PAGE)
-      return this.getPaginationUrl(this.newerDate.date, numPages)
+      const numPages = Math.ceil(this.newerDate.count / c.PER_PAGE);
+      return this.getPaginationUrl(this.newerDate.date, numPages);
     },
 
-    olderUrl() { return this.olderDateUrl },
+    olderUrl() { return this.olderDateUrl; },
 
     numPages() {
-      return this.adFree ? 0 : Math.ceil(this.numDateItems / c.PER_PAGE)
+      return this.adFree ? 0 : Math.ceil(this.numDateItems / c.PER_PAGE);
     },
 
     currentPage() {
-      return +this.$route.params.page || 1
+      return +this.$route.params.page || 1;
     },
 
     prevPage() {
-      return (this.currentPage > 1) ? this.currentPage - 1 : null
+      return (this.currentPage > 1) ? this.currentPage - 1 : null;
     },
 
     prevPageUrl() {
-      if (this.adFree) return this.newerDateUrl
-      return this.getPaginationUrl(this.date, this.prevPage)
+      if (this.adFree) return this.newerDateUrl;
+      return this.getPaginationUrl(this.date, this.prevPage);
     },
 
     nextPage() {
-      return (this.currentPage < this.numPages) ? this.currentPage + 1 : null
+      return (this.currentPage < this.numPages) ? this.currentPage + 1 : null;
     },
 
     nextPageUrl() {
-      if (this.adFree) return this.olderDateUrl
-      return this.getPaginationUrl(this.date, this.nextPage)
+      if (this.adFree) return this.olderDateUrl;
+      return this.getPaginationUrl(this.date, this.nextPage);
     },
 
     lastAdjacentDate() {
-      return this.adjacentDates[this.adjacentDates.length-1]
+      return this.adjacentDates[this.adjacentDates.length - 1];
     },
   },
 
   methods: {
     getPaginationUrl(date, page) {
-      let url = this.urlPattern.replace(':date', date)
+      let url = this.urlPattern.replace(':date', date);
 
-      if (!this.adFree) url = `${url}/${page}`
+      if (!this.adFree) url = `${url}/${page}`;
 
-      return url
+      return url;
     },
 
     getDateUrl(date) {
-      return this.getPaginationUrl(date, 1)
+      return this.getPaginationUrl(date, 1);
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -14,20 +14,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import MarketCallGuest from './MarketCallGuest.vue'
+import { mapGetters } from 'vuex';
+import MarketCallGuest from './MarketCallGuest.vue';
 
 export default {
   name: 'MarketCallGuests',
 
   components: {
-    MarketCallGuest
+    MarketCallGuest,
   },
 
   computed: {
-    ...mapGetters([ 'marketCallGuests', 'discoverPosts' ])
+    ...mapGetters(['marketCallGuests', 'discoverPosts']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

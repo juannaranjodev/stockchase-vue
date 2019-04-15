@@ -21,78 +21,79 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import Select2 from '../Select2.vue'
+import _ from 'lodash';
+import Select2 from '../Select2.vue';
 
 export default {
   name: 'HeaderSearch',
 
   components: { Select2 },
 
-  data () {
+  data() {
     const baseSettings = {
       placeholder: 'Search for Company, Expert, or keyword...',
       minimumInputLength: 1,
       maximumSelectionLength: 1,
       multiple: true,
-      ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+      // instead of writing the function to execute the request we use Select2's convenient helper
+      ajax: {
         url: '/ajax/search',
         type: 'get',
         dataType: 'json',
         params: {
-          contentType: "application/json"
+          contentType: 'application/json',
         },
         quietMillis: 250,
-        data: function (term, page) {
+        data(term) {
           return {
             q: term.term, // search term
           };
         },
-        processResults: function (data, page) { // parse the results into the format expected by Select2.
-          // since we are using custom formatting functions we do not need to alter the remote JSON data
-          var baseUrl = location.origin;
-          var avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
+        // parse the results into the format expected by Select2. since we are using custom
+        // formatting functions we do not need to alter the remote JSON data
+        processResults(data) {
+          const baseUrl = window.location.origin;
+          const avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
 
-          var result = {
+          const result = {
             results: [],
             more: false,
           };
 
-          if(data.companies.length > 0){
+          if (data.companies.length > 0) {
             result.results.push({
               text: 'Companies',
-              children: data.companies.map(function(company){
-                var symbol = company.symbol.replace(' (Dead)', '');
+              children: data.companies.map((company) => {
+                const symbol = company.symbol.replace(' (Dead)', '');
 
                 return {
                   id: company.id,
-                  text: company.name+' ('+symbol+')',
-                  url: '/company/view/'+company.id+'/'+company.symbol,
-                  avatar: 'https://data.wealthica.com/api/securities/'+company.symbol+'/logo?default='+baseUrl+'images/no logo icon @2x.png',
+                  text: `${company.name} (${symbol})`,
+                  url: `/company/view/${company.id}/${company.symbol}`,
+                  /* eslint-disable-next-line max-len */
+                  avatar: `https://data.wealthica.com/api/securities/${company.symbol}/logo?default=${baseUrl}images/no logo icon @2x.png`,
                   term: data.query,
                 };
               }),
             });
           }
 
-          if(data.experts.length > 0){
+          if (data.experts.length > 0) {
             result.results.push({
               text: 'Experts',
-              children: data.experts.map(function(expert){
-                return {
-                  id: expert.id,
-                  text: expert.name,
-                  url: '/expert/view/'+expert.id,
-                  avatar: (expert.avatar)? avatarBaseUrl+expert.avatar : `${baseUrl}/images/expert_profile_default.svg`,
-                  term: data.query,
-                };
-              }),
+              children: data.experts.map(expert => ({
+                id: expert.id,
+                text: expert.name,
+                url: `/expert/view/${expert.id}`,
+                avatar: (expert.avatar) ? avatarBaseUrl + expert.avatar : `${baseUrl}/images/expert_profile_default.svg`,
+                term: data.query,
+              })),
             });
           }
 
           result.results.push({
-            text: 'More results for '+data.query,
-            url: '/search/?q='+data.query,
+            text: `More results for ${data.query}`,
+            url: `/search/?q=${data.query}`,
             term: data.query,
             avatar: 'https://www.google.com/images/branding/product/ico/googleg_lodp.ico',
             search: true,
@@ -101,44 +102,43 @@ export default {
           return result;
         },
       },
-      templateResult: function(state){
+      templateResult(state) {
+        if (state.loading) return state.text;
 
-        if(state.loading) return state.text;
+        const className = (state.search) ? ' more-search' : '';
 
-        var className = (state.search)? ' more-search' : '';
+        let html = (typeof state.url !== 'undefined') ? `<a href="${state.url}" class="search-box-result-item${className}">` : '<div>';
 
-        var html = (typeof state.url !== 'undefined')? '<a href="'+state.url+'" class="search-box-result-item'+className+'">' : '<div>';
-
-        if(typeof state.avatar !== 'undefined'){
-          html += '<img src="'+state.avatar+'" class="search-box-avatar"/>';
+        if (typeof state.avatar !== 'undefined') {
+          html += `<img src="${state.avatar}" class="search-box-avatar"/>`;
         }
 
-        var regex = new RegExp(state.term, 'gi');
-        var matchedTerm = state.text.match(regex);
+        const regex = new RegExp(state.term, 'gi');
+        const matchedTerm = state.text.match(regex);
 
-        html += state.text.replace(regex, '<strong>'+matchedTerm[0]+'</strong>');
+        html += state.text.replace(regex, `<strong>${matchedTerm[0]}</strong>`);
 
-        html += (typeof state.url !== 'undefined')? '</a>' : '</div>';
+        html += (typeof state.url !== 'undefined') ? '</a>' : '</div>';
         return html;
       },
-      escapeMarkup: function(m) { return m; }
-    }
+      escapeMarkup(m) { return m; },
+    };
 
     return {
       baseSettings,
-      smallScreenSettings: _.extend({}, baseSettings, { placeholder: 'Search...' })
-    }
+      smallScreenSettings: _.extend({}, baseSettings, { placeholder: 'Search...' }),
+    };
   },
 
   methods: {
     onSelecting(e) {
-      e.preventDefault()
+      e.preventDefault();
     },
     onEnterPressed(val) {
-      if (val && val.length > 2) window.location = `/search/?q=${val}`
-    }
-  }
-}
+      if (val && val.length > 2) window.location = `/search/?q=${val}`;
+    },
+  },
+};
 </script>
 
 <!-- TODO rewrite the css so that they can be scoped to this component  -->
@@ -241,10 +241,11 @@ a.search-box-result-item, a.search-box-result-item:hover
       &:last-child
         &:after
           content '...'
-.select2-results > .select2-results__options > .select2-results__option.select2-results__message:last-child,
-.select2-results > .select2-results__options > .select2-results__option.loading-results:last-child
-  padding 8px
-  margin-top 0
+.select2-results > .select2-results__options
+  & > .select2-results__option.select2-results__message:last-child,
+  & > .select2-results__option.loading-results:last-child
+    padding 8px
+    margin-top 0
 .more-search
   color #ec4d4b !important
   border-top 1px dotted #ccc

@@ -3,7 +3,7 @@
     <div class="card-info">
       <a :href="cardLink">
         <div :class="`card-picture ${imageSize}`">
-          <img 
+          <img
             :src="imageSrc"
           >
         </div>
@@ -51,7 +51,7 @@ export default {
     },
     subTitle: {
       type: String,
-      default: '`sub-title` here'
+      default: '`sub-title` here',
     },
     footnote: {
       type: String,
@@ -59,26 +59,26 @@ export default {
     },
     socialLinks: {
       type: Object,
-      default: () => null
+      default: () => null,
     },
     cardLink: {
       type: String,
-      default: ''
+      default: '',
     },
   },
 
   computed: {
-    twitterUrl(){
-      return this.socialLinks && this.socialLinks.twitter || ''
+    twitterUrl() {
+      return (this.socialLinks && this.socialLinks.twitter) || '';
     },
-    linkedInUrl(){
-      return this.socialLinks && this.socialLinks.linkedin || ''
+    linkedInUrl() {
+      return (this.socialLinks && this.socialLinks.linkedin) || '';
     },
-    facebookUrl(){
-      return this.socialLinks && this.socialLinks.facebook || ''
+    facebookUrl() {
+      return (this.socialLinks && this.socialLinks.facebook) || '';
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="stylus">
@@ -190,4 +190,3 @@ export default {
   &-facebook:after
     background-image url('~assets/svgs/social-facebook.svg')
 </style>
-

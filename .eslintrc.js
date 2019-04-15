@@ -3,7 +3,8 @@ module.exports = {
     parser: "babel-eslint"
   },
   extends: [
-    "plugin:vue/recommended"
+    "airbnb-base",
+    "plugin:vue/recommended",
   ],
   rules: {
     "vue/array-bracket-spacing": ["error", "always"],
@@ -33,6 +34,7 @@ module.exports = {
     "vue/script-indent": ["error", 2, { switchCase: 1 }],
     "vue/space-infix-ops": "error",
     "vue/space-unary-ops": "error",
-    "vue/v-on-function-call": ["error", "never"]
+    "vue/v-on-function-call": ["error", "never"],
+    "prefer-promise-reject-errors": "off",
   }
 }

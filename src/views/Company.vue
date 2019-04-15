@@ -148,30 +148,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import _ from 'lodash'
-import md5 from 'md5'
+/* global DISQUSWIDGETS */
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
+import md5 from 'md5';
 
-import * as c from '../constants'
-import { stripTags } from '../util/filters'
-import { getRatingImage } from '../util/rating'
+import * as c from '../constants';
+import { stripTags } from '../util/filters';
+import { getRatingImage } from '../util/rating';
 
-import CompanyHeader from '../components/Company/Header.vue'
-import CompanyOverview from '../components/Company/Overview.vue'
-import CompanyAbout from '../components/Company/About.vue'
-import CompanyLinks from '../components/Company/Links.vue'
-import JoinDiscussion from '../components/Company/JoinDiscussion.vue'
-import LinkAd from '../components/Ads/LinkAd.vue'
-import DianomiAd from '../components/Ads/DianomiAd.vue'
-import SideAdx from '../components/Ads/SideAdx.vue'
-import OpinionsList from '../components/Opinions/List.vue'
-import NumberPagination from '../components/NumberPagination.vue'
-import UserReactions from '../components/UserReactions.vue'
+import CompanyHeader from '../components/Company/Header.vue';
+import CompanyOverview from '../components/Company/Overview.vue';
+import CompanyAbout from '../components/Company/About.vue';
+import CompanyLinks from '../components/Company/Links.vue';
+import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
+import LinkAd from '../components/Ads/LinkAd.vue';
+import DianomiAd from '../components/Ads/DianomiAd.vue';
+import SideAdx from '../components/Ads/SideAdx.vue';
+import OpinionsList from '../components/Opinions/List.vue';
+import NumberPagination from '../components/NumberPagination.vue';
+import UserReactions from '../components/UserReactions.vue';
 
 // TODO this is ugly
-let tippy
+let tippy;
 if (process.browser) {
-  tippy = require('tippy.js').default
+  /* eslint-disable-next-line global-require */
+  tippy = require('tippy.js').default;
 }
 
 export default {
@@ -194,127 +196,127 @@ export default {
   data() {
     return {
       origin: '',
-      tabIndex: 0
-    }
+      tabIndex: 0,
+    };
   },
 
   computed: {
-    ...mapGetters([ 'user', 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd' ]),
+    ...mapGetters(['user', 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
 
     title() {
-      return `${this.company.name} (${this.company.symbol})`
+      return `${this.company.name} (${this.company.symbol})`;
     },
 
-    currentPage () {
-      return +this.$route.params.page || 1
+    currentPage() {
+      return +this.$route.params.page || 1;
     },
 
-    perPage () {
-      return +this.$route.params.perPage || 15
+    perPage() {
+      return +this.$route.params.perPage || 15;
     },
 
-    numOpinionPages () {
-      return Math.ceil(this.numTotalOpinions / this.perPage)
+    numOpinionPages() {
+      return Math.ceil(this.numTotalOpinions / this.perPage);
     },
 
-    startPosition () {
-      return (this.currentPage - 1) * this.perPage + 1
+    startPosition() {
+      return (this.currentPage - 1) * this.perPage + 1;
     },
 
-    endPosition () {
-      return this.startPosition + this.opinions.length - 1
+    endPosition() {
+      return this.startPosition + this.opinions.length - 1;
     },
 
-    urlPattern () {
-      return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`
+    urlPattern() {
+      return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`;
     },
 
     disqusIdentifier() {
-      return md5(this.absoluteUrl)
+      return md5(this.absoluteUrl);
     },
 
     disqusShortName() {
-      return c.DISQUS_SHORTNAME
+      return c.DISQUS_SHORTNAME;
     },
 
     absoluteUrl() {
-      return `${this.origin}${this.company.url}`
+      return `${this.origin}${this.company.url}`;
     },
 
     myRating() {
-      const ratings = this.company.SocialRatings || []
-      if (!ratings.length) return
+      const ratings = this.company.SocialRatings || [];
+      if (!ratings.length) return null;
 
-      return _.find(ratings, { user_id: this.user.id })
+      return _.find(ratings, { user_id: this.user.id });
     },
 
     myRatingImage() {
-      return getRatingImage(this.myRating.rating)
+      return getRatingImage(this.myRating.rating);
     },
 
     numSameRatings() {
-      const myRating = this.myRating
-      if (!myRating) return
+      const { myRating } = this;
+      if (!myRating) return null;
 
-      const ratings = this.company.SocialRatings || []
-      return _.countBy(ratings, 'rating')[myRating.rating] - 1
+      const ratings = this.company.SocialRatings || [];
+      return _.countBy(ratings, 'rating')[myRating.rating] - 1;
     },
 
     routeHash() {
-      return this.$route.hash
-    }
+      return this.$route.hash;
+    },
   },
 
   watch: {
-    myRating(rating) {
-      this.resetTippy()
+    myRating() {
+      this.resetTippy();
     },
 
     routeHash(hash) {
-      this.onRouteHashChange(hash)
+      this.onRouteHashChange(hash);
     },
   },
 
-  asyncData ({ store, route }) {
+  asyncData({ store, route }) {
     return store.dispatch('FETCH_COMPANY', {
       id: route.params.id,
       symbol: route.params.symbol,
       page: +route.params.page,
       perPage: +route.params.perPage,
-    })
+    });
   },
 
-  title () {
-    return `${this.title} Stock Predictions`
+  title() {
+    return `${this.title} Stock Predictions`;
   },
 
-  previewTitle () {
-    return this.title
+  previewTitle() {
+    return this.title;
   },
 
-  image () {
-    return this.company.logo
+  image() {
+    return this.company.logo;
   },
 
-  description () {
-    const latestOpinion = this.opinions[0]
+  description() {
+    const latestOpinion = this.opinions[0];
 
-    if (latestOpinion) return stripTags(latestOpinion.comment)
+    return latestOpinion ? stripTags(latestOpinion.comment) : null;
   },
 
   mounted() {
-    this.origin = window.location.origin
+    this.origin = window.location.origin;
 
     this.$nextTick(() => {
-      this.initTippy()
-      this.onRouteHashChange(this.routeHash)
+      this.initTippy();
+      this.onRouteHashChange(this.routeHash);
 
-      if (typeof(DISQUSWIDGETS) !== 'undefined') DISQUSWIDGETS.getCount({ reset: true })
-    })
+      if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({ reset: true });
+    });
   },
 
   beforeDestroy() {
-    this.destroyTippy()
+    this.destroyTippy();
   },
 
   methods: {
@@ -322,28 +324,28 @@ export default {
       if (tabIndex === 1) {
         // Trigger window resize to adjust the disqus comments height
         this.$nextTick(() => {
-          window.dispatchEvent(new Event('resize'))
-        })
+          window.dispatchEvent(new Event('resize'));
+        });
       }
     },
 
     onTabClick() {
       // Sync tab with anchor
       if (this.tabIndex === 0) {
-        location.hash = '#opinions'
+        window.location.hash = '#opinions';
       } else if (this.tabIndex === 1) {
-        location.hash = '#comments'
+        window.location.hash = '#comments';
       }
     },
 
     onRouteHashChange(hash) {
       // Sync anchor with tab
       if (!hash || hash === '#opinions') {
-        this.tabIndex = 0
+        this.tabIndex = 0;
       } else if (hash === '#comments') {
-        this.tabIndex = 1
+        this.tabIndex = 1;
       }
-      location.hash = hash
+      window.location.hash = hash;
     },
 
     initTippy() {
@@ -352,22 +354,24 @@ export default {
         interactive: true,
         theme: 'stockchase',
         animateFill: false,
-        distance: 5
-      })
+        distance: 5,
+      });
     },
 
     destroyTippy() {
+      /* eslint-disable no-underscore-dangle */
       if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
-        this.$refs.userReactions._tippy.destroy()
+        this.$refs.userReactions._tippy.destroy();
       }
+      /* eslint-enable no-underscore-dangle */
     },
 
     resetTippy() {
-      this.destroyTippy()
-      this.initTippy()
+      this.destroyTippy();
+      this.initTippy();
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'DianomiAd',
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
-  }
-}
+    ...mapGetters(['shouldShowAd']),
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

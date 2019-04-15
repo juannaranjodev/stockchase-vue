@@ -31,18 +31,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import _ from 'lodash'
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
 
 export default {
   name: 'Discover',
 
   computed: {
-    ...mapGetters([ 'discoverPosts' ]),
+    ...mapGetters(['discoverPosts']),
 
-    posts() { return _.take(this.discoverPosts, 3) },
+    posts() { return _.take(this.discoverPosts, 3); },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

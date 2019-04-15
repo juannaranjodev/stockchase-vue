@@ -18,7 +18,7 @@
           >
             <a
               :href="generateURL(n)"
-              :class="getItemsPerPage(n)"
+              :class="{ active: perPage === n }"
             >{{ n }}</a>
           </li>
         </ul>
@@ -28,8 +28,8 @@
           class="filters-listby"
           @change="onAlphabeticalChange"
         >
-          <option 
-            v-for="option in sortedOptions" 
+          <option
+            v-for="option in sortedOptions"
             :key="option"
             :selected="setSelectDefault(option)"
             :value="option.toLowerCase()"
@@ -48,7 +48,7 @@
             @input="onSearchTyping"
             @blur="onSearchFocusOut"
           >
-          <button 
+          <button
             class="btn-search"
             @click="onSubmitSearch"
           >
@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 import { setTimeout, clearTimeout } from 'timers';
 
 let wait;
@@ -104,15 +104,15 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Cards Filter'
+      default: 'Cards Filter',
     },
     searchPlaceholder: {
       type: String,
-      default: 'Filter by ...'
+      default: 'Filter by ...',
     },
     targetSearch: {
       type: String,
-      default: 'experts'
+      default: 'experts',
     },
     resetUri: {
       type: String,
@@ -120,15 +120,15 @@ export default {
     },
     pattern: {
       type: String,
-      default: '/'
-    }
+      default: '/',
+    },
   },
-  data(){
+  data() {
     return {
       matches: [],
       isTyping: false,
       totalSearchedResults: 0,
-    }
+    };
   },
   computed: {
     ...mapGetters(['shouldShowAd', 'searchedExperts']),
@@ -137,41 +137,42 @@ export default {
       '0-9',
     ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')),
     searchQuery() {
-      return this.$route.query.search
+      return this.$route.query.search;
+    },
+    perPage() {
+      return Number(this.$route.params.itemsPerPage) || 15;
     },
   },
   methods: {
     setSelectDefault(option) {
-      return this.$route.params.character && option.toLowerCase() === this.$route.params.character
+      return this.$route.params.character && option.toLowerCase() === this.$route.params.character;
     },
     renderSearchResultItem(name) {
       return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
     },
-    getItemsPerPage(pages = 15) {
-      return this.$route.params.itemsPerPage && this.$route.params.itemsPerPage == pages ? 'active' : (!this.$route.params.itemsPerPage && pages == 15)? 'active' : null
-    },
     generateURL(pages = 15) {
       const { params, query } = this.$route;
-      let url = this.resetUri + this.pattern
+      const url = this.resetUri + this.pattern
         .replace(':type', params.type || 'F')
         .replace(':sort', params.sort || 'FirstName')
         .replace(':page', params.page || '1')
-        .replace(':direction', params.direction || 'desc' )
-        .replace(':itemsPerPage', pages)
+        .replace(':direction', params.direction || 'desc')
+        .replace(':itemsPerPage', pages);
 
-      return query.search ? `${url}?search=${query.search}` : url
+      return query.search ? `${url}?search=${query.search}` : url;
     },
-    onSubmitSearch(){
+    onSubmitSearch() {
       if (this.$refs.search.value.length > 3) {
-        let query = encodeURI(this.$refs.search.value);
+        const query = encodeURI(this.$refs.search.value);
         // do something here
-        window.location = `?search=${query}`
+        window.location = `?search=${query}`;
       }
     },
     onSearchTyping(e) {
       this.matches = [];
 
-      if (wait) clearTimeout(wait); // this allows to wait for the next character to by typed before it actually pulls the results
+      // this allows to wait for the next character to by typed before it actually pulls the results
+      if (wait) clearTimeout(wait);
 
       if (e.target.value.length > 2) {
         this.isTyping = true;
@@ -186,24 +187,23 @@ export default {
               this.matches = this.$store.state.searchedExperts;
               this.totalSearchedResults = this.$store.state.totalSearchedExperts;
               this.isTyping = false;
-            })
+            });
           }
-        }, 500)
+        }, 500);
       } else {
         this.matches = [];
         this.totalSearchedResults = 0;
         this.isTyping = false;
       }
     },
-    onSearchResultsItemClick(expert, e) {
+    onSearchResultsItemClick(expert) {
       if (expert.id) window.location = expert.url;
     },
     onAlphabeticalChange(e) {
-      console.log('going in');
       if (this.targetSearch === 'company') {
         // do something for companies page
       } else {
-        const pattern = `/expert/index/:character/L`;
+        const pattern = '/expert/index/:character/L';
 
         if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
           window.location = pattern.replace(':character', e.target.value);
@@ -212,13 +212,13 @@ export default {
         }
       }
     },
-    onSearchFocusOut(e) {
+    onSearchFocusOut() {
       this.matches = [];
       this.totalSearchedResults = 0;
       this.isTyping = false;
     },
   },
-}
+};
 </script>
 
 

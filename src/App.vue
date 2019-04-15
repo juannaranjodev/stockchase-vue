@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import SiteHeader from './components/Layout/Header.vue'
-import SiteNavigation from './components/Layout/Navigation.vue'
-import SiteFooter from './components/Layout/Footer.vue'
-import LeaderboardAd from './components/Ads/LeaderboardAd.vue'
+import { mapGetters } from 'vuex';
+import SiteHeader from './components/Layout/Header.vue';
+import SiteNavigation from './components/Layout/Navigation.vue';
+import SiteFooter from './components/Layout/Footer.vue';
+import LeaderboardAd from './components/Ads/LeaderboardAd.vue';
 
 export default {
   components: {
@@ -30,23 +30,48 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'user' ]),
+    ...mapGetters(['user']),
   },
 
   watch: {
     user(user) {
       // Init OptinMonster for non-logged-in users
-      if (user.loaded && !user.id) this.initOptinMonster()
+      if (user.loaded && !user.id) this.initOptinMonster();
     },
   },
 
   methods: {
+    /* eslint-disable */
     initOptinMonster() {
-      // Converting visitors into subscribers and customers with OptinMonster - https://optinmonster.com
-      var om42915_37581,om42915_37581_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){om42915_37581_poll(function(){if(window['om_loaded']){if(!om42915_37581){om42915_37581=new OptinMonsterApp();return om42915_37581.init({"a":37581,"staging":0,"dev":0,"beta":0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="https://a.optnmstr.com/app/js/api.min.js",o.async=true,o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;om42915_37581=new OptinMonsterApp();om42915_37581.init({"a":37581,"staging":0,"dev":0,"beta":0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");
-    }
+      // Converting visitors into subscribers and customers with OptinMonster
+      // https://optinmonster.com
+      let om42915_37581; const om42915_37581_poll = (function () { let r = 0; return function (n, l) { clearInterval(r), r = setInterval(n, l); }; }()); !(function (e, t, n) {
+        if (e.getElementById(n)) {
+          om42915_37581_poll(() => {
+            if (window.om_loaded) {
+              if (!om42915_37581) {
+                om42915_37581 = new OptinMonsterApp(); return om42915_37581.init({
+                  a: 37581, staging: 0, dev: 0, beta: 0,
+                });
+              }
+            }
+          }, 25); return;
+        } let d = false; const o = e.createElement(t); o.id = n, o.src = 'https://a.optnmstr.com/app/js/api.min.js', o.async = true, o.onload = o.onreadystatechange = function () {
+          if (!d) {
+            if (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete') {
+              try {
+                d = om_loaded = true; om42915_37581 = new OptinMonsterApp(); om42915_37581.init({
+                  a: 37581, staging: 0, dev: 0, beta: 0,
+                }); o.onload = o.onreadystatechange = null;
+              } catch (t) {}
+            }
+          }
+        }; (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(o);
+      }(document, 'script', 'omapi-script'));
+    },
+    /* eslint-enable */
   },
-}
+};
 </script>
 
 <style lang="stylus">

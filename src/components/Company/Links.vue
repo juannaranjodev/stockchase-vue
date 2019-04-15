@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Links',
@@ -49,62 +49,64 @@ export default {
     ...mapGetters(['company']),
 
     googleSymbol() {
+      /* eslint-disable no-useless-escape */
       // Logic copied from https://github.com/wealthica/wealthica-data/blob/master/app.js
       const symbol = this.company.symbol.toUpperCase();
 
       // Canadian
-      if (symbol.match(/\-T$/)) return 'TSE:' + symbol.split('-')[0]
-      if (symbol.match(/\-X$/)) return 'CVE:' + symbol.split('-')[0]
-      if (symbol.match(/\-CN$/)) return 'CNSX:' + symbol.split('-')[0] // CSE
+      if (symbol.match(/\-T$/)) return `TSE:${symbol.split('-')[0]}`;
+      if (symbol.match(/\-X$/)) return `CVE:${symbol.split('-')[0]}`;
+      if (symbol.match(/\-CN$/)) return `CNSX:${symbol.split('-')[0]}`; // CSE
 
       // US
-      if (symbol.match(/\-Q$/)) return 'NASDAQ:' + symbol.split('-')[0]
+      if (symbol.match(/\-Q$/)) return `NASDAQ:${symbol.split('-')[0]}`;
 
       // For the -N suffix which is generally used for NYSE it gets a litte complicated
       // It seems some symbols on the NYSEARCA, BATS or NYSEAMERICAN (formely AMEX) use -N
       // For example IGM-N is on NYSEARCA, IGV-A on BATS and APT-A on NYSEAMERICAN
-      if (symbol.match(/\-[NA]$/)) return ['NYSE', 'NYSEARCA', 'BATS', 'NYSEAMERICAN'].map(exchange => {
-        return [exchange, symbol.split('-')[0]].join(':')
-      })
+      if (symbol.match(/\-[NA]$/)) {
+        return ['NYSE', 'NYSEARCA', 'BATS', 'NYSEAMERICAN'].map(exchange => [exchange, symbol.split('-')[0]].join(':'));
+      }
 
       // US OTC
-      if (symbol.match(/\-OTC$/)) return 'OTCMKTS:' + symbol.split('-')[0]
+      if (symbol.match(/\-OTC$/)) return `OTCMKTS:${symbol.split('-')[0]}`;
 
       // France (Euronext Paris)
-      if (symbol.match(/\-FP$/)) return 'EPA:' + symbol.split('-')[0]
+      if (symbol.match(/\-FP$/)) return `EPA:${symbol.split('-')[0]}`;
 
       // Germany (Frankfurt)
-      if (symbol.match(/\-(GR|DE)$/)) return 'FRA:' + symbol.split('-')[0]
+      if (symbol.match(/\-(GR|DE)$/)) return `FRA:${symbol.split('-')[0]}`;
 
       // Japan
-      if (symbol.match(/\-(JP|TYO)$/)) return 'TYO:' + symbol.split('-')[0]
+      if (symbol.match(/\-(JP|TYO)$/)) return `TYO:${symbol.split('-')[0]}`;
 
       // Hong Kong
-      if (symbol.match(/\-HK$/)) return 'HKG:' + padStart(symbol.split('-')[0], 4, '0')
+      if (symbol.match(/\-HK$/)) return `HKG:${symbol.split('-')[0].padStart(4, '0')}`;
 
       // Korean
-      if (symbol.match(/\-(KS|KRX)$/)) return 'KRX:' + symbol.split('-')[0]
+      if (symbol.match(/\-(KS|KRX)$/)) return `KRX:${symbol.split('-')[0]}`;
 
       // Fallback to allow anything that "looks" to be a valid symbol
-      if (symbol.match(/^[A-Z0-9:\.\-]{1,12}$/)) return symbol
+      if (symbol.match(/^[A-Z0-9:\.\-]{1,12}$/)) return symbol;
 
-      return null
+      /* eslint-enable no-useless-escape */
+      return null;
     },
 
     yahooSymbol() {
-      const [symbol, exchange] = this.company.symbol.split('-')
-      let yahooSymbol = symbol
+      const [symbol, exchange] = this.company.symbol.split('-');
+      let yahooSymbol = symbol;
 
       switch (exchange) {
         case 'T': // toronto
-          yahooSymbol = `${symbol}.TO`
-          break
+          yahooSymbol = `${symbol}.TO`;
+          break;
         case 'X': // TSX Venture
-          yahooSymbol = `${symbol}.V`
-          break
+          yahooSymbol = `${symbol}.V`;
+          break;
         case 'Q2': // OTCBB
-          yahooSymbol = `${symbol}.OB`
-          break
+          yahooSymbol = `${symbol}.OB`;
+          break;
         case 'N': // New york
         case 'A': // American
         case 'Q': // nasdaq
@@ -113,10 +115,10 @@ export default {
         default:
       }
 
-      return yahooSymbol.toLowerCase()
-    }
+      return yahooSymbol.toLowerCase();
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

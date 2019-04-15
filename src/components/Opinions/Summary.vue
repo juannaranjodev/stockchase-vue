@@ -36,26 +36,26 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from 'lodash';
 
 export default {
   name: 'Summary',
   props: {
     items: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   computed: {
     recentExperts() {
       return _.chain(this.items)
-        .map((item) => item.Expert)
+        .map(item => item.Expert)
         .uniqBy('id')
-        .value()
-    }
-  }
-}
+        .value();
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

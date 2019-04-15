@@ -89,66 +89,66 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from 'lodash';
 
 export default {
   name: 'NumberPagination',
   props: {
     numTotalPages: {
       type: Number,
-      default: 1
+      default: 1,
     },
     currentPage: {
       type: Number,
-      default: 1
+      default: 1,
     },
     urlPattern: {
       type: String,
-      default: ''
+      default: '',
     },
   },
 
   computed: {
-    pages () {
-      let firstPage = Math.max(this.currentPage - 2, 1)
-      const lastPage = Math.min(firstPage + 4, this.numTotalPages)
+    pages() {
+      let firstPage = Math.max(this.currentPage - 2, 1);
+      const lastPage = Math.min(firstPage + 4, this.numTotalPages);
       // Adjust first page to make sure 5 page buttons are displayed if possible
-      firstPage = Math.max(lastPage - 4, 1)
+      firstPage = Math.max(lastPage - 4, 1);
 
-      return _.map(new Array(lastPage - firstPage + 1), (page, index) => firstPage + index)
+      return _.map(new Array(lastPage - firstPage + 1), (page, index) => firstPage + index);
     },
 
-    prevPage () {
-      return this.currentPage - 1
+    prevPage() {
+      return this.currentPage - 1;
     },
 
-    nextPage () {
-      return this.currentPage + 1
+    nextPage() {
+      return this.currentPage + 1;
     },
 
-    firstPageUrl () {
-      return this.getPageUrl(1)
+    firstPageUrl() {
+      return this.getPageUrl(1);
     },
 
-    lastPageUrl () {
-      return this.getPageUrl(this.numTotalPages)
+    lastPageUrl() {
+      return this.getPageUrl(this.numTotalPages);
     },
 
-    prevPageUrl () {
-      return (this.prevPage > 0) ? this.getPageUrl(this.prevPage) : null
+    prevPageUrl() {
+      return (this.prevPage > 0) ? this.getPageUrl(this.prevPage) : null;
     },
 
-    nextPageUrl () {
-      return (this.nextPage <= this.numTotalPages) ? this.getPageUrl(this.nextPage) : null
+    nextPageUrl() {
+      return (this.nextPage <= this.numTotalPages) ? this.getPageUrl(this.nextPage) : null;
     },
   },
 
   methods: {
-    getPageUrl (page) {
-      return this.urlPattern.replace(':page', page)
-    }
+    getPageUrl(page) {
+      return this.urlPattern.replace(':page', page);
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

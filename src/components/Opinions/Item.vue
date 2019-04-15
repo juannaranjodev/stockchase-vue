@@ -8,7 +8,14 @@
       v-if="!item.ad"
       class="signal-cell"
     >
-      <div :class="`signal-wrapper ${signalClassName} ${signalClassName}-border-cell d-none d-lg-block`">
+      <div
+        :class="`
+          signal-wrapper
+          ${signalClassName}
+          ${signalClassName}-border-cell
+          d-none d-lg-block
+        `"
+      >
         <div class="signal-badge">
           <div
             :class="`${signalClassName}-border`"
@@ -26,11 +33,15 @@
             <img :src="item.Company.logo">
           </a>
           <div class="opinion-mini__signal">
-            <div :class="`opinion-mini__signal-wrapper ${signalClassName} ${signalClassName}-border-cell`">
+            <div
+              :class="`
+                opinion-mini__signal-wrapper
+                ${signalClassName}
+                ${signalClassName}-border-cell
+              `"
+            >
               <div class="opinion-mini__signal-badge">
-                <div
-                  :class="`${signalClassName}-border`"
-                >
+                <div :class="`${signalClassName}-border`">
                   {{ item.Signal.name | formatSignalName }}
                 </div>
               </div>
@@ -43,7 +54,9 @@
               class="opinion-mini__name-symbol"
               :href="item.Company.url"
             >
-              <span class="opinion-mini__name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
+              <span class="opinion-mini__name">
+                {{ isOpinion ? item.Company.name : 'General Market Comment' }}
+              </span>
               <span
                 v-if="isOpinion"
                 class="opinion-mini__symbol"
@@ -92,7 +105,9 @@
                 class="company-name-symbol"
                 :href="item.Company.url"
               >
-                <span class="company-name">{{ isOpinion ? item.Company.name : 'General Market Comment' }}</span>
+                <span class="company-name">
+                  {{ isOpinion ? item.Company.name : 'General Market Comment' }}
+                </span>
                 <span
                   v-if="isOpinion"
                   class="company-symbol"
@@ -241,18 +256,17 @@
 </template>
 
 <script>
-import { timeAgo } from '../../util/filters'
-import { getRatingImage } from '../../util/rating'
-import UserReactions from '../UserReactions.vue'
-import InFeedAd from '../Ads/InFeedAd.vue'
-import _ from 'lodash'
-import md5 from 'md5'
-import { mapGetters } from 'vuex'
+import _ from 'lodash';
+import { mapGetters } from 'vuex';
+import { getRatingImage } from '../../util/rating';
+import UserReactions from '../UserReactions.vue';
+import InFeedAd from '../Ads/InFeedAd.vue';
 
 // TODO this is ugly
-let tippy
+let tippy;
 if (process.browser) {
-  tippy = require('tippy.js').default
+  /* eslint-disable-next-line global-require */
+  tippy = require('tippy.js').default;
 }
 
 export default {
@@ -264,109 +278,109 @@ export default {
   },
 
   filters: {
-    toClassName (signal) {
-      return this.toClassName(signal)
-    }
+    toClassName(signal) {
+      return this.toClassName(signal);
+    },
   },
 
   props: {
     item: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
   },
 
-  data () {
+  data() {
     return {
       expanded: false,
       origin: '',
-    }
+    };
   },
 
   computed: {
-    ...mapGetters([ 'date', 'user', ]),
+    ...mapGetters(['date', 'user']),
 
     currentPage() {
-      return +this.$route.params.page || 1
+      return +this.$route.params.page || 1;
     },
 
     isOpinion() {
-      return this.item.Company.id !== 1970
+      return this.item.Company.id !== 1970;
     },
 
     signalClassName() {
-      return this.toClassName(this.item.Signal.name)
+      return this.toClassName(this.item.Signal.name);
     },
 
     absoluteUrl() {
-      return `${this.origin}${this.item.url}`
+      return `${this.origin}${this.item.url}`;
     },
 
     paginatedUrl() {
-      return this.date ? `${this.origin}/opinions/${this.date}/${this.currentPage}#${this.item.id}` : null
+      return this.date ? `${this.origin}/opinions/${this.date}/${this.currentPage}#${this.item.id}` : null;
     },
 
     myRating() {
-      const ratings = this.item.SocialRatings || []
-      if (!ratings.length) return
+      const ratings = this.item.SocialRatings || [];
+      if (!ratings.length) return null;
 
-      return _.find(ratings, { user_id: this.user.id })
+      return _.find(ratings, { user_id: this.user.id });
     },
 
     myRatingImage() {
-      return getRatingImage(this.myRating.rating)
+      return getRatingImage(this.myRating.rating);
     },
 
     numSameRatings() {
-      const myRating = this.myRating
-      if (!myRating) return
+      const { myRating } = this;
+      if (!myRating) return null;
 
-      const ratings = this.item.SocialRatings || []
-      return _.countBy(ratings, 'rating')[myRating.rating] - 1
+      const ratings = this.item.SocialRatings || [];
+      return _.countBy(ratings, 'rating')[myRating.rating] - 1;
     },
 
     sharingContent() {
       // TODO this is an overly-simplified implementation of the old one from
       // the v1 CI code. Find a way to better compose the share content
-      const hashTagLength = this.sharingHashtag.length + 1
-      const companyName = this.item.Company.name
-      const remainingLength = 134 - (companyName.length + hashTagLength + 2) - 3
+      const hashTagLength = this.sharingHashtag.length + 1;
+      const companyName = this.item.Company.name;
+      const remainingLength = 134 - (companyName.length + hashTagLength + 2) - 3;
 
-      const content = _.trim(this.item.comment.replace(/<(?:.|\n)*?>/gm, '').replace(/\s+/gm, ' ')).substring(0, remainingLength)
+      const content = _.trim(this.item.comment.replace(/<(?:.|\n)*?>/gm, '').replace(/\s+/gm, ' ')).substring(0, remainingLength);
 
-      return `${content}... ${companyName}`
+      return `${content}... ${companyName}`;
     },
 
     sharingHashtag() {
-      return `financial $${this.item.Company.symbol}`
-    }
+      return `financial $${this.item.Company.symbol}`;
+    },
   },
 
   watch: {
-    myRating(rating) {
-      this.resetTippy()
-    }
+    myRating() {
+      this.resetTippy();
+    },
   },
 
   mounted() {
-    this.origin = window.location.origin
+    this.origin = window.location.origin;
 
     this.$nextTick(() => {
-      this.initTippy()
-    })
+      this.initTippy();
+    });
   },
 
   beforeDestroy() {
-    this.destroyTippy()
+    this.destroyTippy();
   },
 
   methods: {
     showComments() {
-      this.$emit('showComments', this.item.id)
+      this.$emit('showComments', this.item.id);
     },
 
     toClassName(signal) {
-      return _.snakeCase(signal)
+      return _.snakeCase(signal);
     },
 
     initTippy() {
@@ -375,26 +389,28 @@ export default {
         interactive: true,
         theme: 'stockchase',
         animateFill: false,
-        distance: 5
-      })
+        distance: 5,
+      });
     },
 
     destroyTippy() {
+      /* eslint-disable no-underscore-dangle */
       if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
-        this.$refs.userReactions._tippy.destroy()
+        this.$refs.userReactions._tippy.destroy();
       }
+      /* eslint-enable no-underscore-dangle */
     },
 
     resetTippy() {
-      this.destroyTippy()
-      this.initTippy()
+      this.destroyTippy();
+      this.initTippy();
     },
 
     toggleContent() {
-      this.expanded = !this.expanded
-    }
-  }
-}
+      this.expanded = !this.expanded;
+    },
+  },
+};
 </script>
 
 <style lang="stylus">

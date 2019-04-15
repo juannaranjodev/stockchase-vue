@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import actions from './actions'
-import mutations from './mutations'
-import getters from './getters'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import actions from './actions';
+import mutations from './mutations';
+import getters from './getters';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-export function createStore () {
+export default function createStore() {
   return new Vuex.Store({
     state: {
       opinions: {},
@@ -40,6 +40,6 @@ export function createStore () {
     },
     actions,
     mutations,
-    getters
-  })
+    getters,
+  });
 }

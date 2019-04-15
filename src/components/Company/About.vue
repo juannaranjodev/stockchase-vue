@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'About',
@@ -29,7 +29,7 @@ export default {
   computed: {
     ...mapGetters(['company']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

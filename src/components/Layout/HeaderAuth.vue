@@ -184,44 +184,44 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Gravatar from 'vue-gravatar'
+import { mapGetters } from 'vuex';
+import Gravatar from 'vue-gravatar';
 
 export default {
   name: 'HeaderAuth',
 
   components: { Gravatar },
 
-  data () {
+  data() {
     return {
       fetched: false,
-    }
+    };
   },
 
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
   },
 
-  beforeMount () {
-    this.fetchUser()
+  beforeMount() {
+    this.fetchUser();
   },
 
   methods: {
     onMouseOver() {
-      this.$refs.userDropdown.show()
+      this.$refs.userDropdown.show();
     },
 
     onMouseLeave() {
-      this.$refs.userDropdown.hide()
+      this.$refs.userDropdown.hide();
     },
 
     fetchUser() {
       this.$store.dispatch('FETCH_USER').always(() => {
-        this.fetched = true
-      })
-    }
+        this.fetched = true;
+      });
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus">

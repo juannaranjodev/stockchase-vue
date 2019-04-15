@@ -15,7 +15,7 @@
 <script>
 export default {
   name: 'JoinDiscussion',
-}
+};
 </script>
 
 <style lang="stylus" scoped>

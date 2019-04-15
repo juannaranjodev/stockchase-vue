@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import TopWorstExpertRating from './TopWorstExpertRating'
+import TopWorstExpertRating from './TopWorstExpertRating.vue';
 
 export default {
   name: 'TopWorstExpertsTable',
@@ -82,9 +82,9 @@ export default {
     experts: {
       type: Array,
       required: true,
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

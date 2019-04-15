@@ -29,46 +29,45 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import _ from 'lodash'
-import * as c from '../../constants'
-import Item from './Item.vue'
-import CommentsModal from './CommentsModal.vue'
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
+import Item from './Item.vue';
+import CommentsModal from './CommentsModal.vue';
 
 export default {
   name: 'List',
 
   components: {
     Item,
-    CommentsModal
+    CommentsModal,
   },
 
   props: {
     items: {
       type: Array,
-      default: () => ([])
+      default: () => ([]),
     },
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
+    ...mapGetters(['shouldShowAd']),
 
     displayedItems() {
-      const displayedItems = _.clone(this.items)
+      const displayedItems = _.clone(this.items);
 
-      if (this.shouldShowAd) displayedItems.splice(1, 0, { ad: true })
+      if (this.shouldShowAd) displayedItems.splice(1, 0, { ad: true });
 
-      return displayedItems
+      return displayedItems;
     },
   },
 
   methods: {
     showComments(id) {
-      this.$refs.commentsModal.setupComments(id)
-      this.$root.$emit('bv::show::modal', 'modal_comments')
+      this.$refs.commentsModal.setupComments(id);
+      this.$root.$emit('bv::show::modal', 'modal_comments');
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

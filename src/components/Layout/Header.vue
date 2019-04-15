@@ -56,22 +56,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import HeaderAuth from './HeaderAuth.vue'
-import HeaderSearch from './HeaderSearch.vue'
+import { mapGetters } from 'vuex';
+import HeaderAuth from './HeaderAuth.vue';
+import HeaderSearch from './HeaderSearch.vue';
 
 export default {
   name: 'Header',
 
   components: {
     HeaderAuth,
-    HeaderSearch
+    HeaderSearch,
   },
 
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

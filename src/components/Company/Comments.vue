@@ -16,43 +16,42 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import md5 from 'md5'
-import _ from 'lodash'
-import * as c from '../../constants'
-import UserReactions from '../UserReactions.vue'
+import { mapGetters } from 'vuex';
+import md5 from 'md5';
+import * as c from '../../constants';
+import UserReactions from '../UserReactions.vue';
 
 export default {
   name: 'Comments',
 
   components: { UserReactions },
 
-  data () {
+  data() {
     return {
       origin: '',
     };
   },
 
   computed: {
-    ...mapGetters([ 'company' ]),
+    ...mapGetters(['company']),
 
     disqusIdentifier() {
-      return md5(this.absoluteUrl)
+      return md5(this.absoluteUrl);
     },
 
     disqusShortName() {
-      return c.DISQUS_SHORTNAME
+      return c.DISQUS_SHORTNAME;
     },
 
     absoluteUrl() {
-      return `${this.origin}${this.company.url}`
-    }
+      return `${this.origin}${this.company.url}`;
+    },
   },
 
   mounted() {
-    this.origin = window.location.origin
+    this.origin = window.location.origin;
   },
-}
+};
 </script>
 
 <style lang="stylus">

@@ -10,7 +10,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+/* global googletag */
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'SideAdx',
@@ -18,24 +19,24 @@ export default {
   props: {
     slotId: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
+    ...mapGetters(['shouldShowAd']),
   },
 
   watch: {
     shouldShowAd(should) {
-      if (!should) return
+      if (!should) return;
 
       this.$nextTick(() => {
-        googletag.cmd.push(() => { googletag.display(this.slotId) })
-      })
-    }
+        googletag.cmd.push(() => { googletag.display(this.slotId); });
+      });
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

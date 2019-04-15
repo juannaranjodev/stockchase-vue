@@ -25,16 +25,16 @@ export default {
     tab: {
       type: String,
       required: true,
-      validator: (value) => ['top', 'worst'].indexOf(value) !== -1,
+      validator: value => ['top', 'worst'].indexOf(value) !== -1,
     },
   },
 
   methods: {
     getVariant(buttonName) {
-      return buttonName === this.tab ? 'danger' : 'light'
-    }
-  }
-}
+      return buttonName === this.tab ? 'danger' : 'light';
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

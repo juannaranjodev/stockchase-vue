@@ -1,19 +1,19 @@
 export function getPossibleRatings() {
-  return [1, -1, 2, 3, 4]
+  return [1, -1, 2, 3, 4];
 }
 export function getRatingImage(rating) {
   switch (rating) {
     case 1:
-      return require('../assets/images/smileys/happy.png')
+      return require('../assets/images/smileys/happy.png');
     case -1:
-      return require('../assets/images/smileys/bad.png')
+      return require('../assets/images/smileys/bad.png');
     case 2:
-      return require('../assets/images/smileys/neutral.png')
+      return require('../assets/images/smileys/neutral.png');
     case 3:
-      return require('../assets/images/smileys/angry.png')
+      return require('../assets/images/smileys/angry.png');
     case 4:
-      return require('../assets/images/smileys/surprise.png')
+      return require('../assets/images/smileys/surprise.png');
     default:
-      return require('../assets/images/smileys/smiley-glasses.png')
+      return require('../assets/images/smileys/smiley-glasses.png');
   }
 }
