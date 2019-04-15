@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var User = sequelize.define('User', {
+  const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER(8),
       primaryKey: true,
@@ -20,31 +20,31 @@ module.exports = (sequelize, DataTypes) => {
     },
     ad_free: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return this.group_id > 1;
       },
     },
     editor: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return this.group_id === 8;
       },
     },
     premium: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return this.group_id === 3 || this.pro || this.admin;
       },
     },
     pro: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return this.group_id === 2 || this.admin;
       },
     },
     admin: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return this.group_id === 9;
       },
     },
@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'New_users',
   });
 
-  User.associate = function(models) {
+  User.associate = function (models) {
     User.belongsTo(models.Group);
     User.hasMany(models.SocialRating);
     User.hasMany(models.UserStock);

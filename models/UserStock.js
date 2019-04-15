@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var UserStock = sequelize.define('UserStock', {
+  const UserStock = sequelize.define('UserStock', {
     user_id: {
       type: DataTypes.INTEGER(10),
     },
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'New_userStocks',
   });
 
-  UserStock.associate = function(models) {
+  UserStock.associate = function (models) {
     UserStock.belongsTo(models.User);
     UserStock.belongsTo(models.Company);
   };

@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
 const moment = require('moment');
 const _ = require('lodash');
 
 module.exports = (sequelize, DataTypes) => {
-  var Opinion = sequelize.define('Opinion', {
+  const Opinion = sequelize.define('Opinion', {
     id: {
       type: DataTypes.INTEGER(10),
       primaryKey: true,
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'Date',
     },
     price: {
-      type: DataTypes.DECIMAL(19,3),
+      type: DataTypes.DECIMAL(19, 3),
       field: 'PRICE',
     },
     comment: {
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return `/opinions/view/${this.id}`;
       },
     },
@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     tableName: 'New_opinion',
     scopes: {
-      includeAll () {
+      includeAll() {
         return {
           order: [['date', 'DESC'], ['id', 'ASC']],
           include: [
@@ -60,16 +60,16 @@ module.exports = (sequelize, DataTypes) => {
             { model: sequelize.models.Source },
             { model: sequelize.models.SocialRating },
             {
-                model: sequelize.models.Company,
-                include: [ sequelize.models.Sector ]
+              model: sequelize.models.Company,
+              include: [sequelize.models.Sector],
             },
           ],
-        }
-      }
-    }
+        };
+      },
+    },
   });
 
-  Opinion.associate = function(models) {
+  Opinion.associate = function (models) {
     Opinion.belongsTo(models.Company);
     Opinion.belongsTo(models.Source);
     Opinion.belongsTo(models.Expert);
@@ -77,29 +77,29 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Signal);
     Opinion.belongsTo(models.Ownership);
     Opinion.hasMany(models.SocialRating, {
-      foreignKey: 'content_id' ,
+      foreignKey: 'content_id',
       constraints: false,
       scope: {
-        content_type: 'opinion'
-      }
+        content_type: 'opinion',
+      },
     });
   };
 
   // Get the date of the most recent opinion
-  Opinion.getRecentOpinionDate = async function() {
-    var recentOpinion = await Opinion.findOne({
+  Opinion.getRecentOpinionDate = async function () {
+    const recentOpinion = await Opinion.findOne({
       where: { company_id: { $ne: 1970 } }, // Ignore market comments
-      order: [['date', 'DESC'], ['id', 'ASC']]
+      order: [['date', 'DESC'], ['id', 'ASC']],
     });
 
     return recentOpinion.date;
   };
 
   // Get the date of the most recent market comment
-  Opinion.getRecentMarketCommentDate = async function() {
-    var recentOpinion = await Opinion.findOne({
+  Opinion.getRecentMarketCommentDate = async function () {
+    const recentOpinion = await Opinion.findOne({
       where: { company_id: 1970 }, // Market comments
-      order: [['date', 'DESC'], ['id', 'ASC']]
+      order: [['date', 'DESC'], ['id', 'ASC']],
     });
 
     return recentOpinion.date;
@@ -107,7 +107,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Given a date returns the number of opinions for adjacent dates (3 days prior, and 3 days ahead)
   // Used for pagination
-  Opinion.getAdjacentOpinionDates = async function(date) {
+  Opinion.getAdjacentOpinionDates = async function (date) {
     return sequelize.query([
       '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id != 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
       'UNION',
@@ -116,19 +116,15 @@ module.exports = (sequelize, DataTypes) => {
     ].join(' '), {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(datesCount) {
-      return _.map(_.take(datesCount, 7), function(dateCount) {
-        return {
-          date: dateCount['Date'],
-          count: dateCount['COUNT(*)']
-        }
-      });
-    });
+    }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
+      date: dateCount.Date,
+      count: dateCount['COUNT(*)'],
+    })));
   };
 
-  // Given a date returns the number of market comments for adjacent dates (3 days prior, and 3 days ahead)
+  // Given a date returns the no. of mrkt comments for adjacent dates (3 days prior + 3 days ahead)
   // Used for pagination
-  Opinion.getAdjacentMarketCommentDates = async function(date) {
+  Opinion.getAdjacentMarketCommentDates = async function (date) {
     return sequelize.query([
       '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id = 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
       'UNION',
@@ -137,48 +133,48 @@ module.exports = (sequelize, DataTypes) => {
     ].join(' '), {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(datesCount) {
-      return _.map(_.take(datesCount, 7), function(dateCount) {
-        return {
-          date: dateCount['Date'],
-          count: dateCount['COUNT(*)']
-        }
-      });
-    });
+    }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
+      date: dateCount.Date,
+      count: dateCount['COUNT(*)'],
+    })));
   };
 
   // Get opinions for a given date
-  Opinion.getOpinionsByDate = function(date) {
+  Opinion.getOpinionsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
-      where: { date: date, company_id: { $ne: 1970 } }, // Ignore market comments
+      where: { date, company_id: { $ne: 1970 } }, // Ignore market comments
     });
   };
 
   // Get normal opinions by expert id & date
-  Opinion.getOpinionsByExpert = function(expertId, date, limit) {
+  Opinion.getOpinionsByExpert = function (expertId, date, limit) {
     return Opinion.scope('includeAll').findAll({
-      where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: { $ne: 16 } },
-      limit: limit,
+      where: {
+        date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: { $ne: 16 },
+      },
+      limit,
     });
   };
 
   // Get top picks by expert id & date
-  Opinion.getTopPicksByExpert = function(expertId, date, limit) {
+  Opinion.getTopPicksByExpert = function (expertId, date, limit) {
     return Opinion.scope('includeAll').findAll({
-      where: { date: date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: 16 },
-      limit: limit,
+      where: {
+        date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: 16,
+      },
+      limit,
     });
   };
 
   // Get market comments for a given date
-  Opinion.getMarketCommentsByDate = function(date) {
+  Opinion.getMarketCommentsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
-      where: { date: date, company_id: 1970 }, // Market comments
+      where: { date, company_id: 1970 }, // Market comments
     });
   };
 
   // Get opinions by company id
-  Opinion.getOpinionsByCompany = function(companyId, page=1, perPage=15) {
+  Opinion.getOpinionsByCompany = function (companyId, page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAll({
       where: { company_id: companyId },
       offset: (page - 1) * perPage,
@@ -187,7 +183,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Count opinions by company id
-  Opinion.countOpinionsByCompany = function(companyId) {
+  Opinion.countOpinionsByCompany = function (companyId) {
     return Opinion.count({
       where: { company_id: companyId },
     });

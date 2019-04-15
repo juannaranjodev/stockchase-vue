@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var SocialRating = sequelize.define('SocialRating', {
+  const SocialRating = sequelize.define('SocialRating', {
     content_type: {
       type: DataTypes.STRING(30),
     },
@@ -23,24 +23,24 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'social_ratings',
   });
 
-  SocialRating.associate = function(models) {
+  SocialRating.associate = function (models) {
     SocialRating.belongsTo(models.User);
 
     // See http://docs.sequelizejs.com/manual/associations.html, Advance Concepts
     SocialRating.belongsTo(models.Opinion, {
       foreignKey: 'content_id',
       constraints: false,
-      as: 'opinion'
+      as: 'opinion',
     });
     SocialRating.belongsTo(models.Company, {
       foreignKey: 'content_id',
       constraints: false,
-      as: 'company'
+      as: 'company',
     });
     SocialRating.belongsTo(models.Expert, {
       foreignKey: 'content_id',
       constraints: false,
-      as: 'expert'
+      as: 'expert',
     });
   };
 

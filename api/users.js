@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // Return currently logged in user information
-router.get('/me', function(req, res) {
+router.get('/me', (req, res) => {
   res.json(req.user);
 });
 

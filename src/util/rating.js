@@ -1,6 +1,8 @@
 export function getPossibleRatings() {
   return [1, -1, 2, 3, 4];
 }
+
+/* eslint-disable global-require */
 export function getRatingImage(rating) {
   switch (rating) {
     case 1:
@@ -17,3 +19,4 @@ export function getRatingImage(rating) {
       return require('../assets/images/smileys/smiley-glasses.png');
   }
 }
+/* eslint-enable global-require */
