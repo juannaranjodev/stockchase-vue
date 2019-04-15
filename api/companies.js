@@ -1,7 +1,6 @@
 const express = require('express');
 
-const { Company } = require('../models');
-const { SocialRating } = require('../models');
+const { Company, SocialRating } = require('../models');
 
 const router = express.Router();
 
