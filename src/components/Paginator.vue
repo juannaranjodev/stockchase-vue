@@ -61,19 +61,19 @@ export default {
   props: {
     totalItems: {
       type: Number,
-      default: 0
+      default: 0,
     },
     maxPage: {
       type: Number,
-      default: 5
+      default: 5,
     },
     itemsPerPage: {
       type: Number,
-      default: 15
+      default: 15,
     },
     type: {
       type: String,
-      default: ''
+      default: '',
     },
     sort: {
       type: String,
@@ -81,66 +81,68 @@ export default {
     },
     direction: {
       type: String,
-      default: 'desc'
+      default: 'desc',
     },
     main: {
       type: String,
-      default: '/'
+      default: '/',
     },
     pattern: {
       type: String,
-      default: '/'
-    }
+      default: '/',
+    },
   },
-  data(){
+  data() {
     return {
-      currentPage: this.$route.params.page ? parseInt(this.$route.params.page) : 1,
-    }
+      currentPage: this.$route.params.page ? Number(this.$route.params.page) : 1,
+    };
   },
   computed: {
-    totalPages(){
-      return Math.ceil(this.totalItems / this.itemsPerPage)
+    totalPages() {
+      return Math.ceil(this.totalItems / this.itemsPerPage);
     },
-    maxArrayLength(){
-      return (this.totalPages < this.maxPage)? this.totalPages : this.maxPage
+    maxArrayLength() {
+      return (this.totalPages < this.maxPage) ? this.totalPages : this.maxPage;
     },
-    centerPage(){
-      return Math.floor(this.maxArrayLength / 2)
+    centerPage() {
+      return Math.floor(this.maxArrayLength / 2);
     },
-    sliceStart(){
-      return ((this.currentPage * this.itemsPerPage) - this.itemsPerPage) + 1
+    sliceStart() {
+      return ((this.currentPage * this.itemsPerPage) - this.itemsPerPage) + 1;
     },
-    sliceEnd(){
-      var sliceEnd = this.currentPage * this.itemsPerPage;
-      return sliceEnd > this.totalItems ? this.totalItems : sliceEnd
+    sliceEnd() {
+      const sliceEnd = this.currentPage * this.itemsPerPage;
+      return sliceEnd > this.totalItems ? this.totalItems : sliceEnd;
     },
-    startIndex(){
-      return (this.currentPage > (this.totalPages - this.centerPage))?
-        this.totalPages - (this.maxArrayLength - 1) :
-        this.currentPage - this.centerPage
+    startIndex() {
+      return (this.currentPage > (this.totalPages - this.centerPage))
+        ? this.totalPages - (this.maxArrayLength - 1)
+        : this.currentPage - this.centerPage;
     },
-    pageNumbers(){
+    pageNumbers() {
       return Array.from(Array(this.maxArrayLength), (x, index) => {
-        var currentIndex = index + this.startIndex;
-        return (this.startIndex > 0)? currentIndex : index + 1;
-      })
+        const currentIndex = index + this.startIndex;
+        return (this.startIndex > 0) ? currentIndex : index + 1;
+      });
     },
   },
   methods: {
-    generateURL(page = 1){
+    generateURL(page = 1) {
       const { query } = this.$route;
       let url = this.main;
 
-      if (page > 1) url = url + this.pattern.replace(':type', this.type)
-        .replace(':sort', this.sort)
-        .replace(':page', page)
-        .replace(':direction', this.direction)
-        .replace(':itemsPerPage', this.itemsPerPage)
+      if (page > 1) {
+        url += this.pattern.replace(':type', this.type)
+          .replace(':sort', this.sort)
+          .replace(':page', page)
+          .replace(':direction', this.direction)
+          .replace(':itemsPerPage', this.itemsPerPage);
+      }
 
-      return query.search ? `${url}?search=${query.search}` : url
+      return query.search ? `${url}?search=${query.search}` : url;
     },
   },
-}
+};
 </script>
 
 <style lang="stylus">

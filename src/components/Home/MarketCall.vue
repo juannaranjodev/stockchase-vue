@@ -4,7 +4,8 @@
       STOCK PICKS @MARKETCALL
     </h2>
     <div class="market-call__testimonial">
-      The only website on earth that has documented the stock picks and pans of every single guest who's appeared on BNN Market Call programs since the year 2000. — The Globe & Mail
+      The only website on earth that has documented the stock picks and pans of every single guest
+      who's appeared on BNN Market Call programs since the year 2000. — The Globe & Mail
     </div>
     <div class="market-call__experts">
       <a
@@ -42,15 +43,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MarketCall',
 
   computed: {
-    ...mapGetters([ 'latestExperts' ]),
+    ...mapGetters(['latestExperts']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

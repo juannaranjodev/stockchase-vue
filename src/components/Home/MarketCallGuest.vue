@@ -235,43 +235,43 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import MarketCallGuestOpinion from './MarketCallGuestOpinion.vue'
+import { mapGetters } from 'vuex';
+import MarketCallGuestOpinion from './MarketCallGuestOpinion.vue';
 
 export default {
   name: 'MarketCallGuest',
   components: {
-    MarketCallGuestOpinion
+    MarketCallGuestOpinion,
   },
   props: {
     guest: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     discoverPost: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
 
   computed: {
-    ...mapGetters([ 'user' ]),
+    ...mapGetters(['user']),
 
     premiumLink() {
-      return "https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
+      return 'https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase';
     },
 
     ratingUrl() {
-      return `${this.guest.expert.url}/rating`
+      return `${this.guest.expert.url}/rating`;
     },
 
     topPickCompanyLogo() {
       return this.guest.topPicks.length
         ? this.guest.topPicks[0].Company.logo
-        : 'https://stockchase.com/assets/no_logo.png'
+        : 'https://stockchase.com/assets/no_logo.png';
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -1,26 +1,28 @@
-function getValue (vm) {
-  const { description } = vm.$options
+function getValue(vm) {
+  const { description } = vm.$options;
 
   if (description) {
     return typeof description === 'function'
       ? description.call(vm)
-      : description
+      : description;
   }
+
+  return null;
 }
 
 const serverMixin = {
-  created () {
-    const value = getValue(this)
-    if (value) this.$ssrContext.description = value
-  }
-}
+  created() {
+    const value = getValue(this);
+    if (value) this.$ssrContext.description = value;
+  },
+};
 
 const clientMixin = {
-  mounted () {
+  mounted() {
     // Do nothing
-  }
-}
+  },
+};
 
 export default process.env.VUE_ENV === 'server'
   ? serverMixin
-  : clientMixin
+  : clientMixin;

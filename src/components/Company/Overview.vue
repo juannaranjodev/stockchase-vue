@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Overview',
@@ -38,7 +38,7 @@ export default {
   computed: {
     ...mapGetters(['company']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

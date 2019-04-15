@@ -1,5 +1,11 @@
 <template>
-  <div :class="{ 'welcome-back': loggedIn, 'welcome-back--premium': user.premium, 'sign-up': !loggedIn }">
+  <div
+    :class="{
+      'welcome-back': loggedIn,
+      'welcome-back--premium': user.premium,
+      'sign-up': !loggedIn,
+    }"
+  >
     <div
       v-if="loggedIn"
       class="welcome-back__container"
@@ -85,15 +91,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'SignUp',
 
   computed: {
-    ...mapGetters([ 'loggedIn', 'user' ]),
-  }
-}
+    ...mapGetters(['loggedIn', 'user']),
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

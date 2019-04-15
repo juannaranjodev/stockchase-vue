@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-Vue.use(Router)
+import Vue from 'vue';
+import Router from 'vue-router';
+
+Vue.use(Router);
 
 // IMPORTANT route component must be a function that returns the import statement
 // otherwise we get weird router behaviors
@@ -17,15 +18,15 @@ Vue.use(Router)
 //   ...
 //   { path: '/', component: Home }
 
-const Home = () => import('../views/Home')
-const TopWorstExpertList = () => import('../views/TopWorstExpertList')
-const Experts = () => import('../views/Experts')
-const Company = () => import('../views/Company')
+const Home = () => import('../views/Home.vue');
+const TopWorstExpertList = () => import('../views/TopWorstExpertList.vue');
+const Experts = () => import('../views/Experts.vue');
+const Company = () => import('../views/Company.vue');
 
 // route-level code splitting
-const createListView = type => () => import('../views/createListView').then(m => m.default(type))
+const createListView = type => () => import('../views/createListView').then(m => m.default(type));
 
-export function createRouter () {
+export default function createRouter() {
   return new Router({
     mode: 'history',
     fallback: false,
@@ -44,6 +45,6 @@ export function createRouter () {
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:symbol', component: Company },
       { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
-    ]
-  })
+    ],
+  });
 }

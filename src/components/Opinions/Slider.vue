@@ -2,7 +2,10 @@
   <div class="slider-container d-none d-lg-block">
     <div class="slider">
       <span
-        :class="{ 'carousel-control carousel-control-prev-icon': true, 'hidden': !hasPrevious }"
+        :class="{
+          'carousel-control carousel-control-prev-icon': true,
+          'hidden': !hasPrevious,
+        }"
         @click="prev"
       />
       <div class="slider-content">
@@ -20,7 +23,9 @@
           >
             <img :src="item.Company.logo">
           </div>
-          <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">{{ item.Signal.name | formatSignalName }}</div>
+          <div :class="`opinion-signal ${toClassName(item.Signal.name)}-border`">
+            {{ item.Signal.name | formatSignalName }}
+          </div>
         </a>
       </div>
       <span
@@ -32,66 +37,69 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import { mapGetters } from 'vuex'
-import * as c from '../../constants'
+import _ from 'lodash';
+import { mapGetters } from 'vuex';
+import * as c from '../../constants';
 
 export default {
   name: 'Slider',
   props: {
     items: {
       type: Array,
-      default: () => ({})
+      default: () => ({}),
     },
     page: {
       type: Number,
-      default: 1
+      default: 1,
     },
   },
 
   data() {
-    const currentIndex = (this.page - 1) * c.PER_PAGE
+    const currentIndex = (this.page - 1) * c.PER_PAGE;
+    const maxPossibleIndex = this.items.length > c.PER_PAGE
+      ? this.items.length - c.PER_PAGE
+      : 0;
 
     return {
-      currentIndex: Math.min(currentIndex, (this.items.length > c.PER_PAGE) ? this.items.length - c.PER_PAGE : 0),
+      currentIndex: Math.min(currentIndex, maxPossibleIndex),
       numItems: this.items.length,
-    }
+    };
   },
 
   computed: {
-    ...mapGetters([ 'date' ]),
+    ...mapGetters(['date']),
 
     displayedItems() {
-      return this.items.slice(this.currentIndex, this.currentIndex + c.PER_PAGE)
+      return this.items.slice(this.currentIndex, this.currentIndex + c.PER_PAGE);
     },
 
     hasNext() {
-      return (this.currentIndex + c.PER_PAGE) < this.numItems
+      return (this.currentIndex + c.PER_PAGE) < this.numItems;
     },
 
     hasPrevious() {
-      return this.currentIndex > 0
+      return this.currentIndex > 0;
     },
   },
 
   methods: {
     next() {
       if (this.hasNext) {
-        this.currentIndex += 1
+        this.currentIndex += 1;
       }
     },
 
     prev() {
       if (this.hasPrevious) {
-        this.currentIndex -= 1
+        this.currentIndex -= 1;
       }
     },
 
     toClassName(signal) {
-      return _.snakeCase(signal)
+      return _.snakeCase(signal);
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 const moment = require('moment');
 const _ = require('lodash');
 const cheerio = require('cheerio');
 
 module.exports = (sequelize, DataTypes) => {
-  var BlogPost = sequelize.define('BlogPost', {
+  const BlogPost = sequelize.define('BlogPost', {
     id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
@@ -21,15 +21,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     body: {
       type: DataTypes.TEXT('medium'),
-      field: 'post_body'
+      field: 'post_body',
     },
     date_posted: {
       type: DataTypes.INTEGER(11),
     },
     date: {
       type: DataTypes.VIRTUAL,
-      get: function() {
-        return moment.unix(new Date(this.date_posted)).format('YYYY-MM-DD')
+      get() {
+        return moment.unix(new Date(this.date_posted)).format('YYYY-MM-DD');
       },
     },
     status: {
@@ -37,17 +37,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     media: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         const $ = cheerio.load(this.body);
-        const mediaNames = $('span.media-name').map(function() { return _.trim($(this).text()) }).get();
-        const mediaUrls = $('span.media-url').map(function() { return _.trim($(this).text()) }).get();
+        const mediaNames = $('span.media-name').map(function () { return _.trim($(this).text()); }).get();
+        const mediaUrls = $('span.media-url').map(function () { return _.trim($(this).text()); }).get();
 
-        return _.map(mediaNames, function(name, index) {
-          return {
-            name: name,
-            url: mediaUrls[index],
-          }
-        });
+        return _.map(mediaNames, (name, index) => ({
+          name,
+          url: mediaUrls[index],
+        }));
       },
     },
   }, {
@@ -57,9 +55,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // Get latest blog posts
-  BlogPost.getLatestBlogPosts = function(limit=5) {
+  BlogPost.getLatestBlogPosts = function (limit = 5) {
     return BlogPost.findAll({
-      limit: limit,
+      limit,
       order: [['id', 'DESC']],
     });
   };

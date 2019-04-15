@@ -94,12 +94,12 @@ export default {
 
   methods: {
     isActive(pathPattern) {
-      const currentPath = this.$router.currentRoute.path
+      const currentPath = this.$router.currentRoute.path;
 
-      return currentPath.match(pathPattern)
-    }
+      return currentPath.match(pathPattern);
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

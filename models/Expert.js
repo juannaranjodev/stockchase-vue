@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const _ = require('lodash');
 
 module.exports = (sequelize, DataTypes) => {
-  var Expert = sequelize.define('Expert', {
+  const Expert = sequelize.define('Expert', {
     id: {
       type: DataTypes.INTEGER(10),
       primaryKey: true,
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING(50),
       field: 'TITLE',
-     },
+    },
     company: {
       type: DataTypes.STRING(50),
       field: 'COMPANY',
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       field: 'COMMENTS',
     },
     rating: {
-      type: DataTypes.DECIMAL(3,2),
+      type: DataTypes.DECIMAL(3, 2),
       field: 'RATING',
     },
     address1: {
@@ -97,7 +97,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return `/expert/view/${this.id}/${this.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
       },
     },
@@ -107,86 +107,92 @@ module.exports = (sequelize, DataTypes) => {
     },
     avatar: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return (this.avatar_path) ? `https://stockchase.s3.amazonaws.com/${this.avatar_path}` : '/assets/svgs/expert_profile_default.svg';
       },
-    }
+    },
   }, {
     timestamps: false,
     underscored: true,
     tableName: 'New_expert',
   });
 
-  Expert.associate = function(models) {
+  Expert.associate = function (models) {
     Expert.hasMany(models.Opinion);
+    Expert.hasMany(models.SocialRating, {
+      foreignKey: 'content_id',
+      constraints: false,
+      scope: {
+        content_type: 'expert',
+      },
+    });
   };
 
-  Expert.getTotalExperts = async function(term = null){
-    var result = await Expert.count({
-      where: term ? { 
+  Expert.getTotalExperts = async function (term = null) {
+    const result = await Expert.count({
+      where: term ? {
         $and: [
-          { 
+          {
             id: { $ne: 1176 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col('name')),
             {
-              $like: `%${term}%`
-            }
-          )
+              $like: `%${term}%`,
+            },
+          ),
         ],
       } : { id: { $ne: 1176 } },
     });
     return result;
-  }
+  };
 
-  Expert.getExpertsByPage = async function(page = 1, limit = 25){
+  Expert.getExpertsByPage = async function (page = 1, limit = 25) {
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
       WHERE e.id <> 1176
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
       replacements: {
-        limit: limit,
-        offset: (page - 1) * limit
+        limit,
+        offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(experts) {
-      return _.map(experts, expert => {
-        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-        return expert
-      });
-    });
+    }).then(experts => _.map(experts, (expert) => {
+      const result = expert.toJSON();
+      result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+      return result;
+    }));
   };
 
-  Expert.getNewestExperts = function(limit=15) {
+  Expert.getNewestExperts = function (limit = 15) {
     return Expert.findAll({
-      limit: limit,
+      limit,
       order: [['id', 'DESC']],
     });
   };
 
-  Expert.getLatestOpinionExperts = function(limit=15) {
+  Expert.getLatestOpinionExperts = function (limit = 15) {
     return sequelize.query(`
       SELECT
         expert_id,
@@ -196,141 +202,140 @@ module.exports = (sequelize, DataTypes) => {
       GROUP BY Date, expert_id
       ORDER BY Date DESC, id ASC
       LIMIT 0, :limit`, {
-      replacements: { limit: limit }
+      replacements: { limit },
     });
-  }
+  };
 
-  Expert.getExpertsByName = function(term, page = 1, limit = 15) {
+  Expert.getExpertsByName = function (term, page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.name) LIKE :term ) 
+        ( LOWER(e.name) LIKE :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
       replacements: {
         term: `%${term.toLowerCase()}%`,
-        limit: limit,
-        offset: (page - 1) * limit
+        limit,
+        offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(experts) {
-      return _.map(experts, expert => {
-        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-        return expert
-      });
-    });
-  }
+    }).then(experts => _.map(experts, (expert) => {
+      const result = expert.toJSON();
+      result.avatar = expert.avatar
+        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+        : '/assets/svgs/expert_profile_default.svg';
+      return result;
+    }));
+  };
 
-  Expert.searchExperts = function(term, limit = 5) {
+  Expert.searchExperts = function (term, limit = 5) {
     return sequelize.query(`
       SELECT
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
         e.avatar
       FROM New_expert AS e
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.name) LIKE :term ) 
+        ( LOWER(e.name) LIKE :term )
       ORDER BY e.name ASC`, {
       replacements: {
         term: `%${term.toLowerCase()}%`,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(experts) {
-      return {
-        rows: _.map(experts.slice(0, limit), expert => {
-          expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-          return expert
-        }),
-        total: experts.length
-      };
-    });
-  }
+    }).then(experts => ({
+      rows: _.map(experts.slice(0, limit), (expert) => {
+        const result = expert.toJSON();
+        result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+        return result;
+      }),
+      total: experts.length,
+    }));
+  };
 
-  Expert.getExpertsByCharacter = function(character, column = 'FirstName', page = 1, limit = 15) {
+  Expert.getExpertsByCharacter = function (character, column = 'FirstName', page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT 
-        e.id, 
-        e.name, 
-        e.FirstName AS first_name, 
-        e.LastName AS last_name, 
-        e.TITLE as title, 
-        e.COMPANY as company, 
-        IFNULL(o.total_opinion, 0) AS total_opinion, 
-        o.latest_opinion_date, 
+      SELECT
+        e.id,
+        e.name,
+        e.FirstName AS first_name,
+        e.LastName AS last_name,
+        e.TITLE as title,
+        e.COMPANY as company,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
         e.avatar
       FROM New_expert AS e
       LEFT JOIN (
-        SELECT 
-          o.expert_id, 
-          COUNT(o.expert_id) AS total_opinion, 
-          MAX(o.Date) AS latest_opinion_date 
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
         FROM New_opinion AS o
-        GROUP BY o.expert_id 
-        ORDER BY latest_opinion_date DESC) AS o 
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
-      WHERE 
+      WHERE
         e.id <> 1176 &&
-        ( LOWER(e.${column}) LIKE :term ) 
-      ORDER BY o.latest_opinion_date desc 
-      LIMIT :limit 
+        ( LOWER(e.${column}) LIKE :term )
+      ORDER BY o.latest_opinion_date desc
+      LIMIT :limit
       OFFSET :offset`, {
       replacements: {
         term: `${character.toLowerCase()}%`,
         limit,
-        offset: (page - 1) * limit
+        offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(function(experts) {
-      return _.map(experts, expert => {
-        expert.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-        return expert
-      });
-    });
-  }
+    }).then(experts => _.map(experts, (expert) => {
+      const result = expert.toJSON();
+      result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
+      return result;
+    }));
+  };
 
-  Expert.getExpertsTotalByCharacter = function(character, column = 'FirstName') {
+  Expert.getExpertsTotalByCharacter = function (character, column = 'FirstName') {
     return Expert.count({
-      where: { 
+      where: {
         $and: [
-          { 
+          {
             id: { $ne: 1176 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col(column)),
             {
-              $like: `${character}%`
-            }
-          )
+              $like: `${character}%`,
+            },
+          ),
         ],
       },
     });
-  }
+  };
 
   return Expert;
 };

@@ -75,51 +75,51 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'StickyComments',
 
-  data () {
-    return { opened: false }
+  data() {
+    return { opened: false };
   },
 
   computed: {
-    ...mapGetters([ 'numDisqusComments' ]),
+    ...mapGetters(['numDisqusComments']),
 
     roundedNumDisqusComments() {
-      const num = this.numDisqusComments
+      const num = this.numDisqusComments;
 
-      if (num > 50) return '50+'
-      if (num > 25) return '25+'
-      if (num > 10) return '10+'
+      if (num > 50) return '50+';
+      if (num > 25) return '25+';
+      if (num > 10) return '10+';
 
-      return num
-    }
+      return num;
+    },
   },
 
   mounted() {
     this.$nextTick(() => {
-      if (!this.$refs.commentsContainer) return
+      if (!this.$refs.commentsContainer) return;
 
       // Inserting the comments list fetched during page load outside of Vue
       // (see src/index.template.html)
       // This is because the Disqus comments script uses document.write that is
       // not compatible with how Vue works
-      this.$refs.commentsContainer.innerHTML = document.getElementsByClassName('dsq-widget-list')[0].outerHTML
-    })
+      this.$refs.commentsContainer.innerHTML = document.getElementsByClassName('dsq-widget-list')[0].outerHTML;
+    });
   },
 
   methods: {
     togglePanel() {
-      this.opened = !this.opened
+      this.opened = !this.opened;
     },
 
     closePanel() {
-      this.opened = false
-    }
+      this.opened = false;
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

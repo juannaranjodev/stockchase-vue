@@ -31,31 +31,31 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
 
   data() {
     return {
-      perPageOptions: [15, 30, 60, 120]
-    }
+      perPageOptions: [15, 30, 60, 120],
+    };
   },
 
   computed: {
     ...mapGetters(['company']),
 
-    perPage () {
-      return +this.$route.params.perPage || 15
+    perPage() {
+      return +this.$route.params.perPage || 15;
     },
   },
 
   methods: {
-    getUrl (perPage) {
-      return `/company/view/${this.company.id}/sort/date/page/1/direction/desc/max/${perPage}`
-    }
-  }
-}
+    getUrl(perPage) {
+      return `/company/view/${this.company.id}/sort/date/page/1/direction/desc/max/${perPage}`;
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

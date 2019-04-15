@@ -60,61 +60,62 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import { mapGetters } from 'vuex'
+import _ from 'lodash';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MarketCallGuestOpinion',
   props: {
     opinion: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     isTopPick: {
       type: Boolean,
-    }
+    },
   },
 
   computed: {
-    ...mapGetters([ 'loggedIn', 'user' ]),
+    ...mapGetters(['loggedIn', 'user']),
 
     signalClassName() {
-      return this.toClassName(this.opinion.Signal.name)
+      return this.toClassName(this.opinion.Signal.name);
     },
 
     isWatching() {
-      if (!this.loggedIn) return false
+      if (!this.loggedIn) return false;
 
-      const user = this.user
-      const userStocks = user.UserStocks || []
+      const { user } = this;
+      const userStocks = user.UserStocks || [];
 
-      return !!_.find(user.UserStocks, { user_id: user.id, company_id: this.opinion.Company.id })
-    }
+      return !!_.find(userStocks, { user_id: user.id, company_id: this.opinion.Company.id });
+    },
   },
 
   methods: {
     toClassName(signal) {
-      return _.snakeCase(signal)
+      return _.snakeCase(signal);
     },
 
     saveStock(e) {
-      e.preventDefault()
+      e.preventDefault();
 
-      this.$store.dispatch('CREATE_USER_STOCK', { company_id: this.opinion.Company.id })
+      this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.opinion.Company.id })
         .then(() => this.$root.$emit('bv::show::modal', 'modal_stock_saved'))
-        .catch(err => {
+        .catch((err) => {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            this.$root.$emit('bv::show::modal', 'modal_stock_saved')
-            return
+            this.$root.$emit('bv::show::modal', 'modal_stock_saved');
+            return;
           }
 
-          alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
-        })
-    }
-  }
-}
+          /* eslint-disable-next-line no-alert */
+          alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -67,6 +67,7 @@
 </template>
 
 <script>
+/* eslint-disable global-require */
 export default {
   name: 'Sponsors',
 
@@ -77,19 +78,19 @@ export default {
           name: 'Wealthica',
           content: 'Free Painless Net Worth Tracking',
           link: 'https://wealthica.com/?utm_source=Stockchase&amp;utm_medium=Text%20Link&amp;utm_campaign=Sidebar%20Link&amp;utm_term=Wealthica',
-          image: require('../../assets/images/wealthica-icon.png')
+          image: require('../../assets/images/wealthica-icon.png'),
         },
         {
           name: 'Questrade',
           content: '50$ in Comission Free Trades',
           link: 'http://www.questrade.com/?refid=ifugidvd',
-          image: require('../../assets/images/questrade-icon.png')
+          image: require('../../assets/images/questrade-icon.png'),
         },
         {
           name: 'Market Masters',
           content: 'Top Investors Reveal Tips & Tricks',
           link: 'https://www.amazon.ca/gp/product/177041343X/ref=as_li_tl?ie=UTF8&camp=15121&creative=330641&creativeASIN=177041343X&linkCode=as2&tag=stockchase-20&linkId=bf68d5e9186826e5fbfe5245f486bbaf',
-          image: require('../../assets/images/amazon-icon.png')
+          image: require('../../assets/images/amazon-icon.png'),
         },
         {
           name: 'Robin R. Speziale’s 72 rules on investing in Stocks.',
@@ -98,10 +99,11 @@ export default {
           image: require('../../assets/images/72rules.png'),
           featured: true,
         },
-      ]
-    }
+      ],
+    };
   },
-}
+};
+/* eslint-enable global-require */
 </script>
 
 <style lang="stylus" scoped>

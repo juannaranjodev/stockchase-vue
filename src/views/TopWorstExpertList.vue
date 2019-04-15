@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import TopWorstExpertsTabList from '../components/Experts/TopWorst/TopWorstExpertsTabList'
-import TopWorstExpertTable from '../components/Experts/TopWorst/TopWorstExpertsTable'
+import { mapGetters } from 'vuex';
+import TopWorstExpertsTabList from '../components/Experts/TopWorst/TopWorstExpertsTabList.vue';
+import TopWorstExpertTable from '../components/Experts/TopWorst/TopWorstExpertsTable.vue';
 
 export default {
   name: 'TopWorstExpertList',
@@ -27,30 +27,30 @@ export default {
   data() {
     return {
       selectedTab: 'top', // Or 'worst',
-    }
+    };
   },
 
   computed: {
-    ...mapGetters([ 'topExperts', 'worstExperts' ] ),
+    ...mapGetters(['topExperts', 'worstExperts']),
 
     experts() {
-      return this.selectedTab === 'top' ? this.topExperts: this.worstExperts
-    }
+      return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
+    },
   },
 
-  asyncData ({ store, route }) {
+  asyncData({ store }) {
     return Promise.all([
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
-    ])
+    ]);
   },
 
   methods: {
     changeTab(tab) {
-      this.selectedTab = tab
+      this.selectedTab = tab;
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

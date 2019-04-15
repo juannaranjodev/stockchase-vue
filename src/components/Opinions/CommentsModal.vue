@@ -67,18 +67,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import md5 from 'md5'
-import _ from 'lodash'
-import * as c from '../../constants'
-import UserReactions from '../UserReactions.vue'
+/* global DISQUSWIDGETS */
+import { mapGetters } from 'vuex';
+import md5 from 'md5';
+import _ from 'lodash';
+import * as c from '../../constants';
+import UserReactions from '../UserReactions.vue';
 
 export default {
   name: 'CommentsModal',
 
   components: { UserReactions },
 
-  data () {
+  data() {
     return {
       id: null,
       origin: '',
@@ -86,46 +87,46 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'opinions' ]),
+    ...mapGetters(['opinions']),
 
     item() {
-      return _.find(this.opinions, { id: this.id }) || {}
+      return _.find(this.opinions, { id: this.id }) || {};
     },
 
     disqusIdentifier() {
-      return md5(this.absoluteUrl)
+      return md5(this.absoluteUrl);
     },
 
     disqusShortName() {
-      return c.DISQUS_SHORTNAME
+      return c.DISQUS_SHORTNAME;
     },
 
     absoluteUrl() {
-      return `${this.origin}${this.item.url}`
-    }
+      return `${this.origin}${this.item.url}`;
+    },
   },
 
   mounted() {
-    this.origin = window.location.origin
+    this.origin = window.location.origin;
   },
 
   methods: {
     setupComments(id) {
-      this.id = id
+      this.id = id;
     },
 
-    hideModal (e) {
-      e && e.preventDefault()
-      this.$refs.commentsModal.hide()
+    hideModal(e) {
+      if (e) e.preventDefault();
+      this.$refs.commentsModal.hide();
     },
 
-    onModalHidden (e) {
+    onModalHidden() {
       // Reset id to guarantee re-rendering next time the modal is opened
-      this.id = null
-      DISQUSWIDGETS.getCount({ reset: true })
+      this.id = null;
+      DISQUSWIDGETS.getCount({ reset: true });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="stylus">

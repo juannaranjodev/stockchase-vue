@@ -4,8 +4,11 @@
   "author": "Wealthica Financial Technology Inc. <hello@wealthica.com> (https://wealthica.com/)",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .vue,.js src",
-    "lint:fix": "eslint --ext .vue,.js src --fix",
+    "lint": "npm run lint:client && npm run lint:server",
+    "lint:client": "eslint --ext .vue,.js src",
+    "lint:client:fix": "eslint --ext .vue,.js src --fix",
+    "lint:server": "eslint --ext .js api models",
+    "lint:server:fix": "eslint --ext .js api models --fix",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
     "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules"
@@ -15,6 +18,7 @@
     "npm": ">=4.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
     "bootstrap-vue": "^2.0.0-rc.11",
     "cheerio": "^1.0.0-rc.2",
@@ -66,7 +70,9 @@
     "chokidar": "^1.7.0",
     "css-loader": "^0.28.7",
     "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.17.1",
     "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^1.1.5",
     "friendly-errors-webpack-plugin": "^1.6.1",

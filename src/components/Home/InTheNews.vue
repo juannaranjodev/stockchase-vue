@@ -142,15 +142,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'InTheNews',
 
   computed: {
-    ...mapGetters([ 'blogPosts' ]),
+    ...mapGetters(['blogPosts']),
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

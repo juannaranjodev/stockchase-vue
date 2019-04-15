@@ -16,65 +16,65 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import * as c from '../constants'
-import { getPossibleRatings, getRatingImage } from '../util/rating'
+import _ from 'lodash';
+import { getPossibleRatings, getRatingImage } from '../util/rating';
 
 export default {
   name: 'UserReactions',
   props: {
     item: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     type: {
       type: String,
-      default: ''
+      default: '',
     },
   },
 
   data() {
     return {
       possibleRatings: getPossibleRatings(),
-    }
+    };
   },
 
   computed: {
     counts() {
-      return _.countBy(this.item.SocialRatings, 'rating')
+      return _.countBy(this.item.SocialRatings, 'rating');
     },
 
     ratingCounts() {
       return _.map(this.possibleRatings, rating => ({
         rating,
-        count: this.counts[rating] || 0
-      }))
+        count: this.counts[rating] || 0,
+      }));
     },
 
     rateActionName() {
       switch (this.type) {
-      case 'opinion':
-        return 'RATE_OPINION'
-      case 'company':
-        return 'RATE_COMPANY'
-      default:
-        return null
+        case 'opinion':
+          return 'RATE_OPINION';
+        case 'company':
+          return 'RATE_COMPANY';
+        default:
+          return null;
       }
-    }
+    },
   },
 
   methods: {
     rate(rating) {
-      this.$store.dispatch(this.rateActionName, { id: this.item.id, rating }).catch(err => {
-        alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`)
-      })
+      this.$store.dispatch(this.rateActionName, { id: this.item.id, rating }).catch((err) => {
+        /* eslint-disable-next-line no-alert */
+        alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`);
+      });
     },
 
     ratingImageFor(rating) {
-      return getRatingImage(rating)
+      return getRatingImage(rating);
     },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>

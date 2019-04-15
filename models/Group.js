@@ -1,7 +1,7 @@
-'use strict'
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-  var Group = sequelize.define('Group', {
+  const Group = sequelize.define('Group', {
     id: {
       type: DataTypes.INTEGER(8).UNSIGNED,
       primaryKey: true,

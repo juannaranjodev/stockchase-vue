@@ -1,47 +1,49 @@
-import Vue from 'vue'
-import App from './App.vue'
-import { createStore } from './store'
-import { createRouter } from './router'
-import { sync } from 'vuex-router-sync'
-import mixins from './mixins'
-import * as filters from './util/filters'
+import Vue from 'vue';
+import { sync } from 'vuex-router-sync';
 
 // TODO extract the following `Vue.use` to separate 'plugin' files
-import BootstrapVue from 'bootstrap-vue'
-Vue.use(BootstrapVue)
+import BootstrapVue from 'bootstrap-vue';
 
-import VueDisqus from 'vue-disqus'
-Vue.use(VueDisqus)
+import VueDisqus from 'vue-disqus';
 
-import SocialSharing from 'vue-social-sharing'
-Vue.use(SocialSharing)
+import SocialSharing from 'vue-social-sharing';
 
-import NoSSR from 'vue-no-ssr'
+import NoSSR from 'vue-no-ssr';
+
+import Ads from 'vue-google-adsense';
+import * as filters from './util/filters';
+import mixins from './mixins';
+import createRouter from './router';
+import createStore from './store';
+import App from './App.vue';
+
+Vue.use(BootstrapVue);
+Vue.use(VueDisqus);
+Vue.use(SocialSharing);
 // eslint-disable-next-line vue/match-component-file-name
-Vue.component('no-ssr', NoSSR)
+Vue.component('no-ssr', NoSSR);
+Vue.use(require('vue-script2'));
 
-import Ads from 'vue-google-adsense'
-Vue.use(require('vue-script2'))
-Vue.use(Ads.Adsense)
-Vue.use(Ads.InArticleAdsense)
-Vue.use(Ads.InFeedAdsense)
+Vue.use(Ads.Adsense);
+Vue.use(Ads.InArticleAdsense);
+Vue.use(Ads.InFeedAdsense);
 
 // register global mixins.
-Object.keys(mixins).forEach(key => Vue.mixin(mixins[key]))
+Object.keys(mixins).forEach(key => Vue.mixin(mixins[key]));
 
 // register global utility filters.
-Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
-export function createApp () {
+export default function createApp() {
   // create store and router instances
-  const store = createStore()
-  const router = createRouter()
+  const store = createStore();
+  const router = createRouter();
 
   // sync the router with the vuex store.
   // this registers `store.state.route`
-  sync(store, router)
+  sync(store, router);
 
   // create the app instance.
   // here we inject the router, store and ssr context to all child components,
@@ -49,11 +51,11 @@ export function createApp () {
   const app = new Vue({
     router,
     store,
-    render: h => h(App)
-  })
+    render: h => h(App),
+  });
 
   // expose the app, the router and the store.
   // note we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
-  return { app, router, store }
+  return { app, router, store };
 }

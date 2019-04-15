@@ -25,7 +25,7 @@ export default {
     rating: {
       type: [Number, String],
       default: 0,
-    }
+    },
   },
 
   computed: {
@@ -40,8 +40,8 @@ export default {
     countEmpty() {
       return 5 - Math.ceil(this.rating);
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

@@ -13,7 +13,12 @@
           </div>
 
           <div class="overview-section__right">
-            <div :class="{ 'overview-section__block': true, 'overview-section__block--no-margin': user.premium }">
+            <div
+              :class="{
+                'overview-section__block': true,
+                'overview-section__block--no-margin': user.premium,
+              }"
+            >
               <sign-up />
             </div>
 
@@ -27,7 +32,9 @@
           <div class="overview-section__left">
             <div class="overview-section__block">
               <div class="intro">
-                Stockchase compiles comments that experts make about stocks every day and helps you review how companies are thought of by investment experts. Sign up to get the latest news by email.
+                Stockchase compiles comments that experts make about stocks
+                every day and helps you review how companies are thought of by
+                investment experts. Sign up to get the latest news by email.
               </div>
             </div>
           </div>
@@ -40,7 +47,12 @@
             </div>
           </div>
 
-          <div :class="{ 'overview-section__right d-none d-lg-block': true, 'overview-section__right--empty': !shouldShowAd }">
+          <div
+            :class="{
+              'overview-section__right d-none d-lg-block': true,
+              'overview-section__right--empty': !shouldShowAd,
+            }"
+          >
             <div class="overview-section__block">
               <side-ad />
             </div>
@@ -93,22 +105,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import _ from 'lodash'
-import Discover from '../components/Home/Discover.vue'
-import MarketCall from '../components/Home/MarketCall.vue'
-import MarketCallGuests from '../components/Home/MarketCallGuests.vue'
-import MarketOutlook from '../components/Home/MarketOutlook.vue'
-import SignUp from '../components/Home/SignUp.vue'
-import Premium from '../components/Home/Premium.vue'
-import InTheNews from '../components/Home/InTheNews.vue'
+import { mapGetters } from 'vuex';
+import _ from 'lodash';
+import Discover from '../components/Home/Discover.vue';
+import MarketCall from '../components/Home/MarketCall.vue';
+import MarketCallGuests from '../components/Home/MarketCallGuests.vue';
+import MarketOutlook from '../components/Home/MarketOutlook.vue';
+import SignUp from '../components/Home/SignUp.vue';
+import Premium from '../components/Home/Premium.vue';
+import InTheNews from '../components/Home/InTheNews.vue';
 // import Sponsors from '../components/Home/Sponsors.vue'
 // import Newest from '../components/Home/Newest.vue'
 // import FollowUs from '../components/Home/FollowUs.vue'
-import LinkAd from '../components/Ads/LinkAd.vue'
-import SideAd from '../components/Ads/SideAd.vue'
-import DianomiAd from '../components/Ads/DianomiAd.vue'
-import OpinionsList from '../components/Opinions/List.vue'
+import LinkAd from '../components/Ads/LinkAd.vue';
+import SideAd from '../components/Ads/SideAd.vue';
+import DianomiAd from '../components/Ads/DianomiAd.vue';
+import OpinionsList from '../components/Opinions/List.vue';
 
 export default {
   name: 'Home',
@@ -131,14 +143,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters([ 'shouldShowAd', 'user', 'opinions' ]),
+    ...mapGetters(['shouldShowAd', 'user', 'opinions']),
 
-    displayedOpinions () {
-      return _.take(this.opinions, 10)
-    }
+    displayedOpinions() {
+      return _.take(this.opinions, 10);
+    },
   },
 
-  asyncData ({ store, route }) {
+  asyncData({ store }) {
     const queries = [
       // Top discover posts
       store.dispatch('FETCH_DISCOVER_POSTS'),
@@ -160,11 +172,11 @@ export default {
         date: 'recent',
       }),
       store.dispatch('FETCH_DISQUS_COMMENTS_COUNT'),
-    ]
+    ];
 
-    return Promise.all(queries)
+    return Promise.all(queries);
   },
-}
+};
 </script>
 
 <style lang="stylus">

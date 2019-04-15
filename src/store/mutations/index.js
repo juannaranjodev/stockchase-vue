@@ -1,92 +1,91 @@
-import Vue from 'vue'
-import _ from 'lodash'
-import expertMutations from './expert'
+import Vue from 'vue';
+import expertMutations from './expert';
 
 export default {
   ...expertMutations,
 
-  SET_OPINIONS: (state, opinions=[]) => {
-    opinions.forEach(opinion => {
+  SET_OPINIONS: (state, opinions = []) => {
+    opinions.forEach((opinion) => {
       if (opinion) {
-        Vue.set(state.opinions, opinion.id, opinion)
+        Vue.set(state.opinions, opinion.id, opinion);
       }
-    })
+    });
   },
 
-  UPDATE_OPINION: (state, opinion={}) => {
-    Vue.set(state.opinions, opinion.id, opinion)
+  UPDATE_OPINION: (state, opinion = {}) => {
+    Vue.set(state.opinions, opinion.id, opinion);
   },
 
-  SET_NUM_TOTAL_OPINIONS: (state, numTotalOpinions=1) => {
-    state.numTotalOpinions = numTotalOpinions
+  SET_NUM_TOTAL_OPINIONS: (state, numTotalOpinions = 1) => {
+    Vue.set(state, 'numTotalOpinions', numTotalOpinions);
   },
 
   SET_DATE: (state, date) => {
-    state.date = date
+    Vue.set(state, 'date', date);
   },
 
   SET_ADJACENT_DATES: (state, date) => {
-    state.adjacentDates = date
+    Vue.set(state, 'adjacentDates', date);
   },
 
   SET_OLDER_DATE: (state, date) => {
-    state.olderDate = date
+    Vue.set(state, 'olderDate', date);
   },
 
   SET_NEWER_DATE: (state, date) => {
-    state.newerDate = date
+    Vue.set(state, 'newerDate', date);
   },
 
-  SET_USER: (state, user={}) => {
-    user.loaded = true
-    state.user = user
+  SET_USER: (state, user = {}) => {
+    Vue.set(user, 'loaded', true);
+    Vue.set(state, 'user', user);
   },
 
-  SET_TOP_PICKS: (state, topPicks=[]) => {
-    state.topPicks = topPicks
+  SET_TOP_PICKS: (state, topPicks = []) => {
+    Vue.set(state, 'topPicks', topPicks);
   },
 
-  SET_TRENDING_STOCKS: (state, trendingStocks=[]) => {
-    state.trendingStocks = trendingStocks
+  SET_TRENDING_STOCKS: (state, trendingStocks = []) => {
+    Vue.set(state, 'trendingStocks', trendingStocks);
   },
 
-  SET_DISCOVER_POSTS: (state, discoverPosts=[]) => {
-    state.discoverPosts = discoverPosts
+  SET_DISCOVER_POSTS: (state, discoverPosts = []) => {
+    Vue.set(state, 'discoverPosts', discoverPosts);
   },
 
-  SET_LATEST_EXPERTS: (state, latestExperts=[]) => {
-    state.latestExperts = latestExperts
+  SET_LATEST_EXPERTS: (state, latestExperts = []) => {
+    Vue.set(state, 'latestExperts', latestExperts);
   },
 
-  SET_NEWEST_EXPERTS: (state, newestExperts=[]) => {
-    state.newestExperts = newestExperts
+  SET_NEWEST_EXPERTS: (state, newestExperts = []) => {
+    Vue.set(state, 'newestExperts', newestExperts);
   },
 
-  SET_NEWEST_COMPANIES: (state, newestCompanies=[]) => {
-    state.newestCompanies = newestCompanies
+  SET_NEWEST_COMPANIES: (state, newestCompanies = []) => {
+    Vue.set(state, 'newestCompanies', newestCompanies);
   },
 
-  SET_BLOG_POSTS: (state, blogPosts=[]) => {
-    state.blogPosts = blogPosts
+  SET_BLOG_POSTS: (state, blogPosts = []) => {
+    Vue.set(state, 'blogPosts', blogPosts);
   },
 
-  SET_LATEST_COMMENT: (state, latestComment={}) => {
-    state.latestComment = latestComment
+  SET_LATEST_COMMENT: (state, latestComment = {}) => {
+    Vue.set(state, 'latestComment', latestComment);
   },
 
-  SET_MARKET_CALL_GUESTS: (state, marketCallGuests=[]) => {
-    state.marketCallGuests = marketCallGuests
+  SET_MARKET_CALL_GUESTS: (state, marketCallGuests = []) => {
+    Vue.set(state, 'marketCallGuests', marketCallGuests);
   },
 
-  SET_PREMIUM_COMPANIES: (state, premiumCompanies=[]) => {
-    state.premiumCompanies = premiumCompanies
+  SET_PREMIUM_COMPANIES: (state, premiumCompanies = []) => {
+    Vue.set(state, 'premiumCompanies', premiumCompanies);
   },
 
   SET_DISQUS_COMMENTS_COUNT: (state, numDisqusComments) => {
-    state.numDisqusComments = numDisqusComments
+    Vue.set(state, 'numDisqusComments', numDisqusComments);
   },
 
-  SET_COMPANY: (state, company={}) => {
-    state.company = company
+  SET_COMPANY: (state, company = {}) => {
+    Vue.set(state, 'company', company);
   },
-}
+};

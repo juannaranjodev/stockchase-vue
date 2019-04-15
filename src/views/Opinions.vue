@@ -35,17 +35,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import moment from 'moment'
-import _ from 'lodash'
-import * as c from '../constants'
-import OpinionsHeader from '../components/Opinions/Header.vue'
-import OpinionsSlider from '../components/Opinions/Slider.vue'
-import OpinionsSummary from '../components/Opinions/Summary.vue'
-import LinkAd from '../components/Ads/LinkAd.vue'
-import DianomiAd from '../components/Ads/DianomiAd.vue'
-import DatePagination from '../components/DatePagination.vue'
-import OpinionsList from '../components/Opinions/List.vue'
+import { mapGetters } from 'vuex';
+import * as c from '../constants';
+import OpinionsHeader from '../components/Opinions/Header.vue';
+import OpinionsSlider from '../components/Opinions/Slider.vue';
+import OpinionsSummary from '../components/Opinions/Summary.vue';
+import LinkAd from '../components/Ads/LinkAd.vue';
+import DianomiAd from '../components/Ads/DianomiAd.vue';
+import DatePagination from '../components/DatePagination.vue';
+import OpinionsList from '../components/Opinions/List.vue';
 
 export default {
   name: 'Opinions',
@@ -63,42 +61,42 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'opinions'
-    }
+      default: 'opinions',
+    },
   },
 
   computed: {
-    ...mapGetters([ 'opinions', 'adFree' ]),
+    ...mapGetters(['opinions', 'adFree']),
 
     pageItems() {
       // Skip number paging & show all opinions for the date
-      if (this.adFree) return this.items
+      if (this.adFree) return this.items;
 
-      const startIndex = (this.currentPage - 1) * c.PER_PAGE
-      return this.items.slice(startIndex, startIndex + c.PER_PAGE)
+      const startIndex = (this.currentPage - 1) * c.PER_PAGE;
+      return this.items.slice(startIndex, startIndex + c.PER_PAGE);
     },
 
     currentPage() {
-      return +this.$route.params.page || 1
+      return +this.$route.params.page || 1;
     },
 
     items() {
-      return this.opinions
+      return this.opinions;
     },
 
     isOpinions() {
-      return this.type === 'opinions'
+      return this.type === 'opinions';
     },
 
     urlPattern() {
-      return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date'
-    }
+      return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date';
+    },
   },
 
   updated() {
-    DISQUSWIDGETS.getCount({ reset: true })
-  }
-}
+    window.DISQUSWIDGETS.getCount({ reset: true });
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

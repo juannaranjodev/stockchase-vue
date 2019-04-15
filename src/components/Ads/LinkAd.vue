@@ -12,15 +12,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'LinkAd',
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
-  }
-}
+    ...mapGetters(['shouldShowAd']),
+  },
+};
 </script>
 
 <style lang="stylus" scoped>

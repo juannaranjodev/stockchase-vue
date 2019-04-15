@@ -4,7 +4,8 @@
     class="fixed-ad-container d-lg-none"
   >
     <div class="ad">
-      <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50' ### Size: [[300,50]] -->
+      <!-- Async AdSlot 9 for Ad unit 'stockchase.com_StickyBottom_Mobile_300x50'
+           ### Size: [[300,50]] -->
       <!-- Adslot's refresh function: googletag.pubads().refresh([gptadslots[8]]) -->
       <div id="div-gpt-ad-9004875-9" />
       <!-- End AdSlot 9 -->
@@ -13,25 +14,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+/* global googletag */
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'MobileFooterAd',
 
   computed: {
-    ...mapGetters([ 'shouldShowAd' ]),
+    ...mapGetters(['shouldShowAd']),
   },
 
   watch: {
     shouldShowAd(should) {
-      if (!should) return
+      if (!should) return;
 
       this.$nextTick(() => {
-        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-9') })
-      })
-    }
+        googletag.cmd.push(() => { googletag.display('div-gpt-ad-9004875-9'); });
+      });
+    },
   },
-}
+};
 </script>
 
 <style lang="stylus" scoped>
