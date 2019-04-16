@@ -262,7 +262,7 @@ export default function createAPI() {
       ]);
 
       return {
-        ...company.toJSON(),
+        ...company,
         quote,
         data,
       };

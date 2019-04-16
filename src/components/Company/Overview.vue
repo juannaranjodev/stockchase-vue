@@ -13,6 +13,7 @@
         <div class="company-symbol">
           {{ company.symbol }}
           <img
+            v-if="company.latest_top_pick"
             src="~assets/svgs/top-pick-star.svg"
             width="20"
           >
