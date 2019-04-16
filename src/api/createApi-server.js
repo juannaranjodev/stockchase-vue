@@ -238,19 +238,32 @@ export default function createAPI() {
     async fetchCompanyById(id) {
       const company = await Company.getCompanyById(id);
 
-      const data = await new Promise((resolve) => {
-        request({
-          url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
-          json: true,
-        }, (err, response, body) => {
-          if (err) return resolve({}); // do not throw
+      const [data, quote] = await Promise.all([
+        new Promise((resolve) => {
+          request({
+            url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
+            json: true,
+          }, (err, response, body) => {
+            if (err) return resolve({}); // do not throw
 
-          return resolve(body || {});
-        });
-      });
+            return resolve(body || {});
+          });
+        }),
+        new Promise((resolve) => {
+          request({
+            url: `http://data.wealthica.com/api/securities/${company.symbol}`,
+            json: true,
+          }, (err, response, body) => {
+            if (err) return resolve({}); // do not throw
+
+            return resolve(body || {});
+          });
+        })
+      ]);
 
       return {
         ...company.toJSON(),
+        quote,
         data,
       };
     },

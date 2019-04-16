@@ -9,8 +9,10 @@ export function host(url) {
   return parts.join('.');
 }
 
-export function formatDate(date, format) {
-  return moment(date, 'YYYY-MM-DD').format(format || 'LL');
+export function formatDate(date, format = 'LL') {
+  if (moment.isMoment(date)) return date.format(format);
+
+  return moment(date, 'YYYY-MM-DD').format(format);
 }
 
 export function formatSignalName(signal) {
@@ -23,7 +25,6 @@ export function formatSignalName(signal) {
       return signal;
   }
 }
-
 
 export function formatNumber(number, format) {
   return numeral(number).format(format);

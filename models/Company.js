@@ -30,6 +30,16 @@ module.exports = (sequelize, DataTypes) => {
         return `/company/view/${this.id}/${this.symbol}`;
       },
     },
+    active_original: {
+      type: DataTypes.STRING(1),
+      field: 'active',
+    },
+    active: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return this.active_original === 'Y';
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,
