@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-worst-experts-container-title">
-      Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}
+      Top & Worst Experts<a href="#disclaimer">*</a> - {{ new Date() | formatDate('MMMM YYYY') }}
     </div>
     <div class="top-worst-experts-container-subtitle">
       We analyzed the performance of the expert's top picks as if
@@ -13,6 +13,15 @@
       @changeTab="changeTab"
     />
     <top-worst-expert-table :experts="experts" />
+    <div
+      id="disclaimer"
+      class="top-worst-experts-container-disclaimer"
+    >
+      * The Expert Ratings are based on analysis of the data collected
+      by the Stockchase editor team and might not be 100% accurate.
+      The Expert Ratings are not an indicator of future actual results.
+      This information is provided for illustrative purposes only.
+    </div>
   </div>
 </template>
 
@@ -86,4 +95,9 @@ export default {
     text-align: center
     margin-top: -16px
     margin-bottom: 32px
+
+  .top-worst-experts-container-disclaimer
+    font-size: 16px
+    margin-top: 24px
+    margin-bottom: 24px
 </style>
