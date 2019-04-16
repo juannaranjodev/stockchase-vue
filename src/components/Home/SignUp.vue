@@ -55,6 +55,7 @@
         </a>
       </div>
       <a
+        v-if="!user.premium"
         class="welcome-back__upgrade"
         href="https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
       >Upgrade to Reveal Experts Ratings</a>
