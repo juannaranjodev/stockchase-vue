@@ -41,8 +41,8 @@ export default {
 
   watch: {
     user(user) {
-      if (!user.admin && !user.premium) {
-        this.$router.replace('/');
+      if (user.admin && user.premium) {
+        window.location.href = window.location.origin;
       }
     },
   },
