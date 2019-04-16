@@ -3,6 +3,11 @@
     <div class="top-worst-experts-container-title">
       Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}
     </div>
+    <div class="top-worst-experts-container-subtitle">
+      We analyzed the performance of the expert's top picks as if
+      they were bought on the date the expert chose it as a Top Pick
+      and sold according to the chosen investing horizon.
+    </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
       @changeTab="changeTab"
@@ -75,4 +80,10 @@ export default {
     color: #2B3440
     text-align: center
     padding: 2rem
+
+  .top-worst-experts-container-subtitle
+    font-size: 16px
+    text-align: center
+    margin-top: -16px
+    margin-bottom: 32px
 </style>
