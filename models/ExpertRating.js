@@ -1,4 +1,5 @@
 'use strict';
+const inflection = require('inflection');
 
 module.exports = (sequelize, DataTypes) => {
   const ExpertRating = sequelize.define('ExpertRating', {
@@ -48,17 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       order: [['big_win', 'DESC']],
     });
   };
-
-  function titleCase(str) {
-    const urlStr = str.toLowerCase()
-      .replace(/[^\w ]+/g, '')
-      .replace(/ +/g, '-');
-    const splitStr = urlStr.toLowerCase().split('-');
-    for (let i = 0; i < splitStr.length; i++) {
-      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-    return splitStr.join('-');
-  }
 
   // Get top/worst experts
   ExpertRating.getTopOrWorstExperts = async function (top = true, limit = 25) {
@@ -112,7 +102,7 @@ module.exports = (sequelize, DataTypes) => {
         if (beforeExpertId !== expert.expert_id) {
           result.expertRank = expertRank++;
           result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-          result.url = `/expert/view/${expert.expert_id}/${titleCase(expert.name)}/rating`;
+          result.url = `/expert/view/${expert.expert_id}/${inflection.dasherize(inflection.titleize(expert.name))}/rating`;
           totalWinsById[beforeExpertId] = totalWins;
           totalLosesById[beforeExpertId] = totalLoses;
           beforeExpertId = expert.expert_id;
