@@ -2,7 +2,7 @@
   <div
     v-b-tooltip.hover
     class="top-worst-expert-rate"
-    :title="`Exact score: ${Math.round(rating * 100) / 100}
+    :title="`Score: ${Math.round(rating * 100) / 100}
       Total wins: ${totalWins}
       Total loses: ${totalLoses}`"
   >
