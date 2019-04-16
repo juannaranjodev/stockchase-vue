@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-worst-experts-container-title">
-      Stock Experts Top Picks Portfolios Ratings
+      Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"

@@ -33,12 +33,12 @@ export function formatPercentage(percentage, format = '0,0.00%') {
   return formatNumber(percentage, format);
 }
 
-export function percentageAgainst(numberator, denominator = 1.0) {
+export function percentageAgainst(numerator, denominator = 1.0) {
   if (denominator < 1e-6) {
     return '';
   }
 
-  return numberator / denominator;
+  return numerator / denominator;
 }
 
 export function stripTags(value) {
