@@ -37,7 +37,7 @@ export default {
     return state.user.ad_free;
   },
 
-  shouldShowAd(getters) {
+  shouldShowAd(state, getters) {
     return getters.user.loaded && !getters.adFree;
   },
 
