@@ -41,7 +41,7 @@ export default {
 
   watch: {
     user(user) {
-      if (user.admin && user.premium) {
+      if (!user.admin && !user.premium) {
         window.location.href = window.location.origin;
       }
     },

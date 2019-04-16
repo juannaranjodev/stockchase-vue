@@ -53,30 +53,30 @@
           />
         </td>
         <td>
-          <span>{{ expert.big_lose }}</span>
+          <span>{{ expert.big_lose || 0 }}</span>
           <span class="expert-tp-count-percent">
-            {{ getPercent(expert.big_lose, expert.totalLoses) }}
+            {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.lose }}</span>
+          <span>{{ expert.lose || 0 }}</span>
           <span class="expert-tp-count-percent">
-            {{ getPercent(expert.lose, expert.totalLoses) }}
+            {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.no_change }}</span>
+          <span>{{ expert.no_change || 0 }}</span>
         </td>
         <td>
-          <span>{{ expert.win }}</span>
+          <span>{{ expert.win || 0 }}</span>
           <span class="expert-tp-count-percent">
-            {{ getPercent(expert.win, expert.totalWins) }}
+            {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.big_win }}</span>
+          <span>{{ expert.big_win || 0 }}</span>
           <span class="expert-tp-count-percent">
-            {{ getPercent(expert.big_win, expert.totalWins) }}
+            {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
         </td>
       </tr>

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import numeral from 'numeral';
 import striptags from 'striptags';
 
 export function host(url) {
@@ -21,6 +22,23 @@ export function formatSignalName(signal) {
     default:
       return signal;
   }
+}
+
+
+export function formatNumber(number, format) {
+  return numeral(number).format(format);
+}
+
+export function formatPercentage(percentage, format = '0,0.00%') {
+  return formatNumber(percentage, format);
+}
+
+export function percentageAgainst(numberator, denominator = 1.0) {
+  if (denominator < 1e-6) {
+    return '';
+  }
+
+  return numberator / denominator;
 }
 
 export function stripTags(value) {
