@@ -1,4 +1,5 @@
 'use strict';
+
 const inflection = require('inflection');
 
 module.exports = (sequelize, DataTypes) => {
