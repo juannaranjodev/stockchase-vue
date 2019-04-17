@@ -2,9 +2,7 @@
   <div
     v-b-tooltip.hover
     class="top-worst-expert-rate"
-    :title="`Score: ${Math.round(rating * 100) / 100}
-      Total wins: ${totalWins}
-      Total loses: ${totalLoses}`"
+    :title="titleText"
   >
     <img
       v-for="(count, index) in countWhole"
@@ -53,6 +51,12 @@ export default {
 
     countEmpty() {
       return 5 - Math.ceil(this.rating);
+    },
+
+    titleText() {
+      return `Score: ${this.$options.filters.rounding(this.rating)}
+      Total wins: ${this.totalWins}
+      Total loses: ${this.totalLoses}`;
     },
   },
 };

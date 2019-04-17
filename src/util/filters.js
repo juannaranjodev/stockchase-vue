@@ -41,6 +41,10 @@ export function percentageAgainst(numerator, denominator = 1.0) {
   return numerator / denominator;
 }
 
+export function rounding(value) {
+  return numeral(value).format('0,0[.][00]');
+}
+
 export function stripTags(value) {
   return striptags(value);
 }
