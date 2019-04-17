@@ -37,5 +37,7 @@ module.exports = {
     "vue/space-unary-ops": "error",
     "vue/v-on-function-call": ["error", "never"],
     "prefer-promise-reject-errors": "off",
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   }
 }

@@ -2,6 +2,8 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+
 const { VueLoaderPlugin } = require('vue-loader')
 const _ = require('lodash')
 
@@ -66,7 +68,7 @@ module.exports = {
           resolve('models'),
         ],
         options: {
-          presets: ['env']
+          presets: ['@babel/preset-env']
         }
       },
       {
@@ -109,9 +111,7 @@ module.exports = {
     ...(isProd
       ? [
           new VueLoaderPlugin(),
-          new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false },
-          }),
+          new UglifyJSPlugin(),
           new webpack.optimize.ModuleConcatenationPlugin(),
           new ExtractTextPlugin({
             filename: 'common.[chunkhash].css'
