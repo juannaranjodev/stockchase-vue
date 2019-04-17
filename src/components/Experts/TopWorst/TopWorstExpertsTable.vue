@@ -46,22 +46,38 @@
           <div class="expert-period">
             {{ expert.period }}
           </div>
-          <top-worst-expert-rating :rating="expert.rate" />
+          <top-worst-expert-rating
+            :rating="expert.rate"
+            :total-loses="expert.totalLoses"
+            :total-wins="expert.totalWins"
+          />
         </td>
         <td>
-          <span>{{ expert.big_lose }}</span>
+          <span>{{ expert.big_lose || 0 }}</span>
+          <span class="expert-tp-count-percent">
+            {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+          </span>
         </td>
         <td>
-          <span>{{ expert.lose }}</span>
+          <span>{{ expert.lose || 0 }}</span>
+          <span class="expert-tp-count-percent">
+            {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+          </span>
         </td>
         <td>
-          <span>{{ expert.no_change }}</span>
+          <span>{{ expert.no_change || 0 }}</span>
         </td>
         <td>
-          <span>{{ expert.win }}</span>
+          <span>{{ expert.win || 0 }}</span>
+          <span class="expert-tp-count-percent">
+            {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
+          </span>
         </td>
         <td>
-          <span>{{ expert.big_win }}</span>
+          <span>{{ expert.big_win || 0 }}</span>
+          <span class="expert-tp-count-percent">
+            {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
+          </span>
         </td>
       </tr>
     </tbody>
@@ -132,4 +148,9 @@ export default {
       margin: 0
       font-size: 12px
       opacity: 0.35
+
+  .expert-tp-count-percent
+    font-size: 12px
+    opacity: 0.35
+    padding-left: 4px
 </style>

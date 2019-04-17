@@ -1,13 +1,27 @@
 <template>
   <div class="container">
     <div class="top-worst-experts-container-title">
-      Stock Experts Top Picks Portfolios Ratings
+      Top & Worst Experts<a href="#disclaimer">*</a> - {{ new Date() | formatDate('MMMM YYYY') }}
+    </div>
+    <div class="top-worst-experts-container-subtitle">
+      We analyzed the performance of the expert's top picks as if
+      they were bought on the date the expert chose it as a Top Pick
+      and sold according to the chosen investing horizon.
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
       @changeTab="changeTab"
     />
     <top-worst-expert-table :experts="experts" />
+    <div
+      id="disclaimer"
+      class="top-worst-experts-container-disclaimer"
+    >
+      * The Expert Ratings are based on analysis of the data collected
+      by the Stockchase editor team and might not be 100% accurate.
+      The Expert Ratings are not an indicator of future actual results.
+      This information is provided for illustrative purposes only.
+    </div>
   </div>
 </template>
 
@@ -31,10 +45,19 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['topExperts', 'worstExperts']),
+    ...mapGetters(['user', 'topExperts', 'worstExperts']),
 
     experts() {
       return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
+    },
+  },
+
+
+  watch: {
+    user(user) {
+      if (!user.admin && !user.premium) {
+        window.location.href = '/';
+      }
     },
   },
 
@@ -66,4 +89,15 @@ export default {
     color: #2B3440
     text-align: center
     padding: 2rem
+
+  .top-worst-experts-container-subtitle
+    font-size: 16px
+    text-align: center
+    margin-top: -16px
+    margin-bottom: 32px
+
+  .top-worst-experts-container-disclaimer
+    font-size: 16px
+    margin-top: 24px
+    margin-bottom: 24px
 </style>

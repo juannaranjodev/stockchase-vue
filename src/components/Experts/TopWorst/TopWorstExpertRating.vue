@@ -1,5 +1,9 @@
 <template>
-  <div class="top-worst-expert-rate">
+  <div
+    v-b-tooltip.hover
+    class="top-worst-expert-rate"
+    :title="titleText"
+  >
     <img
       v-for="(count, index) in countWhole"
       :key="`whole-star-${index}`"
@@ -26,6 +30,14 @@ export default {
       type: [Number, String],
       default: 0,
     },
+    totalWins: {
+      type: [Number],
+      default: 0,
+    },
+    totalLoses: {
+      type: [Number],
+      default: 0,
+    },
   },
 
   computed: {
@@ -39,6 +51,12 @@ export default {
 
     countEmpty() {
       return 5 - Math.ceil(this.rating);
+    },
+
+    titleText() {
+      return `Score: ${this.$options.filters.rounding(this.rating)}
+      Total wins: ${this.totalWins}
+      Total loses: ${this.totalLoses}`;
     },
   },
 };

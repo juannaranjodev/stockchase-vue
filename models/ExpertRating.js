@@ -1,5 +1,7 @@
 'use strict';
 
+const { dasherize, titleize } = require('inflection');
+
 module.exports = (sequelize, DataTypes) => {
   const ExpertRating = sequelize.define('ExpertRating', {
     expert_id: {
@@ -89,18 +91,90 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then((experts) => {
+      const results = [];
       let beforeExpertId = null;
       let expertRank = 1;
-      return experts.map((expert) => {
-        const result = expert.toJSON();
-        result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-        result.url = `/expert/view/${expert.expert_id}/${expert.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
+      let totalWins = 0;
+      let totalLoses = 0;
+      let totalBigWins = 0;
+      let totalBigLoses = 0;
+      let totalNoChanges = 0;
+      const totalWinsById = {};
+      const totalLosesById = {};
+      const totalBigLosesById = {};
+      const totalBigWinsById = {};
+      const totalNoChangesById = {};
+
+      experts.forEach((expert) => {
         if (beforeExpertId !== expert.expert_id) {
-          beforeExpertId = expert.expert_id;
+          const result = { ...expert };
           result.expertRank = expertRank++;
+          result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
+          result.url = `/expert/view/${expert.expert_id}/${dasherize(titleize(expert.name))}/rating`;
+          results.push(result);
+
+          totalWinsById[beforeExpertId] = totalWins;
+          totalLosesById[beforeExpertId] = totalLoses;
+          totalBigWinsById[beforeExpertId] = totalBigWins;
+          totalBigLosesById[beforeExpertId] = totalBigLoses;
+          totalNoChangesById[beforeExpertId] = totalNoChanges;
+          beforeExpertId = expert.expert_id;
+          totalWins = 0;
+          totalLoses = 0;
+          totalBigWins = 0;
+          totalBigLoses = 0;
+          totalNoChanges = 0;
         }
+        totalWins += expert.win;
+        totalLoses += expert.lose;
+        totalBigWins += expert.big_win;
+        totalBigLoses += expert.big_lose;
+        totalNoChanges += expert.no_change;
+
+        results.push(expert);
+      });
+
+      totalWinsById[beforeExpertId] = totalWins;
+      totalLosesById[beforeExpertId] = totalLoses;
+      totalBigWinsById[beforeExpertId] = totalBigWins;
+      totalBigLosesById[beforeExpertId] = totalBigLoses;
+      totalNoChangesById[beforeExpertId] = totalNoChanges;
+
+      results.map((expert) => {
+        const result = expert;
+        if (expert.expertRank) {
+          result.period = 'Overall';
+          result.win = totalWinsById[expert.expert_id];
+          result.lose = totalLosesById[expert.expert_id];
+          result.big_win = totalBigWinsById[expert.expert_id];
+          result.big_lose = totalBigLosesById[expert.expert_id];
+          result.no_change = totalNoChangesById[expert.expert_id];
+        }
+
+        result.totalWins = expert.win + expert.big_win;
+        result.totalLoses = expert.lose + expert.big_lose;
+
+        if (!expert.expertRank) {
+          const diffWinsAndLoses = result.totalWins - result.totalLoses;
+          let rate;
+          if (diffWinsAndLoses > 10) {
+            rate = 5;
+          } else if (diffWinsAndLoses > 0) {
+            rate = 4;
+          } else if (diffWinsAndLoses === 0) {
+            rate = 3;
+          } else if (diffWinsAndLoses > -11) {
+            rate = 2;
+          } else {
+            rate = 1;
+          }
+          result.rate = rate;
+        }
+
         return result;
       });
+
+      return results;
     });
   };
 
