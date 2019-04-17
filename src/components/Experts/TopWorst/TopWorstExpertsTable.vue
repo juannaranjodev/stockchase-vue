@@ -100,14 +100,6 @@ export default {
       required: true,
     },
   },
-
-  methods: {
-    getPercent(a, b) {
-      if (a < 1) return '';
-      const v = b < 1 ? 0.0 : Math.round(a * 1000 / b) / 10;
-      return `(${v}%)`;
-    },
-  },
 };
 </script>
 
