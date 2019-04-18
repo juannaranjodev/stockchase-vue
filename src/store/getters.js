@@ -37,8 +37,8 @@ export default {
     return state.user.ad_free;
   },
 
-  shouldShowAd(state, getters) {
-    return getters.user.loaded && !getters.adFree;
+  shouldShowAd(state) {
+    return state.user.loaded && !state.user.ad_free;
   },
 
   topPicks(state) {

@@ -9,3 +9,4 @@ yarn-error.log
 .env.*
 docker-compose.override.yml
 *.swp
+tmp/

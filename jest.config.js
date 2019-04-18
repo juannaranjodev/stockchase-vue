@@ -5,6 +5,7 @@ module.exports = {
     'json',
     'vue',
   ],
+  cacheDirectory: 'tmp',
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
