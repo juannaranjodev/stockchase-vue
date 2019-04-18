@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
-        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=${baseUrl}/assets/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
     url: {
       type: DataTypes.VIRTUAL,
-      get() {
-        return `/company/view/${this.id}/${this.symbol}`;
+      get: function() {
+        return `/company/view/${this.id}/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}`;
       },
     },
     active_original: {
@@ -141,6 +141,93 @@ module.exports = (sequelize, DataTypes) => {
       return result;
     });
   };
+
+  Company.getCompaniesByPage = function(page = 1, limit = 25) {
+    return sequelize.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.symbol,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date
+      FROM New_company AS c
+      LEFT JOIN (
+        SELECT
+          o.company_id,
+          COUNT(o.company_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
+        FROM New_opinion AS o
+        GROUP BY o.company_id
+        ORDER BY latest_opinion_date DESC) AS o
+        ON o.company_id = c.id
+      WHERE
+        c.id <> 1970
+      ORDER BY o.latest_opinion_date desc
+      LIMIT :limit
+      OFFSET :offset`, {
+      replacements: {
+        limit: limit,
+        offset: (page - 1) * limit
+      },
+      type: sequelize.QueryTypes.SELECT,
+    }).then(function(companies) {
+      return companies;
+    });
+  };
+
+  Company.getCompaniesByName = function(term = null, page = 1, limit = 25) {
+    return sequelize.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.symbol,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date
+      FROM New_company AS c
+      LEFT JOIN (
+        SELECT
+          o.company_id,
+          COUNT(o.company_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
+        FROM New_opinion AS o
+        GROUP BY o.company_id
+        ORDER BY latest_opinion_date DESC) AS o
+        ON o.company_id = c.id
+      WHERE
+        c.id <> 1970 &&
+        ( LOWER(c.name) LIKE :term OR LOWER(c.symbol) LIKE :term )
+      ORDER BY o.latest_opinion_date desc
+      LIMIT :limit
+      OFFSET :offset`, {
+      replacements: {
+        term: `%${term.toLowerCase()}%`,
+        limit,
+        offset: (page - 1) * limit
+      },
+      type: sequelize.QueryTypes.SELECT,
+    }).then(function(companies) {
+      return companies;
+    });
+  };
+
+  Company.getTotalCompanies = async function(term = null){
+    var result = await Company.count({
+      where: term ? { 
+        $and: [
+          { 
+            id: { $ne: 1970 },
+          },
+          sequelize.where(
+            sequelize.fn('lower', sequelize.col('name')),
+            {
+              $like: `%${term.toLowerCase()}%`
+            }
+          )
+        ],
+      } : { id: { $ne: 1970 } },
+    });
+    return result;
+  }
 
   return Company;
 };
