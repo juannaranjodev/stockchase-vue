@@ -37,7 +37,9 @@ router.use((req, res, next) => {
   if (!req.user || !req.user.active) return res.status(401).end();
 
   // Check for sessions older than 30 days
-  if (req.session.last_activity + (60 * 60 * 24 * 30) < Date.now() / 1000) return res.status(401).end();
+  if (req.session.last_activity + (60 * 60 * 24 * 30) < Date.now() / 1000) {
+    return res.status(401).end();
+  }
 
   next();
 });

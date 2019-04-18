@@ -1,0 +1,14 @@
+<svg width="10" height="11" viewBox="0 0 10 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>green arrow</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-1023 559)">
+<g id="green arrow">
+<g id="green arrow">
+<use xlink:href="#path0_fill" transform="translate(1023.28 -558.586)" fill="#38C432"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" fill-rule="evenodd" d="M 0.222695 4.9241C -0.0398783 4.74905 -0.0766215 4.37759 0.146462 4.15451L 4.0081 0.292877C 4.3986 -0.0976257 5.03178 -0.0976257 5.42228 0.292877L 9.28397 4.15451C 9.507 4.37759 9.47025 4.74905 9.20768 4.9241L 8.55705 5.35788C 8.35844 5.49033 8.09379 5.46384 7.92533 5.29459L 5.71513 3.07431L 5.71513 9.58578C 5.71513 10.1381 5.26749 10.5858 4.71513 10.5858C 4.16288 10.5858 3.71513 10.1381 3.71513 9.58578L 3.71513 3.09714L 1.50504 5.29727C 1.33646 5.46512 1.07291 5.49088 0.874917 5.35892L 0.222695 4.9241Z"/>
+</defs>
+</svg>

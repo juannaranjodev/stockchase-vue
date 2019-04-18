@@ -1,0 +1,23 @@
+<svg width="10" height="11" viewBox="0 0 10 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>red arrow 2</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-1022 488)">
+<rect x="1022" y="-488" width="10" height="11" fill="#FFFFFF"/>
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M 2 -1235L 1442 -1235L 1442 2197L 2 2197L 2 -1235Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="My Portfolio" clip-path="url(#clip-0)">
+<path d="M 2 -1235L 1442 -1235L 1442 2197L 2 2197L 2 -1235Z" fill="#FFFFFF"/>
+<g id="red arrow 2">
+<g id="red arrow 2">
+<g id="green arrow">
+<use xlink:href="#path0_fill" transform="matrix(1 0 0 -1 1022.28 -477)" fill="#F23434"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" fill-rule="evenodd" d="M 5.71513 3.07436L 5.71513 9.58578C 5.71513 10.1381 5.26749 10.5858 4.71513 10.5858C 4.16288 10.5858 3.71513 10.1381 3.71513 9.58578L 3.71513 3.09716L 1.50504 5.29726C 1.3364 5.46511 1.07285 5.4909 0.874917 5.35894L 0.222695 4.9241C -0.0398783 4.74908 -0.0766215 4.37762 0.146462 4.15453L 4.0081 0.2929C 4.3986 -0.0976334 5.03178 -0.0976334 5.42228 0.2929L 9.28397 4.15453C 9.507 4.37762 9.47025 4.74908 9.20768 4.9241L 8.55705 5.3579C 8.35844 5.49032 8.09379 5.46383 7.92533 5.29461L 5.71513 3.07436Z"/>
+</defs>
+</svg>

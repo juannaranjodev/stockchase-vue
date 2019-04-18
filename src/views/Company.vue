@@ -19,9 +19,7 @@
         <div class="overview-section overview-section--with-ad">
           <div class="overview-section__left">
             <div class="overview-section__block">
-              <div>
-                <h1>Company chart</h1>
-              </div>
+              <company-chart />
             </div>
           </div>
 
@@ -161,6 +159,7 @@ import CompanyHeader from '../components/Company/Header.vue';
 import CompanyOverview from '../components/Company/Overview.vue';
 import CompanyAbout from '../components/Company/About.vue';
 import CompanyLinks from '../components/Company/Links.vue';
+import CompanyChart from '../components/Company/Chart.vue';
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
@@ -184,6 +183,7 @@ export default {
     CompanyOverview,
     CompanyAbout,
     CompanyLinks,
+    CompanyChart,
     JoinDiscussion,
     LinkAd,
     DianomiAd,
@@ -402,7 +402,6 @@ export default {
 
     &__left
       flex 1
-      width auto
 
     &__right
       width 300px

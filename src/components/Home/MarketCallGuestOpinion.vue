@@ -26,10 +26,7 @@
         >
           <span>[{{ opinion.Company.symbol }}]</span>
         </a>
-        <div
-          v-if="!isTopPick"
-          class="opinion__save"
-        >
+        <div class="opinion__save">
           <a
             v-if="!isWatching"
             href="#"

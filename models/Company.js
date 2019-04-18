@@ -30,6 +30,16 @@ module.exports = (sequelize, DataTypes) => {
         return `/company/view/${this.id}/${this.symbol}`;
       },
     },
+    active_original: {
+      type: DataTypes.STRING(1),
+      field: 'active',
+    },
+    active: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return this.active_original === 'Y';
+      },
+    },
   }, {
     timestamps: false,
     underscored: true,
@@ -98,15 +108,30 @@ module.exports = (sequelize, DataTypes) => {
     return Company.findOne({
       where: { id },
       attributes: {
-        include: [[sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count']],
+        include: [
+          [sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count'],
+        ],
       },
       include: [
         {
           model: sequelize.models.UserStock,
           attributes: [],
         },
+        {
+          model: sequelize.models.Opinion,
+          where: { signal_id: [16 /* Top Pick */, 9] },
+          include: [{ model: sequelize.models.Signal }],
+          order: [['id', 'DESC']],
+          limit: 1,
+        },
         { model: sequelize.models.SocialRating },
       ],
+    }).then((company) => {
+      const result = company.toJSON();
+      [result.latest_top_pick] = company.Opinions;
+      delete result.Opinions;
+
+      return result;
     });
   };
 
