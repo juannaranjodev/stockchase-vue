@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
         {
           model: sequelize.models.Opinion,
           where: { signal_id: [16 /* Top Pick */, 9] },
-          include: [ { model: sequelize.models.Signal } ],
+          include: [{ model: sequelize.models.Signal }],
           order: [['id', 'DESC']],
           limit: 1,
         },
@@ -128,7 +128,7 @@ module.exports = (sequelize, DataTypes) => {
       ],
     }).then((company) => {
       const result = company.toJSON();
-      result.latest_top_pick = company.Opinions[0];
+      [result.latest_top_pick] = company.Opinions;
       delete result.Opinions;
 
       return result;
