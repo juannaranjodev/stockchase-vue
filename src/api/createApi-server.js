@@ -281,5 +281,13 @@ export default function createAPI() {
     async fetchExpertTopPicks(id, limit) {
       return Opinion.getExpertTopPicks(id, limit);
     },
+    
+    async fetchCompaniesWithOpinions (page = 1, limit = 25) {
+      const companies = await Company.getCompaniesByPage(page, limit);
+
+      return {
+        companies,
+      }
+    },
   };
 }
