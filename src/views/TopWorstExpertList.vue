@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-worst-experts-container-title">
-      Top & Worst Experts<a href="#disclaimer">*</a> - {{ new Date() | formatDate('MMMM YYYY') }}
+      Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}<a href="#disclaimer">*</a>
     </div>
     <div class="top-worst-experts-container-subtitle">
       We analyzed the performance of the expert's top picks as if
