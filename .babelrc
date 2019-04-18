@@ -1,16 +1,17 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "modules": false
-      }
-    ],
-    "stage-2"
+    ["@babel/preset-env", {
+      "useBuiltIns": false
+    }]
   ],
   "plugins": [
-    "syntax-dynamic-import",
-    "transform-vue-jsx",
-    "transform-runtime"
+    "@babel/plugin-syntax-dynamic-import",
+    "@vue/babel-plugin-transform-vue-jsx",
+    "@babel/plugin-transform-runtime",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions"
   ]
 }
