@@ -125,4 +125,12 @@ export default {
   expertJoinDate(state) {
     return state.expertJoinDate;
   },
+
+  companies(state) {
+    return state.companies;
+  },
+
+  totalCompanies(state) {
+    return state.totalCompanies;
+  }
 };

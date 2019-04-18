@@ -284,10 +284,14 @@ export default function createAPI() {
     
     async fetchCompaniesWithOpinions (page = 1, limit = 25) {
       const companies = await Company.getCompaniesByPage(page, limit);
+    },
 
-      return {
-        companies,
-      }
+    async getCompaniesWithOpinions (page = 1, limit = 25) {
+      return await Company.getCompaniesByPage(page, limit);
+    },
+
+    async getTotalCompanies(term = null){
+      return Company.getTotalCompanies(term);
     },
   };
 }

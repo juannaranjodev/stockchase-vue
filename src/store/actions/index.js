@@ -2,9 +2,11 @@ import _ from 'lodash';
 import api from '../../api';
 import * as c from '../../constants';
 import expertActions from './expert';
+import companyActions from './company';
 
 export default {
   ...expertActions,
+  ...companyActions,
 
   FETCH_DAILY_OPINIONS: ({ commit }, urlParams) => {
     const { type, page } = urlParams;
