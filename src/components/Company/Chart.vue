@@ -44,7 +44,7 @@
         >
         <img
           v-if="company.quote.change > 0"
-          src="~assets/svgs/red_arrow.svg"
+          src="~assets/svgs/green_arrow.svg"
           width="10"
         >
         <div
