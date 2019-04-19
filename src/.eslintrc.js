@@ -7,6 +7,13 @@ module.exports = {
     "airbnb-base",
     "plugin:vue/recommended",
   ],
+  settings: {
+    "import/resolver": {
+      webpack: {
+        config: 'build/webpack.base.config.js'
+      }
+    },
+  },
   rules: {
     "vue/array-bracket-spacing": ["error", "always"],
     "vue/arrow-spacing": ["error", { "before": true, "after": true }],

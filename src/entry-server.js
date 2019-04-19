@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import createApp from './app';
 
 const isDev = process.env.NODE_ENV !== 'production';

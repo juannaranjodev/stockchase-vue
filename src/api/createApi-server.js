@@ -258,7 +258,7 @@ export default function createAPI() {
 
             return resolve(body || {});
           });
-        })
+        }),
       ]);
 
       return {

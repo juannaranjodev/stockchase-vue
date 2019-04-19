@@ -95,6 +95,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+/* eslint-disable-next-line import/no-extraneous-dependencies */
 import { setTimeout, clearTimeout } from 'timers';
 
 let wait;

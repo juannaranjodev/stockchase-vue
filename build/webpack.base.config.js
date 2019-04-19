@@ -31,11 +31,10 @@ module.exports = {
     },
   },
   module: {
-    noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
       {
         enforce: 'pre',
-        test: /\.(vue)$/,
+        test: /\.(vue,js)$/,
         loader: 'eslint-loader',
         include: [
           resolve('src'),
@@ -60,6 +59,7 @@ module.exports = {
           resolve('node_modules/bootstrap-vue'),
           resolve('node_modules/vue-disqus'),
         ]),
+        options: { cacheDirectory: true },
       },
       {
         test: /\.js$/,
@@ -68,7 +68,8 @@ module.exports = {
           resolve('models'),
         ],
         options: {
-          presets: ['@babel/preset-env']
+          presets: ['@babel/preset-env'],
+          cacheDirectory: true,
         }
       },
       {

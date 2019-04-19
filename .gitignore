@@ -7,6 +7,7 @@ yarn-error.log
 *.iml
 .env
 .env.*
+!.env.example
 docker-compose.override.yml
 *.swp
 tmp/

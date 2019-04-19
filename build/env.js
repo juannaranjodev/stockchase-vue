@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 
 const baseEnv = {
   DISQUS_SHORTNAME: process.env.DISQUS_SHORTNAME,
+  APP_URL: process.env.APP_URL,
 }
 const serverEnv = merge(baseEnv, {
   DATABASE_URL: process.env.DATABASE_URL,
