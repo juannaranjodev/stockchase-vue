@@ -179,9 +179,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(experts => _.map(experts, (expert) => {
-      const result = expert.toJSON();
-      result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-      return result;
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+      };
     }));
   };
 
@@ -241,11 +244,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(experts => _.map(experts, (expert) => {
-      const result = expert.toJSON();
-      result.avatar = expert.avatar
-        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-        : '/assets/svgs/expert_profile_default.svg';
-      return result;
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+      };
     }));
   };
 
@@ -270,9 +274,12 @@ module.exports = (sequelize, DataTypes) => {
       type: sequelize.QueryTypes.SELECT,
     }).then(experts => ({
       rows: _.map(experts.slice(0, limit), (expert) => {
-        const result = expert.toJSON();
-        result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-        return result;
+        return {
+          ...expert,
+          avatar: expert.avatar
+            ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+            : '/assets/svgs/expert_profile_default.svg',
+        };
       }),
       total: experts.length,
     }));
@@ -313,9 +320,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(experts => _.map(experts, (expert) => {
-      const result = expert.toJSON();
-      result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svgs/expert_profile_default.svg';
-      return result;
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+      };
     }));
   };
 
