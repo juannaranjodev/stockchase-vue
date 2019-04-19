@@ -4,9 +4,11 @@
       Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}<a href="#disclaimer">*</a>
     </div>
     <div class="top-worst-experts-container-subtitle">
-      We analyzed the performance of the expert's top picks as if
-      they were bought on the date the expert chose it as a Top Pick
-      and sold according to the chosen investing horizon.
+      <strong>Premium Exclusive</strong><br>
+      Here are the Top 25 and Worst 25 stock experts according to Top Picks performance so far.
+      We analyzed the performance of the expert's top picks as if they were bought on the date
+      the expert chose it as a Top Pick and sold according to the chosen investing horizon.
+      Ratings are updated weekly.
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"

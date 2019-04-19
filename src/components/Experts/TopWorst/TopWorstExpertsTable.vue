@@ -10,11 +10,12 @@
         <th>No Change</th>
         <th>Win</th>
         <th>Big Win</th>
+        <th />
       </tr>
     </thead>
     <tbody>
       <tr
-        v-for="(expert, rateIndex) in experts"
+        v-for="(expert, rateIndex) in collapsedExperts"
         :key="`${expert.expert_id}-${rateIndex}`"
       >
         <td>
@@ -79,6 +80,17 @@
             {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
         </td>
+        <td>
+          <i
+            v-if="expert.expertRank"
+            :class="{
+              fas: true,
+              'fa-angle-down': collapsedStatus[expert.expert_id],
+              'fa-angle-up': !collapsedStatus[expert.expert_id],
+            }"
+            @click="toggleCollapse(expert.expert_id)"
+          />
+        </td>
       </tr>
     </tbody>
   </table>
@@ -98,6 +110,41 @@ export default {
     experts: {
       type: Array,
       required: true,
+    },
+  },
+
+  data() {
+    return {
+      collapsedStatus: this.initCollapsedStatus(this.experts),
+    };
+  },
+
+  computed: {
+    collapsedExperts() {
+      return this.experts
+        .filter(expert => expert.expertRank || !this.collapsedStatus[expert.expert_id]);
+    },
+  },
+
+  methods: {
+    toggleCollapse(expertId) {
+      this.collapsedStatus[expertId] = !this.collapsedStatus[expertId];
+    },
+
+    initCollapsedStatus(experts) {
+      const collapsedStatus = {};
+      experts.filter(expert => expert.expertRank)
+        .forEach((expert) => {
+          collapsedStatus[expert.expert_id] = true;
+        });
+
+      return collapsedStatus;
+    },
+  },
+
+  watch: {
+    experts(newExperts) {
+      this.collapsedStatus = this.initCollapsedStatus(newExperts);
     },
   },
 };
@@ -153,4 +200,8 @@ export default {
     font-size: 12px
     opacity: 0.35
     padding-left: 4px
+
+  .fas
+    &:hover
+      cursor: pointer
 </style>
