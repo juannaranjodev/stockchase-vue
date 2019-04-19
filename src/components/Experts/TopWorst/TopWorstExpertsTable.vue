@@ -54,28 +54,53 @@
           />
         </td>
         <td>
-          <span>{{ expert.big_lose || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.big_lose || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.lose || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.lose || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.no_change || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.no_change || 0 }}
+          </a>
         </td>
         <td>
-          <span>{{ expert.win || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.win || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.big_win || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.big_win || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
@@ -126,6 +151,12 @@ export default {
     },
   },
 
+  watch: {
+    experts(newExperts) {
+      this.collapsedStatus = this.initCollapsedStatus(newExperts);
+    },
+  },
+
   methods: {
     toggleCollapse(expertId) {
       this.collapsedStatus[expertId] = !this.collapsedStatus[expertId];
@@ -139,12 +170,6 @@ export default {
         });
 
       return collapsedStatus;
-    },
-  },
-
-  watch: {
-    experts(newExperts) {
-      this.collapsedStatus = this.initCollapsedStatus(newExperts);
     },
   },
 };
@@ -200,6 +225,13 @@ export default {
     font-size: 12px
     opacity: 0.35
     padding-left: 4px
+
+  .link-to-card
+    color: #000;
+
+    &:hover
+      cursor: pointer
+      text-decoration underline
 
   .fas
     &:hover
