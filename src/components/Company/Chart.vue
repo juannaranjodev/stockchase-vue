@@ -81,6 +81,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import $ from 'jquery';
 import Highcharts from 'highcharts';
+import { APP_URL } from '../../constants';
 
 const fromDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
 
@@ -120,8 +121,7 @@ export default {
     user(user) {
       if (!user.loaded) return;
 
-      // NOTE change this to 'https://staging.stockchase.com' for dev
-      const baseUrl = window.location.origin;
+      const baseUrl = APP_URL || window.location.origin;
       const $containerStockchart = $(this.$refs.chartContainer);
       const companyId = this.company.id;
 
