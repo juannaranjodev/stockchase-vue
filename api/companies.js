@@ -1,13 +1,19 @@
 const express = require('express');
 
-const { Company, SocialRating } = require('../models');
+const { Company, Opinion, SocialRating } = require('../models');
 
 const router = express.Router();
 
 // Check company is valid
 router.param('id', async (req, res, next, id) => {
-  const company = await Company.findByPk(id);
+  const company = /^\d+$/.test(id)
+    ? await Company.findByPk(id)
+    : await Company.getCompanyBySymbol(id);
+
   if (!company) return res.status(404).end();
+
+  req.company = company;
+
   next();
 });
 
@@ -24,6 +30,13 @@ router.post('/:id/ratings', async (req, res) => {
   await socialRating.save();
 
   res.json(socialRating);
+});
+
+// Create or update user rating for a company
+router.get('/:id/opinions', async (req, res) => {
+  const opinions = await Opinion.getOpinionsByCompany(req.company.id);
+
+  res.json(opinions);
 });
 
 module.exports = router;

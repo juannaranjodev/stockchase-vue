@@ -34,6 +34,11 @@ router.use(async (req, res, next) => {
 
 // Deny all access for unauthenticated API call
 router.use((req, res, next) => {
+  // Allow unauthenticated call to non user-specific endpoints so that they can be globally cached
+  if (req.method === 'GET') {
+    if (req.path.match(/^\/v2\/companies\/.*\/opinions$/)) return next();
+  }
+
   if (!req.user || !req.user.active) return res.status(401).end();
 
   // Check for sessions older than 30 days

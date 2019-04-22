@@ -90,6 +90,12 @@ module.exports = (sequelize, DataTypes) => {
     return _(opinions).uniqBy('company_id').map('Company').value();
   };
 
+  Company.getCompanyBySymbol = function (symbol) {
+    return Company.findOne({
+      where: { symbol },
+    });
+  };
+
   Company.getCompaniesBySymbols = function (symbols) {
     return Company.findAll({
       where: { symbol: { $in: symbols } },
