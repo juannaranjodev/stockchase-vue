@@ -65,7 +65,10 @@ export default {
       // It seems some symbols on the NYSEARCA, BATS or NYSEAMERICAN (formely AMEX) use -N
       // For example IGM-N is on NYSEARCA, IGV-A on BATS and APT-A on NYSEAMERICAN
       if (symbol.match(/\-[NA]$/)) {
-        return ['NYSE', 'NYSEARCA', 'BATS', 'NYSEAMERICAN'].map(exchange => [exchange, symbol.split('-')[0]].join(':'));
+        // NOTE we only use 1 of the possible symbols in the component, thus NYSE
+        return `NYSE:${symbol.split('-')[0]}`;
+        // return ['NYSE', 'NYSEARCA', 'BATS', 'NYSEAMERICAN']
+        //   .map(exchange => [exchange, symbol.split('-')[0]].join(':'));
       }
 
       // US OTC
