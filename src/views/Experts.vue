@@ -70,6 +70,10 @@ export default {
     InFeedAd,
   },
 
+  title() {
+    return 'Stock Experts Index — Stockchase'
+  },
+
   data() {
     const { params } = this.$route;
 
