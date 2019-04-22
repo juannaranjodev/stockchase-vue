@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div
+    v-if="shouldShowTopAndWorstExperts"
+    class="container"
+  >
     <div class="top-worst-experts-container-title">
       Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}<a href="#disclaimer">*</a>
     </div>
@@ -47,19 +50,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['user', 'topExperts', 'worstExperts']),
+    ...mapGetters(['shouldShowTopAndWorstExperts', 'user', 'topExperts', 'worstExperts']),
 
     experts() {
       return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
-    },
-  },
-
-
-  watch: {
-    user(user) {
-      if (!user.admin && !user.premium) {
-        window.location.href = '/';
-      }
     },
   },
 
@@ -68,6 +62,14 @@ export default {
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
     ]);
+  },
+
+  watch: {
+    user(user) {
+      if (!user.admin && !user.premium) {
+        window.location.href = '/';
+      }
+    },
   },
 
   methods: {

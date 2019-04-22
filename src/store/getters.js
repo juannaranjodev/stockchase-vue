@@ -41,6 +41,11 @@ export default {
     return state.user.loaded && !state.user.ad_free;
   },
 
+  shouldShowTopAndWorstExperts(state) {
+    const { loaded, admin, premium } = state.user;
+    return loaded && (admin || premium);
+  },
+
   topPicks(state) {
     return state.topPicks;
   },
