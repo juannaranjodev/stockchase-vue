@@ -50,15 +50,15 @@ function normalizeSymbol(s) {
 }
 
 // Check company is valid
-router.param('id', async (req, res, next, id) => {
+router.param('id', async (req, res, next, idOrSymbol) => {
   let company;
 
-  if (/^\d+$/.test(id)) {
+  if (/^\d+$/.test(idOrSymbol)) {
     // Param is id
-    company = await Company.findByPk(id);
+    company = await Company.findByPk(idOrSymbol);
   } else {
     // Param is possibly symbol. Normalize and find by symbol.
-    const symbol = normalizeSymbol(id);
+    const symbol = normalizeSymbol(idOrSymbol);
     if (!symbol) return res.status(400).end();
 
     // Use only the first company if multiple companies are returned
@@ -87,7 +87,11 @@ router.post('/:id/ratings', async (req, res) => {
   res.json(socialRating);
 });
 
-// Create or update user rating for a company
+// Get company opinions
+// TODO Should limit the number of opinions to something reasonable. Since we are going to use this
+// for the Bullish / Bearish badges too, maybe it should match the Bullish/Bearish period we want
+// ex. 1 year? Once we look at using this API for other things we could add ?form ?to to pull
+// opinions for longer periods.
 router.get('/:id/opinions', async (req, res) => {
   const opinions = await Opinion.getOpinionsByCompany(req.company.id);
 
