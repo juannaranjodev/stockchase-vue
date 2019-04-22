@@ -249,7 +249,6 @@ export default {
         text-decoration underline
     &-filter
       border-bottom 11px solid #474747
-      margin-bottom 20px
       padding-bottom 10px
     &-search
       margin-top 10px

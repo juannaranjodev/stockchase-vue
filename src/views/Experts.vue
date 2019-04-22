@@ -7,6 +7,25 @@
       :reset-uri="'/expert'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
+
+    <div
+      v-if="shouldShowAd"
+      class="ad-banner clear"
+    >
+      <div>
+        <p>
+          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on <a href="/company">public companies</a>. Read the daily stock market experts opinions and discover the latest <a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
+        </p>
+      </div>
+      <div class="banner-options">
+        <unlock-expert-ratings/>
+        <what-is-wealthica/>
+        <ask-peter-hodson/>
+      </div>
+    </div>
+
+    <link-ad />
+
     <div class="experts">
       <div class="first-row">
         <card-view
@@ -58,7 +77,11 @@ import { mapGetters } from 'vuex';
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
 import Paginator from '../components/Paginator.vue';
+import LinkAd from '../components/Ads/LinkAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
+import UnlockExpertRatings from '../components/Ads/UnlockExpertRatings.vue';
+import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
+import AskPeterHodson from '../components/Ads/AskPeterHodson.vue';
 
 export default {
   name: 'Experts',
@@ -67,7 +90,11 @@ export default {
     CardsViewFilters,
     CardView,
     Paginator,
+    LinkAd,
     InFeedAd,
+    UnlockExpertRatings,
+    WhatIsWealthica,
+    AskPeterHodson,
   },
 
   title() {
@@ -90,7 +117,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['experts', 'totalExperts']),
+    ...mapGetters(['experts', 'totalExperts', 'shouldShowAd']),
 
     firstFiveExperts() {
       return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5);
@@ -146,10 +173,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  @import '../assets/css/global.css';
   .container
     box-sizing border-box
     width 1140px
     max-width 100%
     padding 0 20px 20px
     margin 0 auto
+  .experts
+    margin-top 20px
+  .ad-banner > div:first-child
+    width 31%
+    font-size 18px
+    color #595959
+    display inline-block
+    p
+      text-align center
+      margin 0
+      a
+        color red
 </style>
