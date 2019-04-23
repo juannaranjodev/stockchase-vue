@@ -5,7 +5,7 @@
       title="Unlock Experts Ratings"
     >
       <img
-        src="~/assets/images/lock-star.png" 
+        src="~assets/images/lock-star.png" 
         alt="Unlock Experts Ratings"
       >
       <p>
