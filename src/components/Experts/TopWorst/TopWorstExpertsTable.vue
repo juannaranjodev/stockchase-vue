@@ -10,11 +10,12 @@
         <th>No Change</th>
         <th>Win</th>
         <th>Big Win</th>
+        <th />
       </tr>
     </thead>
     <tbody>
       <tr
-        v-for="(expert, rateIndex) in experts"
+        v-for="(expert, rateIndex) in collapsedExperts"
         :key="`${expert.expert_id}-${rateIndex}`"
       >
         <td>
@@ -53,31 +54,67 @@
           />
         </td>
         <td>
-          <span>{{ expert.big_lose || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.big_lose || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.lose || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.lose || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.no_change || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.no_change || 0 }}
+          </a>
         </td>
         <td>
-          <span>{{ expert.win || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.win || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
         </td>
         <td>
-          <span>{{ expert.big_win || 0 }}</span>
+          <a
+            :href="`${expert.url}?period=${expert.period}`"
+            class="link-to-card"
+          >
+            {{ expert.big_win || 0 }}
+          </a>
           <span class="expert-tp-count-percent">
             {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
           </span>
+        </td>
+        <td>
+          <i
+            v-if="expert.expertRank"
+            :class="{
+              fas: true,
+              'fa-angle-down': collapsedStatus[expert.expert_id],
+              'fa-angle-up': !collapsedStatus[expert.expert_id],
+            }"
+            @click="toggleCollapse(expert.expert_id)"
+          />
         </td>
       </tr>
     </tbody>
@@ -98,6 +135,41 @@ export default {
     experts: {
       type: Array,
       required: true,
+    },
+  },
+
+  data() {
+    return {
+      collapsedStatus: this.initCollapsedStatus(this.experts),
+    };
+  },
+
+  computed: {
+    collapsedExperts() {
+      return this.experts
+        .filter(expert => expert.expertRank || !this.collapsedStatus[expert.expert_id]);
+    },
+  },
+
+  watch: {
+    experts(newExperts) {
+      this.collapsedStatus = this.initCollapsedStatus(newExperts);
+    },
+  },
+
+  methods: {
+    toggleCollapse(expertId) {
+      this.collapsedStatus[expertId] = !this.collapsedStatus[expertId];
+    },
+
+    initCollapsedStatus(experts) {
+      const collapsedStatus = {};
+      experts.filter(expert => expert.expertRank)
+        .forEach((expert) => {
+          collapsedStatus[expert.expert_id] = true;
+        });
+
+      return collapsedStatus;
     },
   },
 };
@@ -153,4 +225,15 @@ export default {
     font-size: 12px
     opacity: 0.35
     padding-left: 4px
+
+  .link-to-card
+    color: #000;
+
+    &:hover
+      cursor: pointer
+      text-decoration underline
+
+  .fas
+    &:hover
+      cursor: pointer
 </style>

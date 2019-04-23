@@ -1,12 +1,17 @@
 <template>
-  <div class="container">
+  <div
+    v-if="shouldShowTopAndWorstExperts"
+    class="container"
+  >
     <div class="top-worst-experts-container-title">
-      Top & Worst Experts<a href="#disclaimer">*</a> - {{ new Date() | formatDate('MMMM YYYY') }}
+      Top & Worst Experts - {{ new Date() | formatDate('MMMM YYYY') }}<a href="#disclaimer">*</a>
     </div>
     <div class="top-worst-experts-container-subtitle">
-      We analyzed the performance of the expert's top picks as if
-      they were bought on the date the expert chose it as a Top Pick
-      and sold according to the chosen investing horizon.
+      <strong>Premium Exclusive</strong><br>
+      Here are the Top 25 and Worst 25 stock experts according to Top Picks performance so far.
+      We analyzed the performance of the expert's top picks as if they were bought on the date
+      the expert chose it as a Top Pick and sold according to the chosen investing horizon.
+      Ratings are updated weekly.
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
@@ -45,19 +50,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['user', 'topExperts', 'worstExperts']),
+    ...mapGetters(['shouldShowTopAndWorstExperts', 'user', 'topExperts', 'worstExperts']),
 
     experts() {
       return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
-    },
-  },
-
-
-  watch: {
-    user(user) {
-      if (!user.admin && !user.premium) {
-        window.location.href = '/';
-      }
     },
   },
 
@@ -66,6 +62,14 @@ export default {
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
       store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
     ]);
+  },
+
+  watch: {
+    user(user) {
+      if (!user.admin && !user.premium) {
+        window.location.href = '/';
+      }
+    },
   },
 
   methods: {
