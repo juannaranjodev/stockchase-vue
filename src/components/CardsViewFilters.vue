@@ -241,9 +241,14 @@ export default {
       margin 0.75em 0
       color #111
       font-weight normal
+      .subscribe
+        float right
+        font-size 15px
+        margin-top 5px
+        color black
+        text-decoration underline
     &-filter
       border-bottom 11px solid #474747
-      margin-bottom 20px
       padding-bottom 10px
     &-search
       margin-top 10px
