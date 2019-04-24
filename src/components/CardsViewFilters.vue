@@ -123,6 +123,10 @@ export default {
       type: String,
       default: '/',
     },
+    currentLimit: {
+      type: Number,
+      default: 15,
+    },
   },
   data() {
     return {
@@ -141,7 +145,7 @@ export default {
       return this.$route.query.search;
     },
     perPage() {
-      return Number(this.$route.params.itemsPerPage) || 15;
+      return Number(this.$route.params.itemsPerPage) || this.currentLimit;
     },
   },
   methods: {
