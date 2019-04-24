@@ -30,7 +30,7 @@ export default {
 
   .ad
     width 300px
-    height 300px
+    max-height 300px
     margin 0 auto
 
 </style>

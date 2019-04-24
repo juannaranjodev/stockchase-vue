@@ -49,7 +49,7 @@
 
           <div
             :class="{
-              'overview-section__right d-none d-lg-block': true,
+              'overview-section__right d-none d-lg-flex': true,
               'overview-section__right--empty': !shouldShowAd,
             }"
           >
@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <link-ad />
+      <link-ad class="compact" />
     </div>
 
     <div
@@ -88,7 +88,7 @@
       <!-- <follow-us class="d-lg-none" /> -->
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <link-ad />
     </div>
     <b-modal
       id="modal_stock_saved"
@@ -218,8 +218,9 @@ export default {
   width 100%
 
 .overview
+  margin-bottom 20px
+
   &-section
-    margin-bottom 30px
     margin-top 30px
     display flex
     align-items flex-end
@@ -247,6 +248,11 @@ export default {
         width 300px
         margin-left 40px
         flex-shrink 0
+        display flex
+        align-items flex-end
+
+        .overview-section__block
+          margin-bottom 40px
 
     &__block
       width 100%
@@ -285,6 +291,8 @@ export default {
     padding 0 10px
 
   .overview
+    margin-bottom 30px
+
     &-section
       &--with-ad
         display flex
