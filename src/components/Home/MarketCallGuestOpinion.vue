@@ -28,7 +28,6 @@
         </a>
         <div class="opinion__save">
           <a
-            v-if="!isWatching"
             href="#"
             @click="saveStock"
           >
@@ -59,6 +58,7 @@
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
+import EventBus from '../../util/EventBus';
 
 export default {
   name: 'MarketCallGuestOpinion',
@@ -97,14 +97,15 @@ export default {
     saveStock(e) {
       e.preventDefault();
 
+      if (this.isWatching) return EventBus.$emit('saveStock', false);
+
       this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.opinion.Company.id })
-        .then(() => this.$root.$emit('bv::show::modal', 'modal_stock_saved'))
+        .then(() => EventBus.$emit('saveStock', true))
         .catch((err) => {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            this.$root.$emit('bv::show::modal', 'modal_stock_saved');
-            return;
+            return EventBus.$emit('saveStock', false);
           }
 
           /* eslint-disable-next-line no-alert */

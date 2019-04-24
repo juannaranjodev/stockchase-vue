@@ -90,17 +90,8 @@
       <dianomi-ad />
       <link-ad />
     </div>
-    <b-modal
-      id="modal_stock_saved"
-      centered
-      hide-footer
-      modal-class="stock-saved-modal"
-    >
-      <div class="stock-saved">
-        Stock saved to your watch list successfully.
-        <a href="/portfolio">View Watch List</a>
-      </div>
-    </b-modal>
+
+    <stock-saved-modal />
   </div>
 </template>
 
@@ -121,6 +112,7 @@ import LinkAd from '../components/Ads/LinkAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
+import StockSavedModal from '../components/StockSavedModal.vue';
 
 export default {
   name: 'Home',
@@ -137,6 +129,7 @@ export default {
     DianomiAd,
     SideAd,
     OpinionsList,
+    StockSavedModal,
     // Sponsors,
     // Newest,
     // FollowUs,
@@ -183,25 +176,6 @@ export default {
 .home-divider
   border-top 1px dashed #E9E9EA
   margin 25px 0
-
-.stock-saved
-  text-align center
-  color #ABB2B9
-  font-size 18px
-  padding 0 20px 20px
-  line-height normal
-
-  a
-    color #FF2E50
-    white-space nowrap
-
-  &-modal
-    .modal-header
-      border-bottom 0
-      padding-bottom 0
-
-    .modal-body
-      padding-top 0
 </style>
 
 <style lang="stylus" scoped>
