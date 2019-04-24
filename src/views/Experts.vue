@@ -14,13 +14,16 @@
     >
       <div>
         <p>
-          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on <a href="/company">public companies</a>. Read the daily stock market experts opinions and discover the latest <a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
+          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on
+          <a href="/company">public companies</a>.
+          Read the daily stock market experts opinions and discover the latest
+          <a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
         </p>
       </div>
       <div class="banner-options">
-        <unlock-expert-ratings/>
-        <what-is-wealthica/>
-        <ask-peter-hodson/>
+        <unlock-expert-ratings />
+        <what-is-wealthica />
+        <ask-peter-hodson />
       </div>
     </div>
 
@@ -98,7 +101,7 @@ export default {
   },
 
   title() {
-    return 'Stock Experts Index — Stockchase'
+    return 'Stock Experts Index — Stockchase';
   },
 
   data() {

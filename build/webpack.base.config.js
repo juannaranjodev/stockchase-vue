@@ -34,7 +34,7 @@ module.exports = {
     rules: [
       {
         enforce: 'pre',
-        test: /\.(vue,js)$/,
+        test: /\.(vue|js)$/,
         loader: 'eslint-loader',
         include: [
           resolve('src'),

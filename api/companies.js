@@ -1,5 +1,6 @@
 const express = require('express');
 const _ = require('lodash');
+const moment = require('moment');
 
 const { Company, Opinion, SocialRating } = require('../models');
 
@@ -49,6 +50,16 @@ function normalizeSymbol(s) {
   return null;
 }
 
+router.use(function(req, res, next) {
+  // Query parameters
+  req.sanitize('from').toDate();
+  req.sanitize('to').toDate();
+
+  if (req.query.from > req.query.to) return res.status(400).end();
+
+  next();
+});
+
 // Check company is valid
 router.param('id', async (req, res, next, idOrSymbol) => {
   let company;
@@ -88,12 +99,8 @@ router.post('/:id/ratings', async (req, res) => {
 });
 
 // Get company opinions
-// TODO Should limit the number of opinions to something reasonable. Since we are going to use this
-// for the Bullish / Bearish badges too, maybe it should match the Bullish/Bearish period we want
-// ex. 1 year? Once we look at using this API for other things we could add ?form ?to to pull
-// opinions for longer periods.
 router.get('/:id/opinions', async (req, res) => {
-  const opinions = await Opinion.getOpinionsByCompany(req.company.id);
+  const opinions = await Opinion.getCompanyOpinionsByRange(req.company.id, req.query.from, req.query.to);
 
   res.json(opinions);
 });

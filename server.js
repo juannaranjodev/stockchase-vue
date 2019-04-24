@@ -4,6 +4,7 @@ const path = require('path')
 const express = require('express')
 const favicon = require('serve-favicon')
 const compression = require('compression')
+const expressValidator = require('express-validator')
 const resolve = file => path.resolve(__dirname, file)
 const { createBundleRenderer } = require('vue-server-renderer')
 
@@ -56,6 +57,7 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
 })
 
+app.use(expressValidator())
 app.use(compression({ threshold: 0 }))
 app.use(favicon('./public/assets/favicon.png'))
 app.use('/dist', serve('./dist', true))

@@ -510,7 +510,7 @@ export default {
           }
 
           /* eslint-disable-next-line no-alert */
-          alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`);
+          alert(`Oops, an error happened: "${err.statusText || err.status}". Please contact us.`);
         });
     },
   },

@@ -27,6 +27,10 @@ export default {
 .ad-container
   padding 20px 0
 
+  &.compact
+    padding-top 0
+    padding-bottom 5px
+
   .ad
     width 1100px
     max-width 100%

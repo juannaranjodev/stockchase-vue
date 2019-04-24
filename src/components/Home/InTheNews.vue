@@ -132,7 +132,7 @@
       </tbody>
     </table>
 
-    <div class="itn__footer d-none d-lg-block">
+    <div class="itn__footer d-none d-lg-flex">
       <a
         class="itn__more"
         href="/discover/news"
@@ -272,7 +272,9 @@ export default {
           color white
 
   &__footer
-    padding 8px 0
+    height 40px
+    display flex
+    align-items center
 
   &__more
     color #bfbfbf

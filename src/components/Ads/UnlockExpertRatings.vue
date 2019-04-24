@@ -5,7 +5,7 @@
       title="Unlock Experts Ratings"
     >
       <img
-        src="~assets/images/lock-star.png" 
+        src="~assets/images/lock-star.png"
         alt="Unlock Experts Ratings"
       >
       <p>
@@ -17,8 +17,8 @@
 
 <script>
 export default {
-  name: "UnlockExpertRating"
-}
+  name: 'UnlockExpertRatings',
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -37,5 +37,3 @@ export default {
       margin 0
       margin-top 10px
 </style>
-
-
