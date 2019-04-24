@@ -97,7 +97,10 @@ export default {
     saveStock(e) {
       e.preventDefault();
 
-      if (this.isWatching) return EventBus.$emit('saveStock', false);
+      if (this.isWatching) {
+        EventBus.$emit('saveStock', false);
+        return;
+      }
 
       this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.opinion.Company.id })
         .then(() => EventBus.$emit('saveStock', true))
@@ -105,7 +108,8 @@ export default {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            return EventBus.$emit('saveStock', false);
+            EventBus.$emit('saveStock', false);
+            return;
           }
 
           /* eslint-disable-next-line no-alert */

@@ -57,19 +57,19 @@ export default {
     },
   },
 
-  asyncData({ store }) {
-    return Promise.all([
-      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
-      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
-    ]);
-  },
-
   watch: {
     user(user) {
       if (!user.admin && !user.premium) {
         window.location.href = '/';
       }
     },
+  },
+
+  asyncData({ store }) {
+    return Promise.all([
+      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', true),
+      store.dispatch('FETCH_TOP_OR_WORST_EXPERTS', false),
+    ]);
   },
 
   methods: {

@@ -1,34 +1,35 @@
 <template>
   <div class="banner-options-square">
     <div>
-			<script src="https://fast.wistia.com/embed/medias/pxpx7chtea.jsonp"></script>
-      <script src="https://fast.wistia.com/assets/external/E-v1.js"></script>
+      <script src="https://fast.wistia.com/embed/medias/pxpx7chtea.jsonp" />
+      <script src="https://fast.wistia.com/assets/external/E-v1.js" />
       <span
         id="wistia-pxpx7chtea-1"
-        class="wistia_embed wistia_async_pxpx7chtea popover=true popoverAnimateThumbnail=true wistia_embed_initialized"
+        class="wistia_embed wistia_async_pxpx7chtea popover=true popoverAnimateThumbnail=true
+               wistia_embed_initialized"
       >
         <div
-          id="wistia_31.thumb_container" 
+          id="wistia_31.thumb_container"
           class="wistia_click_to_play"
         >
-          <div 
+          <div
             id="wistia_74.thumbnail"
           >
-            <div id="wistia_90.big_play_button_background"></div>
-            <div 
-              id="wistia_90.big_play_button_graphic" 
-              tabindex="0" 
-              aria-role="Button" 
+            <div id="wistia_90.big_play_button_background" />
+            <div
+              id="wistia_90.big_play_button_graphic"
+              tabindex="0"
+              aria-role="Button"
               aria-label="Play"
-            ></div>
-            <img 
+            />
+            <img
               id="wistia_74.thumbnail_img"
               alt="Wistia video thumbnail"
               src="https://embedwistia-a.akamaihd.net/deliveries/5c1e2324217e898a633e781bfa20b1d2adafadda.jpg?image_crop_resized=640x360"
             ></div>
-          </div>
-        </span>
-		</div>
+        </div>
+      </span>
+    </div>
     <p>
       What is Wealthica?
     </p>
@@ -37,8 +38,8 @@
 
 <script>
 export default {
-  name: "WhatIsWealthica"
-}
+  name: 'WhatIsWealthica',
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -103,4 +104,3 @@ export default {
               left 0px
               top 0px
 </style>
-

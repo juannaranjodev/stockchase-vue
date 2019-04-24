@@ -1,18 +1,18 @@
 <template>
   <div class="banner-options-square">
-    <a 
+    <a
       href="https://stockchase.com/lead/investment-questions/v1/?utm_medium=Site-Wide-Button&amp;utm_source=Stockchase&amp;utm_content=Ask-Questions&amp;utm_campain=Stockchase"
     >
       <img src="~assets/images/peter-question.png">
-			<p>Ask<br> Peter Hodson</p>
+      <p>Ask<br> Peter Hodson</p>
     </a>
   </div>
 </template>
 
 <script>
 export default {
-  name: "AskPeterHodson"
-}
+  name: 'AskPeterHodson',
+};
 </script>
 
 <style lang="stylus" scoped>

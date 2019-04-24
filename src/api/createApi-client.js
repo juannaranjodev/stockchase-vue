@@ -13,12 +13,12 @@ const beforeSend = (xhr) => {
 };
 
 // Wrap ajax request with session cookie and es6-promise for consistent promise APIs
-const ajax = options => new Promise(function (resolve, reject) {
+const ajax = options => new Promise(((resolve, reject) => {
   $.ajax({
     ...options,
     beforeSend,
   }).then(resolve).catch(reject);
-});
+}));
 
 // Ajax wrapper for protected routes where we want to redirect user on login page on 401 error
 const protectedAjax = options => ajax(options).catch((err) => {
