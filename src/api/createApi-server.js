@@ -268,12 +268,12 @@ export default function createAPI() {
       };
     },
 
-    async countOpinionsByCompany(id) {
-      return Opinion.countOpinionsByCompany(id);
+    async countCompanyOpinions(id) {
+      return Opinion.countCompanyOpinions(id);
     },
 
-    async fetchOpinionsByCompany(id, page, perPage) {
-      return Opinion.getOpinionsByCompany(id, page, perPage);
+    async fetchCompanyOpinionsByPage(id, page, perPage) {
+      return Opinion.getCompanyOpinionsByPage(id, page, perPage);
     },
   };
 }

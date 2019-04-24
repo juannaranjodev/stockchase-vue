@@ -156,8 +156,8 @@ export default {
       perPage = perPage || 15;
 
       return Promise.all([
-        api.countOpinionsByCompany(id),
-        api.fetchOpinionsByCompany(id, page, perPage),
+        api.countCompanyOpinions(id),
+        api.fetchCompanyOpinionsByPage(id, page, perPage),
       ]).then((result) => {
         const [numOpinions, pageOpinions] = result;
 
