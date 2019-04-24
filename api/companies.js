@@ -100,11 +100,7 @@ router.post('/:id/ratings', async (req, res) => {
 
 // Get company opinions
 router.get('/:id/opinions', async (req, res) => {
-  const format = 'YYYY-MM-DD';
-  const from = req.query.from && moment(req.query.from).format(format);
-  const to = req.query.to && moment(req.query.to).format(format);
-
-  const opinions = await Opinion.getCompanyOpinionsByRange(req.company.id, from, to);
+  const opinions = await Opinion.getCompanyOpinionsByRange(req.company.id, req.query.from, req.query.to);
 
   res.json(opinions);
 });
