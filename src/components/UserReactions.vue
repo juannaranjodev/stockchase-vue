@@ -66,7 +66,7 @@ export default {
     rate(rating) {
       this.$store.dispatch(this.rateActionName, { id: this.item.id, rating }).catch((err) => {
         /* eslint-disable-next-line no-alert */
-        alert(`Opps, an error happened: "${err.statusText || err.status}". Please contact us.`);
+        alert(`Oops, an error happened: "${err.statusText || err.status}". Please contact us.`);
       });
     },
 

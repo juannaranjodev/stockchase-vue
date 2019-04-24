@@ -14,8 +14,11 @@ const ajax = options => $.ajax({
   beforeSend,
 }).catch((err) => {
   if (err.status === 401) {
-    window.location = '/member/login';
-    return;
+    // NOTE we want to stop the error propagation here, so we return the redirection directly for
+    // the browser to finish it before moving to the next line. Otherwise the error would travel up
+    // to other `catch`s and causes unexpected behavior.
+    /* eslint-disable-next-line no-return-assign */
+    return window.location = '/member/login';
   }
 
   throw err;
