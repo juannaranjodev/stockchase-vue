@@ -216,7 +216,7 @@ export default {
     },
 
     fetchUser() {
-      this.$store.dispatch('FETCH_USER').always(() => {
+      this.$store.dispatch('FETCH_USER').finally(() => {
         this.fetched = true;
       });
     },
