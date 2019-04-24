@@ -58,8 +58,8 @@ module.exports = (sequelize, DataTypes) => {
       SELECT
         new_expert_rates.*,
         top_rates.rate,
-        new_expert.name,
-        new_expert.avatar
+        New_expert.name,
+        New_expert.avatar
       FROM
         (
           SELECT
@@ -80,10 +80,10 @@ module.exports = (sequelize, DataTypes) => {
           LIMIT :limit
         ) AS top_rates,
         new_expert_rates,
-        new_expert
+        New_expert
       where
         top_rates.expert_id = new_expert_rates.expert_id AND
-        top_rates.expert_id = new_expert.id
+        top_rates.expert_id = New_expert.id
       ORDER BY top_rates.rate ${order}, top_rates.wins ${order}, top_rates.expert_id, FIELD(new_expert_rates.period, '1 Month', '6 Months', '12 Months', '2 Years', '5 Years');
     `, {
       replacements: {
