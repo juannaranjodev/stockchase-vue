@@ -89,8 +89,10 @@ export default function createAPI() {
       const opinions = isOpinion
         ? await Opinion.getOpinionsByDate(date)
         : await Opinion.getMarketCommentsByDate(date);
-      const opinionIndex = opinions.findIndex(o => o.id === id);
+      const opinionIndex = opinions.findIndex(o => o.id === Number(id));
+      console.assert(opinionIndex > -1);
       const pageIndex = Math.floor(opinionIndex / c.PER_PAGE) + 1;
+      console.assert(pageIndex > 0);
 
       return isOpinion
         ? `/opinions/${date}/${pageIndex}#${id}`
