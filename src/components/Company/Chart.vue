@@ -955,7 +955,6 @@ export default {
 </style>
 
 <style lang="stylus" scoped>
-
 .company
   &-chart
     border-top 1px solid #E9E9EA
@@ -1020,5 +1019,11 @@ export default {
           color #F23434
         &.green
           color #04CA00
+
+@media (max-width 991px)
+  .company
+    &-chart
+      &__header
+        display block
 
 </style>

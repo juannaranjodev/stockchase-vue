@@ -5,7 +5,8 @@
     </div>
     <a
       class="join-discussion__link"
-      href="#comments"
+      href="#"
+      @click="showComments"
     >
       Comment Now
     </a>
@@ -13,8 +14,18 @@
 </template>
 
 <script>
+import EventBus from '../../util/EventBus';
+
 export default {
   name: 'JoinDiscussion',
+
+  methods: {
+    showComments(e) {
+      e.preventDefault();
+
+      EventBus.$emit('showCompanyComments');
+    },
+  },
 };
 </script>
 

@@ -48,15 +48,13 @@
         </div>
       </div>
 
-      <div id="opinions" />
-      <div id="comments" />
-
       <b-tabs
+        id="company_tabs"
         v-model="tabIndex"
         nav-class="company-tabs"
         @input="onTabChange"
       >
-        <b-tab @click="onTabClick">
+        <b-tab>
           <company-header />
           <link-ad />
 
@@ -80,7 +78,7 @@
           </template>
         </b-tab>
 
-        <b-tab @click="onTabClick">
+        <b-tab>
           <user-reactions
             :item="company"
             type="company"
@@ -154,6 +152,7 @@ import md5 from 'md5';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
+import EventBus from '../util/EventBus';
 
 import CompanyHeader from '../components/Company/Header.vue';
 import CompanyOverview from '../components/Company/Overview.vue';
@@ -304,6 +303,14 @@ export default {
     return latestOpinion ? stripTags(latestOpinion.comment) : null;
   },
 
+  created() {
+    EventBus.$on('showCompanyComments', () => {
+      this.tabIndex = 1;
+
+      this.scrollToTabs();
+    });
+  },
+
   mounted() {
     this.origin = window.location.origin;
 
@@ -316,6 +323,7 @@ export default {
   },
 
   beforeDestroy() {
+    EventBus.$off('showCompanyComments');
     this.destroyTippy();
   },
 
@@ -329,15 +337,6 @@ export default {
       }
     },
 
-    onTabClick() {
-      // Sync tab with anchor
-      if (this.tabIndex === 0) {
-        window.location.hash = '#opinions';
-      } else if (this.tabIndex === 1) {
-        window.location.hash = '#comments';
-      }
-    },
-
     onRouteHashChange(hash) {
       // Sync anchor with tab
       if (!hash || hash === '#opinions') {
@@ -345,7 +344,14 @@ export default {
       } else if (hash === '#comments') {
         this.tabIndex = 1;
       }
-      window.location.hash = hash;
+
+      this.scrollToTabs();
+    },
+
+    scrollToTabs() {
+      // Account for mobile spacer
+      const spacerHeight = document.getElementsByClassName('sticky-header-spacer')[0].offsetHeight;
+      window.scrollTo(0, document.getElementById('company_tabs').offsetTop - spacerHeight);
     },
 
     initTippy() {
@@ -428,7 +434,7 @@ export default {
 
       &s
         position relative
-        margin-bottom 45px
+        margin-bottom 25px
         display flex
         flex-wrap nowrap
 

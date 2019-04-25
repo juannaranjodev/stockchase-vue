@@ -71,21 +71,17 @@ export default {
   &-container
     margin-bottom 15px
 
-  &-left, &-right
+  &-left
     display flex
     align-items center
     flex-wrap wrap
 
-  &-left:not(:only-child)
-    margin-right 15px
-
 .title
-  font-size 1.6em
+  font-size 2em
   color #111
   line-height 1.1
-  white-space nowrap
   margin-bottom 0
-  margin-right 30px
+  text-align center
 
 .per-page-controls
   display flex
@@ -125,13 +121,12 @@ export default {
     padding-top 15px
 
     &-left
-      margin-right 0
       justify-content center
       flex-direction column
       align-items center
       width 100%
 
   .title
-    margin-right 0
+    font-size 1.6em
 
 </style>
