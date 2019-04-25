@@ -40,7 +40,7 @@
       <div class="inner-right">
         <a
           class="watchlist"
-          href="/portfolio"
+          :href="loggedIn ? '/portfolio' : '/member/login'"
         >
           <img src="~assets/svgs/icon_watchlist_gray.svg">
           Watch List
@@ -71,7 +71,7 @@
       </a>
       <a
         :class="{ link: true, active: isActive(/^\/portfolio/) }"
-        href="/portfolio"
+        :href="loggedIn ? '/portfolio' : '/member/login'"
       >
         <span class="link__icon"><img src="~assets/svgs/icon_watchlist.svg"></span>
         <span class="link__label">Watch List</span>
@@ -88,9 +88,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Navigation',
+
+  computed: {
+    ...mapGetters(['loggedIn']),
+  },
 
   methods: {
     isActive(pathPattern) {
