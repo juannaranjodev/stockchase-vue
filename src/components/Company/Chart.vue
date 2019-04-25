@@ -24,7 +24,7 @@
         class="company-chart__header-right"
       >
         <div class="company-quote__date">
-          {{ quoteDate | formatDate('ll, h:mm:ss a') }}
+          {{ quoteDate | formatDate('ll, h:mm a') }}
         </div>
       </div>
     </div>
