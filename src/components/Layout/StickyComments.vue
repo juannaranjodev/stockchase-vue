@@ -76,6 +76,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import cheerio from 'cheerio';
+import { truncate } from 'lodash';
 
 export default {
   name: 'StickyComments',
@@ -106,7 +108,14 @@ export default {
       // (see src/index.template.html)
       // This is because the Disqus comments script uses document.write that is
       // not compatible with how Vue works
-      this.$refs.commentsContainer.innerHTML = document.getElementsByClassName('dsq-widget-list')[0].outerHTML;
+      const $ = cheerio.load(document.getElementsByClassName('dsq-widget-list')[0].outerHTML);
+      const truncateText = length => function doTruncate() {
+        $(this).text(truncate($(this).text(), { length, omission: ' ...' }));
+      };
+      $('.dsq-widget-meta a').each(truncateText(35));
+      $('.dsq-widget-comment p').each(truncateText(50));
+
+      this.$refs.commentsContainer.innerHTML = $.html();
     });
   },
 
@@ -245,9 +254,13 @@ export default {
 
       >>> .dsq-widget-comment
         color #7d7d7d
-        margin 10px 0 25px 0px
+        margin-top 3px
         padding-left 3px
         font-size 16px
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
+        display block
 
       >>> .dsq-widget-user
         color #3c3c3c

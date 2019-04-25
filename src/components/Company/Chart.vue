@@ -24,7 +24,7 @@
         class="company-chart__header-right"
       >
         <div class="company-quote__date">
-          {{ quoteDate | formatDate('ll, h:mm:ss a') }}
+          {{ quoteDate | formatDate('ll, h:mm a') }}
         </div>
       </div>
     </div>
@@ -200,7 +200,7 @@ export default {
                 formatter: function() {
                   var avatarUrl = this.value.expert_avatar
                   ? `https://stockchase.s3.amazonaws.com/${this.value.expert_avatar}`
-                  : `${window.location.protocol}//${window.location.host}/images/expert_profile_default.svg`;
+                  : `${window.location.protocol}//${window.location.host}/assets/svgs/expert_profile_default.svg`;
                   var signalClass = this.value.signal_name.toLowerCase().replace(/\/| |'/g, '-');
 
                   return `
@@ -416,7 +416,7 @@ export default {
             data.data.forEach((data, index) => {
               var avatarUrl = data.expert_avatar
               ? `https://stockchase.s3.amazonaws.com/${data.expert_avatar}`
-              : `${window.location.protocol}//${window.location.host}/images/expert_profile_default.svg`;
+              : `${window.location.protocol}//${window.location.host}/assets/svgs/expert_profile_default.svg`;
               var signalClass = data.signal_name.toLowerCase().replace(/\/| |'/g, '-');
               var opinionUrl = `${window.location.protocol}//${window.location.host}/opinions/view/${data.opinion_id}`;
 
@@ -955,7 +955,6 @@ export default {
 </style>
 
 <style lang="stylus" scoped>
-
 .company
   &-chart
     border-top 1px solid #E9E9EA
@@ -1020,5 +1019,11 @@ export default {
           color #F23434
         &.green
           color #04CA00
+
+@media (max-width 991px)
+  .company
+    &-chart
+      &__header
+        display block
 
 </style>

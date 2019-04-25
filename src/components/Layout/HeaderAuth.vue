@@ -230,14 +230,18 @@ export default {
     max-width 100%
     height 45px
     margin 18px 0
+    align-items flex-start
 
     .dropdown-menu
-      margin-top -5px
+      margin-top 45px
       padding 0
       box-shadow 0px 8px 16px 0px rgba(0,0,0,0.2)
       min-width 128px
       border 0
       transition none
+      transform none !important
+      right 0 !important
+      left auto !important
 
     .dropdown-item
       color #000000
@@ -269,6 +273,7 @@ export default {
       outline 0 !important
       box-shadow none !important
       max-width 100%
+      height 45px
 
       &:after
         display none !important
