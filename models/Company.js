@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return `/company/view/${this.id}/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}`;
       },
     },
@@ -171,11 +171,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(function(companies) {
-      return companies.map(company => {
-        // for some reason, the logo property in the schema is not being returned. placing this here for temporary fix.
-        company.logo = `https://data.wealthica.com/api/securities/${company.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}/logo?default=https://stockchase.com/assets/no_logo.png`;
-        return company;
-      });
+      return companies;
     });
   };
 
