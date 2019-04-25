@@ -61,7 +61,6 @@ export default {
 <style lang="stylus" scoped>
 .summary
   padding 10px 0
-  margin 30px 0
   display flex
   align-items center
   flex-wrap wrap
@@ -101,5 +100,11 @@ export default {
 
   img
     border-radius 10%
+
+@media (max-width 991px)
+  .summary
+    justify-content center
+    margin-top 10px
+    padding-bottom 0
 
 </style>
