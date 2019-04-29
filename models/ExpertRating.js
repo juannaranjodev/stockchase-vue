@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
           const result = { ...expert };
           result.expertRank = expertRank++;
           result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-          result.url = `/expert/view/${expert.expert_id}/${dasherize(titleize(expert.name))}/rating`;
+          result.url = `/expert/view/${expert.expert_id}/${dasherize(titleize(expert.name.replace(/,/g, '').replace(/\./, '')))}/rating`;
           results.push(result);
 
           totalWinsById[beforeExpertId] = totalWins;
