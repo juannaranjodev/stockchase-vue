@@ -2,6 +2,7 @@
 
 const moment = require('moment');
 const _ = require('lodash');
+const { Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const Opinion = sequelize.define('Opinion', {
@@ -88,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get the date of the most recent opinion
   Opinion.getRecentOpinionDate = async function () {
     const recentOpinion = await Opinion.findOne({
-      where: { company_id: { $ne: 1970 } }, // Ignore market comments
+      where: { company_id: { [Op.ne]: 1970 } }, // Ignore market comments
       order: [['date', 'DESC'], ['id', 'ASC']],
     });
 
@@ -142,7 +143,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get opinions for a given date
   Opinion.getOpinionsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
-      where: { date, company_id: { $ne: 1970 } }, // Ignore market comments
+      where: { date, company_id: { [Op.ne]: 1970 } }, // Ignore market comments
     });
   };
 
@@ -150,7 +151,7 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.getOpinionsByExpert = function (expertId, date, limit) {
     return Opinion.scope('includeAll').findAll({
       where: {
-        date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: { $ne: 16 },
+        date, company_id: { [Op.ne]: 1970 }, expert_id: expertId, signal_id: { [Op.ne]: 16 },
       },
       limit,
     });
@@ -160,7 +161,7 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.getTopPicksByExpert = function (expertId, date, limit) {
     return Opinion.scope('includeAll').findAll({
       where: {
-        date, company_id: { $ne: 1970 }, expert_id: expertId, signal_id: 16,
+        date, company_id: { [Op.ne]: 1970 }, expert_id: expertId, signal_id: 16,
       },
       limit,
     });
@@ -191,7 +192,7 @@ module.exports = (sequelize, DataTypes) => {
     ].map(date => moment(date).format('YYYY-MM-DD'));
 
     return Opinion.scope('includeAll').findAll({
-      where: { company_id: companyId, date: { $between: [fromDate, toDate] } },
+      where: { company_id: companyId, date: { [Op.between]: [fromDate, toDate] } },
     });
   };
 

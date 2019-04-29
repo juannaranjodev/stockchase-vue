@@ -2,6 +2,7 @@
 
 const moment = require('moment');
 const _ = require('lodash');
+const { Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const Company = sequelize.define('Company', {
@@ -65,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
 
     const opinions = await sequelize.models.Opinion.findAll({
       attributes: ['company_id', [sequelize.fn('COUNT', sequelize.col('company_id')), 'counts']],
-      where: { date: { $gte: fromDate }, company_id: { $not: 1970 /* Market Comment */ } },
+      where: { date: { [Op.gte]: fromDate }, company_id: { [Op.not]: 1970 /* Market Comment */ } },
       group: ['company_id'],
       order: [[sequelize.literal('counts'), 'DESC']],
       include: ['Company'],
@@ -79,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
   // FIXME: Will not return 10 companies if the same company was mentioned more than once
   Company.getRecentTopPickCompanies = async function () {
     const opinions = await sequelize.models.Opinion.findAll({
-      where: { signal_id: [16 /* Top Pick */, 9], company_id: { $not: 1970 /* Market Comment */ } },
+      where: { signal_id: [16 /* Top Pick */, 9], company_id: { [Op.not]: 1970 /* Market Comment */ } },
       order: [['date', 'DESC'], ['id', 'ASC']],
       include: ['Company'],
       limit: 10,
@@ -98,7 +99,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Company.getCompaniesBySymbols = function (symbols) {
     return Company.findAll({
-      where: { symbol: { $in: symbols } },
+      where: { symbol: { [Op.in]: symbols } },
     });
   };
 
