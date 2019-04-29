@@ -80,7 +80,7 @@ export default function createAPI() {
     },
 
     async getOpinionUrl(id) {
-      const opinion = await Opinion.findById(id);
+      const opinion = await Opinion.findByPk(id);
 
       if (!opinion) return Promise.reject({ code: 404 });
 
