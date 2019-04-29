@@ -35,6 +35,7 @@
 </template>
 
 <script>
+/* global DISQUSWIDGETS */
 import { mapGetters } from 'vuex';
 import * as c from '../constants';
 import OpinionsHeader from '../components/Opinions/Header.vue';
@@ -94,7 +95,7 @@ export default {
   },
 
   updated() {
-    window.DISQUSWIDGETS.getCount({ reset: true });
+    if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({ reset: true });
   },
 };
 </script>
