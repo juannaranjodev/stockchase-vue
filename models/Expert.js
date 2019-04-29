@@ -1,6 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
+const { Op } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const Expert = sequelize.define('Expert', {
@@ -131,18 +132,18 @@ module.exports = (sequelize, DataTypes) => {
   Expert.getTotalExperts = async function (term = null) {
     const result = await Expert.count({
       where: term ? {
-        $and: [
+        [Op.and]: [
           {
-            id: { $ne: 1176 },
+            id: { [Op.ne]: 1176 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col('name')),
             {
-              $like: `%${term}%`,
+              [Op.like]: `%${term}%`,
             },
           ),
         ],
-      } : { id: { $ne: 1176 } },
+      } : { id: { [Op.ne]: 1176 } },
     });
     return result;
   };
@@ -332,14 +333,14 @@ module.exports = (sequelize, DataTypes) => {
   Expert.getExpertsTotalByCharacter = function (character, column = 'FirstName') {
     return Expert.count({
       where: {
-        $and: [
+        [Op.and]: [
           {
-            id: { $ne: 1176 },
+            id: { [Op.ne]: 1176 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col(column)),
             {
-              $like: `${character}%`,
+              [Op.like]: `${character}%`,
             },
           ),
         ],
