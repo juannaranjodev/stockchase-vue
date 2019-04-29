@@ -23,6 +23,9 @@
 <script>
 import _ from 'lodash';
 import Select2 from '../Select2.vue';
+import { APP_URL } from '../../constants';
+
+const baseUrl = APP_URL || window.location.origin;
 
 export default {
   name: 'HeaderSearch',
@@ -37,7 +40,7 @@ export default {
       multiple: true,
       // instead of writing the function to execute the request we use Select2's convenient helper
       ajax: {
-        url: '/ajax/search',
+        url: `${baseUrl}/ajax/search`,
         type: 'get',
         dataType: 'json',
         params: {
@@ -52,7 +55,6 @@ export default {
         // parse the results into the format expected by Select2. since we are using custom
         // formatting functions we do not need to alter the remote JSON data
         processResults(data) {
-          const baseUrl = window.location.origin;
           const avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
 
           const result = {
@@ -70,8 +72,7 @@ export default {
                   id: company.id,
                   text: `${company.name} (${symbol})`,
                   url: `/company/view/${company.id}/${company.symbol}`,
-                  /* eslint-disable-next-line max-len */
-                  avatar: `https://data.wealthica.com/api/securities/${company.symbol}/logo?default=${baseUrl}images/no logo icon @2x.png`,
+                  avatar: `https://data.wealthica.com/api/securities/${company.symbol}/logo?default=${baseUrl}/images/no logo icon @2x.png`,
                   term: data.query,
                 };
               }),
