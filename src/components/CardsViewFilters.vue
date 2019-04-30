@@ -158,8 +158,8 @@ export default {
     generateURL(pages = 15) {
       const { params, query } = this.$route;
       const url = this.resetUri + this.pattern
-        .replace(':type', params.type || 'F')
-        .replace(':sort', params.sort || 'FirstName')
+        .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
+        .replace(':sort', this.targetSearch === 'companies' ? 'name' : params.sort || 'FirstName')
         .replace(':page', params.page || '1')
         .replace(':direction', params.direction || 'desc')
         .replace(':itemsPerPage', pages);

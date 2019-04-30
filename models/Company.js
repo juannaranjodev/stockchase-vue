@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.VIRTUAL,
-      get: function() {
+      get() {
         return `/company/view/${this.id}/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}`;
       },
     },
@@ -170,7 +170,10 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Company,
+      mapToModel: true,
     }).then(function(companies) {
+      console.log(companies[0]);
       return companies;
     });
   };
@@ -205,11 +208,10 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Company,
+      mapToModel: true,
     }).then(function(companies) {
-      return companies.map((company) => {
-        company.logo = `https://data.wealthica.com/api/securities/${company.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}/logo?default=https://stockchase.com/assets/no_logo.png`;
-        return company;
-      });
+      return companies;
     });
   };
 
