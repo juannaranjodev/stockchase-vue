@@ -183,14 +183,17 @@ export default {
         this.isTyping = true;
 
         wait = setTimeout(async () => {
-          if (this.targetSearch === 'company') {
+          if (this.targetSearch === 'companies') {
             // do something for companies page
           } else {
+            // this is for the dropdown
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
-              this.matches = this.$store.state.searchedExperts;
-              this.totalSearchedResults = this.$store.state.totalSearchedExperts;
+              const { searchedExperts, totalSearchedExperts } = this.$store.state;
+
+              this.matches = searchedExperts;
+              this.totalSearchedResults = totalSearchedExperts;
               this.isTyping = false;
             });
           }
@@ -205,16 +208,16 @@ export default {
       if (expert.id) window.location = expert.url;
     },
     onAlphabeticalChange(e) {
-      if (this.targetSearch === 'company') {
-        // do something for companies page
-      } else {
-        const pattern = '/expert/index/:character/L';
+      let pattern = '/expert/index/:character/L';
 
-        if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
-          window.location = pattern.replace(':character', e.target.value);
-        } else {
-          window.location = this.resetUri;
-        }
+      if (this.targetSearch === 'companies') {
+        // do something for companies page
+        pattern = '/company/index/:character/C';
+      }
+      if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
+        window.location = pattern.replace(':character', e.target.value);
+      } else {
+        window.location = this.resetUri;
       }
     },
     onSearchFocusOut() {

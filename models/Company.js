@@ -173,7 +173,6 @@ module.exports = (sequelize, DataTypes) => {
       model: Company,
       mapToModel: true,
     }).then(function(companies) {
-      console.log(companies[0]);
       return companies;
     });
   };

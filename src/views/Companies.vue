@@ -136,14 +136,14 @@ export default {
     let promises = null;
 
     if (Object.keys(query).length > 0) { // if doing a search query
-      // promises = [
-      //   store.dispatch('FETCH_EXPERTS_BY_NAME', {
-      //     term: decodeURI(query.search),
-      //     page: page ?  parseInt(page) : 1,
-      //     limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
-      //   }),
-      //   store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
-      // ]
+      promises = [
+        store.dispatch('FETCH_COMPANIES_BY_NAME', {
+          term: decodeURI(query.search),
+          page: page ? parseInt(page, 10) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage, 10) : 15,
+        }),
+        store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
+      ];
     } else if (character) {
       // promises = [
       //   store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {

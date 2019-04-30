@@ -45,6 +45,7 @@ export default function createRouter() {
       { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: Experts },
       { path: '/expert/index/:character/:type', component: Experts },
       { path: '/company', component: Companies },
+      { path: '/company/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: Companies },
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:symbol', component: Company },
       { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
