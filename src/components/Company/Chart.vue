@@ -59,6 +59,7 @@
         </div>
       </div>
     </div>
+
     <div :class="{ 'company-profile-chart': true, active: company.active }">
       <div
         v-if="company.active"
@@ -88,19 +89,21 @@ const fromDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
 export default {
   name: 'Chart',
 
+  data() {
+    return {
+      quoteDate: null,
+    }
+  },
+
   computed: {
     ...mapGetters(['company', 'user', 'loggedIn']),
-
-    quoteDate() {
-      return this.company.quote.quote_date ? moment.utc(this.company.quote.quote_date) : null;
-    },
 
     lastQuotePrice() {
       return this.company.quote.price - this.company.quote.change;
     },
 
     quoteChangeValue() {
-      return Math.abs(this.company.quote.change)
+      return Math.abs(this.company.quote.change);
     },
 
     quoteChangePercent() {
@@ -333,6 +336,7 @@ export default {
         },
       };
 
+      // TODO reimplement this ajax endpoint in v2
       $.ajax({
         url: baseUrl + '/ajax/company/' + companyId + '/fromdate/' + fromDate,
       })
@@ -404,6 +408,7 @@ export default {
         var company_id = $parent.data('company-id');
         var date = $parent.data('date');
 
+        // TODO reimplement this ajax endpoint in v2
         $.ajax({
           url : `${baseUrl}/ajax/company/${company_id}/exactdate/${date}`,
           type: "GET",
@@ -495,7 +500,19 @@ export default {
     },
   },
 
+  mounted() {
+    this.$nextTick(() => {
+      this.quoteDate = this.getQuoteDate();
+    });
+  },
+
   methods: {
+    getQuoteDate() {
+      return this.company && this.company.quote.quote_date
+        ? moment(this.company.quote.quote_date)
+        : null;
+    },
+
     saveStock(e) {
       e.preventDefault();
 

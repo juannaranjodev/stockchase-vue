@@ -3,7 +3,10 @@
     <div :class="{ 'pgntn-left': true, 'd-none d-lg-block': bottom }">
       <ul class="pagination">
         <li class="page-item page-item--bordered">
-          <b-dropdown toggle-class="page-link">
+          <b-dropdown
+            class="date-pagination-dropdown"
+            toggle-class="page-link"
+          >
             <b-dropdown-item
               v-for="adjacentDate in adjacentDates"
               :key="`adjacentDate_${adjacentDate.date}`"
@@ -213,6 +216,11 @@ export default {
   },
 };
 </script>
+
+<style lang="stylus">
+.date-pagination-dropdown .dropdown-menu
+  transition none
+</style>
 
 <style lang="stylus" scoped>
 .pgntn
