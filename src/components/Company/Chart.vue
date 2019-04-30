@@ -333,6 +333,7 @@ export default {
         },
       };
 
+      // TODO reimplement this ajax endpoint in v2
       $.ajax({
         url: baseUrl + '/ajax/company/' + companyId + '/fromdate/' + fromDate,
       })
@@ -404,6 +405,7 @@ export default {
         var company_id = $parent.data('company-id');
         var date = $parent.data('date');
 
+        // TODO reimplement this ajax endpoint in v2
         $.ajax({
           url : `${baseUrl}/ajax/company/${company_id}/exactdate/${date}`,
           type: "GET",

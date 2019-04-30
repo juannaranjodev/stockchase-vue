@@ -40,6 +40,7 @@ export default {
       multiple: true,
       // instead of writing the function to execute the request we use Select2's convenient helper
       ajax: {
+        // TODO reimplement this ajax endpoint in v2
         url: `${baseUrl}/ajax/search`,
         type: 'get',
         dataType: 'json',
