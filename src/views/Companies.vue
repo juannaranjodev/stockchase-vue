@@ -15,13 +15,15 @@
     >
       <div>
         <p>
+          <!-- eslint-disable max-len -->
           <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by <a href="/expert">stock experts</a>. Read the daily stock experts opinions and <a href="/">stock predictions</a>.
+          <!-- eslint-enable max-len -->
         </p>
       </div>
       <div class="banner-options">
-        <unlock-expert-ratings/>
-        <what-is-wealthica/>
-        <ask-peter-hodson/>
+        <unlock-expert-ratings />
+        <what-is-wealthica />
+        <ask-peter-hodson />
       </div>
     </div>
 
@@ -71,7 +73,7 @@
 </template>
 
 <script>
-import * as c from '../constants';
+import { mapGetters } from 'vuex';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
@@ -81,7 +83,6 @@ import InFeedAd from '../components/Ads/InFeedAd.vue';
 import UnlockExpertRatings from '../components/Ads/UnlockExpertRatings.vue';
 import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
 import AskPeterHodson from '../components/Ads/AskPeterHodson.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'Companies',
@@ -97,7 +98,7 @@ export default {
     AskPeterHodson,
   },
 
-  data(){
+  data() {
     const { params } = this.$route;
 
     return {
@@ -109,23 +110,28 @@ export default {
         direction: params.direction ? params.direction : 'desc',
         itemsPerPage: params.itemsPerPage ? params.itemsPerPage : 60,
       },
-    }
+    };
   },
 
   computed: {
     ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
 
     firstFiveCompanies() {
-      return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5)
+      return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5);
     },
     theRestOfCompanies() {
-      return this.companies.length >= 5 ? this.companies.slice(5) : []
+      return this.companies.length >= 5 ? this.companies.slice(5) : [];
     },
   },
 
-  asyncData ({ store, route }) {
-    const { params, query } = route;
-    const { page, itemsPerPage, character, type } = params;
+  asyncData({ store, route }) {
+    const {
+      params, query,
+    } = route;
+    const {
+      page, itemsPerPage, character,
+      /* page, itemsPerPage, character, type, */
+    } = params;
 
     let promises = null;
 
@@ -154,16 +160,16 @@ export default {
     } else {
       promises = [
         store.dispatch('FETCH_COMPANIES', {
-          page: page ?  parseInt(page) : 1,
-          limit: itemsPerPage ? parseInt(itemsPerPage) : 60,
+          page: page ? parseInt(page, 10) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage, 10) : 60,
         }),
         store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
-      ]
+      ];
     }
 
-    return promises ? Promise.all(promises) : null
+    return promises ? Promise.all(promises) : null;
   },
-}
+};
 </script>
 
 <style lang="stylus">

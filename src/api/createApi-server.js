@@ -290,7 +290,7 @@ export default function createAPI() {
       return await Company.getCompaniesByPage(page, limit);
     },
 
-    async getTotalCompanies(term = null){
+    async getTotalCompanies(term = null) {
       return Company.getTotalCompanies(term);
     },
   };

@@ -132,5 +132,5 @@ export default {
 
   totalCompanies(state) {
     return state.totalCompanies;
-  }
+  },
 };

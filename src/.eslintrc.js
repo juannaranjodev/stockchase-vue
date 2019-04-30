@@ -46,7 +46,7 @@ module.exports = {
     "prefer-promise-reject-errors": "off",
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'max-len': ['error', 100, 2, {
+    'max-len': ['error', 150, 2, {
       ignoreUrls: true,
       ignoreComments: false,
       ignoreRegExpLiterals: true,
