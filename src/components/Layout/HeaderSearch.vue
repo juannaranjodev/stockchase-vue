@@ -66,13 +66,13 @@ export default {
             result.results.push({
               text: 'Companies',
               children: data.companies.map((company) => {
-                const symbol = company.symbol.replace(' (Dead)', '');
+                const symbol = company.symbol.replace(' (Dead)', '').replace(/[()]/g, '');
 
                 return {
                   id: company.id,
                   text: `${company.name} (${symbol})`,
-                  url: `/company/view/${company.id}/${company.symbol}`,
-                  avatar: `https://data.wealthica.com/api/securities/${company.symbol}/logo?default=${baseUrl}/images/no logo icon @2x.png`,
+                  url: `/company/view/${company.id}/${symbol}`,
+                  avatar: `https://data.wealthica.com/api/securities/${symbol}/logo?default=${baseUrl}/images/no logo icon @2x.png`,
                   term: data.query,
                 };
               }),
