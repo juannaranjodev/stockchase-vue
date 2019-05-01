@@ -167,7 +167,8 @@ export default {
       return query.search ? `${url}?search=${query.search}` : url;
     },
     onSubmitSearch() {
-      if (this.$refs.search.value.length > 3) {
+      console.log(this.$refs.search.value);
+      if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
         // do something here
         window.location = `?search=${query}`;
@@ -181,10 +182,19 @@ export default {
 
       if (e.target.value.length > 2) {
         this.isTyping = true;
-
+        // wait for some time before it fetches data. This eliminates too many multiple queries
         wait = setTimeout(async () => {
           if (this.targetSearch === 'companies') {
-            // do something for companies page
+            // this is for the dropdown
+            await this.$store.dispatch('SEARCH_COMPANIES', {
+              term: e.target.value,
+            }).then(() => {
+              const { searchedCompanies, totalSearchedCompanies } = this.$store.state;
+
+              this.matches = searchedCompanies;
+              this.totalSearchedResults = totalSearchedCompanies;
+              this.isTyping = false;
+            });
           } else {
             // this is for the dropdown
             await this.$store.dispatch('SEARCH_EXPERTS', {
@@ -204,8 +214,8 @@ export default {
         this.isTyping = false;
       }
     },
-    onSearchResultsItemClick(expert) {
-      if (expert.id) window.location = expert.url;
+    onSearchResultsItemClick(target) {
+      if (target.id) window.location = target.url;
     },
     onAlphabeticalChange(e) {
       let pattern = '/expert/index/:character/L';
@@ -221,9 +231,11 @@ export default {
       }
     },
     onSearchFocusOut() {
-      this.matches = [];
-      this.totalSearchedResults = 0;
-      this.isTyping = false;
+      setTimeout(() => { // required in order for the `see all x results` to work
+        this.matches = [];
+        this.totalSearchedResults = 0;
+        this.isTyping = false;
+      }, 200);
     },
   },
 };

@@ -177,7 +177,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getCompaniesByName = function(term = null, page = 1, limit = 25) {
+  Company.getCompaniesByTerm = function(term = null, page = 1, limit = 25) {
     return sequelize.query(`
       SELECT
         c.id,
@@ -232,6 +232,31 @@ module.exports = (sequelize, DataTypes) => {
     });
     return result;
   }
+
+  Company.searchCompanies = function(term = null, limit = 15) {
+    return sequelize.query(`
+      SELECT
+        c.id,
+        c.name,
+        c.symbol
+      FROM New_company AS c
+      WHERE
+        c.id <> 1970 &&
+        ( LOWER(c.name) LIKE :term OR LOWER(c.symbol) LIKE :term )
+      ORDER BY c.name ASC`, {
+      replacements: {
+        term: `%${term.toLowerCase()}%`,
+      },
+      type: sequelize.QueryTypes.SELECT,
+      model: Company,
+      mapToModel: true,
+    }).then(function(companies) {
+      return {
+        rows: companies.slice(0, limit),
+        total: companies.length,
+      };
+    });
+  };
 
   return Company;
 };

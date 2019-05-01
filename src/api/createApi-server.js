@@ -294,8 +294,8 @@ export default function createAPI() {
       return Company.getTotalCompanies(term);
     },
 
-    async getCompaniesByName(term = null, page = 1, limit = 60) {
-      return Company.getCompaniesByName(term, page, limit);
+    async getCompaniesByTerm(term = null, page = 1, limit = 60) {
+      return Company.getCompaniesByTerm(term, page, limit);
     },
   };
 }

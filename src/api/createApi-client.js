@@ -89,5 +89,14 @@ export default function createAPI() {
         dataType: 'json',
       });
     },
+    searchCompanies({ term, limit = 5 }) {
+      return protectedAjax({
+        url: '/api/v2/companies/search',
+        method: 'POST',
+        data: JSON.stringify({ term, limit }),
+        contentType: 'application/json',
+        dataType: 'json',
+      });
+    },
   };
 }
