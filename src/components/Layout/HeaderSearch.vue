@@ -25,8 +25,6 @@ import _ from 'lodash';
 import Select2 from '../Select2.vue';
 import { APP_URL } from '../../constants';
 
-const baseUrl = APP_URL || window.location.origin;
-
 export default {
   name: 'HeaderSearch',
 
@@ -41,7 +39,7 @@ export default {
       // instead of writing the function to execute the request we use Select2's convenient helper
       ajax: {
         // TODO reimplement this ajax endpoint in v2
-        url: `${baseUrl}/ajax/search`,
+        url: `${APP_URL || ''}/ajax/search`,
         type: 'get',
         dataType: 'json',
         params: {
@@ -57,6 +55,7 @@ export default {
         // formatting functions we do not need to alter the remote JSON data
         processResults(data) {
           const avatarBaseUrl = 'https://stockchase.s3.amazonaws.com/';
+          const baseUrl = APP_URL || window.location.origin;
 
           const result = {
             results: [],
