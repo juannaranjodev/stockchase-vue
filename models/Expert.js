@@ -352,8 +352,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Expert.getExpertById = function (id) {
-    return Expert.findOne({
-      where: { id },
+    return Expert.findByPk(id, {
       include: [
         { model: sequelize.models.SocialRating },
       ],

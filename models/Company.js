@@ -113,8 +113,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Company.getCompanyById = function (id) {
-    return Company.findOne({
-      where: { id },
+    return Company.findByPk(id, {
       attributes: {
         include: [
           [sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count'],
