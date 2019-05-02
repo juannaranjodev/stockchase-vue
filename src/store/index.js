@@ -34,9 +34,10 @@ export default function createStore() {
       searchedExperts: [],
       totalSearchedExperts: 0,
 
-      // For single company page
-      // TODO consider moving single company page data to a module
+      // For company & expert profile page
+      // TODO consider moving these data to separate modules
       company: {},
+      expert: {},
     },
     actions,
     mutations,

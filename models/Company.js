@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     logo: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=https://stockchase.com/assets/no_logo.png`;
+        const baseUrl = process.env.APP_URL || 'https://stockchase.com';
+        return `https://data.wealthica.com/api/securities/${this.symbol}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
     url: {
@@ -112,8 +113,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Company.getCompanyById = function (id) {
-    return Company.findOne({
-      where: { id },
+    return Company.findByPk(id, {
       attributes: {
         include: [
           [sequelize.fn('COUNT', sequelize.col('UserStocks.id')), 'user_stocks_count'],

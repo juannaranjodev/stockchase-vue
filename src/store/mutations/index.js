@@ -88,4 +88,8 @@ export default {
   SET_COMPANY: (state, company = {}) => {
     Vue.set(state, 'company', company);
   },
+
+  SET_EXPERT: (state, expert = {}) => {
+    Vue.set(state, 'expert', expert);
+  },
 };

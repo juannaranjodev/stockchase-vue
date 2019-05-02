@@ -21,6 +21,7 @@ Vue.use(Router);
 const Home = () => import('../views/Home.vue');
 const TopWorstExpertList = () => import('../views/TopWorstExpertList.vue');
 const Experts = () => import('../views/Experts.vue');
+const Expert = () => import('../views/Expert.vue');
 const Company = () => import('../views/Company.vue');
 
 // route-level code splitting
@@ -45,6 +46,9 @@ export default function createRouter() {
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:symbol', component: Company },
       { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
+      { path: '/expert/view/:id', component: Expert },
+      { path: '/expert/view/:id/:name', component: Expert },
+      { path: '/expert/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Expert },
     ],
   });
 }
