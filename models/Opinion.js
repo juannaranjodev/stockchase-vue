@@ -174,15 +174,6 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // Get company opinions by page
-  Opinion.getCompanyOpinionsByPage = function (companyId, page = 1, perPage = 15) {
-    return Opinion.scope('includeAll').findAll({
-      where: { company_id: companyId },
-      offset: (page - 1) * perPage,
-      limit: perPage,
-    });
-  };
-
   // Get company opinions by date range
   Opinion.getCompanyOpinionsByRange = function (companyId, from, to) {
     // By default return opinions for the last 12 months
@@ -196,10 +187,35 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get company opinions by page
+  Opinion.getCompanyOpinionsByPage = function (companyId, page = 1, perPage = 15) {
+    return Opinion.scope('includeAll').findAll({
+      where: { company_id: companyId },
+      offset: (page - 1) * perPage,
+      limit: perPage,
+    });
+  };
+
   // Count company opinions
   Opinion.countCompanyOpinions = function (companyId) {
     return Opinion.count({
       where: { company_id: companyId },
+    });
+  };
+
+  // Get expert opinions by page
+  Opinion.getExpertOpinionsByPage = function (expertId, page = 1, perPage = 15) {
+    return Opinion.scope('includeAll').findAll({
+      where: { expert_id: expertId },
+      offset: (page - 1) * perPage,
+      limit: perPage,
+    });
+  };
+
+  // Count expert opinions
+  Opinion.countExpertOpinions = function (expertId) {
+    return Opinion.count({
+      where: { expert_id: expertId },
     });
   };
 

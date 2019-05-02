@@ -1,9 +1,9 @@
 <template>
-  <div class="opinion-ratings">
+  <div class="user-ratings">
     <div
       v-for="rating in ratingCounts"
       :key="`rating_${rating.rating}`"
-      class="opinion-rating"
+      class="user-rating"
     >
       <img
         :src="ratingImageFor(rating.rating)"
@@ -56,6 +56,8 @@ export default {
           return 'RATE_OPINION';
         case 'company':
           return 'RATE_COMPANY';
+        case 'expert':
+          return 'RATE_EXPERT';
         default:
           return null;
       }
@@ -78,7 +80,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.opinion-rating
+.user-rating
   margin 8px
   color #06c
   display flex

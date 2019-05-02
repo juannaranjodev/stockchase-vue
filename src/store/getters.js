@@ -113,4 +113,8 @@ export default {
   company(state) {
     return state.company;
   },
+
+  expert(state) {
+    return state.expert;
+  },
 };

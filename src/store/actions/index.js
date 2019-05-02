@@ -117,6 +117,22 @@ export default {
       commit('SET_COMPANY', company);
     }),
 
+  RATE_EXPERT: ({ commit, state }, { id, rating }) => api.rateExpert({ id, rating })
+    .then((response) => {
+      const expert = _.clone(state.expert);
+      expert.SocialRatings = expert.SocialRatings || [];
+      const ratingIndex = _.findIndex(expert.SocialRatings, { id: response.id });
+
+      // If existing rating found, replace it with the new one
+      if (ratingIndex !== -1) {
+        expert.SocialRatings[ratingIndex] = response;
+      } else {
+        expert.SocialRatings.push(response);
+      }
+
+      commit('SET_EXPERT', expert);
+    }),
+
   CREATE_USER_STOCK: ({ commit, state }, { companyId }) => api.createUserStock({ companyId })
     .then((stock) => {
       const user = _.clone(state.user);
@@ -144,12 +160,7 @@ export default {
 
     return api.fetchCompanyById(id).then((company) => {
       if (!company) return Promise.reject({ code: 404 });
-      if (!symbol && !page) {
-        return Promise.reject({
-          url: `/company/view/${id}/${company
-            .symbol}`,
-        });
-      }
+      if (!symbol && !page) return Promise.reject({ url: company.url });
 
       commit('SET_COMPANY', company);
       page = page || 1;
@@ -158,6 +169,33 @@ export default {
       return Promise.all([
         api.countCompanyOpinions(id),
         api.fetchCompanyOpinionsByPage(id, page, perPage),
+      ]).then((result) => {
+        const [numOpinions, pageOpinions] = result;
+
+        commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
+        commit('SET_OPINIONS', pageOpinions);
+      });
+    });
+  },
+
+  FETCH_EXPERT: ({ commit }, urlParams) => {
+    const { id, name } = urlParams;
+    let { page, perPage } = urlParams;
+
+    if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 });
+
+    return api.fetchExpertById(id).then((expert) => {
+      if (!expert) return Promise.reject({ code: 404 });
+
+      if (!name && !page) return Promise.reject({ url: expert.url });
+
+      commit('SET_EXPERT', expert);
+      page = page || 1;
+      perPage = perPage || 15;
+
+      return Promise.all([
+        api.countExpertOpinions(id),
+        api.fetchExpertOpinionsByPage(id, page, perPage),
       ]).then((result) => {
         const [numOpinions, pageOpinions] = result;
 

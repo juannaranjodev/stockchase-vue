@@ -62,6 +62,15 @@ export default function createAPI() {
         dataType: 'json',
       });
     },
+    rateExpert({ id, rating }) {
+      return protectedAjax({
+        url: `/api/v2/experts/${id}/ratings`,
+        method: 'POST',
+        data: JSON.stringify({ rating }),
+        contentType: 'application/json',
+        dataType: 'json',
+      });
+    },
     createUserStock({ companyId }) {
       return protectedAjax({
         url: '/api/v2/user_stocks',
