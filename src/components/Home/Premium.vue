@@ -62,8 +62,8 @@
       <div class="go-premium__content">
         <p>
           The premium-exclusive Best Stock Ideas Newsletter features at least three new stock ideas
-          every month and January’s edition is out with a selection of “remora companies” that are
-          crushing the market.
+          every month and May's edition is out with a selection of the Dividend All-Stars. We also
+          released the latest Top 25 and Worst 25 experts rating.
           <strong>
             One of our stock ideas we sent last December is already up 23% in just 2 months.
           </strong>
