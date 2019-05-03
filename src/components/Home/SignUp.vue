@@ -68,7 +68,7 @@
       <h2 class="sign-up__title">
         Sign up for Stockchase free now.
         <br>
-        Join <span>31,265</span> investors.
+        Join <span>39,652</span> investors.
       </h2>
 
       <form
