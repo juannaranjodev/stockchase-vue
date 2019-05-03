@@ -2,8 +2,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import request from 'request';
-import FeedParser from 'feedparser';
-import cheerio from 'cheerio';
+import Parser from 'rss-parser';
 import * as c from '../constants';
 import db from '../../models';
 
@@ -101,28 +100,15 @@ export default function createAPI() {
     },
 
     async fetchDiscoverPosts() {
-      const posts = [];
+      const parser = new Parser();
 
-      await new Promise((resolve, reject) => {
-        const parser = new FeedParser();
+      const feed = await parser.parseURL('http://stockchase.com/discover/feed');
 
-        request('https://stockchase.com/discover/feed/')
-          .on('response', res => res.pipe(parser))
-          .on('error', err => reject(err));
-
-        parser.on('readable', function parseItem() {
-          let item;
-          /* eslint-disable-next-line no-cond-assign */
-          while (item = this.read()) {
-            const $ = cheerio.load(`<div id="root">${item.description}</div>`);
-            item.excerpt = _.truncate($('#root').text(), { length: 110 });
-            item.image = $('img').attr('src');
-            posts.push(item);
-          }
-        }).on('end', () => resolve()).on('error', err => reject(err));
-      });
-
-      return posts;
+      return _(feed.items).slice(0, 3).map(item => ({
+        excerpt: _.truncate(item.contentSnippet.replace(/\[….*/, ''), { length: 110 }),
+        image: item.content.match(/img[^>]+ src="([^"]+)/)[1],
+        link: item.link,
+      })).value();
     },
 
     async fetchLatestExperts(num) {
