@@ -1,6 +1,6 @@
 import moment from 'moment';
 import numeral from 'numeral';
-import striptags from 'striptags';
+import cheerio from 'cheerio';
 
 export function host(url) {
   const h = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
@@ -47,5 +47,7 @@ export function rounding(value) {
 }
 
 export function stripTags(value) {
-  return striptags(value);
+  const $ = cheerio.load(value);
+
+  return $.text();
 }
