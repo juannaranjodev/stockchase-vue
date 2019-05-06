@@ -345,7 +345,7 @@ export default {
         this.tabIndex = 1;
       }
 
-      this.scrollToTabs();
+      if (hash) this.scrollToTabs();
     },
 
     scrollToTabs() {
