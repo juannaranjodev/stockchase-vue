@@ -1,6 +1,6 @@
 <template>
   <div
-    :id="item.id"
+    :id="`opinion_${item.id}`"
     class="opinions-row"
     :class="{ 'opinions-row--ad d-none d-lg-flex': item.ad }"
   >
@@ -354,6 +354,10 @@ export default {
     sharingHashtag() {
       return `financial $${this.item.Company.symbol}`;
     },
+
+    routeHash() {
+      return this.$route.hash || '';
+    },
   },
 
   watch: {
@@ -367,6 +371,7 @@ export default {
 
     this.$nextTick(() => {
       this.initTippy();
+      this.expandOpinion();
     });
   },
 
@@ -408,6 +413,11 @@ export default {
 
     toggleContent() {
       this.expanded = !this.expanded;
+    },
+
+    expandOpinion() {
+      const anchoredId = this.routeHash.replace('#', '');
+      if (Number(anchoredId) === this.item.id) this.expanded = true;
     },
   },
 };

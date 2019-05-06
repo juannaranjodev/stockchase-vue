@@ -105,6 +105,7 @@ export default function createAPI() {
       const feed = await parser.parseURL('http://stockchase.com/discover/feed');
 
       return _(feed.items).slice(0, 3).map(item => ({
+        title: item.title,
         excerpt: _.truncate(item.contentSnippet.replace(/\[….*/, ''), { length: 110 }),
         image: item.content.match(/img[^>]+ src="([^"]+)/)[1],
         link: item.link,

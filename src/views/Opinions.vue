@@ -92,10 +92,31 @@ export default {
     urlPattern() {
       return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date';
     },
+
+    routeHash() {
+      return this.$route.hash || '';
+    },
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.scrollToOpinion();
+    });
   },
 
   updated() {
     if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({ reset: true });
+  },
+
+  methods: {
+    scrollToOpinion() {
+      const opinionEl = document.getElementById(`opinion_${this.routeHash.replace('#', '')}`);
+      if (!opinionEl) return;
+
+      // Account for mobile spacer
+      const spacerHeight = document.getElementsByClassName('sticky-header-spacer')[0].offsetHeight;
+      window.scrollTo(0, opinionEl.offsetTop - spacerHeight);
+    },
   },
 };
 </script>
