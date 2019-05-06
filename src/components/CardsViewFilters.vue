@@ -167,7 +167,6 @@ export default {
       return query.search ? `${url}?search=${query.search}` : url;
     },
     onSubmitSearch() {
-      console.log(this.$refs.search.value);
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
         // do something here

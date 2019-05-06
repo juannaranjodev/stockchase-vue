@@ -13,7 +13,6 @@ export default {
 
   FETCH_COMPANIES_BY_NAME: ({ commit }, { term, page = 1, limit = 15 }) => api.getCompaniesByTerm(term, page, limit)
     .then((companies) => {
-      console.log(companies);
       commit('SET_COMPANIES', companies);
     }),
 
