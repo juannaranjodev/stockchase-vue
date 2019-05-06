@@ -181,7 +181,7 @@ export default function createAPI() {
         const date = results[i].Date;
         /* eslint-disable no-await-in-loop */
         const opinions = await Opinion.getOpinionsByExpert(results[i].expert_id, date, 7);
-        const topPicks = await Opinion.getTopPicksByExpert(results[i].expert_id, date, 3);
+        const topPicks = await Opinion.getExpertTopPicksByDate(results[i].expert_id, date, 3);
         const ratings = await ExpertRating.getRatingsByExpert(results[i].expert_id);
         /* eslint-enable no-await-in-loop */
         const topHorizon = ratings[0];
@@ -276,6 +276,10 @@ export default function createAPI() {
 
     async fetchExpertOpinionsByPage(id, page, perPage) {
       return Opinion.getExpertOpinionsByPage(id, page, perPage);
+    },
+
+    async fetchExpertTopPicks(id, limit) {
+      return Opinion.getExpertTopPicks(id, limit);
     },
   };
 }

@@ -375,6 +375,13 @@ export default {
     flex-wrap nowrap
     justify-content space-between
 
+    &--with-ad
+      margin-top 40px
+      border-top 2px solid #E9E9EA
+
+      .overview-section__right .overview-section__block
+        padding-top 10px
+
     &__left, &__right
       width calc(50% - 15px/2)
       flex-grow 0

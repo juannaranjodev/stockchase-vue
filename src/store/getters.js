@@ -117,4 +117,8 @@ export default {
   expert(state) {
     return state.expert;
   },
+
+  expertTopPicks(state) {
+    return state.expertTopPicks;
+  },
 };
