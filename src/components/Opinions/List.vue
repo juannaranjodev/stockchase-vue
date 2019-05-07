@@ -31,6 +31,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
+import moment from 'moment';
 import Item from './Item.vue';
 import CommentsModal from './CommentsModal.vue';
 
@@ -53,7 +54,10 @@ export default {
     ...mapGetters(['shouldShowAd']),
 
     displayedItems() {
-      const displayedItems = _.clone(this.items);
+      const displayedItems = _.sortBy(this.items, [
+        o => -moment(o.date, 'YYYY-MM-DD').valueOf(),
+        o => o.id,
+      ]);
 
       if (this.shouldShowAd) displayedItems.splice(1, 0, { ad: true });
 
