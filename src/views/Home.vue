@@ -164,7 +164,6 @@ export default {
         type: 'opinions',
         date: 'recent',
       }),
-      store.dispatch('FETCH_DISQUS_COMMENTS_COUNT'),
     ];
 
     return Promise.all(queries);

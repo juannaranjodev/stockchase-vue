@@ -40,6 +40,10 @@ export default {
     },
   },
 
+  asyncData({ store }) {
+    return store.dispatch('FETCH_DISQUS_COMMENTS_COUNT');
+  },
+
   methods: {
     /* eslint-disable */
     initOptinMonster() {
