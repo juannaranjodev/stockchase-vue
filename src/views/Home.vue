@@ -90,8 +90,6 @@
       <dianomi-ad />
       <link-ad />
     </div>
-
-    <stock-saved-modal />
   </div>
 </template>
 
@@ -112,7 +110,6 @@ import LinkAd from '../components/Ads/LinkAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
-import StockSavedModal from '../components/StockSavedModal.vue';
 
 export default {
   name: 'Home',
@@ -129,7 +126,6 @@ export default {
     DianomiAd,
     SideAd,
     OpinionsList,
-    StockSavedModal,
     // Sponsors,
     // Newest,
     // FollowUs,
