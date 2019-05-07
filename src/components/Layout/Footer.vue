@@ -87,14 +87,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import StickyComments from './StickyComments.vue';
-import MobileFooterAd from '../Ads/MobileFooterAd.vue';
 
 export default {
   name: 'Footer',
 
   components: {
     StickyComments,
-    MobileFooterAd,
   },
 
   computed: {

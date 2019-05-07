@@ -22,7 +22,7 @@
             class="overview-section__right d-none d-lg-block"
           >
             <div class="overview-section__block">
-              <side-adx slot-id="div-gpt-ad-9004875-1" />
+              <side-ad />
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import SideAdx from '../components/Ads/SideAdx.vue';
+import SideAd from '../components/Ads/SideAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 import UserReactions from '../components/UserReactions.vue';
@@ -160,7 +160,7 @@ export default {
     ExpertTopPicks,
     LinkAd,
     DianomiAd,
-    SideAdx,
+    SideAd,
     OpinionsList,
     NumberPagination,
     UserReactions,
