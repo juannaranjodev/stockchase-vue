@@ -1,6 +1,7 @@
 'use strict';
 
-const slugify = require('../helper/slugify');
+const slugify = require('slugify');
+const { titleize } = require('inflection');
 
 module.exports = (sequelize, DataTypes) => {
   const ExpertRating = sequelize.define('ExpertRating', {
@@ -110,7 +111,7 @@ module.exports = (sequelize, DataTypes) => {
           const result = { ...expert };
           result.expertRank = expertRank++;
           result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-          result.url = `/expert/view/${expert.expert_id}/${slugify(expert.name)}/rating`;
+          result.url = `/expert/view/${expert.expert_id}/${slugify(titleize(expert.name))}/rating`;
           results.push(result);
 
           totalWinsById[beforeExpertId] = totalWins;
