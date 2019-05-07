@@ -121,4 +121,8 @@ export default {
   expertTopPicks(state) {
     return state.expertTopPicks;
   },
+
+  expertJoinDate(state) {
+    return state.expertJoinDate;
+  },
 };

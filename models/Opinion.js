@@ -222,6 +222,16 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Get the date of the first opinion by expert
+  Opinion.getExpertFirstOpinionDate = async function (expertId) {
+    const firstOpinion = await Opinion.findOne({
+      where: { expert_id: expertId },
+      order: [['date', 'ASC']],
+    });
+
+    return firstOpinion ? firstOpinion.date : null;
+  };
+
   // Count expert opinions
   Opinion.countExpertOpinions = function (expertId) {
     return Opinion.count({

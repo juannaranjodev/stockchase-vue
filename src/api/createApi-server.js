@@ -278,6 +278,10 @@ export default function createAPI() {
       return Opinion.getExpertOpinionsByPage(id, page, perPage);
     },
 
+    async fetchExpertFirstOpinionDate(id) {
+      return Opinion.getExpertFirstOpinionDate(id);
+    },
+
     async fetchExpertTopPicks(id, limit) {
       return Opinion.getExpertTopPicks(id, limit);
     },

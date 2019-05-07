@@ -39,6 +39,7 @@ export default function createStore() {
       company: {},
       expert: {},
       expertTopPicks: [],
+      expertJoinDate: null,
     },
     actions,
     mutations,

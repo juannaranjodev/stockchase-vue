@@ -51,7 +51,7 @@
             v-if="user.loaded && user.premium"
             :href="`${expert.url}/rating`"
           >
-            View {{ firstName }}'s
+            View {{ expert.first_name }}'s
             <br>
             Top Picks portfolio
           </a>
@@ -59,7 +59,7 @@
             v-if="user.loaded && !user.premium"
             href="https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
           >
-            Unlock {{ firstName }}'s
+            Unlock {{ expert.first_name }}'s
             <br>
             Top Picks portfolio
           </a>
@@ -77,10 +77,6 @@ export default {
 
   computed: {
     ...mapGetters(['user', 'expert', 'expertTopPicks']),
-
-    firstName() {
-      return this.expert.name.split(' ')[0];
-    },
   },
 };
 </script>

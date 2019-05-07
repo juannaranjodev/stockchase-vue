@@ -8,6 +8,12 @@
               <expert-overview />
             </div>
           </div>
+
+          <div class="overview-section__right overview-section__right--small">
+            <div class="overview-section__block">
+              <review-expert />
+            </div>
+          </div>
         </div>
 
         <div class="overview-section overview-section--with-ad">
@@ -137,6 +143,7 @@ import EventBus from '../util/EventBus';
 import ExpertHeader from '../components/Expert/Header.vue';
 import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
+import ReviewExpert from '../components/Expert/Review.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
@@ -164,6 +171,7 @@ export default {
     OpinionsList,
     NumberPagination,
     UserReactions,
+    ReviewExpert,
   },
 
   data() {
@@ -319,7 +327,7 @@ export default {
         this.tabIndex = 1;
       }
 
-      this.scrollToTabs();
+      if (hash) this.scrollToTabs();
     },
 
     scrollToTabs() {
@@ -394,6 +402,9 @@ export default {
       width 300px
       margin-left 40px
       flex-shrink 0
+
+      &--small
+        width 200px
 
     &__block
       width 100%
