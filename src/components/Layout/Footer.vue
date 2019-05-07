@@ -79,7 +79,6 @@
       © Stockchase Inc.
     </div>
 
-    <mobile-footer-ad />
     <sticky-comments />
   </div>
 </template>
