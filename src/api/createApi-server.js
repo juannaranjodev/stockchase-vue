@@ -222,7 +222,7 @@ export default function createAPI() {
       });
 
       const now = moment();
-      return _.filter(comments, comment => moment(comment.createdAt).diff(now, 'days') <= 7).length;
+      return _.filter(comments, comment => now.diff(moment(comment.createdAt), 'days') <= 7).length;
     },
 
     async fetchCompanyById(id) {

@@ -11,6 +11,7 @@
     <router-view />
 
     <site-footer />
+    <stock-saved-modal />
   </div>
 </template>
 
@@ -20,6 +21,7 @@ import SiteHeader from './components/Layout/Header.vue';
 import SiteNavigation from './components/Layout/Navigation.vue';
 import SiteFooter from './components/Layout/Footer.vue';
 import LeaderboardAd from './components/Ads/LeaderboardAd.vue';
+import StockSavedModal from './components/StockSavedModal.vue';
 
 export default {
   components: {
@@ -27,6 +29,7 @@ export default {
     SiteNavigation,
     SiteFooter,
     LeaderboardAd,
+    StockSavedModal,
   },
 
   computed: {
@@ -38,6 +41,10 @@ export default {
       // Init OptinMonster for non-logged-in users
       if (user.loaded && !user.id) this.initOptinMonster();
     },
+  },
+
+  asyncData({ store }) {
+    return store.dispatch('FETCH_DISQUS_COMMENTS_COUNT');
   },
 
   methods: {

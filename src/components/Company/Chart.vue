@@ -7,7 +7,6 @@
           ({{ company.symbol }})
         </h3>
         <a
-          v-if="!isWatching"
           class="company__save"
           href="#"
           @click="saveStock"
@@ -83,6 +82,7 @@ import _ from 'lodash';
 import $ from 'jquery';
 import Highcharts from 'highcharts';
 import { APP_URL } from '../../constants';
+import EventBus from '../../util/EventBus';
 
 const fromDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
 
@@ -516,13 +516,18 @@ export default {
     saveStock(e) {
       e.preventDefault();
 
+      if (this.isWatching) {
+        EventBus.$emit('saveStock', false);
+        return;
+      }
+
       this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.company.id })
-        .then(() => this.$root.$emit('bv::show::modal', 'modal_stock_saved'))
+        .then(() => EventBus.$emit('saveStock', true))
         .catch((err) => {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            this.$root.$emit('bv::show::modal', 'modal_stock_saved');
+            EventBus.$emit('saveStock', false);
             return;
           }
 

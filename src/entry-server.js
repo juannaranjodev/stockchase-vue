@@ -1,4 +1,5 @@
 import createApp from './app';
+import App from './App.vue';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -28,6 +29,11 @@ export default context => new Promise((resolve, reject) => {
     if (!matchedComponents.length) {
       return reject({ code: 404 });
     }
+
+    // Adding App to matchedComponents so its asyncData is processed. We put some global data calls
+    // in App.vue to avoid repeating the calls in every view.
+    matchedComponents.push(App);
+
     // Call fetchData hooks on components matched by the route.
     // A preFetch hook dispatches a store action and returns a Promise,
     // which is resolved when the action is complete and store state has been
