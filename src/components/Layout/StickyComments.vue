@@ -93,7 +93,7 @@ export default {
       const num = _.filter(this.disqusComments, c => now.diff(moment(c.createdAt), 'days') <= 7)
         .length;
 
-      console.log('num', num, now);
+      console.log('numDisqusComments', this.disqusComments.length, num, now.toDate());
       return num;
     },
 
