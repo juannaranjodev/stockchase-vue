@@ -282,7 +282,7 @@ export default function createAPI() {
       return Opinion.getExpertTopPicks(id, limit);
     },
 
-    async getCompaniesWithOpinions (page = 1, limit = 25) {
+    async getCompaniesWithOpinions(page = 1, limit = 25) {
       return Company.getCompaniesByPage(page, limit);
     },
 
