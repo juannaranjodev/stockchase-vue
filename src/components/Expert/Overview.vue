@@ -1,11 +1,82 @@
 <template>
   <div class="expert-overview">
-    <div class="expert-logo">
-      <img :src="expert.avatar">
+    <div class="expert-overview__content">
+      <div class="expert-logo">
+        <img
+          :src="expert.avatar"
+          width="70"
+          height="70"
+        >
+      </div>
+      <div class="expert-meta">
+        <div class="expert-meta__content">
+          <div class="expert-meta__left">
+            <div class="expert-name">
+              {{ expert.name }}
+            </div>
+
+            <div
+              v-if="numTotalOpinions"
+              class="expert-join-date"
+            >
+              Member since: {{ expertJoinDate | formatDate('MMM [\']YY') }}
+            </div>
+            <div
+              v-else
+              class="expert-join-date"
+            >
+              NO OPINIONS PUBLISHED YET
+            </div>
+
+            <div
+              v-if="expert.title"
+              class="expert-title"
+            >
+              {{ expert.title }} at
+              <br>
+              {{ expert.company }}
+            </div>
+          </div>
+
+          <div class="expert-meta__right">
+            <a
+              class="review-expert"
+              href="#"
+              @click="showComments"
+            >
+              <img
+                src="~assets/svgs/star.svg"
+                width="13"
+              >
+              <span>Review</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="expert-meta__footer">
+          <a
+            v-if="user.loaded"
+            class="expert-rating"
+            :href="user.premium
+              ? `${expert.url}/rating`
+              : 'https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase'"
+          >
+            <img
+              src="~assets/svgs/rating.svg"
+              width="17"
+            >
+            <span v-if="user.premium">Show Rating Card</span>
+            <span v-else>Reveal Expert Rating</span>
+          </a>
+          <div class="expert-opinions">
+            {{ numTotalOpinions }} Opinions
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="expert-meta">
-      <div class="expert-name">
-        {{ expert.name }}
+    <div class="expert-overview">
+      <div class="expert-message">
+        {{ expert.name }} hasn't left any messages.
       </div>
     </div>
   </div>
@@ -13,12 +84,21 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import EventBus from '../../util/EventBus';
 
 export default {
   name: 'Overview',
 
   computed: {
-    ...mapGetters(['expert']),
+    ...mapGetters(['expert', 'expertJoinDate', 'numTotalOpinions', 'user']),
+  },
+
+  methods: {
+    showComments(e) {
+      e.preventDefault();
+
+      EventBus.$emit('showExpertComments');
+    },
   },
 };
 </script>
@@ -26,45 +106,121 @@ export default {
 <style lang="stylus" scoped>
 .expert
   &-overview
-    display flex
-    align-items center
+    &__content
+      display flex
+      align-items flex-start
 
   &-logo
-    width 120px
-    height 120px
-    border-radius 5px
+    width 70px
+    height 70px
     margin 0 20px 0 0
-    border 1px solid #ccc
-    background white
-    position relative
-    display block
+    display flex
+    align-items center
+    border-radius 70px
+    box-shadow 0 2px 4px rgba(black, 0.5)
 
     img
-      position absolute
-      top 0
-      left 0
-      right 0
-      bottom 0
-      margin auto
-      max-width 85%
-      max-height 85%
-      width auto
-      height auto
+      border-radius 70px
+      box-shadow 0 10px 21px rgba(black, 0.11)
+
+  &-opinions
+    background-color #DFEFFD
+    border 2px solid #C5E7F6
+    padding 0 5px
+    border-radius 3px
+    color #55638D
+    font-size 14px
+    font-weight bold
+    text-align center
+    margin-left 10px
+    display flex
+    align-items center
+    height 27px
 
   &-meta
     flex 1
 
+    &__content
+      display flex
+      align-items flex-start
+      justify-content space-between
+
+    &__footer
+      display flex
+      align-items center
+      margin-top 15px
+
+    &__left
+      flex 1
+
+    &__right
+      margin-left 10px
+
   &-name
-    font-size 23px
-    color #111
-    font-weight normal
-    overflow hidden
-    text-overflow -o-ellipsis-lastline
-    text-overflow ellipsis
-    /* autoprefixer: off */
-    display -webkit-box
-    -webkit-line-clamp 3
-    -webkit-box-orient vertical
-    max-height 3em
+    font-size 18px
+    color #25292B
+    font-weight bold
+    line-height 22px
+
+  &-join-date
+    color #7f7f7f
+    font-size 14px
+    line-height 17px
+    font-weight bold
+    margin-top 4px
+
+  &-title
+    color #a6a6a6
+    font-size 15px
+    line-height 18px
+    margin-top 5px
+
+  &-message
+    background #F5F6F7
+    border 1px solid #EEEEEE
+    padding 9px 5px
+    border-radius 4px
+    margin-top 30px
+    color #999ea3
+    font-size 12px
+    font-weight bold
+    line-height 15px
+    text-align center
+    height 33px
+
+  &-rating
+    display flex
+    align-items center
+    text-decoration none
+    height 27px
+    border-radius 27px
+    background-color #fff1dc
+    color #A46912
+    font-size 14px
+    font-weight bold
+    padding 0 5px
+
+    span
+      margin 0 8px
+
+.review-expert
+  color white
+  text-decoration none
+  background-color #FF5030
+  display flex
+  align-items center
+  text-align center
+  border-radius 4px
+  height 40px
+  padding 0 15px
+  font-size 15px
+  font-weight bold
+  line-height normal
+
+  img
+    margin-right 8px
+
+  &:hover
+    background-color #FF2E50
 
 </style>

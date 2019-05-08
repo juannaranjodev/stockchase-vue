@@ -196,11 +196,15 @@ export default {
       return Promise.all([
         api.countExpertOpinions(id),
         api.fetchExpertOpinionsByPage(id, page, perPage),
+        api.fetchExpertTopPicks(id, 5),
+        api.fetchExpertFirstOpinionDate(id),
       ]).then((result) => {
-        const [numOpinions, pageOpinions] = result;
+        const [numOpinions, pageOpinions, topPicks, firstOpinionDate] = result;
 
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
+        commit('SET_EXPERT_TOP_PICKS', topPicks);
+        commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
       });
     });
   },

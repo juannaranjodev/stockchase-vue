@@ -158,10 +158,20 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Get top picks by expert id & date
-  Opinion.getTopPicksByExpert = function (expertId, date, limit) {
+  Opinion.getExpertTopPicksByDate = function (expertId, date, limit) {
     return Opinion.scope('includeAll').findAll({
       where: {
         date, company_id: { [Op.ne]: 1970 }, expert_id: expertId, signal_id: 16,
+      },
+      limit,
+    });
+  };
+
+  // Get top picks by expert id (including past top picks as in v1 logic)
+  Opinion.getExpertTopPicks = function (expertId, limit) {
+    return Opinion.scope('includeAll').findAll({
+      where: {
+        company_id: { [Op.ne]: 1970 }, expert_id: expertId, signal_id: { [Op.or]: [9, 16] },
       },
       limit,
     });
@@ -210,6 +220,16 @@ module.exports = (sequelize, DataTypes) => {
       offset: (page - 1) * perPage,
       limit: perPage,
     });
+  };
+
+  // Get the date of the first opinion by expert
+  Opinion.getExpertFirstOpinionDate = async function (expertId) {
+    const firstOpinion = await Opinion.findOne({
+      where: { expert_id: expertId },
+      order: [['date', 'ASC']],
+    });
+
+    return firstOpinion ? firstOpinion.date : null;
   };
 
   // Count expert opinions

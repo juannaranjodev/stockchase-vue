@@ -38,6 +38,8 @@ export default function createStore() {
       // TODO consider moving these data to separate modules
       company: {},
       expert: {},
+      expertTopPicks: [],
+      expertJoinDate: null,
     },
     actions,
     mutations,

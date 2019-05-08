@@ -92,4 +92,12 @@ export default {
   SET_EXPERT: (state, expert = {}) => {
     Vue.set(state, 'expert', expert);
   },
+
+  SET_EXPERT_TOP_PICKS: (state, expertTopPicks = []) => {
+    Vue.set(state, 'expertTopPicks', expertTopPicks);
+  },
+
+  SET_EXPERT_JOIN_DATE: (state, expertJoinDate) => {
+    Vue.set(state, 'expertJoinDate', expertJoinDate);
+  },
 };
