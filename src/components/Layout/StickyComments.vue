@@ -72,9 +72,11 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import { mapGetters } from 'vuex';
 import cheerio from 'cheerio';
-import { truncate } from 'lodash';
+import moment from 'moment';
+import _ from 'lodash';
 
 export default {
   name: 'StickyComments',
@@ -84,7 +86,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['numDisqusComments']),
+    ...mapGetters(['disqusComments']),
+
+    numDisqusComments() {
+      const now = moment();
+      const num = _.filter(this.disqusComments, c => now.diff(moment(c.createdAt), 'days') <= 7)
+        .length;
+
+      console.log('num', num, now);
+      return num;
+    },
 
     roundedNumDisqusComments() {
       const num = this.numDisqusComments;
@@ -99,6 +110,7 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
+      console.log('disqusComments', this.disqusComments);
       if (!this.$refs.commentsContainer) return;
 
       // Inserting the comments list fetched during page load outside of Vue
@@ -107,7 +119,7 @@ export default {
       // not compatible with how Vue works
       const $ = cheerio.load(document.getElementsByClassName('dsq-widget-list')[0].outerHTML);
       const truncateText = length => function doTruncate() {
-        $(this).text(truncate($(this).text(), { length, omission: ' ...' }));
+        $(this).text(_.truncate($(this).text(), { length, omission: ' ...' }));
       };
       $('.dsq-widget-meta a').each(truncateText(35));
       $('.dsq-widget-comment p').each(truncateText(50));
