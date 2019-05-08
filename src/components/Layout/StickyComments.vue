@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="numDisqusComments > 0"
-    class="sticky-comments d-none d-lg-block"
-  >
+  <div class="sticky-comments d-none d-lg-block">
     <div class="container">
       <div class="sticky-comments__container">
         <div :class="{ 'sticky-comments__panel': true, 'sticky-comments__panel--hidden': !opened }">
