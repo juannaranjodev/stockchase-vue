@@ -216,7 +216,8 @@ export default function createAPI() {
         }, (err, response, body) => {
           if (err) return reject(err);
 
-          return resolve(body.response);
+          // Sometimes due to rate limit disqus would return a string here instead of an array
+          return resolve(_.isArray(body.response) ? body.response : []);
         });
       });
     },

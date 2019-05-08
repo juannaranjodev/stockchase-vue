@@ -1,5 +1,8 @@
 <template>
-  <div class="sticky-comments d-none d-lg-block">
+  <div
+    v-if="disqusComments.length"
+    class="sticky-comments d-none d-lg-block"
+  >
     <div class="container">
       <div class="sticky-comments__container">
         <div :class="{ 'sticky-comments__panel': true, 'sticky-comments__panel--hidden': !opened }">
@@ -48,7 +51,7 @@
               Join the discussion
             </div>
             <div class="sticky-comments__cta-content">
-              {{ numDisqusComments }} comments in the last 7 days
+              {{ numRecentComments }} comments in the last 7 days
             </div>
           </div>
           <div
@@ -62,7 +65,7 @@
               >
             </div>
             <div class="sticky-comments__badge-label">
-              {{ roundedNumDisqusComments }}
+              {{ formattedNumRecentComments }}
             </div>
           </div>
         </div>
@@ -72,7 +75,6 @@
 </template>
 
 <script>
-/* eslint-disable no-console */
 import { mapGetters } from 'vuex';
 import cheerio from 'cheerio';
 import moment from 'moment';
@@ -88,17 +90,16 @@ export default {
   computed: {
     ...mapGetters(['disqusComments']),
 
-    numDisqusComments() {
+    numRecentComments() {
       const now = moment();
       const num = _.filter(this.disqusComments, c => now.diff(moment(c.createdAt), 'days') <= 7)
         .length;
 
-      console.log('numDisqusComments', this.disqusComments.length, num, now.toDate());
       return num;
     },
 
-    roundedNumDisqusComments() {
-      const num = this.numDisqusComments;
+    formattedNumRecentComments() {
+      const num = this.numRecentComments;
 
       if (num > 50) return '50+';
       if (num > 25) return '25+';
@@ -110,7 +111,6 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      console.log('disqusComments', this.disqusComments);
       if (!this.$refs.commentsContainer) return;
 
       // Inserting the comments list fetched during page load outside of Vue
