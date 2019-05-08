@@ -9,26 +9,9 @@
             </div>
           </div>
 
-          <div class="overview-section__right overview-section__right--small">
-            <div class="overview-section__block">
-              <review-expert />
-            </div>
-          </div>
-        </div>
-
-        <div class="overview-section overview-section--with-ad">
-          <div class="overview-section__left">
+          <div class="overview-section__right">
             <div class="overview-section__block">
               <expert-top-picks />
-            </div>
-          </div>
-
-          <div
-            v-if="shouldShowAd"
-            class="overview-section__right d-none d-lg-block"
-          >
-            <div class="overview-section__block">
-              <side-ad />
             </div>
           </div>
         </div>
@@ -143,10 +126,8 @@ import EventBus from '../util/EventBus';
 import ExpertHeader from '../components/Expert/Header.vue';
 import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
-import ReviewExpert from '../components/Expert/Review.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import SideAd from '../components/Ads/SideAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 import UserReactions from '../components/UserReactions.vue';
@@ -167,11 +148,9 @@ export default {
     ExpertTopPicks,
     LinkAd,
     DianomiAd,
-    SideAd,
     OpinionsList,
     NumberPagination,
     UserReactions,
-    ReviewExpert,
   },
 
   data() {
@@ -379,35 +358,30 @@ export default {
     margin-bottom 30px
     margin-top 30px
     display flex
-    align-items flex-start
+    align-items stretch
     flex-wrap nowrap
     justify-content space-between
 
-    &--with-ad
-      margin-top 40px
-      border-top 2px solid #E9E9EA
-
-      .overview-section__right .overview-section__block
-        padding-top 10px
-
     &__left, &__right
-      width calc(50% - 15px/2)
-      flex-grow 0
-      flex-shrink 0
+      display flex
+      align-items stretch
 
     &__left
       flex 1
+      flex-grow 1
+      flex-shrink 1
 
     &__right
-      width 300px
-      margin-left 40px
+      width 60%
+      margin-left 10px
+      flex-grow 0
       flex-shrink 0
-
-      &--small
-        width 200px
 
     &__block
       width 100%
+      padding 15px
+      border-radius 5px
+      box-shadow 0 4px 14px rgba(black, 0.14)
 
 .expert
   &-container
@@ -463,15 +437,16 @@ export default {
 
   .overview
     &-section
-      display flex
-      flex-direction column-reverse
-      align-items center
+      display block
 
       &__left, &__right
         width 100%
         margin 0
 
+      &__left
+        margin-bottom 30px
+
       &__block
-        margin-bottom 25px
+        margin-bottom 0
 
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="expert-top-picks">
     <h3 class="expert-top-picks__title">
-      {{ expert.name }} Latest Top Picks...
+      Latest Top Picks
     </h3>
     <div class="expert-top-picks__list">
       <div
@@ -44,8 +44,8 @@
         <div class="top-picks-portfolio">
           <img
             v-if="user.loaded && !user.premium"
-            src="~assets/images/lock-star.png"
-            width="50"
+            src="~assets/svgs/lock_opened.svg"
+            width="23"
           >
           <a
             v-if="user.loaded && user.premium"
@@ -84,10 +84,11 @@ export default {
 <style lang="stylus" scoped>
 .expert-top-picks
   h3&__title
-    color #111
-    font-size 1.4em
-    line-height 1
-    margin 30px 0 40px 0
+    color #25292B
+    font-size 18px
+    line-height 22px
+    font-weight bold
+    margin-bottom 0
 
   &__list
     display flex
@@ -95,7 +96,7 @@ export default {
     flex-wrap wrap
 
   &__item
-    margin-bottom 30px
+    margin-top 25px
     width calc((100% - 2*30px)/3)
 
     &:nth-child(3n+1), &:nth-child(3n+2)
@@ -112,14 +113,17 @@ export default {
   height 56px
 
   img
-    margin-right 8px
+    margin-right 10px
 
   a
-    color red
-    font-size 16px
+    color #FF4135
+    font-size 14px
     text-decoration none
-    font-weight bold
+    font-weight bolder
     text-align center
+
+    &:hover
+      color #FF2E50
 
 .opinion
   display flex
