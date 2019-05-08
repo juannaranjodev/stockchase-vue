@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
-        return `https://data.wealthica.com/api/securities/${this.symbol.toLowerCase().replace(' (dead)', '').replace(/[()]/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^\)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.id}/${this.symbol.toLowerCase().replace(' (dead)', '').replace(/[()]/g, '')}`;
+        return `/company/view/${this.symbol.replace(/ ?\([^\)]+\)/g, '')}`;
       },
     },
     active_original: {
