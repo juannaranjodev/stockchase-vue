@@ -14,10 +14,9 @@
     >
       <div>
         <p>
-          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on
-          <a href="/company">public companies</a>.
-          Read the daily stock market experts opinions and discover the latest
-          <a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
+          <!-- eslint-disable max-len -->
+          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on <a href="/company">public companies</a>. Read the daily stock market experts opinions and discover the latest<a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
+          <!-- eslint-enable max-len -->
         </p>
       </div>
       <div class="banner-options">

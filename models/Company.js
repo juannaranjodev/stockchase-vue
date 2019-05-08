@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
-        return `https://data.wealthica.com/api/securities/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol.toLowerCase().replace(' (dead)', '').replace(/[()]/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.id}/${this.symbol.replace(' (Dead)', '').replace(/[()]/g, '')}`;
+        return `/company/view/${this.id}/${this.symbol.toLowerCase().replace(' (dead)', '').replace(/[()]/g, '')}`;
       },
     },
     active_original: {
@@ -172,8 +172,6 @@ module.exports = (sequelize, DataTypes) => {
       type: sequelize.QueryTypes.SELECT,
       model: Company,
       mapToModel: true,
-    }).then(function(companies) {
-      return companies;
     });
   };
 
@@ -209,13 +207,11 @@ module.exports = (sequelize, DataTypes) => {
       type: sequelize.QueryTypes.SELECT,
       model: Company,
       mapToModel: true,
-    }).then(function(companies) {
-      return companies;
     });
   };
 
-  Company.getTotalCompanies = async function(term = null){
-    var result = await Company.count({
+  Company.getTotalCompanies = function(term = null){
+    return Company.count({
       where: term ? { 
         $and: [
           { 
@@ -230,7 +226,6 @@ module.exports = (sequelize, DataTypes) => {
         ],
       } : { id: { $ne: 1970 } },
     });
-    return result;
   }
 
   Company.searchCompanies = function(term = null, limit = 15) {
