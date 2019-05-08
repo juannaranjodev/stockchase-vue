@@ -81,8 +81,8 @@ export default {
     Vue.set(state, 'premiumCompanies', premiumCompanies);
   },
 
-  SET_DISQUS_COMMENTS_COUNT: (state, numDisqusComments) => {
-    Vue.set(state, 'numDisqusComments', numDisqusComments);
+  SET_DISQUS_COMMENTS: (state, disqusComments = []) => {
+    Vue.set(state, 'disqusComments', disqusComments);
   },
 
   SET_COMPANY: (state, company = {}) => {

@@ -106,8 +106,8 @@ export default {
     return state.searchedExperts;
   },
 
-  numDisqusComments(state) {
-    return state.numDisqusComments;
+  disqusComments(state) {
+    return state.disqusComments;
   },
 
   company(state) {

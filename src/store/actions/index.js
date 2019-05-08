@@ -149,8 +149,8 @@ export default {
       commit('SET_USER', user);
     }),
 
-  FETCH_DISQUS_COMMENTS_COUNT: ({ commit }) => api.fetchDisqusCommentsCount()
-    .then(count => commit('SET_DISQUS_COMMENTS_COUNT', count)),
+  FETCH_DISQUS_COMMENTS_COUNT: ({ commit }) => api.fetchDisqusComments()
+    .then(comments => commit('SET_DISQUS_COMMENTS', comments)),
 
   FETCH_COMPANY: ({ commit }, urlParams) => {
     const { id, symbol } = urlParams;

@@ -29,7 +29,7 @@ export default function createStore() {
       topExperts: [],
       worstExperts: [],
       experts: [],
-      numDisqusComments: 0,
+      disqusComments: [],
       totalExperts: 0,
       searchedExperts: [],
       totalSearchedExperts: 0,

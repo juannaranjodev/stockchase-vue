@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import _ from 'lodash';
-import moment from 'moment';
 import request from 'request';
 import Parser from 'rss-parser';
 import * as c from '../constants';
@@ -209,8 +208,8 @@ export default function createAPI() {
       return _.sortBy(companies, company => symbols.indexOf(company.symbol));
     },
 
-    async fetchDisqusCommentsCount() {
-      const comments = await new Promise((resolve, reject) => {
+    async fetchDisqusComments() {
+      return new Promise((resolve, reject) => {
         request({
           url: `https://disqus.com/api/3.0/forums/listPosts.json?limit=51&forum=${process.env.DISQUS_SHORTNAME}&api_key=${process.env.DISQUS_PUBLIC_KEY}`,
           json: true,
@@ -220,9 +219,6 @@ export default function createAPI() {
           return resolve(body.response);
         });
       });
-
-      const now = moment();
-      return _.filter(comments, comment => now.diff(moment(comment.createdAt), 'days') <= 7).length;
     },
 
     async fetchCompanyById(id) {
