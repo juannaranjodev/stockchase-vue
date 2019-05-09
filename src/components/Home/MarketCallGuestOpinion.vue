@@ -58,7 +58,6 @@
 <script>
 import _ from 'lodash';
 import { mapGetters } from 'vuex';
-import EventBus from '../../util/EventBus';
 
 export default {
   name: 'MarketCallGuestOpinion',
@@ -98,17 +97,17 @@ export default {
       e.preventDefault();
 
       if (this.isWatching) {
-        EventBus.$emit('saveStock', false);
+        this.$bus.$emit('saveStock', false);
         return;
       }
 
       this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.opinion.Company.id })
-        .then(() => EventBus.$emit('saveStock', true))
+        .then(() => this.$bus.$emit('saveStock', true))
         .catch((err) => {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            EventBus.$emit('saveStock', false);
+            this.$bus.$emit('saveStock', false);
             return;
           }
 

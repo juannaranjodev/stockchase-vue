@@ -84,7 +84,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import EventBus from '../../util/EventBus';
 
 export default {
   name: 'Overview',
@@ -97,7 +96,7 @@ export default {
     showComments(e) {
       e.preventDefault();
 
-      EventBus.$emit('showExpertComments');
+      this.$bus.$emit('showExpertComments');
     },
   },
 };

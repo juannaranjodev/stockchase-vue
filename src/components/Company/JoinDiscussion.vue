@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import EventBus from '../../util/EventBus';
-
 export default {
   name: 'JoinDiscussion',
 
@@ -23,7 +21,7 @@ export default {
     showComments(e) {
       e.preventDefault();
 
-      EventBus.$emit('showCompanyComments');
+      this.$bus.$emit('showCompanyComments');
     },
   },
 };
