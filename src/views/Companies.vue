@@ -3,9 +3,10 @@
     <cards-view-filters
       :title="title"
       :search-placeholder="searchPlaceholder"
-      target-search="experts"
-      :reset-uri="'/expert'"
+      target-search="companies"
+      :reset-uri="'/company'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
+      :current-limit="paginator.itemsPerPage"
     />
 
     <div
@@ -15,7 +16,7 @@
       <div>
         <p>
           <!-- eslint-disable max-len -->
-          <strong>Browse all <a href="/expert">experts</a></strong> and read their opinions on <a href="/company">public companies</a>. Read the daily stock market experts opinions and discover the latest<a href="/">stock predictions</a> and <a href="/opinions/recent">top picks</a>.
+          <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by <a href="/expert">stock experts</a>. Read the daily stock experts opinions and <a href="/">stock predictions</a>.
           <!-- eslint-enable max-len -->
         </p>
       </div>
@@ -28,19 +29,18 @@
 
     <link-ad />
 
-    <div class="experts">
+    <div class="companies">
       <div class="first-row">
         <card-view
-          v-for="(expert, index) in firstFiveExperts"
+          v-for="(company, index) in firstFiveCompanies"
           :key="index"
-          image-size="small"
-          :image-src="expert.avatar"
-          :name="expert.name"
-          :title="expert.name"
-          :sub-title="`${expert.title} at ${expert.company}`"
-          :footnote="`${expert.total_opinion} opinions`"
-          :social-links="expert.social_links || {}"
-          :card-link="expert.url"
+          image-size="large"
+          :image-src="company.logo"
+          :name="company.name"
+          :title="company.name"
+          :sub-title="`${company.symbol}`"
+          :footnote="`${company.total_opinion} opinions`"
+          :card-link="company.url"
         />
       </div>
 
@@ -48,16 +48,15 @@
 
       <div class="second-row">
         <card-view
-          v-for="(expert, index) in theRestOfExperts"
+          v-for="(company, index) in theRestOfCompanies"
           :key="index"
-          image-size="small"
-          :image-src="expert.avatar"
-          :name="expert.name"
-          :title="expert.name"
-          :sub-title="`${expert.title} at ${expert.company}`"
-          :footnote="`${expert.total_opinion} opinions`"
-          :social-links="expert.social_links || {}"
-          :card-link="expert.url"
+          image-size="large"
+          :image-src="company.logo"
+          :name="company.name"
+          :title="company.name"
+          :sub-title="`${company.symbol}`"
+          :footnote="`${company.total_opinion} opinions`"
+          :card-link="company.url"
         />
       </div>
     </div>
@@ -65,9 +64,9 @@
       :type="paginator.type"
       :sort="paginator.sort"
       :direction="paginator.direction"
-      :total-items="totalExperts"
+      :total-items="totalCompanies"
       :items-per-page="paginator.itemsPerPage"
-      :main="'/expert'"
+      :main="'/company'"
       :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage'"
     />
   </div>
@@ -86,7 +85,7 @@ import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
 import AskPeterHodson from '../components/Ads/AskPeterHodson.vue';
 
 export default {
-  name: 'Experts',
+  name: 'Companies',
 
   components: {
     CardsViewFilters,
@@ -99,73 +98,72 @@ export default {
     AskPeterHodson,
   },
 
-  title() {
-    return 'Stock Experts Index — Stockchase';
-  },
-
   data() {
     const { params } = this.$route;
 
     return {
-      title: 'Stock Experts',
-      searchPlaceholder: 'Filter by expert name',
+      title: 'Public Companies',
+      searchPlaceholder: 'Filter by name or symbol',
       paginator: {
-        type: params.type ? params.type : 'F',
-        sort: params.sort ? params.sort : 'FirstName',
+        type: params.type ? params.type : 'C',
+        sort: params.sort ? params.sort : 'name',
         direction: params.direction ? params.direction : 'desc',
-        itemsPerPage: Number(params.itemsPerPage) || 15,
+        itemsPerPage: params.itemsPerPage ? params.itemsPerPage : 60,
       },
     };
   },
 
   computed: {
-    ...mapGetters(['experts', 'totalExperts', 'shouldShowAd']),
+    ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
 
-    firstFiveExperts() {
-      return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5);
+    firstFiveCompanies() {
+      return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5);
     },
-    theRestOfExperts() {
-      return this.experts.length >= 5 ? this.experts.slice(5) : [];
+    theRestOfCompanies() {
+      return this.companies.length >= 5 ? this.companies.slice(5) : [];
     },
   },
 
   asyncData({ store, route }) {
-    const { params, query } = route;
     const {
-      page, itemsPerPage, character, type,
+      params, query,
+    } = route;
+    const {
+      page, itemsPerPage, character,
+      /* page, itemsPerPage, character, type, */
     } = params;
 
     let promises = null;
 
     if (Object.keys(query).length > 0) { // if doing a search query
       promises = [
-        store.dispatch('FETCH_EXPERTS_BY_NAME', {
+        store.dispatch('FETCH_COMPANIES_BY_NAME', {
           term: decodeURI(query.search),
-          page: page ? Number(page) : 1,
-          limit: itemsPerPage ? Number(itemsPerPage) : 15,
+          page: page ? parseInt(page, 10) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage, 10) : 15,
         }),
-        store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
+        store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
       ];
     } else if (character) {
-      promises = [
-        store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
-          character,
-          type,
-          page: page ? Number(page) : 1,
-          limit: itemsPerPage ? Number(itemsPerPage) : 15,
-        }),
-        store.dispatch('FETCH_EXPERTS_TOTAL_BY_CHARACTER', {
-          character,
-          type,
-        }),
-      ];
+      // promises = [
+      //   store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
+      //     character: character,
+      //     type: type,
+      //     page: page ?  parseInt(page) : 1,
+      //     limit: itemsPerPage ? parseInt(itemsPerPage) : 15,
+      //   }),
+      //   store.dispatch('FETCH_EXPERTS_TOTAL_BY_CHARACTER', {
+      //     character: character,
+      //     type: type,
+      //   })
+      // ]
     } else {
       promises = [
-        store.dispatch('FETCH_EXPERTS', {
-          page: page ? Number(page) : 1,
-          limit: itemsPerPage ? Number(itemsPerPage) : 15,
+        store.dispatch('FETCH_COMPANIES', {
+          page: page ? parseInt(page, 10) : 1,
+          limit: itemsPerPage ? parseInt(itemsPerPage, 10) : 60,
         }),
-        store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
+        store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
       ];
     }
 
@@ -174,7 +172,7 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import '../assets/css/global.css';
   .container
     box-sizing border-box
@@ -182,8 +180,12 @@ export default {
     max-width 100%
     padding 0 20px 20px
     margin 0 auto
-  .experts
+  .companies
     margin-top 20px
+    .card-info
+      min-height 221px
+    .card-picture
+      background-color white
   .ad-banner > div:first-child
     width 31%
     font-size 18px

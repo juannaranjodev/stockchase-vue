@@ -123,6 +123,10 @@ export default {
       type: String,
       default: '/',
     },
+    currentLimit: {
+      type: Number,
+      default: 15,
+    },
   },
   data() {
     return {
@@ -141,7 +145,7 @@ export default {
       return this.$route.query.search;
     },
     perPage() {
-      return Number(this.$route.params.itemsPerPage) || 15;
+      return Number(this.$route.params.itemsPerPage) || this.currentLimit;
     },
   },
   methods: {
@@ -154,8 +158,8 @@ export default {
     generateURL(pages = 15) {
       const { params, query } = this.$route;
       const url = this.resetUri + this.pattern
-        .replace(':type', params.type || 'F')
-        .replace(':sort', params.sort || 'FirstName')
+        .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
+        .replace(':sort', this.targetSearch === 'companies' ? 'name' : params.sort || 'FirstName')
         .replace(':page', params.page || '1')
         .replace(':direction', params.direction || 'desc')
         .replace(':itemsPerPage', pages);
@@ -163,7 +167,7 @@ export default {
       return query.search ? `${url}?search=${query.search}` : url;
     },
     onSubmitSearch() {
-      if (this.$refs.search.value.length > 3) {
+      if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
         // do something here
         window.location = `?search=${query}`;
@@ -177,16 +181,28 @@ export default {
 
       if (e.target.value.length > 2) {
         this.isTyping = true;
-
+        // wait for some time before it fetches data. This eliminates too many multiple queries
         wait = setTimeout(async () => {
-          if (this.targetSearch === 'company') {
-            // do something for companies page
+          if (this.targetSearch === 'companies') {
+            // this is for the dropdown
+            await this.$store.dispatch('SEARCH_COMPANIES', {
+              term: e.target.value,
+            }).then(() => {
+              const { searchedCompanies, totalSearchedCompanies } = this.$store.state;
+
+              this.matches = searchedCompanies;
+              this.totalSearchedResults = totalSearchedCompanies;
+              this.isTyping = false;
+            });
           } else {
+            // this is for the dropdown
             await this.$store.dispatch('SEARCH_EXPERTS', {
               term: e.target.value,
             }).then(() => {
-              this.matches = this.$store.state.searchedExperts;
-              this.totalSearchedResults = this.$store.state.totalSearchedExperts;
+              const { searchedExperts, totalSearchedExperts } = this.$store.state;
+
+              this.matches = searchedExperts;
+              this.totalSearchedResults = totalSearchedExperts;
               this.isTyping = false;
             });
           }
@@ -197,26 +213,28 @@ export default {
         this.isTyping = false;
       }
     },
-    onSearchResultsItemClick(expert) {
-      if (expert.id) window.location = expert.url;
+    onSearchResultsItemClick(target) {
+      if (target.id) window.location = target.url;
     },
     onAlphabeticalChange(e) {
-      if (this.targetSearch === 'company') {
-        // do something for companies page
-      } else {
-        const pattern = '/expert/index/:character/L';
+      let pattern = '/expert/index/:character/L';
 
-        if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
-          window.location = pattern.replace(':character', e.target.value);
-        } else {
-          window.location = this.resetUri;
-        }
+      if (this.targetSearch === 'companies') {
+        // do something for companies page
+        pattern = '/company/index/:character/C';
+      }
+      if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
+        window.location = pattern.replace(':character', e.target.value);
+      } else {
+        window.location = this.resetUri;
       }
     },
     onSearchFocusOut() {
-      this.matches = [];
-      this.totalSearchedResults = 0;
-      this.isTyping = false;
+      setTimeout(() => { // required in order for the `see all x results` to work
+        this.matches = [];
+        this.totalSearchedResults = 0;
+        this.isTyping = false;
+      }, 200);
     },
   },
 };

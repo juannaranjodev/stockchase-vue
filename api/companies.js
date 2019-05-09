@@ -105,4 +105,14 @@ router.get('/:id/opinions', async (req, res) => {
   res.json(opinions);
 });
 
+router.post('/search', async (req, res) => {
+  const limit = req.body.limit || 5;
+
+  if (!req.body.term) return res.status(500).json({ error: 'Missing required field!' });
+
+  const companies = await Company.searchCompanies(req.body.term, limit);
+
+  res.json(companies);
+});
+
 module.exports = router;

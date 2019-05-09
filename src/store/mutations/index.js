@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import expertMutations from './expert';
+import companyMutations from './company';
 
 export default {
   ...expertMutations,
+  ...companyMutations,
 
   SET_OPINIONS: (state, opinions = []) => {
     opinions.forEach((opinion) => {

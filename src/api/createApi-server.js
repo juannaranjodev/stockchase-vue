@@ -282,5 +282,17 @@ export default function createAPI() {
     async fetchExpertTopPicks(id, limit) {
       return Opinion.getExpertTopPicks(id, limit);
     },
+
+    async getCompaniesWithOpinions(page = 1, limit = 25) {
+      return Company.getCompaniesByPage(page, limit);
+    },
+
+    async getTotalCompanies(term = null) {
+      return Company.getTotalCompanies(term);
+    },
+
+    async getCompaniesByTerm(term = null, page = 1, limit = 60) {
+      return Company.getCompaniesByTerm(term, page, limit);
+    },
   };
 }

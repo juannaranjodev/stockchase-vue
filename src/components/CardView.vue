@@ -156,6 +156,11 @@ export default {
       bottom 0
       right 0
       margin auto
+  &-picture.large
+    width 94px
+    height 94px
+    img
+      max-width calc(100% - 20px)
   &-footnote
     display block
     width 100%
