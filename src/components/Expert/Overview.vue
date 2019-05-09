@@ -55,18 +55,26 @@
 
         <div class="expert-meta__footer">
           <a
-            v-if="user.loaded"
+            v-if="user.loaded && user.premium"
+            class="expert-rating expert-rating--premium"
+            :href="`${expert.url}/rating`"
+          >
+            <expert-rating
+              :rating="expert.rating"
+              :total-wins="expert.totalWins"
+              :total-loses="expert.totalLoses"
+            />
+          </a>
+          <a
+            v-if="user.loaded && !user.premium"
             class="expert-rating"
-            :href="user.premium
-              ? `${expert.url}/rating`
-              : 'https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase'"
+            href="https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
           >
             <img
               src="~assets/svgs/rating.svg"
               width="17"
             >
-            <span v-if="user.premium">Show Rating Card</span>
-            <span v-else>Reveal Expert Rating</span>
+            <span>Reveal Expert Rating</span>
           </a>
           <div class="expert-opinions">
             {{ numTotalOpinions }} Opinions
@@ -75,18 +83,32 @@
       </div>
     </div>
     <div class="expert-overview">
-      <div class="expert-message">
-        {{ expert.name }} hasn't left any messages.
-      </div>
+      <a
+        v-if="user.loaded && user.premium"
+        :href="`${expert.url}/rating`"
+        class="expert-rating-card"
+      >
+        View {{ expert.first_name }}'s Rating Card
+      </a>
+      <a
+        v-if="user.loaded && !user.premium"
+        href="https://stockchase.com/premium/?utm_medium=Stockchase&utm_source=Internal_Links&utm_content=Premium&utm_campain=Stockchase"
+        class="expert-rating-card"
+      >
+        Unlock {{ expert.first_name }}'s Rating Card
+      </a>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import ExpertRating from '../ExpertRating.vue';
 
 export default {
   name: 'Overview',
+
+  components: { ExpertRating },
 
   computed: {
     ...mapGetters(['expert', 'expertJoinDate', 'numTotalOpinions', 'user']),
@@ -174,7 +196,7 @@ export default {
     line-height 18px
     margin-top 5px
 
-  &-message
+  &-rating-card
     background #F5F6F7
     border 1px solid #EEEEEE
     padding 9px 5px
@@ -186,6 +208,7 @@ export default {
     line-height 15px
     text-align center
     height 33px
+    display block
 
   &-rating
     display flex
@@ -198,6 +221,10 @@ export default {
     font-size 14px
     font-weight bold
     padding 0 5px
+
+    &--premium
+      background-color transparent
+      padding 0
 
     span
       margin 0 8px
@@ -221,5 +248,23 @@ export default {
 
   &:hover
     background-color #FF2E50
+
+@media (max-width 767px)
+  .expert
+    &-meta
+      &__content
+        display block
+
+      &__right
+        margin-left 0
+        margin-top 20px
+
+      &__footer
+        display block
+
+
+    &-opinions
+      margin-left 0
+      margin-top 20px
 
 </style>

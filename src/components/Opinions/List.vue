@@ -12,6 +12,12 @@
           <div class="opinions-table__th opinions-table__th--expert">
             <span>Expert</span>
           </div>
+          <div
+            v-if="chartEnabled"
+            class="opinions-table__th opinions-table__th--chart"
+          >
+            <span>Chart</span>
+          </div>
         </div>
       </div>
       <div class="opinions-table__tbody">
@@ -19,6 +25,7 @@
           v-for="item in displayedItems"
           :key="item.id"
           :item="item"
+          :chart-enabled="chartEnabled"
           @showComments="showComments"
         />
       </div>
@@ -47,6 +54,9 @@ export default {
     items: {
       type: Array,
       default: () => ([]),
+    },
+    chartEnabled: {
+      type: Boolean,
     },
   },
 
@@ -115,6 +125,11 @@ export default {
 
     &--expert
       width 170px
+      flex-grow 0
+      flex-shrink 0
+
+    &--chart
+      width 200px
       flex-grow 0
       flex-shrink 0
 

@@ -1,0 +1,433 @@
+.hc-xaxis-avatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.hc-xaxis-avatar__img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,0.11);
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.11);
+}
+
+.hc-xaxis-avatar__img:hover {
+  width: 44px;
+  height: 44px;
+  border: 4px solid;
+  margin-top: -4px;
+  margin-left: -4px;
+}
+
+.hc-xaxis-avatar__img--buy:hover,
+.hc-xaxis-avatar__img--week-buy:hover {
+  border-color: #18DB88;
+}
+
+.hc-xaxis-avatar__img--strong-buy:hover {
+  border-color: #5CE23F;
+}
+
+.hc-xaxis-avatar__img--top-pick:hover {
+  border-color: #178DFF;
+}
+
+.hc-xaxis-avatar__img--comment:hover,
+.hc-xaxis-avatar__img--n-a:hover,
+.hc-xaxis-avatar__img--unspecified:hover,
+.hc-xaxis-avatar__img--vague:hover {
+  border-color: #ABB5BB;
+}
+
+.hc-xaxis-avatar__img--past-top-pick:hover {
+  border-color: #18B1FF;
+}
+
+.hc-xaxis-avatar__img--don-t-buy:hover,
+.hc-xaxis-avatar__img--sell:hover,
+.hc-xaxis-avatar__img--short:hover {
+  border-color: #FF3B43;
+}
+
+.hc-xaxis-avatar__img--hold:hover,
+.hc-xaxis-avatar__img--watch:hover,
+.hc-xaxis-avatar__img--wait:hover {
+  border-color: #FF7F2F;
+}
+
+.hc-xaxis-avatar__img--buy-on-weekness:hover,
+.hc-xaxis-avatar__img--partial-buy:hover,
+.hc-xaxis-avatar__img--speculative-buy:hover {
+  border-color: #18DB88;
+}
+
+.hc-xaxis-avatar__img--partial-sell:hover,
+.hc-xaxis-avatar__img--partial-sell:hover {
+  background-color: #FF452A;
+}
+
+.xaxis_avatar_details {
+  width: 200px;
+  position: absolute;
+  right: -75px;
+  z-index: 14;
+  bottom: 70px;
+  padding: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 14px 0 rgba(0,0,0,0.14);
+}
+
+.top_arrow_xaxis_avatar::after {
+  border-style: solid;
+  border-color: transparent transparent rgb(244, 244, 244) transparent;
+  border-width: 9px;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -18px;
+  left: 125px;
+  width: 0;
+  height: 0;
+}
+
+.top_arrow_xaxis_avatar::before {
+  border-style: solid;
+  border-color: transparent transparent rgb(226, 229, 241) transparent;
+  border-width: 10px;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -20px;
+  left: 124px;
+  width: 0;
+  height: 0;
+}
+
+.hc-tooltip__container {
+  display: block;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.hc-tooltip__content {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.hc-tooltip__avatar {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.11);
+}
+
+.hc-tooltip__expert-info {
+  margin-left: 8px;
+}
+
+.hc-tooltip__expert-name {
+  margin: 0;
+  white-space: nowrap;
+  width: 140px;
+  font-size: 16px;
+  color: #25292B;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hc-tooltip__expert-title {
+  margin: 0;
+  color: #ABB3B9;
+  white-space: nowrap;
+  width: 140px;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hc-tooltip__opinion-comment {
+  width: 100%;
+  height: 52px;
+  margin: 8px 0;
+  font-size: 14px;
+  color: #80898F;
+  line-height: 17px;
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.xaxis_avatar_details .carousel-indicators {
+  bottom: -28px;
+}
+
+.xaxis_avatar_details .carousel-indicators li {
+  background-color: rgba(122,131,137,0.36);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.xaxis_avatar_details .carousel-indicators li.active {
+  background-color: #25292B;
+}
+
+.hc-tooltip__signal-badge {
+  position: absolute;
+  top: 25px;
+  left: 27px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ABB5BB;
+}
+
+.hc-tooltip__signal-badge--buy,
+.hc-tooltip__signal-badge--week-buy {
+  background-color: #18DB88;
+}
+
+.hc-tooltip__signal-badge--strong-buy {
+  background-color: #5CE23F;
+}
+
+.hc-tooltip__signal-badge--top-pick {
+  background-color: #178DFF;
+}
+
+.hc-tooltip__signal-badge--comment,
+.hc-tooltip__signal-badge--n-a,
+.hc-tooltip__signal-badge--unspecified,
+.hc-tooltip__signal-badge--vague {
+  background-color: #ABB5BB;
+}
+
+.hc-tooltip__signal-badge--past-top-pick {
+  background-color: #18B1FF;
+}
+
+.hc-tooltip__signal-badge--don-t-buy,
+.hc-tooltip__signal-badge--sell,
+.hc-tooltip__signal-badge--short {
+  background-color: #FF3B43;
+}
+
+.hc-tooltip__signal-badge--hold,
+.hc-tooltip__signal-badge--watch,
+.hc-tooltip__signal-badge--wait {
+  background-color: #FF7F2F;
+}
+
+.hc-tooltip__signal-badge--buy-on-weekness,
+.hc-tooltip__signal-badge--partial-buy,
+.hc-tooltip__signal-badge--speculative-buy {
+  background-color: #18DB88;
+}
+
+.hc-tooltip__signal-badge--partial-sell,
+.hc-tooltip__signal-badge--partial-sell {
+  background-color: #FF452A;
+}
+
+.highcharts-axis-labels > span {
+  width: 42px !important;
+  overflow: unset !important;
+}
+
+.hc-tooltip__signal-name {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: white;
+  background-color: #ABB5BB;
+}
+
+.hc-tooltip__signal-name--buy,
+.hc-tooltip__signal-name--week-buy {
+  background-color: #18DB88;
+}
+
+.hc-tooltip__signal-name--strong-buy {
+  background-color: #5CE23F;
+}
+
+.hc-tooltip__signal-name--top-pick {
+  background-color: #178DFF;
+}
+
+.hc-tooltip__signal-name--comment,
+.hc-tooltip__signal-name--n-a,
+.hc-tooltip__signal-name--unspecified,
+.hc-tooltip__signal-name--vague {
+  background-color: #ABB5BB;
+}
+
+.hc-tooltip__signal-name--past-top-pick {
+  background-color: #18B1FF;
+}
+
+.hc-tooltip__signal-name--don-t-buy,
+.hc-tooltip__signal-name--sell,
+.hc-tooltip__signal-name--short {
+  background-color: #FF3B43;
+}
+
+.hc-tooltip__signal-name--hold,
+.hc-tooltip__signal-name--watch,
+.hc-tooltip__signal-name--wait {
+  background-color: #FF7F2F;
+}
+
+.hc-tooltip__signal-name--buy-on-weekness,
+.hc-tooltip__signal-name--partial-buy,
+.hc-tooltip__signal-name--speculative-buy {
+  background-color: #18DB88;
+}
+
+.hc-tooltip__signal-name--partial-sell,
+.hc-tooltip__signal-name--partial-sell {
+  background-color: #FF452A;
+}
+
+.highcharts-axis-labels.highcharts-xaxis-labels > span:hover {
+  z-index: 99;
+}
+
+.hc-tooltip__opinion-link {
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.hc-tooltip__date {
+  position: absolute;
+  bottom: 2px;
+  right: 0;
+}
+
+.company-profile-chart {
+  text-align: center;
+  height: 250px;
+  width: 100%;
+
+  &.active {
+    background: #F7F7F7;
+  }
+
+  &:not(.active) {
+    text-align: center;
+    color: red;
+  }
+}
+
+.container-stockchart {
+  position: relative;
+  cursor: pointer;
+}
+
+.container-stockchart.is--loading {
+  cursor: auto;
+}
+
+.container-stockchart.is--loading:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  border: 2px solid #fc3e49;
+  border-top-color: transparent;
+  border-radius: 50%;
+
+  -webkit-animation: chart-loading-spinner 2s linear infinite;
+  animation: chart-loading-spinner 2s linear infinite;
+}
+
+@keyframes chart-loading-spinner {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@-webkit-keyframes chart-loading-spinner {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.container-stockchart-small {
+  width: 100%;
+  min-width: 170px;
+  height: 280px;
+  opacity: 1;
+  transition: opacity .5s linear;
+}
+
+.container-expert-stockchart-small {
+  width: 100%;
+  min-width: 170px;
+  height: 135px;
+  opacity: 1;
+  transition: opacity .5s linear;
+}
+
+.container-stockchart.is--loading .container-stockchart-small {
+  opacity: 0;
+}
+
+.container-stockchart-small > .highcharts-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%!important;
+  height: 280px!important;
+}
+
+.container-stockchart-small > .highcharts-container > .highcharts-root {
+  height: 280px;
+  width: 100%;
+}
+
+.container-stockchart-small > .highcharts-container > .highcharts-root {
+  & > .highcharts-background {
+    height: 280px;
+    width: 100%;
+  }
+
+  & .highcharts-plot-background {
+    width: 466px!important;
+    height: 163px!important;
+  }
+}
+
+.container-stockchart-big {
+  display: none;
+  min-width: 650px;
+  min-height: 375px;
+  border: 1px solid #ABB3B9;
+  border-radius: 4px;
+}
+
+.fancybox-slide .container-stockchart-big {
+  box-sizing: border-box;
+  padding: 30px;
+  margin: 0;
+}

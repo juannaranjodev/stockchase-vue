@@ -28,10 +28,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(80),
       field: 'COMMENTS',
     },
-    rating: {
-      type: DataTypes.DECIMAL(3, 2),
-      field: 'RATING',
-    },
     address1: {
       type: DataTypes.STRING(50),
     },
@@ -123,6 +119,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.associate = function (models) {
     Expert.hasMany(models.Opinion);
+    Expert.hasMany(models.ExpertRating);
     Expert.hasMany(models.SocialRating, {
       foreignKey: 'content_id',
       constraints: false,
@@ -355,7 +352,26 @@ module.exports = (sequelize, DataTypes) => {
     return Expert.findByPk(id, {
       include: [
         { model: sequelize.models.SocialRating },
+        { model: sequelize.models.ExpertRating },
       ],
+    }).then((expert) => {
+      const result = expert.toJSON();
+
+      result.rating = _.meanBy(expert.ExpertRatings, ({ big_win, win, big_lose, lose }) => {
+        const score = _.sum([big_win, win]) - _.sum([big_lose, lose]);
+
+        if (score > 10) return 5;
+        else if (score < 11 && score > 0) return 4;
+        else if (score > -11 && score < 0) return 2;
+        else if (score < -11) return 1;
+        else if (_.some([big_win, win, big_lose, lose], Number)) return 3;
+        else return null;
+      });
+
+      result.totalWins = _.sumBy(expert.ExpertRatings, ({ big_win, win }) => big_win + win);
+      result.totalLoses = _.sumBy(expert.ExpertRatings, ({ big_lose, lose }) => big_lose + lose);
+
+      return result;
     });
   };
 

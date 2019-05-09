@@ -58,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsTo(models.Group);
     User.hasMany(models.SocialRating);
     User.hasMany(models.UserStock);
+    User.hasOne(models.UserMeta);
   };
 
   return User;

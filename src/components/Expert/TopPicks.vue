@@ -190,4 +190,15 @@ export default {
     font-weight lighter
     line-height 25px
 
+@media (max-width 767px)
+  .expert-top-picks
+    &__list
+      display flex
+      align-items flex-start
+      flex-wrap wrap
+
+    &__item
+      margin-top 25px
+      width 100%
+      margin-right 0 !important
 </style>

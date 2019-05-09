@@ -1,8 +1,8 @@
 <template>
   <div
     v-b-tooltip.hover
-    class="top-worst-expert-rate"
-    :title="titleText"
+    class="star-rating"
+    :title="title"
   >
     <img
       v-for="(count, index) in countWhole"
@@ -23,20 +23,16 @@
 
 <script>
 export default {
-  name: 'TopWorstExpertRating',
+  name: 'FiveStarRating',
 
   props: {
     rating: {
-      type: [Number, String],
+      type: Number,
       default: 0,
     },
-    totalWins: {
-      type: [Number],
-      default: 0,
-    },
-    totalLoses: {
-      type: [Number],
-      default: 0,
+    title: {
+      type: String,
+      default: '',
     },
   },
 
@@ -52,22 +48,16 @@ export default {
     countEmpty() {
       return 5 - Math.ceil(this.rating);
     },
-
-    titleText() {
-      return `Score: ${this.$options.filters.rounding(this.rating)}
-      Total wins: ${this.totalWins}
-      Total loses: ${this.totalLoses}`;
-    },
   },
 };
 </script>
 
 <style lang="stylus" scoped>
-.top-worst-expert-rate
+.star-rating
   display: flex
 
   img
-    width: 13px
-    height: 13px
-    margin-right: 4px
+    width 13px
+    height 13px
+    margin-right 4px
 </style>

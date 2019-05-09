@@ -18,6 +18,7 @@ const db = {
   Source: sequelize.import('Source', require('./Source')),
   Subject: sequelize.import('Subject', require('./Subject')),
   User: sequelize.import('User', require('./User')),
+  UserMeta: sequelize.import('UserMeta', require('./UserMeta')),
   UserStock: sequelize.import('UserStock', require('./UserStock')),
 };
 

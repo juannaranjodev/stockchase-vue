@@ -247,6 +247,16 @@
     </div>
 
     <div
+      v-if="!item.ad && chartEnabled"
+      :class="{ 'chart-cell': true, 'd-none d-lg-flex': !expanded }"
+    >
+      <opinion-chart
+        :company="item.Company"
+        :date="item.date"
+      />
+    </div>
+
+    <div
       v-if="item.ad"
       class="in-feed-ad-cell"
     >
@@ -260,6 +270,7 @@ import _ from 'lodash';
 import { mapGetters } from 'vuex';
 import { getRatingImage } from '../../util/rating';
 import UserReactions from '../UserReactions.vue';
+import OpinionChart from './Chart.vue';
 import InFeedAd from '../Ads/InFeedAd.vue';
 
 // TODO this is ugly
@@ -274,6 +285,7 @@ export default {
 
   components: {
     UserReactions,
+    OpinionChart,
     InFeedAd,
   },
 
@@ -287,6 +299,9 @@ export default {
     item: {
       type: Object,
       default: () => ({}),
+    },
+    chartEnabled: {
+      type: Boolean,
     },
   },
 
@@ -504,6 +519,12 @@ export default {
       img
         margin-right 3px
         margin-top -2px
+
+  .chart
+    &-cell
+      width 200px
+      flex-shrink 0
+      align-items center
 
   .company
     display flex

@@ -47,10 +47,10 @@
           <div class="expert-period">
             {{ expert.period }}
           </div>
-          <top-worst-expert-rating
+          <expert-rating
             :rating="expert.rate"
-            :total-loses="expert.totalLoses"
             :total-wins="expert.totalWins"
+            :total-loses="expert.totalLoses"
           />
         </td>
         <td>
@@ -122,13 +122,13 @@
 </template>
 
 <script>
-import TopWorstExpertRating from './TopWorstExpertRating.vue';
+import ExpertRating from '../../ExpertRating.vue';
 
 export default {
   name: 'TopWorstExpertsTable',
 
   components: {
-    TopWorstExpertRating,
+    ExpertRating,
   },
 
   props: {

@@ -28,7 +28,10 @@
           <link-ad />
 
           <div class="opinions-container">
-            <opinions-list :items="opinions" />
+            <opinions-list
+              :items="opinions"
+              :chart-enabled="true"
+            />
             <div class="opinions-count">
               Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
             </div>
