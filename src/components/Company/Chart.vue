@@ -67,7 +67,6 @@
         class="container-stockchart is--loading"
       >
         <div class="container-stockchart-small" />
-        <div class="container-stockchart-big" />
       </div>
       <span v-else>This company is not ACTIVE.</span>
     </div>
@@ -82,7 +81,6 @@ import _ from 'lodash';
 import $ from 'jquery';
 import Highcharts from 'highcharts';
 import { APP_URL } from '../../constants';
-import EventBus from '../../util/EventBus';
 
 const fromDate = moment().subtract(6, 'months').format('YYYY-MM-DD');
 
@@ -132,7 +130,6 @@ export default {
         init: function (data, $containerStockchart) {
 
           var $containerStockchartSmall = $containerStockchart.find('> .container-stockchart-small');
-          var $containerStockchartBig = $containerStockchart.find('> .container-stockchart-big');
 
           var stockchartTitle = data.title ? data.title : '';
           var stockchartCompanyName = data.company_name ? data.company_name : '';
@@ -251,75 +248,6 @@ export default {
               }
             },
           });
-
-          Highcharts.chart({
-            chart: {
-              renderTo: $containerStockchartBig[0],
-            },
-            title: {
-              text: chartData.company_name+' ('+chartData.company_symbol+')<br>'+chartData.title,
-              style: {
-                color: chartData.data.length ? '#25292B' : '#FF0000',
-                fontSize: '16px',
-              },
-            },
-            subtitle: {
-              text: chartData.subtitle,
-              style: {
-                fill: '#6F7980',
-                fontSize: '12px',
-              },
-            },
-            xAxis: {
-              categories: chartData.date,
-              labels: {
-                formatter: function() {
-                  return that.convert_date( this.value )
-                },
-              },
-              tickmarkPlacement: 'on',
-              tickPosition: "inside",
-              tickLength: 5,
-              tickPositions: chartData.tickPositions,
-            },
-            yAxis: {
-              title: {
-                text: 'Price',
-                enabled: false,
-              },
-              alternateGridColor: '#f6f7f9',
-              gridLineWidth: 0,
-              labels: {
-              },
-              tickInterval: 0.01,
-            },
-            legend: {
-              enabled: false,
-            },
-            series: [{
-              name: 'Price',
-              type: 'spline',
-              data: chartData.data,
-              color: '#ed4e41',
-            }],
-            credits: {
-              enabled: false
-            },
-          });
-
-          // Init stock chart click event
-          // $containerStockchart.on('click', function(e){
-          //     if (e.target.className === 'hc-xaxis-avatar__img') {
-          //         return;
-          //     }
-
-          //     $.fancybox.open({
-          //         src  : $containerStockchartBig,
-          //         type : 'inline',
-          //         margin : [44, 0],
-          //     });
-
-          // });
         },
         convert_date: function( date_raw ) {
 
@@ -517,17 +445,17 @@ export default {
       e.preventDefault();
 
       if (this.isWatching) {
-        EventBus.$emit('saveStock', false);
+        this.$bus.$emit('saveStock', false);
         return;
       }
 
       this.$store.dispatch('CREATE_USER_STOCK', { companyId: this.company.id })
-        .then(() => EventBus.$emit('saveStock', true))
+        .then(() => this.$bus.$emit('saveStock', true))
         .catch((err) => {
           // If the stock is already in watch list, simply consider this a
           // successful save so as to not confuse user
           if (err.status === 409) {
-            EventBus.$emit('saveStock', false);
+            this.$bus.$emit('saveStock', false);
             return;
           }
 

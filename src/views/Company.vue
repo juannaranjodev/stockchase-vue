@@ -152,7 +152,6 @@ import md5 from 'md5';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
-import EventBus from '../util/EventBus';
 
 import CompanyHeader from '../components/Company/Header.vue';
 import CompanyOverview from '../components/Company/Overview.vue';
@@ -303,16 +302,13 @@ export default {
     return latestOpinion ? stripTags(latestOpinion.comment) : null;
   },
 
-  created() {
-    EventBus.$on('showCompanyComments', () => {
+  mounted() {
+    this.origin = window.location.origin;
+    this.$bus.$on('showCompanyComments', () => {
       this.tabIndex = 1;
 
       this.scrollToTabs();
     });
-  },
-
-  mounted() {
-    this.origin = window.location.origin;
 
     this.$nextTick(() => {
       this.initTippy();
@@ -323,7 +319,7 @@ export default {
   },
 
   beforeDestroy() {
-    EventBus.$off('showCompanyComments');
+    this.$bus.$off('showCompanyComments');
     this.destroyTippy();
   },
 

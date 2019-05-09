@@ -158,6 +158,7 @@ export default {
   right 0
   bottom env(safe-area-inset-bottom)
   box-sizing initial
+  z-index 9
 
   &__container
     margin-bottom 45px

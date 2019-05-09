@@ -121,7 +121,6 @@ import md5 from 'md5';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
-import EventBus from '../util/EventBus';
 
 import ExpertHeader from '../components/Expert/Header.vue';
 import ExpertOverview from '../components/Expert/Overview.vue';
@@ -264,16 +263,14 @@ export default {
     return latestOpinion ? stripTags(latestOpinion.comment) : null;
   },
 
-  created() {
-    EventBus.$on('showExpertComments', () => {
+  mounted() {
+    this.origin = window.location.origin;
+
+    this.$bus.$on('showExpertComments', () => {
       this.tabIndex = 1;
 
       this.scrollToTabs();
     });
-  },
-
-  mounted() {
-    this.origin = window.location.origin;
 
     this.$nextTick(() => {
       this.initTippy();
@@ -284,7 +281,7 @@ export default {
   },
 
   beforeDestroy() {
-    EventBus.$off('showExpertComments');
+    this.$bus.$off('showExpertComments');
     this.destroyTippy();
   },
 

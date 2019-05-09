@@ -2,6 +2,10 @@ import Vue from 'vue';
 import createApp from './app';
 import ProgressBar from './components/ProgressBar.vue';
 
+// EventBus
+// NOTE this should only be referenced in the client app (browser life-cycle hooks)
+Vue.prototype.$bus = new Vue();
+
 // global progress bar
 Vue.prototype.$bar = new Vue(ProgressBar).$mount();
 document.body.appendChild(Vue.prototype.$bar.$el);

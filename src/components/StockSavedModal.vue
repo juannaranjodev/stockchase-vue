@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import EventBus from '../util/EventBus';
-
 export default {
   name: 'StockSavedModal',
 
@@ -25,12 +23,12 @@ export default {
     };
   },
 
-  created() {
-    EventBus.$on('saveStock', newlySaved => this.saveStock(newlySaved));
+  mounted() {
+    this.$bus.$on('saveStock', newlySaved => this.saveStock(newlySaved));
   },
 
   beforeDestroy() {
-    EventBus.$off('saveStock');
+    this.$bus.$off('saveStock');
   },
 
   methods: {
