@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
-        return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^\)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.symbol.replace(/ ?\([^\)]+\)/g, '')}`;
+        return `/company/view/${this.symbol.replace(/ ?\([^)]+\)/g, '')}`;
       },
     },
     active_original: {
@@ -81,7 +81,10 @@ module.exports = (sequelize, DataTypes) => {
   // FIXME: Will not return 10 companies if the same company was mentioned more than once
   Company.getRecentTopPickCompanies = async function () {
     const opinions = await sequelize.models.Opinion.findAll({
-      where: { signal_id: [16 /* Top Pick */, 9], company_id: { [Op.not]: 1970 /* Market Comment */ } },
+      where: {
+        signal_id: [16 /* Top Pick */, 9],
+        company_id: { [Op.not]: 1970 /* Market Comment */ },
+      },
       order: [['date', 'DESC'], ['id', 'ASC']],
       include: ['Company'],
       limit: 10,
@@ -142,7 +145,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getCompaniesByPage = function(page = 1, limit = 25) {
+  Company.getCompaniesByPage = function (page = 1, limit = 25) {
     return sequelize.query(`
       SELECT
         c.id,
@@ -166,8 +169,8 @@ module.exports = (sequelize, DataTypes) => {
       LIMIT :limit
       OFFSET :offset`, {
       replacements: {
-        limit: limit,
-        offset: (page - 1) * limit
+        limit,
+        offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
       model: Company,
@@ -175,7 +178,7 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getCompaniesByTerm = function(term = null, page = 1, limit = 25) {
+  Company.getCompaniesByTerm = function (term = null, page = 1, limit = 25) {
     return sequelize.query(`
       SELECT
         c.id,
@@ -202,7 +205,7 @@ module.exports = (sequelize, DataTypes) => {
       replacements: {
         term: `%${term.toLowerCase()}%`,
         limit,
-        offset: (page - 1) * limit
+        offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
       model: Company,
@@ -210,25 +213,25 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getTotalCompanies = function(term = null){
+  Company.getTotalCompanies = function (term = null) {
     return Company.count({
-      where: term ? { 
+      where: term ? {
         $and: [
-          { 
+          {
             id: { $ne: 1970 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col('name')),
             {
-              $like: `%${term.toLowerCase()}%`
-            }
-          )
+              $like: `%${term.toLowerCase()}%`,
+            },
+          ),
         ],
       } : { id: { $ne: 1970 } },
     });
-  }
+  };
 
-  Company.searchCompanies = function(term = null, limit = 15) {
+  Company.searchCompanies = function (term = null, limit = 15) {
     return sequelize.query(`
       SELECT
         c.id,
@@ -245,12 +248,10 @@ module.exports = (sequelize, DataTypes) => {
       type: sequelize.QueryTypes.SELECT,
       model: Company,
       mapToModel: true,
-    }).then(function(companies) {
-      return {
-        rows: companies.slice(0, limit),
-        total: companies.length,
-      };
-    });
+    }).then(companies => ({
+      rows: companies.slice(0, limit),
+      total: companies.length,
+    }));
   };
 
   return Company;

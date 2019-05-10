@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'New_users_meta',
     name: {
       singular: 'Meta',
-      plural: 'Meta'
+      plural: 'Meta',
     },
   });
 

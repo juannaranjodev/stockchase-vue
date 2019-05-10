@@ -1,13 +1,11 @@
 const express = require('express');
 const _ = require('lodash');
-const moment = require('moment');
 
 const { Company, Opinion, SocialRating } = require('../models');
 
 const router = express.Router();
 
 function normalizeSymbol(s) {
-  /* eslint-disable no-useless-escape */
   // Logic copied from https://github.com/wealthica/wealthica-data/blob/master/app.js
   const symbol = s.toUpperCase();
 
@@ -22,8 +20,7 @@ function normalizeSymbol(s) {
   // For the -N suffix which is generally used for NYSE it gets a litte complicated
   // It seems some symbols on the NYSEARCA, BATS or NYSEAMERICAN (formely AMEX) use -N
   // For example IGM-N is on NYSEARCA, IGV-A on BATS and APT-A on NYSEAMERICAN
-  if (symbol.match(/^(NYSE|NYSEARCA|BATS|NYSEAMERICAN):/))
-    return ['A', 'N'].map(suffix => `${symbol.split(':')[1]}-${suffix}`);
+  if (symbol.match(/^(NYSE|NYSEARCA|BATS|NYSEAMERICAN):/)) return ['A', 'N'].map(suffix => `${symbol.split(':')[1]}-${suffix}`);
 
   // US OTC
   if (symbol.match(/^OTCMKTS:/)) return `${symbol.split(':')[1]}-OTC`;
@@ -44,13 +41,12 @@ function normalizeSymbol(s) {
   if (symbol.match(/^KRX:/)) return ['KS', 'KRX'].map(suffix => `${symbol.split(':')[1]}-${suffix}`);
 
   // Fallback to allow anything that "looks" to be a valid symbol
-  if (symbol.match(/^[A-Z0-9:\.\-]{1,12}$/)) return symbol;
+  if (symbol.match(/^[A-Z0-9:.-]{1,12}$/)) return symbol;
 
-  /* eslint-enable no-useless-escape */
   return null;
 }
 
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
   // Query parameters
   req.sanitize('from').toDate();
   req.sanitize('to').toDate();
@@ -73,7 +69,7 @@ router.param('id', async (req, res, next, idOrSymbol) => {
     if (!symbol) return res.status(400).end();
 
     // Use only the first company if multiple companies are returned
-    company = (await Company.getCompaniesBySymbols(_.flatten([symbol])))[0];
+    [company] = await Company.getCompaniesBySymbols(_.flatten([symbol]));
   }
 
   if (!company) return res.status(404).end();
@@ -100,9 +96,7 @@ router.post('/:id/ratings', async (req, res) => {
 
 // Get company opinions
 router.get('/:id/opinions', async (req, res) => {
-  const opinions = await Opinion.getCompanyOpinionsByRange(req.company.id, req.query.from, req.query.to);
-
-  res.json(opinions);
+  res.json(await Opinion.getCompanyOpinionsByRange(req.company.id, req.query.from, req.query.to));
 });
 
 router.post('/search', async (req, res) => {
@@ -110,9 +104,7 @@ router.post('/search', async (req, res) => {
 
   if (!req.body.term) return res.status(500).json({ error: 'Missing required field!' });
 
-  const companies = await Company.searchCompanies(req.body.term, limit);
-
-  res.json(companies);
+  res.json(await Company.searchCompanies(req.body.term, limit));
 });
 
 module.exports = router;

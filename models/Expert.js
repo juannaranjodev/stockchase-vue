@@ -179,14 +179,12 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, (expert) => {
-      return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-      };
-    }));
+    }).then(experts => _.map(experts, expert => ({
+      ...expert,
+      avatar: expert.avatar
+        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+        : '/assets/svgs/expert_profile_default.svg',
+    })));
   };
 
   Expert.getNewestExperts = function (limit = 15) {
@@ -244,14 +242,12 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, (expert) => {
-      return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-      };
-    }));
+    }).then(experts => _.map(experts, expert => ({
+      ...expert,
+      avatar: expert.avatar
+        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+        : '/assets/svgs/expert_profile_default.svg',
+    })));
   };
 
   Expert.searchExperts = function (term, limit = 5) {
@@ -274,14 +270,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then(experts => ({
-      rows: _.map(experts.slice(0, limit), (expert) => {
-        return {
-          ...expert,
-          avatar: expert.avatar
-            ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-            : '/assets/svgs/expert_profile_default.svg',
-        };
-      }),
+      rows: _.map(experts.slice(0, limit), expert => ({
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+      })),
       total: experts.length,
     }));
   };
@@ -320,14 +314,12 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, (expert) => {
-      return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-      };
-    }));
+    }).then(experts => _.map(experts, expert => ({
+      ...expert,
+      avatar: expert.avatar
+        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+        : '/assets/svgs/expert_profile_default.svg',
+    })));
   };
 
   Expert.getExpertsTotalByCharacter = function (character, column = 'FirstName') {
@@ -355,23 +347,27 @@ module.exports = (sequelize, DataTypes) => {
         { model: sequelize.models.ExpertRating },
       ],
     }).then((expert) => {
+      /* eslint-disable camelcase */
       const result = expert.toJSON();
 
-      result.rating = _.meanBy(expert.ExpertRatings, ({ big_win, win, big_lose, lose }) => {
+      result.rating = _.meanBy(expert.ExpertRatings, ({
+        big_win, win, big_lose, lose,
+      }) => {
         const score = _.sum([big_win, win]) - _.sum([big_lose, lose]);
 
         if (score > 10) return 5;
-        else if (score < 11 && score > 0) return 4;
-        else if (score > -11 && score < 0) return 2;
-        else if (score < -11) return 1;
-        else if (_.some([big_win, win, big_lose, lose], Number)) return 3;
-        else return null;
+        if (score < 11 && score > 0) return 4;
+        if (score > -11 && score < 0) return 2;
+        if (score < -11) return 1;
+        if (_.some([big_win, win, big_lose, lose], Number)) return 3;
+        return null;
       });
 
       result.totalWins = _.sumBy(expert.ExpertRatings, ({ big_win, win }) => big_win + win);
       result.totalLoses = _.sumBy(expert.ExpertRatings, ({ big_lose, lose }) => big_lose + lose);
 
       return result;
+      /* eslint-enable camelcase */
     });
   };
 

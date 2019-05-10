@@ -187,7 +187,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get company opinions by date range
   Opinion.getCompanyOpinionsByRange = function (companyId, from, to) {
     // By default return opinions for the last 12 months
-    const [ fromDate, toDate ] = [
+    const [fromDate, toDate] = [
       from || moment().subtract(12, 'months').startOf('month').toDate(),
       to || new Date(),
     ].map(date => moment(date).format('YYYY-MM-DD'));

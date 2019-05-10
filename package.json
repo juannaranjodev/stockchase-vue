@@ -11,8 +11,8 @@
     "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
     "lint:client": "eslint --ext .vue,.js src",
     "lint:client:fix": "eslint --ext .vue,.js src --fix",
-    "lint:server": "eslint --ext .js api models",
-    "lint:server:fix": "eslint --ext .js api models --fix"
+    "lint:server": "eslint --ext .js api models server.js",
+    "lint:server:fix": "eslint --ext .js api models server.js --fix"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",

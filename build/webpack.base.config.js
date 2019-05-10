@@ -37,6 +37,9 @@ module.exports = {
         test: /\.(vue|js)$/,
         loader: 'eslint-loader',
         include: [
+          resolve('models'),
+          resolve('api'),
+          resolve('server.js'),
           resolve('src'),
         ],
       },
@@ -66,6 +69,7 @@ module.exports = {
         loader: 'babel-loader',
         include: [
           resolve('models'),
+          resolve('api'),
         ],
         options: {
           presets: ['@babel/preset-env'],
