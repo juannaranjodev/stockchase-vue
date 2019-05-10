@@ -67,7 +67,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['opinions', 'adFree']),
+    ...mapGetters(['opinions', 'adFree', 'user']),
 
     pageItems() {
       // Skip number paging & show all opinions for the date
@@ -98,10 +98,14 @@ export default {
     },
   },
 
-  mounted() {
-    this.$nextTick(() => {
-      this.scrollToOpinion();
-    });
+  watch: {
+    user(user) {
+      if (!user.loaded) return;
+
+      this.$nextTick(() => {
+        this.scrollToOpinion();
+      });
+    },
   },
 
   updated() {
