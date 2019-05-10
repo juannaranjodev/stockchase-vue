@@ -2,7 +2,11 @@
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'mysql' });
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',
+  logging: process.env.NODE_ENV !== 'production',
+  benchmark: true,
+});
 
 const db = {
   BlogPost: sequelize.import('BlogPost', require('./BlogPost')),

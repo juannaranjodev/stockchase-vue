@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     underscored: true,
-    tableName: 'new_users_meta',
+    tableName: 'New_users_meta',
     name: {
       singular: 'Meta',
       plural: 'Meta'
