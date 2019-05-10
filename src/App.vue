@@ -6,7 +6,7 @@
       <site-navigation />
     </div>
 
-    <leaderboard-ad />
+    <leaderboard-adx />
 
     <router-view />
 
@@ -20,7 +20,7 @@ import { mapGetters } from 'vuex';
 import SiteHeader from './components/Layout/Header.vue';
 import SiteNavigation from './components/Layout/Navigation.vue';
 import SiteFooter from './components/Layout/Footer.vue';
-import LeaderboardAd from './components/Ads/LeaderboardAd.vue';
+import LeaderboardAdx from './components/Ads/LeaderboardAdx.vue';
 import StockSavedModal from './components/StockSavedModal.vue';
 
 export default {
@@ -28,7 +28,7 @@ export default {
     SiteHeader,
     SiteNavigation,
     SiteFooter,
-    LeaderboardAd,
+    LeaderboardAdx,
     StockSavedModal,
   },
 

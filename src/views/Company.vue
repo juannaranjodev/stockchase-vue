@@ -28,7 +28,7 @@
             class="overview-section__right d-none d-lg-block"
           >
             <div class="overview-section__block">
-              <side-ad />
+              <side-adx slot-id="div-gpt-ad-9004875-1" />
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ import CompanyChart from '../components/Company/Chart.vue';
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import SideAd from '../components/Ads/SideAd.vue';
+import SideAdx from '../components/Ads/SideAdx.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 import UserReactions from '../components/UserReactions.vue';
@@ -185,7 +185,7 @@ export default {
     JoinDiscussion,
     LinkAd,
     DianomiAd,
-    SideAd,
+    SideAdx,
     OpinionsList,
     NumberPagination,
     UserReactions,
