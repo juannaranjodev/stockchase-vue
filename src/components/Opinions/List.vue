@@ -27,11 +27,17 @@
           :item="item"
           :chart-enabled="chartEnabled"
           @showComments="showComments"
+          @showChart="showChart"
         />
       </div>
     </div>
 
     <comments-modal ref="commentsModal" />
+
+    <chart-modal
+      v-if="chartEnabled"
+      ref="chartModal"
+    />
   </div>
 </template>
 
@@ -41,6 +47,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import Item from './Item.vue';
 import CommentsModal from './CommentsModal.vue';
+import ChartModal from './ChartModal.vue';
 
 export default {
   name: 'List',
@@ -48,6 +55,7 @@ export default {
   components: {
     Item,
     CommentsModal,
+    ChartModal,
   },
 
   props: {
@@ -79,6 +87,11 @@ export default {
     showComments(id) {
       this.$refs.commentsModal.setupComments(id);
       this.$root.$emit('bv::show::modal', 'modal_comments');
+    },
+
+    showChart(data) {
+      this.$refs.chartModal.setupChart(data);
+      this.$root.$emit('bv::show::modal', 'modal_opinion_chart');
     },
   },
 };

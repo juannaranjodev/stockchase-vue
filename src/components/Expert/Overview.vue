@@ -145,11 +145,10 @@ export default {
       box-shadow 0 10px 21px rgba(black, 0.11)
 
   &-opinions
-    background-color #DFEFFD
-    border 2px solid #C5E7F6
+    border 1px solid #ECECEC
     padding 0 5px
     border-radius 3px
-    color #55638D
+    color #696969
     font-size 14px
     font-weight bold
     text-align center
@@ -202,13 +201,16 @@ export default {
     padding 9px 5px
     border-radius 4px
     margin-top 30px
-    color #999ea3
     font-size 12px
-    font-weight bold
     line-height 15px
     text-align center
     height 33px
     display block
+    color #0082FF
+    text-decoration underline
+
+    &:hover
+      color #09f
 
   &-rating
     display flex

@@ -341,6 +341,10 @@ export default {
 };
 </script>
 
+<style lang="stylus">
+@import '~assets/css/chart.scss'
+</style>
+
 <style lang="stylus" scoped>
 .container
   box-sizing border-box

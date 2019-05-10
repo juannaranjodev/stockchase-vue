@@ -21,7 +21,6 @@
     </div>
     <div
       v-if="user.loaded && chartEnabled && !isMarketComment"
-      id="container-stockchart"
       ref="chartContainer"
       class="container-stockchart is--loading"
     >
@@ -78,16 +77,20 @@ export default {
   },
 
   methods: {
+    showChart(data) {
+      this.$emit('showChart', data);
+    },
+
     renderChart() {
       const baseUrl = APP_URL || window.location.origin;
       const $containerStockchart = $(this.$refs.chartContainer);
       const companyId = this.company.id;
       const fromDate = this.fromDate;
+      const showChart = this.showChart;
 
       var stockchart = {
         init: function (data, $containerStockchart) {
           var $containerStockchartSmall = $containerStockchart.find('> .container-expert-stockchart-small');
-          // var $containerStockchartBig = $containerStockchart.find('> .container-stockchart-big');
 
           var stockchartTitle = data.title ? data.title : '';
           var stockchartCompanyName = data.company_name ? data.company_name : '';
@@ -177,67 +180,11 @@ export default {
             },
           });
 
-          // TODO move this big chart into a separate big chart modal component
-          // Highcharts.chart({
-          //   chart: {
-          //     renderTo: $containerStockchartBig[0],
-          //   },
-          //   title: {
-          //     text: chartData.company_name + ' (' + chartData.company_symbol + ')<br>' + chartData.title,
-          //     style: {
-          //       color: chartData.data.length ? '#25292B' : '#FF0000',
-          //       fontSize: '16px',
-          //     },
-          //   },
-          //   subtitle: {
-          //     text: chartData.subtitle,
-          //     style: {
-          //       fill: '#6F7980',
-          //       fontSize: '12px',
-          //     },
-          //   },
-          //   xAxis: {
-          //     categories: chartData.xaxisLabel,
-          //     labels: {
-          //       step: chartData.xaxisLabelStep ? chartData.xaxisLabelStep : null,
-          //     },
-          //     tickmarkPlacement: 'on',
-          //     // tickWidth: 0,
-          //   },
-          //   yAxis: {
-          //     title: {
-          //       text: 'Price',
-          //       enabled: false,
-          //     },
-          //     alternateGridColor: '#f6f7f9',
-          //     gridLineWidth: 0,
-          //     labels: {},
-          //     tickInterval: 0.01,
-          //   },
-          //   legend: {
-          //     enabled: false,
-          //   },
-          //   series: [{
-          //     name: 'Price',
-          //     type: 'spline',
-          //     data: chartData.data,
-          //     color: '#ed4e41',
-          //   }],
-          //   credits: {
-          //     enabled: false
-          //   },
-          // });
-          //
+
           // // Init stock chart click event
-          // $containerStockchart.on('click', function () {
-          //
-          //   $.fancybox.open({
-          //     src: $containerStockchartBig,
-          //     type: 'inline',
-          //     margin: [44, 0],
-          //   });
-          //
-          // });
+          $containerStockchart.on('click', function () {
+            if (data.data.length) showChart(data);
+          });
         },
 
         convert_date: function( date_raw ) {
@@ -289,17 +236,13 @@ export default {
         // Init chart
         stockchart.init(chart_data, $containerStockchart);
 
-        $containerStockchart.removeClass('is--loading').attr('data-init', true);
+        $containerStockchart.removeClass('is--loading');
       });
     }
   },
 };
 /* eslint-enable */
 </script>
-
-<style lang="stylus">
-@import '~assets/css/chart.scss'
-</style>
 
 <style lang="stylus" scoped>
 .opinion-chart

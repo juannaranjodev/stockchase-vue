@@ -253,6 +253,7 @@
       <opinion-chart
         :company="item.Company"
         :date="item.date"
+        @showChart="showChart"
       />
     </div>
 
@@ -397,6 +398,10 @@ export default {
   methods: {
     showComments() {
       this.$emit('showComments', this.item.id);
+    },
+
+    showChart(data) {
+      this.$emit('showChart', data);
     },
 
     toClassName(signal) {
