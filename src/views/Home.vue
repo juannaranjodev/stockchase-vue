@@ -54,7 +54,7 @@
             }"
           >
             <div class="overview-section__block">
-              <side-ad />
+              <side-adx slot-id="div-gpt-ad-1557498114578-0" />
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@ import InTheNews from '../components/Home/InTheNews.vue';
 // import Newest from '../components/Home/Newest.vue'
 // import FollowUs from '../components/Home/FollowUs.vue'
 import LinkAd from '../components/Ads/LinkAd.vue';
-import SideAd from '../components/Ads/SideAd.vue';
+import SideAdx from '../components/Ads/SideAdx.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 
@@ -124,7 +124,7 @@ export default {
     InTheNews,
     LinkAd,
     DianomiAd,
-    SideAd,
+    SideAdx,
     OpinionsList,
     // Sponsors,
     // Newest,
