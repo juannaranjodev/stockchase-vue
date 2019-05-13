@@ -561,18 +561,24 @@ export default {
     &-meta
       flex 1
       margin-right 10px
+      overflow hidden
 
     &-name-symbol
       font-size 21px
       font-weight bold
       text-decoration none
       color #000
+      display flex
 
       &:hover
         color #09f
 
     &-name
       color inherit
+      overflow hidden
+      white-space nowrap
+      text-overflow ellipsis
+
     &-symbol
       color #ABB3B9
       margin-left 3px
@@ -762,13 +768,17 @@ export default {
     font-size 16px
     line-height 19px
     margin-bottom 5px
-    display block
+    display flex
     flex 1
+    overflow hidden
 
   &__name
     font-weight bold
     color #312828
     margin-right 3px
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
 
   &__symbol
     color #ABB3B9
