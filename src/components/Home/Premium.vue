@@ -18,12 +18,13 @@
 
       <div class="premium__stock-ideas">
         <div class="premium__stock-ideas-content">
-          This months’ Premium-Exclusive best stock ideas newsletter has been sent and feature
-          growing small caps. The stock ideas include :
+          Discover the new <a href="/expert/top">Top 25 and Worst 25 experts</a>. This month's
+          Premium-Exclusive Best Stock Ideas newsletter has been sent and features Dividend All
+          Stars. The stock ideas include :
         </div>
         <div class="premium__stocks">
           <a
-            v-for="company in companies"
+            v-for="company in premiumCompanies"
             :key="company.id"
             class="premium__stock"
             :href="company.url"
@@ -56,23 +57,22 @@
       class="go-premium__container"
     >
       <h2 class="go-premium__title">
-        To all our readers in Canada : this month's best stock ideas are out
+        Unlock Premium : This Month's Top Experts Ranking is Out
       </h2>
 
       <div class="go-premium__content">
         <p>
-          The premium-exclusive Best Stock Ideas Newsletter features at least three new stock ideas
-          every month and May's edition is out with a selection of the Dividend All-Stars. We also
-          released the latest Top 25 and Worst 25 experts rating.
-          <strong>
-            One of our stock ideas we sent last December is already up 23% in just 2 months.
-          </strong>
+          The monthly Top & Worst Experts ranking based on Top Picks performance is out with our
+          Best Stock Ideas Newsletter which features at least three new stock ideas every month.
         </p>
         <p>
-          As of right now, you could miss out on the best stock ideas because you may not be on the
-          list to receive the newsletter. For a limited time, you can get the premium bundle,
-          including Best Stock Ideas, Capital Compounders paperback and a LOT more at 55% discount.
+          For a limited time, get the Stockchase Premium bundle, including the experts rankings and
+          best stock ideas, Capital Compoundres paperback and a LOT more at 55% discount.
           Take a minute to learn more.
+        </p>
+        <p>
+          Support Stockchase by endorsing our preferred partners; read our reviews : Questrade
+          Review and Borrowell free Credit Report.
         </p>
       </div>
 
@@ -86,15 +86,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import _ from 'lodash';
 
 export default {
   name: 'Premium',
 
   computed: {
     ...mapGetters(['user', 'premiumCompanies']),
-
-    companies() { return _.take(this.premiumCompanies, 3); },
   },
 };
 </script>
@@ -202,6 +199,11 @@ export default {
         margin-bottom 1em
         text-align center
         line-height normal
+
+        a
+          color inherit
+          font-weight bold
+          text-decoration underline
 
   &__divider
     border-bottom 1px solid rgba(175,175,175,0.4)

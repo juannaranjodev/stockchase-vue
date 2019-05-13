@@ -143,7 +143,7 @@ export default {
     const queries = [
       // Top discover posts
       store.dispatch('FETCH_DISCOVER_POSTS'),
-      // Top discover posts
+      // Premium stock ideas
       store.dispatch('FETCH_PREMIUM_COMPANIES'),
       // STOCK PICKS @MARKETCALL
       store.dispatch('FETCH_LATEST_EXPERTS', 3),
