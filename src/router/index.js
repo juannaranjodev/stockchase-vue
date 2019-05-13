@@ -29,7 +29,7 @@ const Company = () => import('../views/Company.vue');
 const createListView = type => () => import('../views/createListView').then(m => m.default(type));
 
 export default function createRouter() {
-  return new Router({
+  const router = new Router({
     mode: 'history',
     fallback: false,
     scrollBehavior: () => ({ y: 0 }),
@@ -54,4 +54,20 @@ export default function createRouter() {
       { path: '/expert/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Expert },
     ],
   });
+
+  router.beforeEach((to, from, next) => {
+    // Redirect urls with trailing slash to no trailing slash equivalent
+    if (!to.path.match(/^.+\/$/)) return next();
+
+    const { query, hash, path } = to;
+    const redirectTo = {
+      path: path.replace(/\/$/, ''),
+      query,
+      hash,
+    };
+
+    return next(redirectTo);
+  });
+
+  return router;
 }
