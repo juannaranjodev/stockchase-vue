@@ -23,6 +23,9 @@ const ajax = options => new Promise(((resolve, reject) => {
 // Ajax wrapper for protected routes where we want to redirect user on login page on 401 error
 const protectedAjax = options => ajax(options).catch((err) => {
   if (err.status === 401) {
+    // ci_session seems useless so remove it
+    Cookies.remove('ci_session');
+
     // NOTE we want to stop the error propagation here, so we return the redirection directly for
     // the browser to finish it before moving to the next line. Otherwise the error would travel up
     // to other `catch`s and causes unexpected behavior.

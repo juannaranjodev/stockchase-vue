@@ -63,6 +63,18 @@ module.exports = (sequelize, DataTypes) => {
             {
               model: sequelize.models.Company,
               include: [sequelize.models.Sector],
+              required: true, // exclude if company not found
+            },
+          ],
+        };
+      },
+
+      withExistingCompany() {
+        return {
+          include: [
+            {
+              model: sequelize.models.Company,
+              required: true, // exclude if company not found
             },
           ],
         };
@@ -88,7 +100,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Get the date of the most recent opinion
   Opinion.getRecentOpinionDate = async function () {
-    const recentOpinion = await Opinion.findOne({
+    const recentOpinion = await Opinion.scope('withExistingCompany').findOne({
       where: { company_id: { [Op.ne]: 1970 } }, // Ignore market comments
       order: [['date', 'DESC'], ['id', 'ASC']],
     });
@@ -110,9 +122,9 @@ module.exports = (sequelize, DataTypes) => {
   // Used for pagination
   Opinion.getAdjacentOpinionDates = async function (date) {
     return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id != 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
+      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date <= :date AND company_id != 1970  GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
       'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date > :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
+      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date > :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
       'ORDER BY Date DESC',
     ].join(' '), {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
@@ -224,7 +236,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Get the date of the first opinion by expert
   Opinion.getExpertFirstOpinionDate = async function (expertId) {
-    const firstOpinion = await Opinion.findOne({
+    const firstOpinion = await Opinion.scope('withExistingCompany').findOne({
       where: { expert_id: expertId },
       order: [['date', 'ASC']],
     });
@@ -234,7 +246,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Count expert opinions
   Opinion.countExpertOpinions = function (expertId) {
-    return Opinion.count({
+    return Opinion.scope('withExistingCompany').count({
       where: { expert_id: expertId },
     });
   };
