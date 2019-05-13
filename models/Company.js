@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.symbol.replace(/ ?\([^)]+\)/g, '')}`;
+        return `/company/view/${this.id}/${this.symbol.replace(/ ?\([^)]+\)/g, '')}`;
       },
     },
     active_original: {
