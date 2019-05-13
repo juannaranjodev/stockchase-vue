@@ -114,7 +114,7 @@ export default {
 
   methods: {
     scrollToOpinion() {
-      const opinionEl = document.getElementById(`opinion_${this.routeHash.replace('#', '')}`);
+      const opinionEl = document.getElementById(this.routeHash.replace('#', ''));
       if (!opinionEl) return;
 
       // Account for mobile spacer

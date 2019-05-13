@@ -1,6 +1,6 @@
 <template>
   <div
-    :id="`opinion_${item.id}`"
+    :id="item.id"
     class="opinions-row"
     :class="{ 'opinions-row--ad d-none d-lg-flex': item.ad }"
   >
