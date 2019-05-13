@@ -202,7 +202,7 @@ export default function createAPI() {
     },
 
     async fetchPremiumCompanies() {
-      const symbols = ['V-N', 'RY-T', 'TD-T'];
+      const symbols = ['MRU-T', 'ENB-T', 'FTS-T', 'BNS-T'];
       const companies = await Company.getCompaniesBySymbols(symbols);
 
       return _.sortBy(companies, company => symbols.indexOf(company.symbol));
