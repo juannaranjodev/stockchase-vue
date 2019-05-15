@@ -48,7 +48,7 @@
             {{ expert.period }}
           </div>
           <expert-rating
-            :rating="Number(expert.rate)"
+            :rating="expert.rate"
             :total-wins="expert.totalWins"
             :total-loses="expert.totalLoses"
           />
