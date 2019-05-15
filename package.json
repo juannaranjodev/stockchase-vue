@@ -12,8 +12,7 @@
     "lint:client": "eslint --ext .vue,.js src",
     "lint:client:fix": "eslint --ext .vue,.js src --fix",
     "lint:server": "eslint --ext .js api models server.js",
-    "lint:server:fix": "eslint --ext .js api models server.js --fix",
-    "start": "PORT=8181 node_modules/.bin/forever -f -w server.js"
+    "lint:server:fix": "eslint --ext .js api models server.js --fix"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
