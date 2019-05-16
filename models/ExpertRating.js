@@ -144,7 +144,7 @@ module.exports = (sequelize, DataTypes) => {
       totalNoChangesById[beforeExpertId] = totalNoChanges;
 
       results = results.map((expertRating) => {
-        const result = expertRating;
+        const result = { ...expertRating };
         if (expertRating.expertRank) {
           result.period = 'Overall';
           result.win = totalWinsById[expertRating.expert_id];
