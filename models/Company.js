@@ -26,10 +26,21 @@ module.exports = (sequelize, DataTypes) => {
         return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
+    slug: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        // This slugify behavior is taken from v1 header search
+        // https://github.com/wealthica/stockchase-site/blob/master/CI/application/views/components/header_search_box.php#L66-L67
+        // It's different from the more complex behavior in v1 company controllers
+        // https://github.com/wealthica/stockchase-site/blob/master/CI/application/controllers/company.php#L267-L268
+        // TODO confirm which one should be the canonical behavior
+        return this.symbol.replace(' (Dead)', '').replace(/[()]/g, '');
+      },
+    },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.id}/${this.symbol.replace(/ ?\([^)]+\)/g, '')}`;
+        return `/company/view/${this.id}/${this.slug}`;
       },
     },
     active_original: {

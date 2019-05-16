@@ -162,7 +162,8 @@ export default {
 
     return api.fetchCompanyById(id).then((company) => {
       if (!company) return Promise.reject({ code: 404 });
-      if (!symbol && !page) return Promise.reject({ url: company.url });
+      // Redirect urls with wrong slugs to the canonical slug
+      if (!page && symbol !== company.slug) return Promise.reject({ url: company.url });
 
       commit('SET_COMPANY', company);
       page = page || 1;
