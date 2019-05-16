@@ -91,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       type: sequelize.QueryTypes.SELECT,
     }).then((expertRatings) => {
-      const results = [];
+      let results = [];
       let beforeExpertId = null;
       let expertRank = 1;
       let totalWins = 0;
@@ -143,7 +143,7 @@ module.exports = (sequelize, DataTypes) => {
       totalBigLosesById[beforeExpertId] = totalBigLoses;
       totalNoChangesById[beforeExpertId] = totalNoChanges;
 
-      results.map((expertRating) => {
+      results = results.map((expertRating) => {
         const result = expertRating;
         if (expertRating.expertRank) {
           result.period = 'Overall';
