@@ -371,5 +371,40 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  Expert.getLatestExperts = function (limit = 15) {
+    return sequelize.query(`
+      SELECT SQL_CALC_FOUND_ROWS
+        e.id,
+        e.name,
+        e.FirstName,
+        e.LastName,
+        e.TITLE,
+        e.COMPANY,
+        e.COMMENTS,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date,
+        e.avatar as avatar_path
+      FROM New_expert AS e
+      LEFT JOIN (
+        SELECT
+          o.expert_id,
+          COUNT(o.expert_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
+        FROM New_opinion AS o
+        GROUP BY o.expert_id
+        ORDER BY latest_opinion_date DESC
+      ) AS o
+      ON o.expert_id = e.id
+      WHERE e.id <> 1176
+      ORDER BY o.latest_opinion_date DESC
+      LIMIT 0, :limit
+    `, {
+      replacements: { limit },
+      type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
+    });
+  };
+
   return Expert;
 };
