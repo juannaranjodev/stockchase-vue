@@ -1,6 +1,6 @@
 'use strict';
 
-const { dasherize, titleize } = require('inflection');
+const slugify = require('../helper/slugify');
 
 module.exports = (sequelize, DataTypes) => {
   const ExpertRating = sequelize.define('ExpertRating', {
@@ -90,8 +90,8 @@ module.exports = (sequelize, DataTypes) => {
         limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then((experts) => {
-      const results = [];
+    }).then((expertRatings) => {
+      let results = [];
       let beforeExpertId = null;
       let expertRank = 1;
       let totalWins = 0;
@@ -105,12 +105,13 @@ module.exports = (sequelize, DataTypes) => {
       const totalBigWinsById = {};
       const totalNoChangesById = {};
 
-      experts.forEach((expert) => {
-        if (beforeExpertId !== expert.expert_id) {
-          const result = { ...expert };
+      expertRatings.forEach((expertRating) => {
+        if (beforeExpertId !== expertRating.expert_id) {
+          const result = { ...expertRating };
           result.expertRank = expertRank++;
-          result.avatar = expert.avatar ? `https://stockchase.s3.amazonaws.com/${expert.avatar}` : '/assets/svg/expert_profile_default.svg';
-          result.url = `/expert/view/${expert.expert_id}/${dasherize(titleize(expert.name.replace(/,/g, '').replace(/\./, '')))}/rating`;
+          result.avatar = expertRating.avatar ? `https://stockchase.s3.amazonaws.com/${expertRating.avatar}` : '/assets/svg/expert_profile_default.svg';
+          result.url = `/expert/view/${expertRating.expert_id}/${slugify(expertRating.name)}/rating`;
+          result.rate = Number(expertRating.rate);
           results.push(result);
 
           totalWinsById[beforeExpertId] = totalWins;
@@ -118,20 +119,22 @@ module.exports = (sequelize, DataTypes) => {
           totalBigWinsById[beforeExpertId] = totalBigWins;
           totalBigLosesById[beforeExpertId] = totalBigLoses;
           totalNoChangesById[beforeExpertId] = totalNoChanges;
-          beforeExpertId = expert.expert_id;
+          beforeExpertId = expertRating.expert_id;
           totalWins = 0;
           totalLoses = 0;
           totalBigWins = 0;
           totalBigLoses = 0;
           totalNoChanges = 0;
         }
-        totalWins += expert.win;
-        totalLoses += expert.lose;
-        totalBigWins += expert.big_win;
-        totalBigLoses += expert.big_lose;
-        totalNoChanges += expert.no_change;
+        totalWins += expertRating.win;
+        totalLoses += expertRating.lose;
+        totalBigWins += expertRating.big_win;
+        totalBigLoses += expertRating.big_lose;
+        totalNoChanges += expertRating.no_change;
 
-        results.push(expert);
+        const rating = { ...expertRating };
+        rating.rate = Number(expertRating.rate);
+        results.push(rating);
       });
 
       totalWinsById[beforeExpertId] = totalWins;
@@ -140,21 +143,21 @@ module.exports = (sequelize, DataTypes) => {
       totalBigLosesById[beforeExpertId] = totalBigLoses;
       totalNoChangesById[beforeExpertId] = totalNoChanges;
 
-      results.map((expert) => {
-        const result = expert;
-        if (expert.expertRank) {
+      results = results.map((expertRating) => {
+        const result = { ...expertRating };
+        if (expertRating.expertRank) {
           result.period = 'Overall';
-          result.win = totalWinsById[expert.expert_id];
-          result.lose = totalLosesById[expert.expert_id];
-          result.big_win = totalBigWinsById[expert.expert_id];
-          result.big_lose = totalBigLosesById[expert.expert_id];
-          result.no_change = totalNoChangesById[expert.expert_id];
+          result.win = totalWinsById[expertRating.expert_id];
+          result.lose = totalLosesById[expertRating.expert_id];
+          result.big_win = totalBigWinsById[expertRating.expert_id];
+          result.big_lose = totalBigLosesById[expertRating.expert_id];
+          result.no_change = totalNoChangesById[expertRating.expert_id];
         }
 
-        result.totalWins = expert.win + expert.big_win;
-        result.totalLoses = expert.lose + expert.big_lose;
+        result.totalWins = expertRating.win + expertRating.big_win;
+        result.totalLoses = expertRating.lose + expertRating.big_lose;
 
-        if (!expert.expertRank) {
+        if (!expertRating.expertRank) {
           const diffWinsAndLoses = result.totalWins - result.totalLoses;
           let rate;
           if (diffWinsAndLoses > 10) {
