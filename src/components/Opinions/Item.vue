@@ -261,7 +261,7 @@
       v-if="item.ad"
       class="in-feed-ad-cell"
     >
-      <in-feed-adx />
+      <in-feed-ad />
     </div>
   </div>
 </template>
@@ -272,7 +272,7 @@ import { mapGetters } from 'vuex';
 import { getRatingImage } from '../../util/rating';
 import UserReactions from '../UserReactions.vue';
 import OpinionChart from './Chart.vue';
-import InFeedAdx from '../Ads/InFeedAdx.vue';
+import InFeedAd from '../Ads/InFeedAd.vue';
 
 // TODO this is ugly
 let tippy;
@@ -287,7 +287,7 @@ export default {
   components: {
     UserReactions,
     OpinionChart,
-    InFeedAdx,
+    InFeedAd,
   },
 
   filters: {
