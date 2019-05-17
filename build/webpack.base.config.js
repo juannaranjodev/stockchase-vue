@@ -60,7 +60,7 @@ module.exports = {
           resolve('models'),
           // node modules that are written in ES6 should be added here for the build
           resolve('node_modules/bootstrap-vue'),
-          resolve('node_modules/vue-disqus'),
+          // resolve('node_modules/vue-disqus'),
         ]),
         options: { cacheDirectory: true },
       },
@@ -70,6 +70,7 @@ module.exports = {
         include: [
           resolve('models'),
           resolve('api'),
+          resolve('node_modules/vue-disqus'),
         ],
         options: {
           presets: ['@babel/preset-env'],
