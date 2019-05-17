@@ -24,6 +24,16 @@
           <a :href="facebookUrl"><i class="icon icon-facebook" /></a>
         </li>
       </ul>
+      <a
+        class="card-rating-link"
+        :href="`${cardLink}/rating`"
+      >
+        <expert-rating
+          :rating="rating"
+          :total-loses="totalLoses"
+          :total-wins="totalWins"
+        />
+      </a>
     </div>
     <a :href="cardLink">
       <div class="card-footnote">
@@ -34,8 +44,13 @@
 </template>
 
 <script>
+import ExpertRating from './ExpertRating';
+
 export default {
   name: 'CardView',
+
+  components: { ExpertRating },
+
   props: {
     imageSrc: {
       type: String,
@@ -65,6 +80,18 @@ export default {
       type: String,
       default: '',
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    totalWins: {
+      type: Number,
+      default: 0,
+    },
+    totalLoses: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
@@ -84,6 +111,7 @@ export default {
 <style lang="stylus">
 .card
   &-info
+    position: relative
     min-height 290px
     padding 10px
     text-align center
@@ -176,6 +204,10 @@ export default {
     font-weight bold
   &-view:hover &-footnote
     background-color #DDD
+  &-rating-link
+    position: absolute
+    bottom: 15px
+    left: 62px
 .icon
   width 20px
   height 20px

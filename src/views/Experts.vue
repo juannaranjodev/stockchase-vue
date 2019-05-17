@@ -41,6 +41,9 @@
           :footnote="`${expert.total_opinion} opinions`"
           :social-links="expert.social_links || {}"
           :card-link="expert.url"
+          :rating="expert.rating"
+          :total-wins="expert.totalWins"
+          :total-loses="expert.totalLoses"
         />
       </div>
 
@@ -58,6 +61,9 @@
           :footnote="`${expert.total_opinion} opinions`"
           :social-links="expert.social_links || {}"
           :card-link="expert.url"
+          :rating="expert.rating"
+          :total-wins="expert.totalWins"
+          :total-loses="expert.totalLoses"
         />
       </div>
     </div>
