@@ -29,6 +29,8 @@ router.use(async (req, res, next) => {
   req.session = unserialize(sessionData);
   req.user = await User.findByPk(req.session.user_id, { include: [{ all: true }] });
 
+  res.setHeader('Vary', 'Authorization');
+
   next();
 });
 
