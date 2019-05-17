@@ -198,7 +198,7 @@ module.exports = (sequelize, DataTypes) => {
         avatar: expert.avatar
           ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
           : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify(expert.name)}`,
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));
@@ -268,7 +268,7 @@ module.exports = (sequelize, DataTypes) => {
         avatar: expert.avatar
           ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
           : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify(expert.name)}`,
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));
@@ -299,7 +299,7 @@ module.exports = (sequelize, DataTypes) => {
         avatar: expert.avatar
           ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
           : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify(expert.name)}`,
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
       })),
       total: experts.length,
     }));
@@ -347,7 +347,7 @@ module.exports = (sequelize, DataTypes) => {
         avatar: expert.avatar
           ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
           : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify(expert.name)}`,
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));
