@@ -16,7 +16,8 @@ export default {
     if (dateParam === 'view') {
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 });
 
-      return api.getOpinionUrl(page).then(url => Promise.reject({ url }));
+      // Redirect to the canonical url (with 301 code for SEO purpose)
+      return api.getOpinionUrl(page).then(url => Promise.reject({ url, code: 301 }));
     }
 
     // /opinions/market
@@ -158,11 +159,14 @@ export default {
     const { id, symbol } = urlParams;
     let { page, perPage } = urlParams;
 
-    if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 });
+    // Redirect not found paths to company index according to v1 company controller logic
+    if (!/^\d+$/.test(id)) return Promise.reject({ url: '/company' });
 
     return api.fetchCompanyById(id).then((company) => {
-      if (!company) return Promise.reject({ code: 404 });
-      if (!symbol && !page) return Promise.reject({ url: company.url });
+      if (!company) return Promise.reject({ url: '/company' });
+
+      // Redirect urls with wrong slugs to the canonical slug
+      if (!page && symbol !== company.slug) return Promise.reject({ url: company.url, code: 301 });
 
       commit('SET_COMPANY', company);
       page = page || 1;
@@ -184,12 +188,14 @@ export default {
     const { id, name } = urlParams;
     let { page, perPage } = urlParams;
 
-    if (!/^\d+$/.test(id)) return Promise.reject({ code: 404 });
+    // Redirect not found paths to expert index according to v1 expert controller logic
+    if (!/^\d+$/.test(id)) return Promise.reject({ url: '/expert' });
 
     return api.fetchExpertById(id).then((expert) => {
-      if (!expert) return Promise.reject({ code: 404 });
+      if (!expert) return Promise.reject({ url: '/company' });
 
-      if (!name && !page) return Promise.reject({ url: expert.url });
+      // Redirect urls with wrong slugs to the canonical url
+      if (!page && name !== expert.slug) return Promise.reject({ url: expert.url, code: 301 });
 
       commit('SET_EXPERT', expert);
       page = page || 1;

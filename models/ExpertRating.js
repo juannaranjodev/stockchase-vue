@@ -142,7 +142,7 @@ module.exports = (sequelize, DataTypes) => {
           const result = { ...expertRating };
           result.expertRank = expertRank++;
           result.avatar = expertRating.avatar ? `https://stockchase.s3.amazonaws.com/${expertRating.avatar}` : '/assets/svg/expert_profile_default.svg';
-          result.url = `/expert/view/${expertRating.expert_id}/${slugify(expertRating.name)}/rating`;
+          result.url = `/expert/view/${expertRating.expert_id}/${slugify.expert(expertRating.name)}/rating`;
           result.rate = Number(expertRating.rate);
           results.push(result);
 

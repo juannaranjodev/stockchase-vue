@@ -3,6 +3,7 @@
 const moment = require('moment');
 const _ = require('lodash');
 const { Op } = require('sequelize');
+const slugify = require('../helper/slugify');
 
 module.exports = (sequelize, DataTypes) => {
   const Company = sequelize.define('Company', {
@@ -26,10 +27,16 @@ module.exports = (sequelize, DataTypes) => {
         return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
+    slug: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return slugify.company(this.symbol);
+      },
+    },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/company/view/${this.id}/${this.symbol.replace(/ ?\([^)]+\)/g, '')}`;
+        return `/company/view/${this.id}/${this.slug}`;
       },
     },
     active_original: {

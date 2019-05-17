@@ -435,12 +435,18 @@ export default {
   flex 1
 
   &__image
-    display flex
-    justify-content center
-    align-items center
+    display block
+    padding-bottom 62.4685%
+    height 0
+    position relative
 
     img
-      max-width 100%
+      display block
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
 
   &__content
     font-weight lighter
