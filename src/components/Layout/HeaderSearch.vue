@@ -66,7 +66,6 @@ export default {
             result.results.push({
               text: 'Companies',
               children: data.companies.map((company) => {
-                // TODO confirm the canonical slugify behavior and update this
                 const symbol = company.symbol.replace(' (Dead)', '').replace(/[()]/g, '');
 
                 return {

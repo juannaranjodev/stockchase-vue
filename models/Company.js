@@ -3,6 +3,7 @@
 const moment = require('moment');
 const _ = require('lodash');
 const { Op } = require('sequelize');
+const slugify = require('../helper/slugify');
 
 module.exports = (sequelize, DataTypes) => {
   const Company = sequelize.define('Company', {
@@ -29,12 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     slug: {
       type: DataTypes.VIRTUAL,
       get() {
-        // This slugify behavior is taken from v1 header search
-        // https://github.com/wealthica/stockchase-site/blob/master/CI/application/views/components/header_search_box.php#L66-L67
-        // It's different from the more complex behavior in v1 company controllers
-        // https://github.com/wealthica/stockchase-site/blob/master/CI/application/controllers/company.php#L267-L268
-        // TODO confirm which one should be the canonical behavior
-        return this.symbol.replace(' (Dead)', '').replace(/[()]/g, '');
+        return slugify.company(this.symbol);
       },
     },
     url: {

@@ -2,6 +2,7 @@
 
 const _ = require('lodash');
 const { Op } = require('sequelize');
+const slugify = require('../helper/slugify');
 
 module.exports = (sequelize, DataTypes) => {
   const Expert = sequelize.define('Expert', {
@@ -92,10 +93,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(11),
       field: 'adCampaign_id',
     },
+    slug: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return slugify.expert(this.name);
+      },
+    },
     url: {
       type: DataTypes.VIRTUAL,
       get() {
-        return `/expert/view/${this.id}/${this.name.replace(/\W+/g, ' ').replace(/\s+/g, '-')}`;
+        return `/expert/view/${this.id}/${this.slug}`;
       },
     },
     avatar_path: {

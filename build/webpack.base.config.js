@@ -70,6 +70,7 @@ module.exports = {
         include: [
           resolve('models'),
           resolve('api'),
+          resolve('helper'),
           resolve('node_modules/vue-disqus'),
         ],
         options: {
