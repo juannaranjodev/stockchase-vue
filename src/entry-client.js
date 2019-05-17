@@ -1,3 +1,6 @@
+import 'core-js/shim';
+import 'regenerator-runtime/runtime';
+
 import Vue from 'vue';
 import createApp from './app';
 import ProgressBar from './components/ProgressBar.vue';
