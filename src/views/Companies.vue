@@ -169,31 +169,35 @@ export default {
 
     return promises ? Promise.all(promises) : null;
   },
+
+  title() {
+    return 'Company Index';
+  },
 };
 </script>
 
 <style lang="stylus">
-  @import '../assets/css/global.css';
-  .container
-    box-sizing border-box
-    width 1140px
-    max-width 100%
-    padding 0 20px 20px
-    margin 0 auto
-  .companies
-    margin-top 20px
-    .card-info
-      min-height 221px
-    .card-picture
-      background-color white
-  .ad-banner > div:first-child
-    width 31%
-    font-size 18px
-    color #595959
-    display inline-block
-    p
-      text-align center
-      margin 0
-      a
-        color red
+@import '~assets/css/global.css'
+.container
+  box-sizing border-box
+  width 1140px
+  max-width 100%
+  padding 0 20px 20px
+  margin 0 auto
+.companies
+  margin-top 20px
+  .card-info
+    min-height 224px // TODO put card-related styling in the separate company cardview component
+  .card-picture
+    background-color white
+.ad-banner > div:first-child
+  width 31%
+  font-size 18px
+  color #595959
+  display inline-block
+  p
+    text-align center
+    margin 0
+    a
+      color red
 </style>

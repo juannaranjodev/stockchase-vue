@@ -1,10 +1,17 @@
 function getValue(vm) {
-  const { previewTitle } = vm.$options;
+  const { previewTitle, title } = vm.$options;
 
   if (previewTitle) {
     return typeof previewTitle === 'function'
       ? previewTitle.call(vm)
       : previewTitle;
+  }
+
+  // Fallback to page title
+  if (title) {
+    return typeof title === 'function'
+      ? title.call(vm)
+      : title;
   }
 
   return null;

@@ -105,10 +105,6 @@ export default {
     AskPeterHodson,
   },
 
-  title() {
-    return 'Stock Experts Index — Stockchase';
-  },
-
   data() {
     const { params } = this.$route;
 
@@ -177,27 +173,31 @@ export default {
 
     return promises ? Promise.all(promises) : null;
   },
+
+  title() {
+    return 'Stock Experts Index';
+  },
 };
 </script>
 
 <style lang="stylus" scoped>
-  @import '../assets/css/global.css';
-  .container
-    box-sizing border-box
-    width 1140px
-    max-width 100%
-    padding 0 20px 20px
-    margin 0 auto
-  .experts
-    margin-top 20px
-  .ad-banner > div:first-child
-    width 31%
-    font-size 18px
-    color #595959
-    display inline-block
-    p
-      text-align center
-      margin 0
-      a
-        color red
+@import '~assets/css/global.css'
+.container
+  box-sizing border-box
+  width 1140px
+  max-width 100%
+  padding 0 20px 20px
+  margin 0 auto
+.experts
+  margin-top 20px
+.ad-banner > div:first-child
+  width 31%
+  font-size 18px
+  color #595959
+  display inline-block
+  p
+    text-align center
+    margin 0
+    a
+      color red
 </style>
