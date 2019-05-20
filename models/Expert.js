@@ -165,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -195,7 +195,7 @@ module.exports = (sequelize, DataTypes) => {
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
-        ...expert,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));
@@ -233,7 +233,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -263,7 +263,7 @@ module.exports = (sequelize, DataTypes) => {
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
-        ...expert,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));
@@ -278,7 +278,7 @@ module.exports = (sequelize, DataTypes) => {
         e.LastName AS last_name,
         e.TITLE as title,
         e.COMPANY as company,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       WHERE
         e.id <> 1176 &&
@@ -291,7 +291,6 @@ module.exports = (sequelize, DataTypes) => {
       model: Expert,
       mapToModel: true,
     }).then(experts => ({
-
       rows: experts.slice(0, limit),
       total: experts.length,
     }));
@@ -308,7 +307,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -338,7 +337,7 @@ module.exports = (sequelize, DataTypes) => {
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
-        ...expert,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));
