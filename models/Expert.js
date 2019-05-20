@@ -186,11 +186,21 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, expert => ({
-      ...expert,
-      avatar: expert.avatar
-        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-        : '/assets/svgs/expert_profile_default.svg',
+      include: [
+        { model: sequelize.models.ExpertRating },
+      ],
+    }).then(experts => Promise.all(_.map(experts, async (expert) => {
+      const overallRatings = await sequelize.models
+        .ExpertRating.getOverallRatingsByExpert(expert.id);
+
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...overallRatings,
+      };
     })));
   };
 
@@ -249,11 +259,18 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, expert => ({
-      ...expert,
-      avatar: expert.avatar
-        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-        : '/assets/svgs/expert_profile_default.svg',
+    }).then(experts => Promise.all(_.map(experts, async (expert) => {
+      const overallRatings = await sequelize.models
+        .ExpertRating.getOverallRatingsByExpert(expert.id);
+
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...overallRatings,
+      };
     })));
   };
 
@@ -282,6 +299,7 @@ module.exports = (sequelize, DataTypes) => {
         avatar: expert.avatar
           ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
           : '/assets/svgs/expert_profile_default.svg',
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
       })),
       total: experts.length,
     }));
@@ -321,11 +339,17 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
-    }).then(experts => _.map(experts, expert => ({
-      ...expert,
-      avatar: expert.avatar
-        ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-        : '/assets/svgs/expert_profile_default.svg',
+    }).then(experts => Promise.all(_.map(experts, async (expert) => {
+      const overallRatings = await sequelize.models
+        .ExpertRating.getOverallRatingsByExpert(expert.id);
+      return {
+        ...expert,
+        avatar: expert.avatar
+          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
+          : '/assets/svgs/expert_profile_default.svg',
+        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...overallRatings,
+      };
     })));
   };
 
