@@ -47,7 +47,9 @@
         />
       </div>
       <div v-else>
-        <p class="text-center">No matched companies.</p>
+        <p class="text-center">
+          No matched companies.
+        </p>
       </div>
 
       <in-feed-ad />

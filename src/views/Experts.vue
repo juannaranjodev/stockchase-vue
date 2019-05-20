@@ -51,7 +51,9 @@
         />
       </div>
       <div v-else>
-        <p class="text-center">No matched experts.</p>
+        <p class="text-center">
+          No matched experts.
+        </p>
       </div>
 
       <in-feed-ad />
