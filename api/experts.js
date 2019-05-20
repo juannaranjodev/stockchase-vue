@@ -10,14 +10,10 @@ router.get('/:page/:limit', async (req, res) => {
   res.json(experts);
 });
 
-router.post('/search', async (req, res) => {
-  const limit = req.body.limit || 5;
+router.get('/search', async (req, res) => {
+  if (!req.query.term) return res.status(400).json({ error: 'Missing search term' });
 
-  if (!req.body.term) return res.status(500).json({ error: 'Missing required field!' });
-
-  const experts = await Expert.searchExperts(req.body.term, limit);
-
-  res.json(experts);
+  res.json(await Expert.searchExperts(req.query.term, req.query.limit || 5));
 });
 
 // Create or update user rating for an expert

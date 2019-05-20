@@ -285,7 +285,7 @@ export default {
   },
 
   title() {
-    return `${this.title} Stock Predictions`;
+    return `Buy, Sell or Hold: ${this.title} — Stock Predictions`;
   },
 
   previewTitle() {

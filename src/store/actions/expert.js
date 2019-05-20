@@ -18,7 +18,7 @@ export default {
   FETCH_EXPERTS_BY_CHARACTER: ({ commit }, {
     character, type = 'L', page = 1, limit = 15,
   }) => api.getExpertsByFirstCharacter(character, type, page, limit)
-    .then(({ experts }) => {
+    .then((experts) => {
       commit('SET_EXPERTS', experts);
     }),
 

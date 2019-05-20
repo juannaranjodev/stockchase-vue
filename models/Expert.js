@@ -137,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Expert.getTotalExperts = async function (term = null) {
-    const result = await Expert.count({
+    return Expert.count({
       where: term ? {
         [Op.and]: [
           {
@@ -152,7 +152,6 @@ module.exports = (sequelize, DataTypes) => {
         ],
       } : { id: { [Op.ne]: 1176 } },
     });
-    return result;
   };
 
   Expert.getExpertsByPage = async function (page = 1, limit = 25) {
@@ -166,7 +165,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -186,6 +185,8 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
       include: [
         { model: sequelize.models.ExpertRating },
       ],
@@ -194,11 +195,7 @@ module.exports = (sequelize, DataTypes) => {
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));
@@ -236,7 +233,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -259,16 +256,14 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => Promise.all(_.map(experts, async (expert) => {
       const overallRatings = await sequelize.models
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));
@@ -283,7 +278,7 @@ module.exports = (sequelize, DataTypes) => {
         e.LastName AS last_name,
         e.TITLE as title,
         e.COMPANY as company,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       WHERE
         e.id <> 1176 &&
@@ -293,21 +288,17 @@ module.exports = (sequelize, DataTypes) => {
         term: `%${term.toLowerCase()}%`,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => ({
-      rows: _.map(experts.slice(0, limit), expert => ({
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
-      })),
+      rows: experts.slice(0, limit),
       total: experts.length,
     }));
   };
 
   Expert.getExpertsByCharacter = function (character, column = 'FirstName', page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT
+      SELECT SQL_CALC_FOUND_ROWS
         e.id,
         e.name,
         e.FirstName AS first_name,
@@ -316,7 +307,7 @@ module.exports = (sequelize, DataTypes) => {
         e.COMPANY as company,
         IFNULL(o.total_opinion, 0) AS total_opinion,
         o.latest_opinion_date,
-        e.avatar
+        e.avatar as avatar_path
       FROM New_expert AS e
       LEFT JOIN (
         SELECT
@@ -328,26 +319,25 @@ module.exports = (sequelize, DataTypes) => {
         ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
       WHERE
-        e.id <> 1176 &&
-        ( LOWER(e.${column}) LIKE :term )
+        e.id <> 1176
+        && ( LOWER(e.${column}) ${character === '0-9' ? 'RLIKE' : 'LIKE'} :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
       replacements: {
-        term: `${character.toLowerCase()}%`,
+        term: character === '0-9' ? `^[${character}]` : `${character}%`,
         limit,
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => Promise.all(_.map(experts, async (expert) => {
       const overallRatings = await sequelize.models
         .ExpertRating.getOverallRatingsByExpert(expert.id);
+
       return {
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
+        ...expert.toJSON(),
         ...overallRatings,
       };
     })));

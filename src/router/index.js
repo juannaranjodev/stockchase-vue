@@ -35,20 +35,28 @@ export default function createRouter() {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', component: Home },
+      // Market comments listing
       { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
+      // Opinions listing
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
+      // Top/worst experts
       { path: '/expert/top', component: TopWorstExpertList },
-      { path: '/expert', component: Experts },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: Experts },
-      { path: '/expert/index/:character/:type', component: Experts },
+      // Companies index. :type can be C (to search in company name) or F for symbol
       { path: '/company', component: Companies },
-      { path: '/company/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:itemsPerPage', component: Companies },
+      { path: '/company/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage', component: Companies },
+      { path: '/company/index/:character/:type', component: Companies },
+      // Experts index. :type can be F (to search in first name) or L for last name
+      { path: '/expert', component: Experts },
+      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage', component: Experts },
+      { path: '/expert/index/:character/:type', component: Experts },
+      // Company profile
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:symbol', component: Company },
       { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
+      // Expert profile
       { path: '/expert/view/:id', component: Expert },
       { path: '/expert/view/:id/:name', component: Expert },
       { path: '/expert/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Expert },
