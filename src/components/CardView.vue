@@ -152,6 +152,16 @@ export default {
       color #25325A
       font-weight normal
       word-wrap break-word
+      line-height 1.2
+      overflow hidden
+      text-overflow -o-ellipsis-lastline
+      text-overflow ellipsis
+      /* autoprefixer: off */
+      display -webkit-box
+      -webkit-line-clamp 2
+      -webkit-box-orient vertical
+      max-height 2.4
+
     p
       color #8990A5
       font-size 13px
