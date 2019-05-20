@@ -223,18 +223,18 @@ module.exports = (sequelize, DataTypes) => {
   Company.getTotalCompanies = function (term = null) {
     return Company.count({
       where: term ? {
-        $and: [
+        [Op.and]: [
           {
-            id: { $ne: 1970 },
+            id: { [Op.ne]: 1970 },
           },
           sequelize.where(
             sequelize.fn('lower', sequelize.col('name')),
             {
-              $like: `%${term.toLowerCase()}%`,
+              [Op.like]: `%${term}%`,
             },
           ),
         ],
-      } : { id: { $ne: 1970 } },
+      } : { id: { [Op.ne]: 1970 } },
     });
   };
 
@@ -259,6 +259,61 @@ module.exports = (sequelize, DataTypes) => {
       rows: companies.slice(0, limit),
       total: companies.length,
     }));
+  };
+
+  Company.getCompaniesByCharacter = function (character, column = 'name', page = 1, limit = 15) {
+    return sequelize.query(`
+      SELECT SQL_CALC_FOUND_ROWS
+        c.id,
+        c.name,
+        c.symbol,
+        IFNULL(o.total_opinion, 0) AS total_opinion,
+        o.latest_opinion_date
+      FROM New_company AS c
+      LEFT JOIN (
+        SELECT
+          o.company_id,
+          COUNT(o.company_id) AS total_opinion,
+          MAX(o.Date) AS latest_opinion_date
+          FROM New_opinion
+          AS o
+          GROUP BY o.company_id
+          ORDER BY latest_opinion_date DESC) AS o
+        ON o.company_id = c.id
+      WHERE
+        c.id <> 1970
+        && ( LOWER(c.${column}) LIKE :term )
+      ORDER BY o.latest_opinion_date desc
+      LIMIT :limit
+      OFFSET :offset
+    `, {
+      replacements: {
+        term: `${character.toLowerCase()}%`,
+        limit,
+        offset: (page - 1) * limit,
+      },
+      type: sequelize.QueryTypes.SELECT,
+      model: Company,
+      mapToModel: true,
+    });
+  };
+
+  Company.getCompaniesTotalByCharacter = function (character, column = 'name') {
+    return Company.count({
+      where: {
+        [Op.and]: [
+          {
+            id: { [Op.ne]: 1970 },
+          },
+          sequelize.where(
+            sequelize.fn('lower', sequelize.col(column)),
+            {
+              [Op.like]: `${character}%`,
+            },
+          ),
+        ],
+      },
+    });
   };
 
   return Company;

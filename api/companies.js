@@ -99,12 +99,10 @@ router.get('/:id/opinions', async (req, res) => {
   res.json(await Opinion.getCompanyOpinionsByRange(req.company.id, req.query.from, req.query.to));
 });
 
-router.post('/search', async (req, res) => {
-  const limit = req.body.limit || 5;
+router.get('/search', async (req, res) => {
+  if (!req.query.term) return res.status(400).json({ error: 'Missing search term' });
 
-  if (!req.body.term) return res.status(500).json({ error: 'Missing required field!' });
-
-  res.json(await Company.searchCompanies(req.body.term, limit));
+  res.json(await Company.searchCompanies(req.query.term, req.query.limit || 5));
 });
 
 module.exports = router;

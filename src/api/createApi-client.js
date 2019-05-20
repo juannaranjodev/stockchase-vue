@@ -84,19 +84,17 @@ export default function createAPI() {
       });
     },
     searchExperts({ term, limit = 5 }) {
-      return protectedAjax({
+      return ajax({
         url: '/api/v2/experts/search',
-        method: 'POST',
-        data: JSON.stringify({ term, limit }),
+        data: { term, limit },
         contentType: 'application/json',
         dataType: 'json',
       });
     },
     searchCompanies({ term, limit = 5 }) {
-      return protectedAjax({
+      return ajax({
         url: '/api/v2/companies/search',
-        method: 'POST',
-        data: JSON.stringify({ term, limit }),
+        data: { term, limit },
         contentType: 'application/json',
         dataType: 'json',
       });

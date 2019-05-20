@@ -1,6 +1,6 @@
 <template>
   <section
-    v-if="totalItems > itemsPerPage"
+    v-if="totalItems > perPage"
     class="paginator"
   >
     <p>
@@ -67,7 +67,7 @@ export default {
       type: Number,
       default: 5,
     },
-    itemsPerPage: {
+    perPage: {
       type: Number,
       default: 15,
     },
@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.totalItems / this.itemsPerPage);
+      return Math.ceil(this.totalItems / this.perPage);
     },
     maxArrayLength() {
       return (this.totalPages < this.maxPage) ? this.totalPages : this.maxPage;
@@ -108,10 +108,10 @@ export default {
       return Math.floor(this.maxArrayLength / 2);
     },
     sliceStart() {
-      return ((this.currentPage * this.itemsPerPage) - this.itemsPerPage) + 1;
+      return ((this.currentPage * this.perPage) - this.perPage) + 1;
     },
     sliceEnd() {
-      const sliceEnd = this.currentPage * this.itemsPerPage;
+      const sliceEnd = this.currentPage * this.perPage;
       return sliceEnd > this.totalItems ? this.totalItems : sliceEnd;
     },
     startIndex() {
@@ -136,7 +136,7 @@ export default {
           .replace(':sort', this.sort)
           .replace(':page', page)
           .replace(':direction', this.direction)
-          .replace(':itemsPerPage', this.itemsPerPage);
+          .replace(':perPage', this.perPage);
       }
 
       return query.search ? `${url}?search=${query.search}` : url;
@@ -149,6 +149,10 @@ export default {
 .paginator
   text-align center
   margin 10px 0
+
+  p
+    text-align left
+
   .btn, .items a
     background-repeat no-repeat
     background-position center

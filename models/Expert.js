@@ -137,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Expert.getTotalExperts = async function (term = null) {
-    const result = await Expert.count({
+    return Expert.count({
       where: term ? {
         [Op.and]: [
           {
@@ -152,7 +152,6 @@ module.exports = (sequelize, DataTypes) => {
         ],
       } : { id: { [Op.ne]: 1176 } },
     });
-    return result;
   };
 
   Expert.getExpertsByPage = async function (page = 1, limit = 25) {
@@ -186,6 +185,8 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
       include: [
         { model: sequelize.models.ExpertRating },
       ],
@@ -195,10 +196,6 @@ module.exports = (sequelize, DataTypes) => {
 
       return {
         ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));
@@ -259,16 +256,14 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => Promise.all(_.map(experts, async (expert) => {
       const overallRatings = await sequelize.models
         .ExpertRating.getOverallRatingsByExpert(expert.id);
 
       return {
         ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));
@@ -293,14 +288,11 @@ module.exports = (sequelize, DataTypes) => {
         term: `%${term.toLowerCase()}%`,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => ({
-      rows: _.map(experts.slice(0, limit), expert => ({
-        ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
-      })),
+
+      rows: experts.slice(0, limit),
       total: experts.length,
     }));
   };
@@ -328,8 +320,8 @@ module.exports = (sequelize, DataTypes) => {
         ORDER BY latest_opinion_date DESC) AS o
         ON o.expert_id = e.id
       WHERE
-        e.id <> 1176 &&
-        ( LOWER(e.${column}) LIKE :term )
+        e.id <> 1176
+        && ( LOWER(e.${column}) LIKE :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
@@ -339,15 +331,14 @@ module.exports = (sequelize, DataTypes) => {
         offset: (page - 1) * limit,
       },
       type: sequelize.QueryTypes.SELECT,
+      model: Expert,
+      mapToModel: true,
     }).then(experts => Promise.all(_.map(experts, async (expert) => {
       const overallRatings = await sequelize.models
         .ExpertRating.getOverallRatingsByExpert(expert.id);
+
       return {
         ...expert,
-        avatar: expert.avatar
-          ? `https://stockchase.s3.amazonaws.com/${expert.avatar}`
-          : '/assets/svgs/expert_profile_default.svg',
-        url: `/expert/view/${expert.id}/${slugify.expert(expert.name)}`,
         ...overallRatings,
       };
     })));

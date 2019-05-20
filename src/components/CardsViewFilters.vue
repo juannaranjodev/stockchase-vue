@@ -145,7 +145,7 @@ export default {
       return this.$route.query.search;
     },
     perPage() {
-      return Number(this.$route.params.itemsPerPage) || this.currentLimit;
+      return Number(this.$route.params.perPage) || this.currentLimit;
     },
   },
   methods: {
@@ -155,21 +155,21 @@ export default {
     renderSearchResultItem(name) {
       return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
     },
-    generateURL(pages = 15) {
+    generateURL(perPage = 15) {
       const { params, query } = this.$route;
+
       const url = this.resetUri + this.pattern
         .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
         .replace(':sort', this.targetSearch === 'companies' ? 'name' : params.sort || 'FirstName')
         .replace(':page', params.page || '1')
         .replace(':direction', params.direction || 'desc')
-        .replace(':itemsPerPage', pages);
+        .replace(':perPage', perPage);
 
       return query.search ? `${url}?search=${query.search}` : url;
     },
     onSubmitSearch() {
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
-        // do something here
         window.location = `?search=${query}`;
       }
     },
@@ -208,9 +208,7 @@ export default {
           }
         }, 500);
       } else {
-        this.matches = [];
-        this.totalSearchedResults = 0;
-        this.isTyping = false;
+        this.resetSearchResults();
       }
     },
     onSearchResultsItemClick(target) {
@@ -231,10 +229,14 @@ export default {
     },
     onSearchFocusOut() {
       setTimeout(() => { // required in order for the `see all x results` to work
-        this.matches = [];
-        this.totalSearchedResults = 0;
-        this.isTyping = false;
+        this.resetSearchResults();
       }, 200);
+    },
+
+    resetSearchResults() {
+      this.matches = [];
+      this.totalSearchedResults = 0;
+      this.isTyping = false;
     },
   },
 };
