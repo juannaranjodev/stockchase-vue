@@ -30,7 +30,10 @@
     <link-ad />
 
     <div class="companies">
-      <div class="first-row">
+      <div
+        v-if="firstFiveCompanies.length"
+        class="first-row"
+      >
         <card-view
           v-for="(company, index) in firstFiveCompanies"
           :key="index"
@@ -43,10 +46,16 @@
           :card-link="company.url"
         />
       </div>
+      <div v-else>
+        <p class="text-center">No matched companies.</p>
+      </div>
 
       <in-feed-ad />
 
-      <div class="second-row">
+      <div
+        v-if="theRestOfCompanies.length"
+        class="second-row"
+      >
         <card-view
           v-for="(company, index) in theRestOfCompanies"
           :key="index"
@@ -60,6 +69,7 @@
         />
       </div>
     </div>
+
     <paginator
       :type="paginator.type"
       :sort="paginator.sort"
@@ -134,6 +144,7 @@ export default {
 
     let promises = null;
 
+    // TODO get companies list and count in the same query/call to get consistent results
     if (query && query.search) { // if doing a search query
       promises = [
         store.dispatch('FETCH_COMPANIES_BY_NAME', {

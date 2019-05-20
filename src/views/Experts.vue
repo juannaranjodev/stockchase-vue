@@ -30,7 +30,10 @@
     <link-ad />
 
     <div class="experts">
-      <div class="first-row">
+      <div
+        v-if="firstFiveExperts.length"
+        class="first-row"
+      >
         <card-view
           v-for="(expert, index) in firstFiveExperts"
           :key="index"
@@ -47,10 +50,16 @@
           :total-loses="expert.totalLoses"
         />
       </div>
+      <div v-else>
+        <p class="text-center">No matched experts.</p>
+      </div>
 
       <in-feed-ad />
 
-      <div class="second-row">
+      <div
+        v-if="theRestOfExperts.length"
+        class="second-row"
+      >
         <card-view
           v-for="(expert, index) in theRestOfExperts"
           :key="index"
@@ -68,6 +77,7 @@
         />
       </div>
     </div>
+
     <paginator
       :type="paginator.type"
       :sort="paginator.sort"
@@ -127,6 +137,7 @@ export default {
     firstFiveExperts() {
       return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5);
     },
+
     theRestOfExperts() {
       return this.experts.length >= 5 ? this.experts.slice(5) : [];
     },
@@ -142,6 +153,7 @@ export default {
 
     let promises = null;
 
+    // TODO get experts list and count in the same query/call to get consistent results
     if (query && query.search) { // if doing a search query
       promises = [
         store.dispatch('FETCH_EXPERTS_BY_NAME', {

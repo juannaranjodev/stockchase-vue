@@ -32,9 +32,9 @@
             v-for="option in sortedOptions"
             :key="option"
             :selected="setSelectDefault(option)"
-            :value="option.toLowerCase()"
+            :value="option"
           >
-            {{ option }}
+            {{ option === 'all' ? 'Most Recent' : option.toUpperCase() }}
           </option>
         </select>
       </div>
@@ -137,13 +137,16 @@ export default {
   },
   computed: {
     ...mapGetters(['shouldShowAd', 'searchedExperts']),
+
     sortedOptions: () => [
-      'Most Recent',
+      'all',
       '0-9',
-    ].concat('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')),
+    ].concat('abcdefghijklmnopqrstuvwxyz'.split('')),
+
     searchQuery() {
       return this.$route.query.search;
     },
+
     perPage() {
       return Number(this.$route.params.perPage) || this.currentLimit;
     },
@@ -152,9 +155,11 @@ export default {
     setSelectDefault(option) {
       return this.$route.params.character && option.toLowerCase() === this.$route.params.character;
     },
+
     renderSearchResultItem(name) {
       return name.replace(new RegExp(this.$refs.search.value, 'ig'), `<span>${this.$refs.search.value}</span>`);
     },
+
     generateURL(perPage = 15) {
       const { params, query } = this.$route;
 
@@ -167,12 +172,14 @@ export default {
 
       return query.search ? `${url}?search=${query.search}` : url;
     },
+
     onSubmitSearch() {
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
         window.location = `?search=${query}`;
       }
     },
+
     onSearchTyping(e) {
       this.matches = [];
 
@@ -211,22 +218,23 @@ export default {
         this.resetSearchResults();
       }
     },
+
     onSearchResultsItemClick(target) {
       if (target.id) window.location = target.url;
     },
-    onAlphabeticalChange(e) {
-      let pattern = '/expert/index/:character/L';
 
-      if (this.targetSearch === 'companies') {
-        // do something for companies page
-        pattern = '/company/index/:character/C';
-      }
-      if (e.target.value !== '0-9' && e.target.value !== 'most recent') {
-        window.location = pattern.replace(':character', e.target.value);
-      } else {
-        window.location = this.resetUri;
-      }
+    onAlphabeticalChange(e) {
+      // Defaults to searching last name for experts and name for companies
+      // TODO verify this logic
+      const pattern = this.targetSearch === 'companies'
+        ? '/company/index/:character/C'
+        : '/expert/index/:character/L';
+
+      window.location = e.target.value === 'all'
+        ? this.resetUri
+        : pattern.replace(':character', e.target.value);
     },
+
     onSearchFocusOut() {
       setTimeout(() => { // required in order for the `see all x results` to work
         this.resetSearchResults();

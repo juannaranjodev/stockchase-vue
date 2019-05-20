@@ -282,13 +282,13 @@ module.exports = (sequelize, DataTypes) => {
         ON o.company_id = c.id
       WHERE
         c.id <> 1970
-        && ( LOWER(c.${column}) LIKE :term )
+        && ( LOWER(c.${column}) ${character === '0-9' ? 'RLIKE' : 'LIKE'} :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset
     `, {
       replacements: {
-        term: `${character.toLowerCase()}%`,
+        term: character === '0-9' ? `^[${character}]` : `${character}%`,
         limit,
         offset: (page - 1) * limit,
       },

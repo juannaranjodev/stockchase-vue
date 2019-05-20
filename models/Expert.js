@@ -299,7 +299,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Expert.getExpertsByCharacter = function (character, column = 'FirstName', page = 1, limit = 15) {
     return sequelize.query(`
-      SELECT
+      SELECT SQL_CALC_FOUND_ROWS
         e.id,
         e.name,
         e.FirstName AS first_name,
@@ -321,12 +321,12 @@ module.exports = (sequelize, DataTypes) => {
         ON o.expert_id = e.id
       WHERE
         e.id <> 1176
-        && ( LOWER(e.${column}) LIKE :term )
+        && ( LOWER(e.${column}) ${character === '0-9' ? 'RLIKE' : 'LIKE'} :term )
       ORDER BY o.latest_opinion_date desc
       LIMIT :limit
       OFFSET :offset`, {
       replacements: {
-        term: `${character.toLowerCase()}%`,
+        term: character === '0-9' ? `^[${character}]` : `${character}%`,
         limit,
         offset: (page - 1) * limit,
       },
