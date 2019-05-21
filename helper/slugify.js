@@ -11,10 +11,10 @@ function urlTitle(source, separator = '-', lowercase = false) {
   else if (separator === 'underscore') separator = '_';
 
   const trans = [
-    [/\&\.\+\?\;/i, ''],
-    [/[^a-z0-9 _-]/i, ''],
-    [/\s+/i, separator],
-    [/(\-)+/i, separator],
+    [/\&\.\+\?\;/ig, ''],
+    [/[^a-z0-9 _-]/ig, ''],
+    [/\s+/ig, separator],
+    [/(\-)+/ig, separator],
   ];
 
   let result = strip_tags(source);

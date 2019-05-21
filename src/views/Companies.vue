@@ -145,10 +145,10 @@ export default {
     slots: () => slots,
 
     firstFiveCompanies() {
-      return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5);
+      return this.companies.length <= 5 ? this.companies : this.companies.slice(0, 5);
     },
     theRestOfCompanies() {
-      return this.companies.length >= 5 ? this.companies.slice(5) : [];
+      return this.companies.length > 5 ? this.companies.slice(5) : [];
     },
   },
 
