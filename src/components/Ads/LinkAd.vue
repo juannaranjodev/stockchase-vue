@@ -9,7 +9,7 @@
         data-ad-client="ca-pub-4241986024094799"
         :data-ad-slot="slotId"
         data-ad-format="link"
-        data-full-width-responsive="true"
+        :data-full-width-responsive="true"
       />
     </no-ssr>
   </div>
