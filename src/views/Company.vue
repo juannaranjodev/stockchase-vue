@@ -1,5 +1,7 @@
 <template>
   <div class="company-container">
+    <leaderboard-ad :ad-slot="slots.CompanyLeaderboard" />
+
     <div class="container">
       <div class="overview">
         <div class="overview-section">
@@ -28,7 +30,7 @@
             class="overview-section__right d-none d-lg-block"
           >
             <div class="overview-section__block">
-              <side-ad />
+              <side-square-ad :ad-slot="slots.CompanySideSquare" />
             </div>
           </div>
         </div>
@@ -56,14 +58,16 @@
       >
         <b-tab>
           <company-header />
-          <link-ad />
+          <link-ad :ad-slot="slots.CompanyLink" />
 
           <div class="opinions-container">
             <opinions-list :items="opinions" />
             <div class="opinions-count">
               Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
             </div>
-            <link-ad class="d-none d-lg-block" />
+
+            <link-ad :ad-slot="slots.CompanyLink" />
+
             <number-pagination
               :num-total-pages="numOpinionPages"
               :current-page="currentPage"
@@ -138,7 +142,7 @@
       </b-tabs>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad :ad-slot="slots.CompanyFooterLink" />
     </div>
   </div>
 </template>
@@ -149,6 +153,7 @@ import { mapGetters } from 'vuex';
 import _ from 'lodash';
 import md5 from 'md5';
 
+import { slots } from '../components/Ads/config';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
@@ -159,9 +164,11 @@ import CompanyAbout from '../components/Company/About.vue';
 import CompanyLinks from '../components/Company/Links.vue';
 import CompanyChart from '../components/Company/Chart.vue';
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import SideAd from '../components/Ads/SideAd.vue';
+import SideSquareAd from '../components/Ads/SideSquareAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 import UserReactions from '../components/UserReactions.vue';
@@ -183,9 +190,11 @@ export default {
     CompanyLinks,
     CompanyChart,
     JoinDiscussion,
+    LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
-    SideAd,
+    SideSquareAd,
     OpinionsList,
     NumberPagination,
     UserReactions,
@@ -200,6 +209,7 @@ export default {
 
   computed: {
     ...mapGetters(['user', 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
+    slots: () => slots,
 
     title() {
       return `${this.company.name} (${this.company.symbol})`;

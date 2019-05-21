@@ -1,5 +1,7 @@
 <template>
   <div class="expert-container">
+    <leaderboard-ad :ad-slot="slots.ExpertLeaderboard" />
+
     <div class="container">
       <div class="overview">
         <div class="overview-section">
@@ -25,7 +27,7 @@
       >
         <b-tab>
           <expert-header />
-          <link-ad />
+          <link-ad :ad-slot="slots.ExpertLink" />
 
           <div class="opinions-container">
             <opinions-list
@@ -35,7 +37,7 @@
             <div class="opinions-count">
               Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
             </div>
-            <link-ad class="d-none d-lg-block" />
+            <link-ad :ad-slot="slots.ExpertLink" />
             <number-pagination
               :num-total-pages="numOpinionPages"
               :current-page="currentPage"
@@ -110,7 +112,7 @@
       </b-tabs>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad :ad-slot="slots.ExpertFooterLink" />
     </div>
   </div>
 </template>
@@ -121,6 +123,7 @@ import { mapGetters } from 'vuex';
 import _ from 'lodash';
 import md5 from 'md5';
 
+import { slots } from '../components/Ads/config';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
@@ -128,7 +131,9 @@ import { getRatingImage } from '../util/rating';
 import ExpertHeader from '../components/Expert/Header.vue';
 import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
@@ -148,7 +153,9 @@ export default {
     ExpertHeader,
     ExpertOverview,
     ExpertTopPicks,
+    LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
     OpinionsList,
     NumberPagination,
@@ -164,6 +171,7 @@ export default {
 
   computed: {
     ...mapGetters(['user', 'expert', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
+    slots: () => slots,
 
     title() {
       return this.expert.name;

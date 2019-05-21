@@ -8,7 +8,7 @@
 import GenericAdx from './GenericAdx.vue';
 
 export default {
-  name: 'LeaderboardAdx',
+  name: 'SideSquareAdx',
 
   components: { GenericAdx },
 
@@ -23,8 +23,7 @@ export default {
 
 <style lang="stylus" scoped>
 .ad
-  width 728px
-  max-width 100%
-  min-height 90px
+  width 300px
+  height 250px
   margin 0 auto
 </style>

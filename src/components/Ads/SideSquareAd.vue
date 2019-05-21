@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="shouldShowAd && slotConfig"
-    class="ad-container"
+    class="ad-container d-none d-lg-block"
   >
-    <leaderboard-adsense
+    <side-square-adsense
       v-if="slotConfig[0] === 'adsense'"
       :slot-id="slotConfig[1]"
     />
-    <leaderboard-adx
+    <side-square-adx
       v-if="slotConfig[0] === 'adx'"
       :slot-id="slotConfig[1]"
     />
@@ -17,15 +17,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { slots } from './config';
-import LeaderboardAdsense from './LeaderboardAdsense.vue';
-import LeaderboardAdx from './LeaderboardAdx.vue';
+import SideSquareAdsense from './SideSquareAdsense.vue';
+import SideSquareAdx from './SideSquareAdx.vue';
 
 export default {
-  name: 'LeaderboardAd',
+  name: 'SideSquareAd',
 
   components: {
-    LeaderboardAdsense,
-    LeaderboardAdx,
+    SideSquareAdsense,
+    SideSquareAdx,
   },
 
   props: {
@@ -39,7 +39,7 @@ export default {
     ...mapGetters(['shouldShowAd']),
 
     slotConfig() {
-      return this.adSlot || slots.Leaderboard;
+      return this.adSlot || slots.SideSquare;
     },
   },
 };
@@ -47,7 +47,5 @@ export default {
 
 <style lang="stylus" scoped>
 .ad-container
-  padding 20px 0
-  background rgba(248, 248, 248, 0.7)
-  border-bottom 1px solid #D9D9D9
+  padding 0
 </style>

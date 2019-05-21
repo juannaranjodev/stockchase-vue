@@ -1,96 +1,108 @@
 <template>
-  <div class="container">
-    <cards-view-filters
-      :title="title"
-      :search-placeholder="searchPlaceholder"
-      target-search="companies"
-      :reset-uri="'/company'"
-      :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
-      :current-limit="paginator.perPage"
-    />
+  <div class="companies-container">
+    <leaderboard-ad :ad-slot="slots.CompaniesLeaderboard" />
 
-    <div
-      v-if="shouldShowAd"
-      class="ad-banner clear"
-    >
-      <div>
-        <p>
-          <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by
-          <a href="/expert">stock experts</a>.
-          Read the daily stock experts opinions and <a href="/">stock predictions</a>.
-        </p>
-      </div>
-      <div class="banner-options">
-        <unlock-expert-ratings />
-        <what-is-wealthica />
-        <ask-peter-hodson />
-      </div>
-    </div>
-
-    <link-ad />
-
-    <div class="companies">
-      <div
-        v-if="firstFiveCompanies.length"
-        class="first-row"
-      >
-        <card-view
-          v-for="(company, index) in firstFiveCompanies"
-          :key="index"
-          image-size="large"
-          :image-src="company.logo"
-          :name="company.name"
-          :title="company.name"
-          :sub-title="`${company.symbol}`"
-          :footnote="`${company.total_opinion} opinions`"
-          :card-link="company.url"
-        />
-      </div>
-      <div v-else>
-        <p class="text-center">
-          No matched companies.
-        </p>
-      </div>
-
-      <in-feed-ad />
+    <div class="container">
+      <cards-view-filters
+        :title="title"
+        :search-placeholder="searchPlaceholder"
+        target-search="companies"
+        :reset-uri="'/company'"
+        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+        :current-limit="paginator.perPage"
+      />
 
       <div
-        v-if="theRestOfCompanies.length"
-        class="second-row"
+        v-if="shouldShowAd"
+        class="ad-banner clear"
       >
-        <card-view
-          v-for="(company, index) in theRestOfCompanies"
-          :key="index"
-          image-size="large"
-          :image-src="company.logo"
-          :name="company.name"
-          :title="company.name"
-          :sub-title="`${company.symbol}`"
-          :footnote="`${company.total_opinion} opinions`"
-          :card-link="company.url"
-        />
+        <div>
+          <p>
+            <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by
+            <a href="/expert">stock experts</a>.
+            Read the daily stock experts opinions and <a href="/">stock predictions</a>.
+          </p>
+        </div>
+        <div class="banner-options">
+          <unlock-expert-ratings />
+          <what-is-wealthica />
+          <ask-peter-hodson />
+        </div>
       </div>
-    </div>
 
-    <paginator
-      :type="paginator.type"
-      :sort="paginator.sort"
-      :direction="paginator.direction"
-      :total-items="totalCompanies"
-      :per-page="paginator.perPage"
-      :main="'/company'"
-      :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
-    />
+      <link-ad :ad-slot="slots.CompaniesLink" />
+
+      <div class="companies">
+        <div
+          v-if="firstFiveCompanies.length"
+          class="first-row"
+        >
+          <card-view
+            v-for="(company, index) in firstFiveCompanies"
+            :key="index"
+            image-size="large"
+            :image-src="company.logo"
+            :name="company.name"
+            :title="company.name"
+            :sub-title="`${company.symbol}`"
+            :footnote="`${company.total_opinion} opinions`"
+            :card-link="company.url"
+          />
+        </div>
+        <div v-else>
+          <p class="text-center">
+            No matched companies.
+          </p>
+        </div>
+
+        <in-feed-ad :ad-slot="slots.CompaniesInFeed" />
+
+        <div
+          v-if="theRestOfCompanies.length"
+          class="second-row"
+        >
+          <card-view
+            v-for="(company, index) in theRestOfCompanies"
+            :key="index"
+            image-size="large"
+            :image-src="company.logo"
+            :name="company.name"
+            :title="company.name"
+            :sub-title="`${company.symbol}`"
+            :footnote="`${company.total_opinion} opinions`"
+            :card-link="company.url"
+          />
+        </div>
+      </div>
+
+      <paginator
+        :type="paginator.type"
+        :sort="paginator.sort"
+        :direction="paginator.direction"
+        :total-items="totalCompanies"
+        :per-page="paginator.perPage"
+        :main="'/company'"
+        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+      />
+
+      <dianomi-ad />
+
+      <footer-link-ad :ad-slot="slots.CompaniesFooterLink" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
 import Paginator from '../components/Paginator.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
+import DianomiAd from '../components/Ads/DianomiAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
 import UnlockExpertRatings from '../components/Ads/UnlockExpertRatings.vue';
 import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
@@ -103,7 +115,10 @@ export default {
     CardsViewFilters,
     CardView,
     Paginator,
+    LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
+    DianomiAd,
     InFeedAd,
     UnlockExpertRatings,
     WhatIsWealthica,
@@ -127,6 +142,7 @@ export default {
 
   computed: {
     ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
+    slots: () => slots,
 
     firstFiveCompanies() {
       return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5);

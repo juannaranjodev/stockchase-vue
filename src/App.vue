@@ -6,12 +6,11 @@
       <site-navigation />
     </div>
 
-    <leaderboard-ad />
-
     <router-view />
 
     <site-footer />
     <stock-saved-modal />
+    <mobile-footer-ad />
   </div>
 </template>
 
@@ -20,16 +19,16 @@ import { mapGetters } from 'vuex';
 import SiteHeader from './components/Layout/Header.vue';
 import SiteNavigation from './components/Layout/Navigation.vue';
 import SiteFooter from './components/Layout/Footer.vue';
-import LeaderboardAd from './components/Ads/LeaderboardAd.vue';
 import StockSavedModal from './components/StockSavedModal.vue';
+import MobileFooterAd from './components/Ads/MobileFooterAd.vue';
 
 export default {
   components: {
     SiteHeader,
     SiteNavigation,
     SiteFooter,
-    LeaderboardAd,
     StockSavedModal,
+    MobileFooterAd,
   },
 
   computed: {

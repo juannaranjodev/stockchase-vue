@@ -1,5 +1,7 @@
 <template>
   <div class="home-container">
+    <leaderboard-ad :ad-slot="slots.HomeLeaderboard" />
+
     <div class="container">
       <div class="overview">
         <div class="overview-section d-none d-lg-flex">
@@ -54,13 +56,16 @@
             }"
           >
             <div class="overview-section__block">
-              <side-ad />
+              <side-square-ad :ad-slot="slots.HomeSideSquare" />
             </div>
           </div>
         </div>
       </div>
 
-      <link-ad class="compact" />
+      <link-ad
+        class="compact"
+        :ad-slot="slots.HomeLink"
+      />
     </div>
 
     <div
@@ -88,7 +93,7 @@
       <!-- <follow-us class="d-lg-none" /> -->
 
       <dianomi-ad />
-      <link-ad />
+      <footer-link-ad :ad-slot="slots.HomeFooterLink" />
     </div>
   </div>
 </template>
@@ -96,6 +101,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
+import { slots } from '../components/Ads/config';
+
 import Discover from '../components/Home/Discover.vue';
 import MarketCall from '../components/Home/MarketCall.vue';
 import MarketCallGuests from '../components/Home/MarketCallGuests.vue';
@@ -106,8 +113,10 @@ import InTheNews from '../components/Home/InTheNews.vue';
 // import Sponsors from '../components/Home/Sponsors.vue'
 // import Newest from '../components/Home/Newest.vue'
 // import FollowUs from '../components/Home/FollowUs.vue'
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
-import SideAd from '../components/Ads/SideAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
+import SideSquareAd from '../components/Ads/SideSquareAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 
@@ -122,9 +131,11 @@ export default {
     SignUp,
     Premium,
     InTheNews,
+    LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
-    SideAd,
+    SideSquareAd,
     OpinionsList,
     // Sponsors,
     // Newest,
@@ -133,6 +144,7 @@ export default {
 
   computed: {
     ...mapGetters(['shouldShowAd', 'user', 'opinions']),
+    slots: () => slots,
 
     displayedOpinions() {
       return _.take(this.opinions, 10);
