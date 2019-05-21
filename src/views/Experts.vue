@@ -152,11 +152,11 @@ export default {
     slots: () => slots,
 
     firstFiveExperts() {
-      return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5);
+      return this.experts.length <= 5 ? this.experts : this.experts.slice(0, 5);
     },
 
     theRestOfExperts() {
-      return this.experts.length >= 5 ? this.experts.slice(5) : [];
+      return this.experts.length > 5 ? this.experts.slice(5) : [];
     },
   },
 

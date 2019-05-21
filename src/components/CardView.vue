@@ -25,7 +25,7 @@
         </li>
       </ul>
       <a
-        v-if="user.premium"
+        v-if="user.premium && rating !== null"
         class="card-rating-link"
         :href="`${cardLink}/rating`"
       >
@@ -84,15 +84,15 @@ export default {
     },
     rating: {
       type: Number,
-      default: 0,
+      default: null,
     },
     totalWins: {
       type: Number,
-      default: 0,
+      default: null,
     },
     totalLoses: {
       type: Number,
-      default: 0,
+      default: null,
     },
   },
 
