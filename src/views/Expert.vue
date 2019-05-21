@@ -112,7 +112,7 @@
       </b-tabs>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad />
     </div>
   </div>
 </template>
@@ -132,6 +132,7 @@ import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
@@ -153,6 +154,7 @@ export default {
     ExpertTopPicks,
     LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
     OpinionsList,
     NumberPagination,

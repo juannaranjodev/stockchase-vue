@@ -92,6 +92,9 @@
         :main="'/expert'"
         :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
       />
+
+      <dianomi-ad />
+      <footer-link-ad />
     </div>
   </div>
 </template>
@@ -104,6 +107,8 @@ import CardsViewFilters from '../components/CardsViewFilters.vue';
 import Paginator from '../components/Paginator.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
+import DianomiAd from '../components/Ads/DianomiAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
 import UnlockExpertRatings from '../components/Ads/UnlockExpertRatings.vue';
 import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
@@ -118,6 +123,8 @@ export default {
     Paginator,
     LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
+    DianomiAd,
     InFeedAd,
     UnlockExpertRatings,
     WhatIsWealthica,

@@ -4,10 +4,13 @@
     class="ad-container"
   >
     <div class="ad">
-      <adsense
-        data-ad-client="ca-pub-4241986024094799"
-        :data-ad-slot="slotId"
-      />
+      <no-ssr>
+        <adsense
+          data-ad-client="ca-pub-4241986024094799"
+          :data-ad-slot="slotId"
+          ins-class="leaderboard-ad"
+        />
+      </no-ssr>
     </div>
   </div>
 </template>
@@ -42,5 +45,9 @@ export default {
     max-width 100%
     min-height 90px
     margin 0 auto
+
+  >>> .leaderboard-ad
+    width 728px
+    height 90px
 
 </style>

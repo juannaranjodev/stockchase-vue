@@ -2,8 +2,15 @@ import 'core-js/shim';
 import 'regenerator-runtime/runtime';
 
 import Vue from 'vue';
-import createApp from './app';
+import Ads from 'vue-google-adsense';
+import createApp from './createApp';
 import ProgressBar from './components/ProgressBar.vue';
+
+// These adsense components are specific to the client app, putting them in the server app would
+// break the build
+Vue.use(Ads.Adsense);
+Vue.use(Ads.InArticleAdsense);
+Vue.use(Ads.InFeedAdsense);
 
 // EventBus
 // NOTE this should only be referenced in the client app (browser life-cycle hooks)

@@ -140,7 +140,7 @@
       </b-tabs>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad />
     </div>
   </div>
 </template>
@@ -163,6 +163,7 @@ import CompanyChart from '../components/Company/Chart.vue';
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -188,6 +189,7 @@ export default {
     JoinDiscussion,
     LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
     SideAd,
     OpinionsList,

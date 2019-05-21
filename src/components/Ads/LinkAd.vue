@@ -3,11 +3,15 @@
     v-if="shouldShowAd"
     class="ad-container d-none d-lg-block"
   >
-    <adsense
-      class="ad"
-      data-ad-client="ca-pub-4241986024094799"
-      data-ad-slot="3572899802"
-    />
+    <no-ssr>
+      <adsense
+        class="ad"
+        data-ad-client="ca-pub-4241986024094799"
+        :data-ad-slot="slotId"
+        data-ad-format="link"
+        data-full-width-responsive="true"
+      />
+    </no-ssr>
   </div>
 </template>
 
@@ -16,6 +20,13 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'LinkAd',
+
+  props: {
+    slotId: {
+      type: String,
+      default: '8007723438',
+    },
+  },
 
   computed: {
     ...mapGetters(['shouldShowAd']),
@@ -33,8 +44,8 @@ export default {
 
   .ad
     width 1100px
-    max-width 100%
     min-height 100px
+    max-width 100%
     margin 0 auto
 
 </style>

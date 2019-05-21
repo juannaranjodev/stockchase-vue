@@ -31,7 +31,7 @@
       </div>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad />
     </div>
   </div>
 </template>
@@ -45,6 +45,7 @@ import OpinionsSlider from '../components/Opinions/Slider.vue';
 import OpinionsSummary from '../components/Opinions/Summary.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import DatePagination from '../components/DatePagination.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -56,6 +57,7 @@ export default {
     OpinionsHeader,
     LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     OpinionsSlider,
     OpinionsSummary,
     DianomiAd,

@@ -4,10 +4,13 @@
     class="ad-container"
   >
     <div class="ad">
-      <adsense
-        data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="5979276843"
-      />
+      <no-ssr>
+        <adsense
+          data-ad-client="ca-pub-4241986024094799"
+          data-ad-slot="5979276843"
+          ins-class="in-feed-ad"
+        />
+      </no-ssr>
     </div>
   </div>
 </template>
@@ -30,8 +33,12 @@ export default {
 
   .ad
     width 728px
-    max-width 100%
     min-height 90px
+    max-width 100%
     margin 0 auto
+
+    >>> .in-feed-ad
+      width 728px
+      height 90px
 
 </style>

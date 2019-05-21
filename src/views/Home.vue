@@ -90,7 +90,7 @@
       <!-- <follow-us class="d-lg-none" /> -->
 
       <dianomi-ad />
-      <link-ad />
+      <footer-link-ad />
     </div>
   </div>
 </template>
@@ -110,6 +110,7 @@ import InTheNews from '../components/Home/InTheNews.vue';
 // import FollowUs from '../components/Home/FollowUs.vue'
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -127,6 +128,7 @@ export default {
     InTheNews,
     LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     DianomiAd,
     SideAd,
     OpinionsList,
