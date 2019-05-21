@@ -25,6 +25,7 @@
         </li>
       </ul>
       <a
+        v-if="user.premium"
         class="card-rating-link"
         :href="`${cardLink}/rating`"
       >
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ExpertRating from './ExpertRating';
 
 export default {
@@ -95,6 +97,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['user']),
+
     twitterUrl() {
       return (this.socialLinks && this.socialLinks.twitter) || '';
     },
