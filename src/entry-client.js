@@ -10,7 +10,6 @@ import ProgressBar from './components/ProgressBar.vue';
 // break the build
 Vue.use(Ads.Adsense);
 Vue.use(Ads.InArticleAdsense);
-Vue.use(Ads.InFeedAdsense);
 
 // EventBus
 // NOTE this should only be referenced in the client app (browser life-cycle hooks)

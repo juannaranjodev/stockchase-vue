@@ -1,28 +1,46 @@
 <template>
   <div
-    v-if="shouldShowAd"
+    v-if="shouldShowAd && slotConfig"
     class="ad-container"
   >
-    <div class="ad">
-      <no-ssr>
-        <adsense
-          data-ad-client="ca-pub-4241986024094799"
-          data-ad-slot="5979276843"
-          ins-class="in-feed-ad"
-        />
-      </no-ssr>
-    </div>
+    <in-feed-adsense
+      v-if="slotConfig[0] === 'adsense'"
+      :slot-id="slotConfig[1]"
+    />
+    <in-feed-adx
+      v-if="slotConfig[0] === 'adx'"
+      :slot-id="slotConfig[1]"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { slots } from './config';
+import InFeedAdsense from './InFeedAdsense.vue';
+import InFeedAdx from './InFeedAdx.vue';
 
 export default {
   name: 'InFeedAd',
 
+  components: {
+    InFeedAdsense,
+    InFeedAdx,
+  },
+
+  props: {
+    adSlot: {
+      type: Array,
+      default: undefined,
+    },
+  },
+
   computed: {
     ...mapGetters(['shouldShowAd']),
+
+    slotConfig() {
+      return this.adSlot || slots.InFeed;
+    },
   },
 };
 </script>
@@ -30,15 +48,4 @@ export default {
 <style lang="stylus" scoped>
 .ad-container
   padding 30px 0
-
-  .ad
-    width 728px
-    min-height 90px
-    max-width 100%
-    margin 0 auto
-
-    >>> .in-feed-ad
-      width 728px
-      height 90px
-
 </style>

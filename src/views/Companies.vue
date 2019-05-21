@@ -1,6 +1,6 @@
 <template>
   <div class="companies-container">
-    <leaderboard-ad />
+    <leaderboard-ad :ad-slot="slots.CompaniesLeaderboard" />
 
     <div class="container">
       <cards-view-filters
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <link-ad />
+      <link-ad :ad-slot="slots.CompaniesLink" />
 
       <div class="companies">
         <div
@@ -55,7 +55,7 @@
           </p>
         </div>
 
-        <in-feed-ad />
+        <in-feed-ad :ad-slot="slots.CompaniesInFeed" />
 
         <div
           v-if="theRestOfCompanies.length"
@@ -86,13 +86,15 @@
       />
 
       <dianomi-ad />
-      <footer-link-ad />
+
+      <footer-link-ad :ad-slot="slots.CompaniesFooterLink" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
@@ -140,6 +142,7 @@ export default {
 
   computed: {
     ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
+    slots: () => slots,
 
     firstFiveCompanies() {
       return this.companies.length < 5 ? this.companies : this.companies.slice(0, 5);

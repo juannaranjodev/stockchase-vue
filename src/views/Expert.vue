@@ -1,6 +1,6 @@
 <template>
   <div class="expert-container">
-    <leaderboard-ad />
+    <leaderboard-ad :ad-slot="slots.ExpertLeaderboard" />
 
     <div class="container">
       <div class="overview">
@@ -27,7 +27,7 @@
       >
         <b-tab>
           <expert-header />
-          <link-ad />
+          <link-ad :ad-slot="slots.ExpertLink" />
 
           <div class="opinions-container">
             <opinions-list
@@ -37,7 +37,7 @@
             <div class="opinions-count">
               Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
             </div>
-            <link-ad class="d-none d-lg-block" />
+            <link-ad :ad-slot="slots.ExpertLink" />
             <number-pagination
               :num-total-pages="numOpinionPages"
               :current-page="currentPage"
@@ -112,7 +112,7 @@
       </b-tabs>
 
       <dianomi-ad />
-      <footer-link-ad />
+      <footer-link-ad :ad-slot="slots.ExpertFooterLink" />
     </div>
   </div>
 </template>
@@ -123,6 +123,7 @@ import { mapGetters } from 'vuex';
 import _ from 'lodash';
 import md5 from 'md5';
 
+import { slots } from '../components/Ads/config';
 import * as c from '../constants';
 import { stripTags } from '../util/filters';
 import { getRatingImage } from '../util/rating';
@@ -170,6 +171,7 @@ export default {
 
   computed: {
     ...mapGetters(['user', 'expert', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
+    slots: () => slots,
 
     title() {
       return this.expert.name;

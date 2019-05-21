@@ -1,6 +1,6 @@
 <template>
   <div class="opinions-container">
-    <leaderboard-ad />
+    <leaderboard-ad :ad-slot="slots.OpinionsLeaderboard" />
 
     <div class="container">
       <opinions-header :type="type" />
@@ -9,7 +9,8 @@
         :items="items"
         :page="currentPage"
       />
-      <link-ad />
+      <link-ad :ad-slot="slots.OpinionsLink" />
+
       <opinions-summary
         v-if="!isOpinions"
         :items="items"
@@ -22,7 +23,7 @@
           :num-date-items="items.length"
         />
         <opinions-list :items="pageItems" />
-        <link-ad class="d-none d-lg-block" />
+        <link-ad :ad-slot="slots.OpinionsLink" />
         <date-pagination
           bottom
           :url-pattern="urlPattern"
@@ -31,7 +32,7 @@
       </div>
 
       <dianomi-ad />
-      <footer-link-ad />
+      <footer-link-ad :ad-slot="slots.OpinionsFooterLink" />
     </div>
   </div>
 </template>
@@ -39,6 +40,8 @@
 <script>
 /* global DISQUSWIDGETS */
 import { mapGetters } from 'vuex';
+import { slots } from '../components/Ads/config';
+
 import * as c from '../constants';
 import OpinionsHeader from '../components/Opinions/Header.vue';
 import OpinionsSlider from '../components/Opinions/Slider.vue';
@@ -74,6 +77,7 @@ export default {
 
   computed: {
     ...mapGetters(['opinions', 'adFree', 'user']),
+    slots: () => slots,
 
     pageItems() {
       // Skip number paging & show all opinions for the date

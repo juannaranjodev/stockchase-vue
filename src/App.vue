@@ -10,6 +10,7 @@
 
     <site-footer />
     <stock-saved-modal />
+    <mobile-footer-ad />
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import SiteHeader from './components/Layout/Header.vue';
 import SiteNavigation from './components/Layout/Navigation.vue';
 import SiteFooter from './components/Layout/Footer.vue';
 import StockSavedModal from './components/StockSavedModal.vue';
+import MobileFooterAd from './components/Ads/MobileFooterAd.vue';
 
 export default {
   components: {
@@ -26,6 +28,7 @@ export default {
     SiteNavigation,
     SiteFooter,
     StockSavedModal,
+    MobileFooterAd,
   },
 
   computed: {

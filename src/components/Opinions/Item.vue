@@ -261,7 +261,7 @@
       v-if="item.ad"
       class="in-feed-ad-cell"
     >
-      <in-feed-ad />
+      <in-feed-ad :ad-slot="slots.OpinionsInFeed" />
     </div>
   </div>
 </template>
@@ -273,6 +273,7 @@ import { getRatingImage } from '../../util/rating';
 import UserReactions from '../UserReactions.vue';
 import OpinionChart from './Chart.vue';
 import InFeedAd from '../Ads/InFeedAd.vue';
+import { slots } from '../Ads/config';
 
 // TODO this is ugly
 let tippy;
@@ -315,6 +316,7 @@ export default {
 
   computed: {
     ...mapGetters(['date', 'user']),
+    slots: () => slots,
 
     currentPage() {
       return +this.$route.params.page || 1;

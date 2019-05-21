@@ -1,8 +1,9 @@
 <template>
-  <link-ad :slot-id="slotId" />
+  <link-ad :ad-slot="slotConfig" />
 </template>
 
 <script>
+import { slots } from './config';
 import LinkAd from './LinkAd.vue';
 
 export default {
@@ -11,9 +12,15 @@ export default {
   components: { LinkAd },
 
   props: {
-    slotId: {
-      type: String,
-      default: '3572899802',
+    adSlot: {
+      type: Array,
+      default: undefined,
+    },
+  },
+
+  computed: {
+    slotConfig() {
+      return this.adSlot || slots.FooterLink;
     },
   },
 };

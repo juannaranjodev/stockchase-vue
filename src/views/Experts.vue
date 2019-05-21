@@ -1,6 +1,6 @@
 <template>
   <div class="experts-container">
-    <leaderboard-ad />
+    <leaderboard-ad :ad-slot="slots.ExpertsLeaderboard" />
 
     <div class="container">
       <cards-view-filters
@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <link-ad />
+      <link-ad :ad-slot="slots.ExpertsLink" />
 
       <div class="experts">
         <div
@@ -59,7 +59,7 @@
           </p>
         </div>
 
-        <in-feed-ad />
+        <in-feed-ad :ad-slot="slots.ExpertsInFeed" />
 
         <div
           v-if="theRestOfExperts.length"
@@ -94,13 +94,14 @@
       />
 
       <dianomi-ad />
-      <footer-link-ad />
+      <footer-link-ad :ad-slot="slots.ExpertsFooterLink" />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
@@ -148,6 +149,7 @@ export default {
 
   computed: {
     ...mapGetters(['experts', 'totalExperts', 'shouldShowAd']),
+    slots: () => slots,
 
     firstFiveExperts() {
       return this.experts.length < 5 ? this.experts : this.experts.slice(0, 5);
