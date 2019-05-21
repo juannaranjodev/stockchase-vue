@@ -1,5 +1,7 @@
 <template>
   <div class="opinions-container">
+    <leaderboard-ad />
+
     <div class="container">
       <opinions-header :type="type" />
       <opinions-slider
@@ -41,6 +43,7 @@ import * as c from '../constants';
 import OpinionsHeader from '../components/Opinions/Header.vue';
 import OpinionsSlider from '../components/Opinions/Slider.vue';
 import OpinionsSummary from '../components/Opinions/Summary.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import DatePagination from '../components/DatePagination.vue';
@@ -51,6 +54,7 @@ export default {
 
   components: {
     OpinionsHeader,
+    LeaderboardAd,
     LinkAd,
     OpinionsSlider,
     OpinionsSummary,

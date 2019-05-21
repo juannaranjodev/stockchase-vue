@@ -6,7 +6,7 @@
     <div class="ad">
       <adsense
         data-ad-client="ca-pub-4241986024094799"
-        data-ad-slot="5979276843"
+        :data-ad-slot="slotId"
       />
     </div>
   </div>
@@ -17,6 +17,13 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'LeaderboardAd',
+
+  props: {
+    slotId: {
+      type: String,
+      default: '5979276843',
+    },
+  },
 
   computed: {
     ...mapGetters(['shouldShowAd']),

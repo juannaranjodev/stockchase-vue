@@ -1,5 +1,7 @@
 <template>
   <div class="expert-container">
+    <leaderboard-ad />
+
     <div class="container">
       <div class="overview">
         <div class="overview-section">
@@ -128,6 +130,7 @@ import { getRatingImage } from '../util/rating';
 import ExpertHeader from '../components/Expert/Header.vue';
 import ExpertOverview from '../components/Expert/Overview.vue';
 import ExpertTopPicks from '../components/Expert/TopPicks.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -148,6 +151,7 @@ export default {
     ExpertHeader,
     ExpertOverview,
     ExpertTopPicks,
+    LeaderboardAd,
     LinkAd,
     DianomiAd,
     OpinionsList,

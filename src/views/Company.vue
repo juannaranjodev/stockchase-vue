@@ -1,5 +1,7 @@
 <template>
   <div class="company-container">
+    <leaderboard-ad />
+
     <div class="container">
       <div class="overview">
         <div class="overview-section">
@@ -159,6 +161,7 @@ import CompanyAbout from '../components/Company/About.vue';
 import CompanyLinks from '../components/Company/Links.vue';
 import CompanyChart from '../components/Company/Chart.vue';
 import JoinDiscussion from '../components/Company/JoinDiscussion.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import SideAd from '../components/Ads/SideAd.vue';
@@ -183,6 +186,7 @@ export default {
     CompanyLinks,
     CompanyChart,
     JoinDiscussion,
+    LeaderboardAd,
     LinkAd,
     DianomiAd,
     SideAd,
