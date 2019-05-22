@@ -367,11 +367,13 @@ module.exports = (sequelize, DataTypes) => {
         { model: sequelize.models.SocialRating },
         { model: sequelize.models.ExpertRating },
       ],
-    }).then((expert) => {
+    }).then(async (expert) => {
       /* eslint-disable camelcase */
       const result = expert.toJSON();
 
-      result.rating = _.meanBy(expert.ExpertRatings, ({
+      result.expertRatings = await sequelize.models.ExpertRating.getRatingsByExpert(expert.id);
+
+      result.rating = _.meanBy(result.expertRatings, ({
         big_win, win, big_lose, lose,
       }) => {
         const score = _.sum([big_win, win]) - _.sum([big_lose, lose]);
@@ -384,8 +386,8 @@ module.exports = (sequelize, DataTypes) => {
         return null;
       });
 
-      result.totalWins = _.sumBy(expert.ExpertRatings, ({ big_win, win }) => big_win + win);
-      result.totalLoses = _.sumBy(expert.ExpertRatings, ({ big_lose, lose }) => big_lose + lose);
+      result.totalWins = _.sumBy(result.expertRatings, ({ big_win, win }) => big_win + win);
+      result.totalLoses = _.sumBy(result.expertRatings, ({ big_lose, lose }) => big_lose + lose);
 
       return result;
       /* eslint-enable camelcase */
