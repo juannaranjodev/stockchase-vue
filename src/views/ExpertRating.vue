@@ -5,7 +5,7 @@
         <div class="overview-section">
           <div class="overview-section__left">
             <div class="overview-section__block">
-              <expert-overview />
+              <expert-rating-overview />
             </div>
           </div>
 
@@ -21,14 +21,14 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ExpertOverview from '../components/Expert/Overview.vue';
+import ExpertRatingOverview from '../components/Expert/ExpertRatingOverview.vue';
 import ExpertRatingTable from '../components/Expert/ExpertRatingTable.vue';
 
 export default {
   name: 'ExpertRating',
 
   components: {
-    ExpertOverview,
+    ExpertRatingOverview,
     ExpertRatingTable,
   },
 
