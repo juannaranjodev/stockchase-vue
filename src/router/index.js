@@ -22,6 +22,7 @@ const Home = () => import('../views/Home.vue');
 const TopWorstExpertList = () => import('../views/TopWorstExpertList.vue');
 const Experts = () => import('../views/Experts.vue');
 const Expert = () => import('../views/Expert.vue');
+const ExpertRating = () => import('../views/ExpertRating.vue');
 const Companies = () => import('../views/Companies.vue');
 const Company = () => import('../views/Company.vue');
 
@@ -59,6 +60,7 @@ export default function createRouter() {
       // Expert profile
       { path: '/expert/view/:id', component: Expert },
       { path: '/expert/view/:id/:name', component: Expert },
+      { path: '/expert/view/:id/:name/rating', component: ExpertRating },
       { path: '/expert/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Expert },
     ],
   });
