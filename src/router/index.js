@@ -36,6 +36,10 @@ export default function createRouter() {
     routes: [
       { path: '/', component: Home },
       // Market comments listing
+      { path: '/opinions/recenttop', component: createListView('toppicks') },
+      { path: '/opinions/recenttop/:date', component: createListView('toppicks') },
+      { path: '/opinions/recenttop/:date/:page', component: createListView('toppicks') },
+      // Market comments listing
       { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
       { path: '/opinions/market/:date/:page', component: createListView('comments') },

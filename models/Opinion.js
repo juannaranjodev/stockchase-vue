@@ -118,15 +118,39 @@ module.exports = (sequelize, DataTypes) => {
     return recentOpinion.date;
   };
 
+  // Get the date of the most recent top pick
+  Opinion.getRecentTopPickDate = async function () {
+    const recentOpinion = await Opinion.findOne({
+      where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 }, // Top pick signal id = 16
+      order: [['date', 'DESC'], ['id', 'ASC']],
+    });
+
+    return recentOpinion.date;
+  };
+
   // Given a date returns the number of opinions for adjacent dates (3 days prior, and 3 days ahead)
   // Used for pagination
   Opinion.getAdjacentOpinionDates = async function (date) {
-    return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date <= :date AND company_id != 1970  GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
-      'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date > :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date DESC',
-    ].join(' '), {
+    return sequelize.query(`
+      ( SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date <= :date
+        AND company_id != 1970
+        GROUP BY Date
+        ORDER BY Date DESC
+        LIMIT 7 )
+      UNION (
+        SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date > :date
+        AND company_id != 1970
+        GROUP BY Date
+        ORDER BY Date ASC
+        LIMIT 3 )
+      ORDER BY Date DESC
+    `, {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
@@ -138,12 +162,59 @@ module.exports = (sequelize, DataTypes) => {
   // Given a date returns the no. of mrkt comments for adjacent dates (3 days prior + 3 days ahead)
   // Used for pagination
   Opinion.getAdjacentMarketCommentDates = async function (date) {
-    return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id = 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
-      'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date > :date AND company_id = 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date DESC',
-    ].join(' '), {
+    return sequelize.query(`
+      ( SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date <= :date
+        AND company_id = 1970
+        GROUP BY Date
+        ORDER BY Date DESC
+        LIMIT 7 )
+      UNION (
+        SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date > :date
+        AND company_id = 1970
+        GROUP BY Date
+        ORDER BY Date ASC
+        LIMIT 3 )
+      ORDER BY Date DESC
+    `, {
+      replacements: { date: moment(date).format('YYYY-MM-DD') },
+      type: sequelize.QueryTypes.SELECT,
+    }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
+      date: dateCount.Date,
+      count: dateCount['COUNT(*)'],
+    })));
+  };
+
+  // Given a date returns the no. of top picks for adjacent dates (3 days prior + 3 days ahead)
+  // Used for pagination
+  Opinion.getAdjacentTopPickDates = async function (date) {
+    return sequelize.query(`
+      ( SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date <= :date
+        AND company_id != 1970
+        AND signal_id = 16
+        GROUP BY Date
+        ORDER BY Date DESC
+        LIMIT 7 )
+      UNION (
+        SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date > :date
+        AND company_id != 1970
+        AND signal_id = 16
+        GROUP BY Date
+        ORDER BY Date ASC
+        LIMIT 3 )
+      ORDER BY Date DESC
+    `, {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
@@ -193,6 +264,13 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.getMarketCommentsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
       where: { date, company_id: 1970 }, // Market comments
+    });
+  };
+
+  // Get top picks for a given date
+  Opinion.getTopPicksByDate = function (date) {
+    return Opinion.scope('includeAll').findAll({
+      where: { date, company_id: { [Op.ne]: 1970 }, signal_id: 16 },
     });
   };
 

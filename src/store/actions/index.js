@@ -14,17 +14,28 @@ export default {
     // /opinions/view/:id or /opinions/market/view/:id
     // redirects to anchor link
     if (dateParam === 'view') {
+      // :page param here is opinion id
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 });
 
       // Redirect to the canonical url (with 301 code for SEO purpose)
       return api.getOpinionUrl(page).then(url => Promise.reject({ url, code: 301 }));
     }
 
-    // /opinions/market
+    // /opinions/market or /opinions/toppicks
     // shows recent content
-    if (type === 'comments' && !page && !dateParam) dateParam = 'recent';
+    if (['comments', 'toppicks'].indexOf(type) > -1 && !page && !dateParam) dateParam = 'recent';
+    let method;
 
-    const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments';
+    switch (type) {
+      case 'comments':
+        method = 'fetchDailyMarketComments';
+        break;
+      case 'toppicks':
+        method = 'fetchDailyTopPicks';
+        break;
+      default:
+        method = 'fetchDailyOpinions';
+    }
 
     return api[method](dateParam)
       .then((result) => {

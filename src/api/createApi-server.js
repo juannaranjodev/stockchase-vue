@@ -91,6 +91,22 @@ export default function createAPI() {
       };
     },
 
+    async fetchDailyTopPicks(dateParam) {
+      const recentDate = await Opinion.getRecentTopPickDate();
+      let date = dateParam;
+      if (date === 'recent') {
+        date = recentDate;
+      } else if (!/^\d{4}-\d{2}-\d{2}/.test(date)) {
+        return Promise.reject({ code: 404 });
+      }
+
+      return {
+        date,
+        opinions: await Opinion.getTopPicksByDate(date),
+        adjacentDates: await Opinion.getAdjacentTopPickDates(date),
+      };
+    },
+
     async getOpinionUrl(id) {
       const opinion = await Opinion.findByPk(id);
 

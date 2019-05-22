@@ -4,15 +4,23 @@
 
     <div class="container">
       <opinions-header :type="type" />
+
       <opinions-slider
-        v-if="isOpinions"
+        v-if="type === 'opinions'"
         :items="items"
         :page="currentPage"
       />
+
+      <triple-ads v-if="type === 'toppicks'">
+        <strong>Browse all <a href="/company">public companies</a></strong> recently chosen as
+        <a href="/opinions/recenttop">top picks</a> by <a href="/expert">stock experts</a>.
+        Read the daily stock experts opinions and <a href="/">stock predictions</a>.
+      </triple-ads>
+
       <link-ad :ad-slot="slots.OpinionsLink" />
 
       <opinions-summary
-        v-if="!isOpinions"
+        v-if="type === 'comments'"
         :items="items"
       />
 
@@ -49,6 +57,7 @@ import OpinionsSummary from '../components/Opinions/Summary.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
+import TripleAds from '../components/Ads/TripleAds.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import DatePagination from '../components/DatePagination.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -61,6 +70,7 @@ export default {
     LeaderboardAd,
     LinkAd,
     FooterLinkAd,
+    TripleAds,
     OpinionsSlider,
     OpinionsSummary,
     DianomiAd,
@@ -100,7 +110,11 @@ export default {
     },
 
     urlPattern() {
-      return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date';
+      switch (this.type) {
+        case 'comments': return '/opinions/market/:date';
+        case 'toppicks': return '/opinions/recenttop/:date';
+        default: return '/opinions/:date';
+      }
     },
 
     routeHash() {
