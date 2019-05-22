@@ -23,11 +23,6 @@ export default function createListView(type) {
         // Market comments
         title = 'Daily Stock Market Comments';
         if (dateParam) title = `${title} — ${dateParam}`;
-      } else if (route.path.indexOf('/opinions/recenttop') === 0) {
-        // Top picks
-        title = dateParam
-          ? 'Best Stocks To Buy Today by Experts Opinion'
-          : `Best Stocks To Buy ${dateParam} by Experts Opinion`;
       } else {
         // Opinions
         title = dateParam === 'recent'

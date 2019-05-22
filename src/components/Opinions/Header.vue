@@ -93,10 +93,10 @@ export default {
       color white
       pointer-events none
 
-  .subscribe
-    color black
-    text-decoration underline
-    font-size 15px
+.subscribe
+  color black
+  text-decoration underline
+  font-size 15px
 
 @media (max-width 991px)
   .header

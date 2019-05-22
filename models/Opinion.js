@@ -63,6 +63,8 @@ module.exports = (sequelize, DataTypes) => {
             {
               model: sequelize.models.Company,
               include: [sequelize.models.Sector],
+              // NOTE is seems this required:true is causing a problem with Opinion.findAndCountAll,
+              // making mismatch count vs actual data set & leading to inaccurate pagination
               required: true, // exclude if company not found
             },
           ],
@@ -112,16 +114,6 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.getRecentMarketCommentDate = async function () {
     const recentOpinion = await Opinion.findOne({
       where: { company_id: 1970 }, // Market comments
-      order: [['date', 'DESC'], ['id', 'ASC']],
-    });
-
-    return recentOpinion.date;
-  };
-
-  // Get the date of the most recent top pick
-  Opinion.getRecentTopPickDate = async function () {
-    const recentOpinion = await Opinion.findOne({
-      where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 }, // Top pick signal id = 16
       order: [['date', 'DESC'], ['id', 'ASC']],
     });
 
@@ -190,39 +182,6 @@ module.exports = (sequelize, DataTypes) => {
     })));
   };
 
-  // Given a date returns the no. of top picks for adjacent dates (3 days prior + 3 days ahead)
-  // Used for pagination
-  Opinion.getAdjacentTopPickDates = async function (date) {
-    return sequelize.query(`
-      ( SELECT
-          Date, COUNT(*)
-        FROM New_opinion
-        WHERE Date <= :date
-        AND company_id != 1970
-        AND signal_id = 16
-        GROUP BY Date
-        ORDER BY Date DESC
-        LIMIT 7 )
-      UNION (
-        SELECT
-          Date, COUNT(*)
-        FROM New_opinion
-        WHERE Date > :date
-        AND company_id != 1970
-        AND signal_id = 16
-        GROUP BY Date
-        ORDER BY Date ASC
-        LIMIT 3 )
-      ORDER BY Date DESC
-    `, {
-      replacements: { date: moment(date).format('YYYY-MM-DD') },
-      type: sequelize.QueryTypes.SELECT,
-    }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
-      date: dateCount.Date,
-      count: dateCount['COUNT(*)'],
-    })));
-  };
-
   // Get opinions for a given date
   Opinion.getOpinionsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
@@ -264,13 +223,6 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.getMarketCommentsByDate = function (date) {
     return Opinion.scope('includeAll').findAll({
       where: { date, company_id: 1970 }, // Market comments
-    });
-  };
-
-  // Get top picks for a given date
-  Opinion.getTopPicksByDate = function (date) {
-    return Opinion.scope('includeAll').findAll({
-      where: { date, company_id: { [Op.ne]: 1970 }, signal_id: 16 },
     });
   };
 
@@ -326,6 +278,15 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.countExpertOpinions = function (expertId) {
     return Opinion.scope('withExistingCompany').count({
       where: { expert_id: expertId },
+    });
+  };
+
+  // Get top picks by page, plus all top picks count. result format: { rows: [], count: 1 }
+  Opinion.getTopPicksByPage = function (page = 1, perPage = 15) {
+    return Opinion.scope('includeAll').findAndCountAll({
+      where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 },
+      offset: (page - 1) * perPage,
+      limit: perPage,
     });
   };
 

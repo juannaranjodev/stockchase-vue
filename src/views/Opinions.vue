@@ -11,12 +11,6 @@
         :page="currentPage"
       />
 
-      <triple-ads v-if="type === 'toppicks'">
-        <strong>Browse all <a href="/company">public companies</a></strong> recently chosen as
-        <a href="/opinions/recenttop">top picks</a> by <a href="/expert">stock experts</a>.
-        Read the daily stock experts opinions and <a href="/">stock predictions</a>.
-      </triple-ads>
-
       <link-ad :ad-slot="slots.OpinionsLink" />
 
       <opinions-summary
@@ -57,7 +51,6 @@ import OpinionsSummary from '../components/Opinions/Summary.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
-import TripleAds from '../components/Ads/TripleAds.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import DatePagination from '../components/DatePagination.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -70,7 +63,6 @@ export default {
     LeaderboardAd,
     LinkAd,
     FooterLinkAd,
-    TripleAds,
     OpinionsSlider,
     OpinionsSummary,
     DianomiAd,
@@ -98,7 +90,7 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page || 1;
+      return Number(this.$route.params.page) || 1;
     },
 
     items() {
@@ -110,11 +102,7 @@ export default {
     },
 
     urlPattern() {
-      switch (this.type) {
-        case 'comments': return '/opinions/market/:date';
-        case 'toppicks': return '/opinions/recenttop/:date';
-        default: return '/opinions/:date';
-      }
+      return this.type === 'comments' ? '/opinions/market/:date' : '/opinions/:date';
     },
 
     routeHash() {

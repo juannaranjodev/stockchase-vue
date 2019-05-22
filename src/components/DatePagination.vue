@@ -175,7 +175,7 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page || 1;
+      return Number(this.$route.params.page) || 1;
     },
 
     prevPage() {

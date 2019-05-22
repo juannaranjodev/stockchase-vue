@@ -21,21 +21,12 @@ export default {
       return api.getOpinionUrl(page).then(url => Promise.reject({ url, code: 301 }));
     }
 
-    // /opinions/market or /opinions/toppicks
+    // /opinions/market
     // shows recent content
-    if (['comments', 'toppicks'].indexOf(type) > -1 && !page && !dateParam) dateParam = 'recent';
-    let method;
-
-    switch (type) {
-      case 'comments':
-        method = 'fetchDailyMarketComments';
-        break;
-      case 'toppicks':
-        method = 'fetchDailyTopPicks';
-        break;
-      default:
-        method = 'fetchDailyOpinions';
-    }
+    if (type === 'comments' && !page && !dateParam) dateParam = 'recent';
+    const method = type === 'comments'
+      ? 'fetchDailyMarketComments'
+      : 'fetchDailyOpinions';
 
     return api[method](dateParam)
       .then((result) => {
@@ -225,6 +216,20 @@ export default {
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
       });
+    });
+  },
+
+  FETCH_TOP_PICKS: ({ commit }, urlParams) => {
+    let { page, perPage } = urlParams;
+
+    page = page || 1;
+    perPage = perPage || 15;
+
+    return api.fetchTopPicksByPage(page, perPage).then((result) => {
+      const { rows: pageOpinions, count: numOpinions } = result;
+
+      commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
+      commit('SET_OPINIONS', pageOpinions);
     });
   },
 };
