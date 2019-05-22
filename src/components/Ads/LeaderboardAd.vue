@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="shouldShowAd && slotConfig"
-    class="ad-container"
+    class="ad-container d-none d-lg-block"
   >
     <leaderboard-adsense
       v-if="slotConfig[0] === 'adsense'"
