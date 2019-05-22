@@ -4,21 +4,3 @@
   display: block;
   clear: both;
 }
-.ad-banner{
-  border-bottom: 11px solid #474747;
-  padding: 11px 0;
-}
-.ad-banner .banner-options{
-  float: right;
-}
-.ad-banner .banner-options-square {
-  background: #F6F6F6;
-  border: 1px solid #E7E6E6;
-  width: 200px;
-  height: 100px;
-  border-radius: 5px;
-  text-align: center;
-  display: inline-block;
-  vertical-align: top;
-  margin-left: 15px;
-}

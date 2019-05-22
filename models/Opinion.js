@@ -63,6 +63,8 @@ module.exports = (sequelize, DataTypes) => {
             {
               model: sequelize.models.Company,
               include: [sequelize.models.Sector],
+              // NOTE is seems this required:true is causing a problem with Opinion.findAndCountAll,
+              // making mismatch count vs actual data set & leading to inaccurate pagination
               required: true, // exclude if company not found
             },
           ],
@@ -121,12 +123,26 @@ module.exports = (sequelize, DataTypes) => {
   // Given a date returns the number of opinions for adjacent dates (3 days prior, and 3 days ahead)
   // Used for pagination
   Opinion.getAdjacentOpinionDates = async function (date) {
-    return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date <= :date AND company_id != 1970  GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
-      'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion INNER JOIN New_company AS Company ON company_id = Company.id WHERE Date > :date AND company_id != 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date DESC',
-    ].join(' '), {
+    return sequelize.query(`
+      ( SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date <= :date
+        AND company_id != 1970
+        GROUP BY Date
+        ORDER BY Date DESC
+        LIMIT 7 )
+      UNION (
+        SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date > :date
+        AND company_id != 1970
+        GROUP BY Date
+        ORDER BY Date ASC
+        LIMIT 3 )
+      ORDER BY Date DESC
+    `, {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
@@ -138,12 +154,26 @@ module.exports = (sequelize, DataTypes) => {
   // Given a date returns the no. of mrkt comments for adjacent dates (3 days prior + 3 days ahead)
   // Used for pagination
   Opinion.getAdjacentMarketCommentDates = async function (date) {
-    return sequelize.query([
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date <= :date AND company_id = 1970 GROUP BY Date ORDER BY Date DESC LIMIT 7 )',
-      'UNION',
-      '( SELECT Date,COUNT(*) FROM New_opinion WHERE Date > :date AND company_id = 1970 GROUP BY Date ORDER BY Date ASC LIMIT 3 )',
-      'ORDER BY Date DESC',
-    ].join(' '), {
+    return sequelize.query(`
+      ( SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date <= :date
+        AND company_id = 1970
+        GROUP BY Date
+        ORDER BY Date DESC
+        LIMIT 7 )
+      UNION (
+        SELECT
+          Date, COUNT(*)
+        FROM New_opinion
+        WHERE Date > :date
+        AND company_id = 1970
+        GROUP BY Date
+        ORDER BY Date ASC
+        LIMIT 3 )
+      ORDER BY Date DESC
+    `, {
       replacements: { date: moment(date).format('YYYY-MM-DD') },
       type: sequelize.QueryTypes.SELECT,
     }).then(datesCount => _.map(_.take(datesCount, 7), dateCount => ({
@@ -248,6 +278,15 @@ module.exports = (sequelize, DataTypes) => {
   Opinion.countExpertOpinions = function (expertId) {
     return Opinion.scope('withExistingCompany').count({
       where: { expert_id: expertId },
+    });
+  };
+
+  // Get top picks by page, plus all top picks count. result format: { rows: [], count: 1 }
+  Opinion.getTopPicksByPage = function (page = 1, perPage = 15) {
+    return Opinion.scope('includeAll').findAndCountAll({
+      where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 },
+      offset: (page - 1) * perPage,
+      limit: perPage,
     });
   };
 

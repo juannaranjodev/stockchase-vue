@@ -14,6 +14,7 @@ export default {
     // /opinions/view/:id or /opinions/market/view/:id
     // redirects to anchor link
     if (dateParam === 'view') {
+      // :page param here is opinion id
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 });
 
       // Redirect to the canonical url (with 301 code for SEO purpose)
@@ -23,8 +24,9 @@ export default {
     // /opinions/market
     // shows recent content
     if (type === 'comments' && !page && !dateParam) dateParam = 'recent';
-
-    const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments';
+    const method = type === 'comments'
+      ? 'fetchDailyMarketComments'
+      : 'fetchDailyOpinions';
 
     return api[method](dateParam)
       .then((result) => {
@@ -214,6 +216,20 @@ export default {
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
       });
+    });
+  },
+
+  FETCH_TOP_PICKS: ({ commit }, urlParams) => {
+    let { page, perPage } = urlParams;
+
+    page = page || 1;
+    perPage = perPage || 15;
+
+    return api.fetchTopPicksByPage(page, perPage).then((result) => {
+      const { rows: pageOpinions, count: numOpinions } = result;
+
+      commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
+      commit('SET_OPINIONS', pageOpinions);
     });
   },
 };

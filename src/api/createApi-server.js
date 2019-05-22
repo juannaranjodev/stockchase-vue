@@ -308,5 +308,9 @@ export default function createAPI() {
     async getCompaniesByTerm(term = null, page = 1, limit = 60) {
       return Company.getCompaniesByTerm(term, page, limit);
     },
+
+    async fetchTopPicksByPage(page, perPage) {
+      return Opinion.getTopPicksByPage(page, perPage);
+    },
   };
 }

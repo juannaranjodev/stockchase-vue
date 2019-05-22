@@ -216,11 +216,11 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page || 1;
+      return Number(this.$route.params.page) || 1;
     },
 
     perPage() {
-      return +this.$route.params.perPage || 15;
+      return Number(this.$route.params.perPage) || 15;
     },
 
     numOpinionPages() {

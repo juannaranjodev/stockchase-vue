@@ -12,23 +12,11 @@
         :current-limit="paginator.perPage"
       />
 
-      <div
-        v-if="shouldShowAd"
-        class="ad-banner clear"
-      >
-        <div>
-          <p>
-            <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by
-            <a href="/expert">stock experts</a>.
-            Read the daily stock experts opinions and <a href="/">stock predictions</a>.
-          </p>
-        </div>
-        <div class="banner-options">
-          <unlock-expert-ratings />
-          <what-is-wealthica />
-          <ask-peter-hodson />
-        </div>
-      </div>
+      <triple-ads>
+        <strong>Browse all <a href="/company">public companies</a></strong> recently reviewed by
+        <a href="/expert">stock experts</a>.
+        Read the daily stock experts opinions and <a href="/">stock predictions</a>.
+      </triple-ads>
 
       <link-ad :ad-slot="slots.CompaniesLink" />
 
@@ -104,9 +92,7 @@ import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
-import UnlockExpertRatings from '../components/Ads/UnlockExpertRatings.vue';
-import WhatIsWealthica from '../components/Ads/WhatIsWealthica.vue';
-import AskPeterHodson from '../components/Ads/AskPeterHodson.vue';
+import TripleAds from '../components/Ads/TripleAds.vue';
 
 export default {
   name: 'Companies',
@@ -120,9 +106,7 @@ export default {
     FooterLinkAd,
     DianomiAd,
     InFeedAd,
-    UnlockExpertRatings,
-    WhatIsWealthica,
-    AskPeterHodson,
+    TripleAds,
   },
 
   data() {
@@ -218,14 +202,5 @@ export default {
     min-height 224px // TODO put card-related styling in the separate company cardview component
   .card-picture
     background-color white
-.ad-banner > div:first-child
-  width 31%
-  font-size 18px
-  color #595959
-  display inline-block
-  p
-    text-align center
-    margin 0
-    a
-      color red
+
 </style>

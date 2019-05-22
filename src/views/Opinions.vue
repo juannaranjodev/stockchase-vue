@@ -4,15 +4,17 @@
 
     <div class="container">
       <opinions-header :type="type" />
+
       <opinions-slider
-        v-if="isOpinions"
+        v-if="type === 'opinions'"
         :items="items"
         :page="currentPage"
       />
+
       <link-ad :ad-slot="slots.OpinionsLink" />
 
       <opinions-summary
-        v-if="!isOpinions"
+        v-if="type === 'comments'"
         :items="items"
       />
 
@@ -88,7 +90,7 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page || 1;
+      return Number(this.$route.params.page) || 1;
     },
 
     items() {
@@ -100,7 +102,7 @@ export default {
     },
 
     urlPattern() {
-      return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date';
+      return this.type === 'comments' ? '/opinions/market/:date' : '/opinions/:date';
     },
 
     routeHash() {
