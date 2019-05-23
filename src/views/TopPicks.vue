@@ -3,9 +3,11 @@
     <leaderboard-ad :ad-slot="slots.TopPicksLeaderboard" />
 
     <div class="container">
+      <mobile-wealthica-video class="d-lg-none" />
+
       <top-picks-header />
 
-      <triple-ads>
+      <triple-ads class="triple-ads">
         <strong>Browse all <a href="/company">public companies</a></strong> recently chosen as
         <a href="/opinions/recenttop">top picks</a> by <a href="/expert">stock experts</a>.
         Read the daily stock experts opinions and <a href="/">stock predictions</a>.
@@ -46,6 +48,7 @@ import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import TripleAds from '../components/Ads/TripleAds.vue';
+import MobileWealthicaVideo from '../components/Ads/MobileWealthicaVideo.vue';
 import OpinionsList from '../components/Opinions/List.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 
@@ -59,6 +62,7 @@ export default {
     FooterLinkAd,
     DianomiAd,
     TripleAds,
+    MobileWealthicaVideo,
     OpinionsList,
     NumberPagination,
   },
@@ -125,8 +129,11 @@ export default {
   color black
   margin 5px 0
 
+.triple-ads
+  margin-top -17px
+
 @media (max-width 991px)
   .container
-    padding 0 10px
+    padding 15px 10px
 
 </style>
