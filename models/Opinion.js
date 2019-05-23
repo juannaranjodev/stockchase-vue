@@ -239,25 +239,22 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // Get company opinions by page
+  // Get company opinions by page + all company opinions count. result: { rows: [], count: 1 }
   Opinion.getCompanyOpinionsByPage = function (companyId, page = 1, perPage = 15) {
-    return Opinion.scope('includeAll').findAll({
+    return Opinion.scope('includeAll').findAndCountAll({
+      col: 'opinion.id',
+      distinct: true,
       where: { company_id: companyId },
       offset: (page - 1) * perPage,
       limit: perPage,
     });
   };
 
-  // Count company opinions
-  Opinion.countCompanyOpinions = function (companyId) {
-    return Opinion.count({
-      where: { company_id: companyId },
-    });
-  };
-
-  // Get expert opinions by page
+  // Get expert opinions by page + all expert opinions count. result: { rows: [], count: 1 }
   Opinion.getExpertOpinionsByPage = function (expertId, page = 1, perPage = 15) {
-    return Opinion.scope('includeAll').findAll({
+    return Opinion.scope('includeAll').findAndCountAll({
+      col: 'opinion.id',
+      distinct: true,
       where: { expert_id: expertId },
       offset: (page - 1) * perPage,
       limit: perPage,
@@ -274,14 +271,7 @@ module.exports = (sequelize, DataTypes) => {
     return firstOpinion ? firstOpinion.date : null;
   };
 
-  // Count expert opinions
-  Opinion.countExpertOpinions = function (expertId) {
-    return Opinion.scope('withExistingCompany').count({
-      where: { expert_id: expertId },
-    });
-  };
-
-  // Get top picks by page, plus all top picks count. result format: { rows: [], count: 1 }
+  // Get top picks by page + all top picks count. result: { rows: [], count: 1 }
   Opinion.getTopPicksByPage = function (page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAndCountAll({
       col: 'opinion.id',
