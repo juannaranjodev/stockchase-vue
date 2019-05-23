@@ -70,7 +70,12 @@
             width="24"
           >
           <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
-          <span v-else>Your Reaction</span>
+          <span
+            v-else
+            class="expert-overview__feedback-text"
+          >
+            Your Reaction
+          </span>
         </div>
       </div>
     </div>
@@ -82,9 +87,20 @@
         Jon Case made 3 top picks covering 3 companies that
         can be analyzed for a 2 year investing horizon.
       </p>
-      <p class="expert-overview__calculate-link">
-        How is the rating calculated?
+      <!-- eslint-disable max-len -->
+      <p
+        class="expert-overview__calculate-link"
+      >
+        <span id="ratingCalculated">How is the rating calculated?</span>
       </p>
+      <b-tooltip
+        target="ratingCalculated"
+        placement="bottomright"
+        class="rating-calculated-tooltip"
+      >
+        Star rating is based on the most wins in the investing horizon. If the expert has the mostly BIG WIN (+20% Gain) he gets 5 stars, mostly WIN (3% to 20% Gain) he gets 4 star, mostly Neutral (-3% to 3% Gain/Loss) he gets 3 stars, mostly LOSS (-20% to -3%) he gets 2 stars and mostly BIG LOSS (> -20% loss) he gets 1 star.
+      </b-tooltip>
+      <!-- eslint-enable max-len -->
     </div>
   </div>
 </template>
@@ -272,6 +288,7 @@ export default {
     &.no-rating
       img
         opacity 0.6
+
   @media (max-width 767px)
     .expert
       &-meta
@@ -281,4 +298,10 @@ export default {
         &__right
           margin-left 0
           margin-top 20px
+</style>
+
+<style lang="stylus">
+.tooltip
+  .tooltip-inner
+    max-width 800px !important
 </style>
