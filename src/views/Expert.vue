@@ -35,7 +35,8 @@
               :chart-enabled="true"
             />
             <div class="opinions-count">
-              Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
+              Showing {{ startPosition | formatNumber }} to {{ endPosition | formatNumber }}
+              of {{ numTotalOpinions | formatNumber }} entries
             </div>
             <link-ad :ad-slot="slots.ExpertLink" />
             <number-pagination

@@ -26,7 +26,7 @@ export function formatSignalName(signal) {
   }
 }
 
-export function formatNumber(number, format) {
+export function formatNumber(number, format = '0,0') {
   return numeral(number).format(format);
 }
 

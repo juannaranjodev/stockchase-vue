@@ -16,7 +16,8 @@
       <div class="opinions-container">
         <opinions-list :items="opinions" />
         <div class="opinions-count">
-          Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
+          Showing {{ startPosition | round }} to {{ endPosition | round }}
+          of {{ numTotalOpinions | round }} entries
         </div>
 
         <link-ad :ad-slot="slots.TopPicksLink" />
