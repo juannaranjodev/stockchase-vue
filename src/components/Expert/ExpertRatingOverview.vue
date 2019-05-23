@@ -46,12 +46,32 @@
         <span class="expert-overview__feedback-text">0 comments</span>
       </div>
       <div class="expert-reactions">
-        <img
-          src="~assets/images/smileys/smiley-glasses.png"
-          width="24"
-          height="24"
+        <div style="display: none">
+          <div ref="reactionsTooltip">
+            <user-reactions
+              :item="expert"
+              type="expert"
+            />
+          </div>
+        </div>
+
+        <div
+          ref="userReactions"
+          :class="{ 'expert-rating': true, 'no-rating': !myRating }"
         >
-        <span class="expert-overview__feedback-text">Your Reaction</span>
+          <img
+            v-if="myRating"
+            :src="myRatingImage"
+            width="35"
+          >
+          <img
+            v-else
+            src="~assets/images/smileys/smiley-glasses.png"
+            width="24"
+          >
+          <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
+          <span v-else>Your Reaction</span>
+        </div>
       </div>
     </div>
     <div class="expert-overview__description">
@@ -71,12 +91,81 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
+
+import { getRatingImage } from '../../util/rating';
+import UserReactions from '../UserReactions.vue';
+
+// TODO this is ugly
+let tippy;
+if (process.browser) {
+  /* eslint-disable-next-line global-require */
+  tippy = require('tippy.js').default;
+}
 
 export default {
   name: 'ExpertRatingOverview',
 
+  components: {
+    UserReactions,
+  },
+
   computed: {
-    ...mapGetters(['expert']),
+    ...mapGetters(['user', 'expert']),
+
+    myRating() {
+      const ratings = this.expert.SocialRatings || [];
+      if (!ratings.length) return null;
+
+      return _.find(ratings, { user_id: this.user.id });
+    },
+
+    myRatingImage() {
+      return getRatingImage(this.myRating.rating);
+    },
+
+    numSameRatings() {
+      const { myRating } = this;
+      if (!myRating) return null;
+
+      const ratings = this.expert.SocialRatings || [];
+      return _.countBy(ratings, 'rating')[myRating.rating] - 1;
+    },
+  },
+
+  watch: {
+    myRating() {
+      this.resetTippy();
+    },
+  },
+
+  beforeDestroy() {
+    this.destroyTippy();
+  },
+
+  methods: {
+    initTippy() {
+      tippy(this.$refs.userReactions, {
+        content: this.$refs.reactionsTooltip,
+        interactive: true,
+        theme: 'stockchase',
+        animateFill: false,
+        distance: 5,
+      });
+    },
+
+    destroyTippy() {
+      /* eslint-disable no-underscore-dangle */
+      if (this.$refs.userReactions && this.$refs.userReactions._tippy) {
+        this.$refs.userReactions._tippy.destroy();
+      }
+      /* eslint-enable no-underscore-dangle */
+    },
+
+    resetTippy() {
+      this.destroyTippy();
+      this.initTippy();
+    },
   },
 };
 </script>
@@ -174,7 +263,15 @@ export default {
 
     &:hover
       background-color #FF2E50
+  &-rating
+    color #06c
+    display flex
+    align-items center
+    font-size 15px
 
+    &.no-rating
+      img
+        opacity 0.6
   @media (max-width 767px)
     .expert
       &-meta
