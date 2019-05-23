@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="shouldShowAd"
-    class="triple-ads clear"
+    class="triple-ads clear d-none d-lg-block"
   >
     <div class="triple-ads__content">
       <p><slot /></p>
@@ -38,6 +38,7 @@ export default {
 
 <style lang="stylus" scoped>
 .triple-ads
+  border-top 11px solid #474747
   border-bottom 11px solid #474747
   padding 11px 0
 

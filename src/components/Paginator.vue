@@ -4,8 +4,10 @@
     class="paginator"
   >
     <p>
-      Showing {{ sliceStart }} to {{ sliceEnd }} of {{ totalItems }}
+      Showing {{ sliceStart | formatNumber }} to {{ sliceEnd | formatNumber }}
+      of {{ totalItems | formatNumber }}
     </p>
+
     <ul>
       <li :class="{ first: true, disabled: currentPage <= 3 }">
         <a

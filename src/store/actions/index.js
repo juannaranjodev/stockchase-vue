@@ -174,11 +174,8 @@ export default {
       page = page || 1;
       perPage = perPage || 15;
 
-      return Promise.all([
-        api.countCompanyOpinions(id),
-        api.fetchCompanyOpinionsByPage(id, page, perPage),
-      ]).then((result) => {
-        const [numOpinions, pageOpinions] = result;
+      return api.fetchCompanyOpinionsByPage(id, page, perPage).then((result) => {
+        const { rows: pageOpinions, count: numOpinions } = result;
 
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
@@ -204,12 +201,11 @@ export default {
       perPage = perPage || 15;
 
       return Promise.all([
-        api.countExpertOpinions(id),
         api.fetchExpertOpinionsByPage(id, page, perPage),
         api.fetchExpertTopPicks(id, 5),
         api.fetchExpertFirstOpinionDate(id),
       ]).then((result) => {
-        const [numOpinions, pageOpinions, topPicks, firstOpinionDate] = result;
+        const [{ rows: pageOpinions, count: numOpinions }, topPicks, firstOpinionDate] = result;
 
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);

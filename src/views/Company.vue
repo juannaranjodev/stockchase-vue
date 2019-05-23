@@ -62,8 +62,10 @@
 
           <div class="opinions-container">
             <opinions-list :items="opinions" />
+
             <div class="opinions-count">
-              Showing {{ startPosition }} to {{ endPosition }} of {{ numTotalOpinions }} entries
+              Showing {{ startPosition | formatNumber }} to {{ endPosition | formatNumber }}
+              of {{ numTotalOpinions | formatNumber }} entries
             </div>
 
             <link-ad :ad-slot="slots.CompanyLink" />
