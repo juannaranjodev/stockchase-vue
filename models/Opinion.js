@@ -284,6 +284,8 @@ module.exports = (sequelize, DataTypes) => {
   // Get top picks by page, plus all top picks count. result format: { rows: [], count: 1 }
   Opinion.getTopPicksByPage = function (page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAndCountAll({
+      col: 'opinion.id',
+      distinct: true,
       where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 },
       offset: (page - 1) * perPage,
       limit: perPage,
