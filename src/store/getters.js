@@ -98,6 +98,10 @@ export default {
     return state.experts;
   },
 
+  expertRatingOverviewSummary(state) {
+    return state.expertRatingOverviewSummary;
+  },
+
   totalExperts(state) {
     return state.totalExperts;
   },

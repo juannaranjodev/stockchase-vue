@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import api from '../../api';
 import * as c from '../../constants';
 import expertActions from './expert';
@@ -187,6 +188,7 @@ export default {
   FETCH_EXPERT: ({ commit }, urlParams) => {
     const { id, name } = urlParams;
     let { page, perPage } = urlParams;
+    const momentLast2Years = moment().subtract(2, 'years');
 
     // Redirect not found paths to expert index according to v1 expert controller logic
     if (!/^\d+$/.test(id)) return Promise.reject({ url: '/expert' });
@@ -206,13 +208,24 @@ export default {
         api.fetchExpertOpinionsByPage(id, page, perPage),
         api.fetchExpertTopPicks(id, 5),
         api.fetchExpertFirstOpinionDate(id),
+        api.fetchCountExpertTopPicksFromDate(id),
+        api.fetchCountExpertTopPicksFromDate(id, momentLast2Years),
+        api.fetchCountExpertTopPicksCompaniesFromDate(id, momentLast2Years),
       ]).then((result) => {
-        const [numOpinions, pageOpinions, topPicks, firstOpinionDate] = result;
-
+        const [
+          numOpinions, pageOpinions, topPicks, firstOpinionDate, countTotalTopPicks,
+          countLast2YearsTopPicks, countLast2YearsTopPicksCompanies,
+        ] = result;
+        const expertRatingOverviewSummary = {
+          countTotalTopPicks,
+          countLast2YearsTopPicks,
+          countLast2YearsTopPicksCompanies,
+        };
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
+        commit('SET_EXPERT_RATING_OVERVIEW_SUMMARY', expertRatingOverviewSummary);
       });
     });
   },

@@ -16,7 +16,7 @@
             </div>
 
             <div class="expert-top-picks">
-              12 TOP PICKS
+              {{ expertRatingOverviewSummary.countTotalTopPicks }} TOP PICKS
             </div>
           </div>
 
@@ -81,11 +81,13 @@
     </div>
     <div class="expert-overview__description">
       <p class="expert-overview__description-text">
-        We analyzed 11 top picks opinion from Jon Case.
+        We analyzed {{ expertRatingOverviewSummary.countTotalTopPicks }}
+        top picks opinion from Jon Case.
       </p>
       <p class="expert-overview__description-text">
-        Jon Case made 3 top picks covering 3 companies that
-        can be analyzed for a 2 year investing horizon.
+        Jon Case made {{ expertRatingOverviewSummary.countLast2YearsTopPicks }}
+        top picks covering {{ expertRatingOverviewSummary.countLast2YearsTopPicksCompanies }}
+        companies that can be analyzed for a 2 year investing horizon.
       </p>
       <!-- eslint-disable max-len -->
       <p
@@ -127,7 +129,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['user', 'expert']),
+    ...mapGetters(['user', 'expert', 'expertRatingOverviewSummary']),
 
     myRating() {
       const ratings = this.expert.SocialRatings || [];

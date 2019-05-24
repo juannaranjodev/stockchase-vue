@@ -179,6 +179,40 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  // Count top picks by expert id & date range
+  Opinion.countExpertTopPicksFromDate = function (expertId, from) {
+    const [fromDate, toDate] = [
+      from || moment().subtract(20, 'years').toDate(),
+      new Date(),
+    ].map(date => moment(date).format('YYYY-MM-DD'));
+    return Opinion.count({
+      where: {
+        date: { [Op.between]: [fromDate, toDate] },
+        company_id: { [Op.ne]: 1970 },
+        expert_id: expertId,
+        signal_id: 16,
+      },
+    });
+  };
+
+  // Count companies of top picks by expert id & date range
+  Opinion.countExpertTopPicksCompaniesFromDate = function (expertId, from) {
+    const [fromDate, toDate] = [
+      from || moment().subtract(20, 'years').toDate(),
+      new Date(),
+    ].map(date => moment(date).format('YYYY-MM-DD'));
+    return Opinion.count({
+      where: {
+        date: { [Op.between]: [fromDate, toDate] },
+        company_id: { [Op.ne]: 1970 },
+        expert_id: expertId,
+        signal_id: 16,
+      },
+      distinct: true,
+      col: 'company_id',
+    });
+  };
+
   // Get top picks by expert id (including past top picks as in v1 logic)
   Opinion.getExpertTopPicks = function (expertId, limit) {
     return Opinion.scope('includeAll').findAll({

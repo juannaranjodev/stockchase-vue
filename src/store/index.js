@@ -33,6 +33,7 @@ export default function createStore() {
       totalExperts: 0,
       searchedExperts: [],
       totalSearchedExperts: 0,
+      expertRatingOverviewSummary: {},
 
       // For company & expert profile page
       // TODO consider moving these data to separate modules

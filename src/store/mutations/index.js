@@ -99,6 +99,10 @@ export default {
     Vue.set(state, 'expertTopPicks', expertTopPicks);
   },
 
+  SET_EXPERT_RATING_OVERVIEW_SUMMARY: (state, expertRatingOverviewSummary) => {
+    Vue.set(state, 'expertRatingOverviewSummary', expertRatingOverviewSummary);
+  },
+
   SET_EXPERT_JOIN_DATE: (state, expertJoinDate) => {
     Vue.set(state, 'expertJoinDate', expertJoinDate);
   },
