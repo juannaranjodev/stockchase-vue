@@ -242,7 +242,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get company opinions by page + all company opinions count. result: { rows: [], count: 1 }
   Opinion.getCompanyOpinionsByPage = function (companyId, page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAndCountAll({
-      col: 'opinion.id',
+      col: 'Opinion.id',
       distinct: true,
       where: { company_id: companyId },
       offset: (page - 1) * perPage,
@@ -253,7 +253,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get expert opinions by page + all expert opinions count. result: { rows: [], count: 1 }
   Opinion.getExpertOpinionsByPage = function (expertId, page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAndCountAll({
-      col: 'opinion.id',
+      col: 'Opinion.id',
       distinct: true,
       where: { expert_id: expertId },
       offset: (page - 1) * perPage,
@@ -274,7 +274,7 @@ module.exports = (sequelize, DataTypes) => {
   // Get top picks by page + all top picks count. result: { rows: [], count: 1 }
   Opinion.getTopPicksByPage = function (page = 1, perPage = 15) {
     return Opinion.scope('includeAll').findAndCountAll({
-      col: 'opinion.id',
+      col: 'Opinion.id',
       distinct: true,
       where: { company_id: { [Op.ne]: 1970 }, signal_id: 16 },
       offset: (page - 1) * perPage,

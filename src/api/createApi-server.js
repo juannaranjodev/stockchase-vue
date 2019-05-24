@@ -115,7 +115,7 @@ export default function createAPI() {
     async fetchDiscoverPosts() {
       const parser = new Parser();
 
-      const feed = await parser.parseURL('http://stockchase.com/discover/feed');
+      const feed = await parser.parseURL('http://stockchase.com/discover/feed/');
 
       return _(feed.items).slice(0, 3).map(item => ({
         title: item.title,
