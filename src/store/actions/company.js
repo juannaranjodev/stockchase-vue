@@ -2,10 +2,21 @@ import api from '../../api';
 
 export default {
   FETCH_COMPANIES: ({ commit }, {
-    page = 1,
-    limit = 25,
-  }) => api.getCompaniesWithOpinions(page, limit).then((companies) => {
-    commit('SET_COMPANIES', companies);
+    search,
+    character,
+    type,
+    page,
+    perPage,
+  }) => api.fetchCompaniesByPage(page, perPage, { search, character, type }).then((result) => {
+    // console.log('--------------params', page, perPage, search, character, type);
+    console.log('--------------rows', result.rows.length, result.count);
+    console.log('--------------first row', result.rows[0].toJSON());
+    // console.log('--------------first row', result.length, result[0].toJSON());
+    // console.log('--------------first row', result.length);
+    const { rows: pageCompanies, count: numCompanies } = result;
+
+    commit('SET_TOTAL_COMPANIES', numCompanies);
+    commit('SET_COMPANIES', pageCompanies);
   }),
 
   FETCH_TOTAL_COMPANIES: ({ commit }, {

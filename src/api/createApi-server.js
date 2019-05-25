@@ -304,5 +304,9 @@ export default function createAPI() {
     async fetchTopPicksByPage(page, perPage) {
       return Opinion.getTopPicksByPage(page, perPage);
     },
+
+    async fetchCompaniesByPage(page, perPage, filters) {
+      return Company.getCompaniesByPage(page, perPage, filters);
+    },
   };
 }

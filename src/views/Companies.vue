@@ -4,8 +4,8 @@
 
     <div class="container">
       <cards-view-filters
-        :title="title"
-        :search-placeholder="searchPlaceholder"
+        title="Public Companies"
+        search-placeholder="Filter by name or symbol"
         target-search="companies"
         :reset-uri="'/company'"
         :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
@@ -33,7 +33,7 @@
             :name="company.name"
             :title="company.name"
             :sub-title="`${company.symbol}`"
-            :footnote="`${company.total_opinion} opinions`"
+            :footnote="`${company.opinions_count} opinions`"
             :card-link="company.url"
           />
         </div>
@@ -57,7 +57,7 @@
             :name="company.name"
             :title="company.name"
             :sub-title="`${company.symbol}`"
-            :footnote="`${company.total_opinion} opinions`"
+            :footnote="`${company.opinions_count} opinions`"
             :card-link="company.url"
           />
         </div>
@@ -113,8 +113,6 @@ export default {
     const { params } = this.$route;
 
     return {
-      title: 'Public Companies',
-      searchPlaceholder: 'Filter by name or symbol',
       paginator: {
         type: params.type ? params.type : 'C',
         sort: params.sort ? params.sort : 'name',
@@ -137,49 +135,55 @@ export default {
   },
 
   asyncData({ store, route }) {
-    const {
-      params, query,
-    } = route;
+    const { params, query } = route;
     const {
       page, perPage, character, type,
     } = params;
 
-    let promises = null;
+    return store.dispatch('FETCH_COMPANIES', {
+      search: query.search ? decodeURI(query.search) : undefined,
+      character,
+      type,
+      page: Number(page) || 1,
+      perPage: Number(perPage) || 60,
+    });
 
-    // TODO get companies list and count in the same query/call to get consistent results
-    if (query && query.search) { // if doing a search query
-      promises = [
-        store.dispatch('FETCH_COMPANIES_BY_NAME', {
-          term: decodeURI(query.search),
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
-      ];
-    } else if (character) {
-      promises = [
-        store.dispatch('FETCH_COMPANIES_BY_CHARACTER', {
-          character,
-          type,
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_COMPANIES_TOTAL_BY_CHARACTER', {
-          character,
-          type,
-        }),
-      ];
-    } else {
-      promises = [
-        store.dispatch('FETCH_COMPANIES', {
-          page: Number(page) || 1,
-          limit: Number(perPage) || 60,
-        }),
-        store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
-      ];
-    }
-
-    return promises ? Promise.all(promises) : null;
+    // let promises = null;
+    //
+    // // TODO get companies list and count in the same query/call to get consistent results
+    // if (query && query.search) { // if doing a search query
+    //   promises = [
+    //     store.dispatch('FETCH_COMPANIES_BY_NAME', {
+    //       term: decodeURI(query.search),
+    //       page: Number(page) || 1,
+    //       limit: Number(perPage) || 15,
+    //     }),
+    //     store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
+    //   ];
+    // } else if (character) {
+    //   promises = [
+    //     store.dispatch('FETCH_COMPANIES_BY_CHARACTER', {
+    //       character,
+    //       type,
+    //       page: Number(page) || 1,
+    //       limit: Number(perPage) || 15,
+    //     }),
+    //     store.dispatch('FETCH_COMPANIES_TOTAL_BY_CHARACTER', {
+    //       character,
+    //       type,
+    //     }),
+    //   ];
+    // } else {
+    //   promises = [
+    //     store.dispatch('FETCH_COMPANIES', {
+    //       page: Number(page) || 1,
+    //       limit: Number(perPage) || 60,
+    //     }),
+    //     store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
+    //   ];
+    // }
+    //
+    // return promises ? Promise.all(promises) : null;
   },
 
   title() {

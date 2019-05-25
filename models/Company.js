@@ -152,37 +152,62 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getCompaniesByPage = function (page = 1, limit = 25) {
-    return sequelize.query(`
-      SELECT SQL_CALC_FOUND_ROWS
-        c.id,
-        c.name,
-        c.symbol,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date
-      FROM New_company AS c
-      LEFT JOIN (
-        SELECT
-          o.company_id,
-          COUNT(o.company_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.company_id
-        ORDER BY latest_opinion_date DESC) AS o
-      ON o.company_id = c.id
-      WHERE c.id <> 1970
-      ORDER BY o.latest_opinion_date DESC
-      LIMIT :limit
-      OFFSET :offset
-    `, {
-      replacements: {
-        limit,
-        offset: (page - 1) * limit,
+  Company.getCompaniesByPage = function (page = 1, perPage = 25, filters = {}) {
+    console.log('--------filters', filters);
+    return Company.findAndCountAll({
+      col: 'id',
+      distinct: true,
+      where: { id: { [Op.ne]: 1970 } },
+      attributes: {
+        include: [
+          [sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'latest_opinion_date'],
+          [sequelize.fn('COUNT', sequelize.col('Opinions.company_id')), 'opinions_count'],
+        ],
       },
-      type: sequelize.QueryTypes.SELECT,
-      model: Company,
-      mapToModel: true,
-    });
+      include: [
+        {
+          model: sequelize.models.Opinion,
+          attributes: ['Date', 'company_id'],
+        },
+      ],
+      // TODO find a way to not rely on `group` since it turns result.count to an array
+      subQuery: false,
+      group: ['Company.id'],
+      offset: (page - 1) * perPage,
+      limit: perPage,
+      order: [[sequelize.col('latest_opinion_date'), 'DESC']],
+    }).then(result => ({ ...result, count: result.count.length }));
+
+    // return sequelize.query(`
+    //   SELECT SQL_CALC_FOUND_ROWS
+    //     c.id,
+    //     c.name,
+    //     c.symbol,
+    //     IFNULL(o.total_opinion, 0) AS total_opinion,
+    //     o.latest_opinion_date
+    //   FROM New_company AS c
+    //   LEFT JOIN (
+    //     SELECT
+    //       o.company_id,
+    //       COUNT(o.company_id) AS total_opinion,
+    //       MAX(o.Date) AS latest_opinion_date
+    //     FROM New_opinion AS o
+    //     GROUP BY o.company_id
+    //     ORDER BY latest_opinion_date DESC) AS o
+    //   ON o.company_id = c.id
+    //   WHERE c.id <> 1970
+    //   ORDER BY o.latest_opinion_date DESC
+    //   LIMIT :limit
+    //   OFFSET :offset
+    // `, {
+    //   replacements: {
+    //     limit,
+    //     offset: (page - 1) * limit,
+    //   },
+    //   type: sequelize.QueryTypes.SELECT,
+    //   model: Company,
+    //   mapToModel: true,
+    // });
   };
 
   Company.getCompaniesByTerm = function (term = null, page = 1, limit = 25) {
