@@ -51,3 +51,7 @@ export function stripTags(value) {
 
   return $.text();
 }
+
+export function topPickDate(date) {
+  return moment(date).format('MMMM Do, YYYY');
+}

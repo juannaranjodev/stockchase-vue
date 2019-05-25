@@ -13,6 +13,8 @@
             <expert-rating-table />
           </div>
         </div>
+
+        <expert-top-picks-table />
       </div>
     </div>
   </div>
@@ -23,6 +25,7 @@ import { mapGetters } from 'vuex';
 
 import ExpertRatingOverview from '../components/Expert/ExpertRatingOverview.vue';
 import ExpertRatingTable from '../components/Expert/ExpertRatingTable.vue';
+import ExpertTopPicksTable from '../components/Expert/ExpertTopPicksTable.vue';
 
 export default {
   name: 'ExpertRating',
@@ -30,6 +33,7 @@ export default {
   components: {
     ExpertRatingOverview,
     ExpertRatingTable,
+    ExpertTopPicksTable,
   },
 
   data() {

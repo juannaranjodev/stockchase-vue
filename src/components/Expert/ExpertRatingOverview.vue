@@ -23,8 +23,7 @@
           <div class="expert-meta__right">
             <a
               class="review-expert"
-              href="#"
-              @click="showComments"
+              :href="expert.url"
             >
               <img
                 src="~assets/svgs/star.svg"
