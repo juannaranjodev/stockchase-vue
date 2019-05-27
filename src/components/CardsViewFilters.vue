@@ -165,7 +165,7 @@ export default {
       const { params, query } = this.$route;
 
       const url = this.pattern
-        .replace(':character', query.search ? 'all' : params.character)
+        .replace(':character', query.search ? 'all' : params.character || 'all')
         .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
         .replace(':sortBy', this.targetSearch === 'companies' ? 'name' : params.sortBy || 'FirstName')
         .replace(':direction', params.direction || 'desc')

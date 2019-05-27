@@ -8,7 +8,7 @@
         search-placeholder="Filter by name or symbol"
         target-search="companies"
         :reset-uri="'/company'"
-        :pattern="`/company/index/${urlParams.character}/:type/desc/:sortBy/page/1/direction/:direction/max/:perPage`"
+        :pattern="`/company/index/:character/:type/desc/:sortBy/page/1/direction/:direction/max/:perPage`"
         :current-limit="urlParams.perPage"
       />
 
