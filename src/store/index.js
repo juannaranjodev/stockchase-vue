@@ -10,7 +10,7 @@ export default function createStore() {
   return new Vuex.Store({
     state: {
       opinions: {},
-      numTotalOpinions: 1,
+      numTotalOpinions: 0,
       date: null,
       adjacentDates: [],
       olderDate: null,
@@ -33,6 +33,10 @@ export default function createStore() {
       totalExperts: 0,
       searchedExperts: [],
       totalSearchedExperts: 0,
+
+      // company index
+      numTotalCompanies: 0,
+      companies: [],
 
       // For company & expert profile page
       // TODO consider moving these data to separate modules

@@ -77,7 +77,7 @@ export default {
       type: String,
       default: '',
     },
-    sort: {
+    sortBy: {
       type: String,
       default: '',
     },
@@ -135,7 +135,7 @@ export default {
 
       if (page > 1) {
         url += this.pattern.replace(':type', this.type)
-          .replace(':sort', this.sort)
+          .replace(':sortBy', this.sortBy)
           .replace(':page', page)
           .replace(':direction', this.direction)
           .replace(':perPage', this.perPage);

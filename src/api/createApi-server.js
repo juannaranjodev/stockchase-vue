@@ -26,19 +26,6 @@ export default function createAPI() {
       );
     },
 
-    async getCompaniesTotalByCharacter(character, type = 'C') {
-      return Company.getCompaniesTotalByCharacter(character, type === 'C' ? 'name' : 'symbol');
-    },
-
-    async getCompaniesByFirstCharacter(character, type = 'C', page = 1, limit = 15) {
-      return Company.getCompaniesByCharacter(
-        character,
-        type === 'C' ? 'name' : 'symbol',
-        page,
-        limit,
-      );
-    },
-
     async getExpertsByName(term, page = 1, limit = 15) {
       const experts = await Expert.getExpertsByName(term, page, limit);
 
@@ -291,14 +278,6 @@ export default function createAPI() {
 
     async getCompaniesWithOpinions(page = 1, limit = 25) {
       return Company.getCompaniesByPage(page, limit);
-    },
-
-    async getTotalCompanies(term = null) {
-      return Company.getTotalCompanies(term);
-    },
-
-    async getCompaniesByTerm(term = null, page = 1, limit = 60) {
-      return Company.getCompaniesByTerm(term, page, limit);
     },
 
     async fetchTopPicksByPage(page, perPage) {

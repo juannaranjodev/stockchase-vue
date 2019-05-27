@@ -45,6 +45,7 @@
             type="text"
             :placeholder="searchPlaceholder"
             autocomplete="off"
+            @keyup.enter="onSubmitSearch"
             @input="onSearchTyping"
             @blur="onSearchFocusOut"
           >
@@ -163,20 +164,22 @@ export default {
     generateURL(perPage = 15) {
       const { params, query } = this.$route;
 
-      const url = this.resetUri + this.pattern
+      const url = this.pattern
+        .replace(':character', query.search ? 'all' : params.character)
         .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
-        .replace(':sort', this.targetSearch === 'companies' ? 'name' : params.sort || 'FirstName')
-        .replace(':page', params.page || '1')
+        .replace(':sortBy', this.targetSearch === 'companies' ? 'name' : params.sortBy || 'FirstName')
         .replace(':direction', params.direction || 'desc')
         .replace(':perPage', perPage);
 
       return query.search ? `${url}?search=${query.search}` : url;
     },
 
-    onSubmitSearch() {
+    onSubmitSearch(e) {
+      e.preventDefault();
+
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
-        window.location = `?search=${query}`;
+        window.location = `/company?search=${query}`;
       }
     },
 
@@ -276,7 +279,6 @@ export default {
         color black
         text-decoration underline
     &-filter
-      border-bottom 11px solid #474747
       padding-bottom 10px
     &-search
       margin-top 10px

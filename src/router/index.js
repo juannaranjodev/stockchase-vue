@@ -38,7 +38,7 @@ export default function createRouter() {
       { path: '/', component: Home },
       // Top Picks listing
       { path: '/opinions/recenttop', component: TopPicks },
-      { path: '/opinions/recenttop/sort/:sort/page/:page/direction/:direction/max/:perPage', component: TopPicks },
+      { path: '/opinions/recenttop/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: TopPicks },
       // Market comments listing
       { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
@@ -49,12 +49,14 @@ export default function createRouter() {
       // Top/worst experts
       { path: '/expert/top', component: TopWorstExpertList },
       // Companies index. :type can be C (to search in company name) or F for symbol
+      // NOTE: In v1 it's currently '.../desc/:sortBy...'. It should be '../sort/:sortBy' but we're
+      // keeping the exact v1 behavior for now.
       { path: '/company', component: Companies },
-      { path: '/company/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage', component: Companies },
       { path: '/company/index/:character/:type', component: Companies },
+      { path: '/company/index/:character/:type/desc/:sortBy/page/:page/direction/:direction/max/:perPage', component: Companies },
       // Experts index. :type can be F (to search in first name) or L for last name
       { path: '/expert', component: Experts },
-      { path: '/expert/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage', component: Experts },
+      { path: '/expert/index/:character/:type/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Experts },
       { path: '/expert/index/:character/:type', component: Experts },
       // Company profile
       { path: '/company/view/:id', component: Company },

@@ -1,89 +1,96 @@
 <template>
-  <div class="pgntn">
-    <div class="pgntn-left">
-      <a
-        v-if="prevPageUrl"
-        :href="prevPageUrl"
-        class="page-link page-link--highlight page-link--prev"
-      >
-        <img src="~assets/svgs/arrow_down_white.svg"><span>Previous</span>
-      </a>
+  <div class="pgntn-container">
+    <div class="pgntn-count">
+      Showing {{ startPosition | round }} to {{ endPosition | round }}
+      of {{ numTotalItems | round }} entries
     </div>
 
-    <div class="pgntn-center">
-      <ul class="pagination">
-        <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
-          <a
-            v-if="currentPage > 1"
-            :href="firstPageUrl"
-            class="page-link"
-          >&laquo;</a>
-          <span
-            v-else
-            class="page-link"
-          >&laquo;</span>
-        </li>
-        <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
-          <a
-            v-if="currentPage > 1"
-            :href="prevPageUrl"
-            class="page-link"
-          >&lsaquo;</a>
-          <span
-            v-else
-            class="page-link"
-          >&lsaquo;</span>
-        </li>
-
-        <li
-          v-for="page in pages"
-          :key="page"
-          :class="{ 'page-item': true, active: page === currentPage }"
+    <div class="pgntn">
+      <div class="pgntn-left">
+        <a
+          v-if="prevPageUrl"
+          :href="prevPageUrl"
+          class="page-link page-link--highlight page-link--prev"
         >
-          <a
-            v-if="page !== currentPage"
-            class="page-link"
-            :href="getPageUrl(page)"
-          >{{ page }}</a>
-          <span
-            v-else
-            class="page-link"
-          >{{ page }}</span>
-        </li>
+          <img src="~assets/svgs/arrow_down_white.svg"><span>Previous</span>
+        </a>
+      </div>
 
-        <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
-          <a
-            v-if="currentPage < numTotalPages"
-            :href="nextPageUrl"
-            class="page-link"
-          >&rsaquo;</a>
-          <span
-            v-else
-            class="page-link"
-          >&rsaquo;</span>
-        </li>
-        <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
-          <a
-            v-if="currentPage < numTotalPages"
-            :href="lastPageUrl"
-            class="page-link"
-          >&raquo;</a>
-          <span
-            v-else
-            class="page-link"
-          >&raquo;</span>
-        </li>
-      </ul>
-    </div>
+      <div class="pgntn-center">
+        <ul class="pagination">
+          <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
+            <a
+              v-if="currentPage > 1"
+              :href="firstPageUrl"
+              class="page-link"
+            >&laquo;</a>
+            <span
+              v-else
+              class="page-link"
+            >&laquo;</span>
+          </li>
+          <li :class="{ 'page-item': true, disabled: currentPage === 1 }">
+            <a
+              v-if="currentPage > 1"
+              :href="prevPageUrl"
+              class="page-link"
+            >&lsaquo;</a>
+            <span
+              v-else
+              class="page-link"
+            >&lsaquo;</span>
+          </li>
 
-    <div class="pgntn-right">
-      <a
-        v-if="nextPageUrl"
-        :href="nextPageUrl"
-        class="page-link page-link--highlight page-link--next"
-      >
-        <span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg">
-      </a>
+          <li
+            v-for="page in pages"
+            :key="page"
+            :class="{ 'page-item': true, active: page === currentPage }"
+          >
+            <a
+              v-if="page !== currentPage"
+              class="page-link"
+              :href="getPageUrl(page)"
+            >{{ page }}</a>
+            <span
+              v-else
+              class="page-link"
+            >{{ page }}</span>
+          </li>
+
+          <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
+            <a
+              v-if="currentPage < numTotalPages"
+              :href="nextPageUrl"
+              class="page-link"
+            >&rsaquo;</a>
+            <span
+              v-else
+              class="page-link"
+            >&rsaquo;</span>
+          </li>
+          <li :class="{ 'page-item': true, disabled: currentPage === numTotalPages }">
+            <a
+              v-if="currentPage < numTotalPages"
+              :href="lastPageUrl"
+              class="page-link"
+            >&raquo;</a>
+            <span
+              v-else
+              class="page-link"
+            >&raquo;</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pgntn-right">
+        <a
+          v-if="nextPageUrl"
+          :href="nextPageUrl"
+          class="page-link page-link--highlight page-link--next"
+        >
+          <span>Next Page</span><img src="~assets/svgs/arrow_down_white.svg">
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -94,13 +101,25 @@ import _ from 'lodash';
 export default {
   name: 'NumberPagination',
   props: {
-    numTotalPages: {
+    numTotalItems: {
+      type: Number,
+      default: 1,
+    },
+    numPageItems: {
       type: Number,
       default: 1,
     },
     currentPage: {
       type: Number,
       default: 1,
+    },
+    perPage: {
+      type: Number,
+      default: 15,
+    },
+    search: {
+      type: String,
+      default: '',
     },
     urlPattern: {
       type: String,
@@ -141,11 +160,24 @@ export default {
     nextPageUrl() {
       return (this.nextPage <= this.numTotalPages) ? this.getPageUrl(this.nextPage) : null;
     },
+
+    numTotalPages() {
+      return Math.ceil(this.numTotalItems / this.perPage);
+    },
+
+    startPosition() {
+      return (this.currentPage - 1) * this.perPage + 1;
+    },
+
+    endPosition() {
+      return this.startPosition + this.numPageItems - 1;
+    },
   },
 
   methods: {
     getPageUrl(page) {
-      return this.urlPattern.replace(':page', page);
+      const url = this.urlPattern.replace(':page', page);
+      return this.search ? `${url}?search=${this.search}` : url;
     },
   },
 };
@@ -163,6 +195,10 @@ export default {
 
   &-center
     margin 10px
+
+  &-count
+    color black
+    margin 5px 0
 
   >>> .page-link
     color #25292B !important

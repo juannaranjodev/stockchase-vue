@@ -38,7 +38,7 @@ export default context => new Promise((resolve, reject) => {
     // A preFetch hook dispatches a store action and returns a Promise,
     // which is resolved when the action is complete and store state has been
     // updated.
-    return Promise.all(matchedComponents.map(({ asyncData }) => asyncData && asyncData({
+    return Promise.all(matchedComponents.map(comp => comp.asyncData && comp.asyncData.bind(comp)({
       store,
       route: router.currentRoute,
     }))).then(() => {

@@ -130,8 +130,8 @@ export default {
     return state.companies;
   },
 
-  totalCompanies(state) {
-    return state.totalCompanies;
+  numTotalCompanies(state) {
+    return state.numTotalCompanies;
   },
 
   searchedCompanies(state) {

@@ -8,8 +8,8 @@
         search-placeholder="Filter by name or symbol"
         target-search="companies"
         :reset-uri="'/company'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
-        :current-limit="paginator.perPage"
+        :pattern="`/company/index/${urlParams.character}/:type/desc/:sortBy/page/1/direction/:direction/max/:perPage`"
+        :current-limit="urlParams.perPage"
       />
 
       <triple-ads>
@@ -63,14 +63,13 @@
         </div>
       </div>
 
-      <paginator
-        :type="paginator.type"
-        :sort="paginator.sort"
-        :direction="paginator.direction"
-        :total-items="totalCompanies"
-        :per-page="paginator.perPage"
-        :main="'/company'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+      <number-pagination
+        :num-total-items="numTotalCompanies"
+        :num-page-items="companies.length"
+        :current-page="urlParams.page"
+        :per-page="urlParams.perPage"
+        :search="urlParams.search"
+        :url-pattern="`/company/index/${urlParams.character}/${urlParams.type}/desc/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
       />
 
       <dianomi-ad />
@@ -86,7 +85,7 @@ import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
-import Paginator from '../components/Paginator.vue';
+import NumberPagination from '../components/NumberPagination.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
@@ -100,7 +99,7 @@ export default {
   components: {
     CardsViewFilters,
     CardView,
-    Paginator,
+    NumberPagination,
     LeaderboardAd,
     LinkAd,
     FooterLinkAd,
@@ -109,22 +108,13 @@ export default {
     TripleAds,
   },
 
-  data() {
-    const { params } = this.$route;
-
-    return {
-      paginator: {
-        type: params.type ? params.type : 'C',
-        sort: params.sort ? params.sort : 'name',
-        direction: params.direction ? params.direction : 'desc',
-        perPage: Number(params.perPage) || 60,
-      },
-    };
-  },
-
   computed: {
-    ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
+    ...mapGetters(['companies', 'numTotalCompanies', 'shouldShowAd']),
     slots: () => slots,
+
+    urlParams() {
+      return this.getUrlParams(this.$route);
+    },
 
     firstFiveCompanies() {
       return this.companies.length <= 5 ? this.companies : this.companies.slice(0, 5);
@@ -135,59 +125,35 @@ export default {
   },
 
   asyncData({ store, route }) {
-    const { params, query } = route;
-    const {
-      page, perPage, character, type,
-    } = params;
-
-    return store.dispatch('FETCH_COMPANIES', {
-      search: query.search ? decodeURI(query.search) : undefined,
-      character,
-      type,
-      page: Number(page) || 1,
-      perPage: Number(perPage) || 60,
-    });
-
-    // let promises = null;
-    //
-    // // TODO get companies list and count in the same query/call to get consistent results
-    // if (query && query.search) { // if doing a search query
-    //   promises = [
-    //     store.dispatch('FETCH_COMPANIES_BY_NAME', {
-    //       term: decodeURI(query.search),
-    //       page: Number(page) || 1,
-    //       limit: Number(perPage) || 15,
-    //     }),
-    //     store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
-    //   ];
-    // } else if (character) {
-    //   promises = [
-    //     store.dispatch('FETCH_COMPANIES_BY_CHARACTER', {
-    //       character,
-    //       type,
-    //       page: Number(page) || 1,
-    //       limit: Number(perPage) || 15,
-    //     }),
-    //     store.dispatch('FETCH_COMPANIES_TOTAL_BY_CHARACTER', {
-    //       character,
-    //       type,
-    //     }),
-    //   ];
-    // } else {
-    //   promises = [
-    //     store.dispatch('FETCH_COMPANIES', {
-    //       page: Number(page) || 1,
-    //       limit: Number(perPage) || 60,
-    //     }),
-    //     store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
-    //   ];
-    // }
-    //
-    // return promises ? Promise.all(promises) : null;
+    return store.dispatch('FETCH_COMPANIES', this.methods.getUrlParams(route));
   },
 
   title() {
     return 'Company Index';
+  },
+
+  methods: {
+    getUrlParams(route) {
+      const { query } = route;
+      const {
+        character = 'all',
+        type = 'C',
+        sortBy = 'name',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        search: query.search ? decodeURI(query.search) : undefined,
+        character,
+        type,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 60,
+      };
+    },
   },
 };
 </script>
