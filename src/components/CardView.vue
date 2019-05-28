@@ -121,6 +121,7 @@ export default {
     text-align center
     a:hover
       text-decoration none
+
   &-social-links
     padding 0
     list-style none
@@ -141,19 +142,10 @@ export default {
         opacity 1
   &-view
     border 1px solid #E9E9EA
-    width calc((100% - 20px*4)/5)
-    margin-left 10px
-    margin-right 10px
-    border 1px solid #E9E9EA
     display inline-block
     font-size initial
     vertical-align top
-    margin-bottom 30px
-
-    &:nth-child(5n+1)
-      margin-left 0
-    &:nth-child(5n)
-      margin-right 0
+    width 100%
 
     h6
       font-size 15px
@@ -242,53 +234,4 @@ export default {
   &-facebook:after
     background-image url('~assets/svgs/social-facebook.svg')
 
-@media (min-width 1200px)
-  .card-view
-    width calc((100% - 20px*4)/5)
-    margin-left 10px
-    margin-right 10px
-
-    &:nth-child(5n+1)
-      margin-left 0
-    &:nth-child(5n)
-      margin-right 0
-
-@media (min-width 992px) and (max-width 1199px)
-  .card-view
-    width calc((100% - 20px*3)/4)
-    margin-left 10px
-    margin-right 10px
-
-    &:nth-child(4n+1)
-      margin-left 0
-    &:nth-child(4n)
-      margin-right 0
-
-@media (min-width 768px) and (max-width 991px)
-  .card-view
-    width calc((100% - 20px*2)/3)
-    margin-left 10px
-    margin-right 10px
-
-    &:nth-child(3n+1)
-      margin-left 0
-    &:nth-child(3n)
-      margin-right 0
-
-@media (min-width 480px) and (max-width 767px)
-  .card-view
-    width calc((100% - 20px)/2)
-    margin-left 10px
-    margin-right 10px
-
-    &:nth-child(2n+1)
-      margin-left 0
-    &:nth-child(2n)
-      margin-right 0
-
-@media (max-width 479px)
-  .card-view
-    width 100%
-    margin-left 0
-    margin-right 0
 </style>

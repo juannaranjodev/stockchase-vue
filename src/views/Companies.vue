@@ -22,14 +22,21 @@
 
       <link-ad :ad-slot="slots.CompaniesLink" />
 
-      <div class="companies">
+      <div
+        v-if="companies.length"
+        class="companies"
+      >
         <div
-          v-if="firstFiveCompanies.length"
-          class="first-row"
+          v-for="(company, index) in displayedItems"
+          :key="index"
+          :class="{ 'card-view-container': true, 'card-view-container--ad': company.ad }"
         >
+          <in-feed-ad
+            v-if="company.ad"
+            :ad-slot="slots.CompaniesInFeed"
+          />
           <card-view
-            v-for="(company, index) in firstFiveCompanies"
-            :key="index"
+            v-else
             image-size="large"
             :image-src="company.logo"
             :name="company.name"
@@ -39,30 +46,11 @@
             :card-link="company.url"
           />
         </div>
-        <div v-else>
-          <p class="text-center">
-            No matched companies.
-          </p>
-        </div>
-
-        <in-feed-ad :ad-slot="slots.CompaniesInFeed" />
-
-        <div
-          v-if="theRestOfCompanies.length"
-          class="second-row"
-        >
-          <card-view
-            v-for="(company, index) in theRestOfCompanies"
-            :key="index"
-            image-size="large"
-            :image-src="company.logo"
-            :name="company.name"
-            :title="company.name"
-            :sub-title="`${company.symbol}`"
-            :footnote="`${company.opinions_count} opinions`"
-            :card-link="company.url"
-          />
-        </div>
+      </div>
+      <div v-else>
+        <p class="text-center">
+          No matched companies.
+        </p>
       </div>
 
       <number-pagination
@@ -83,6 +71,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
@@ -90,9 +79,9 @@ import CardsViewFilters from '../components/CardsViewFilters.vue';
 import NumberPagination from '../components/NumberPagination.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import InFeedAd from '../components/Ads/InFeedAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import InFeedAd from '../components/Ads/InFeedAd.vue';
 import TripleAds from '../components/Ads/TripleAds.vue';
 import MobileWealthicaVideo from '../components/Ads/MobileWealthicaVideo.vue';
 
@@ -105,11 +94,15 @@ export default {
     NumberPagination,
     LeaderboardAd,
     LinkAd,
+    InFeedAd,
     FooterLinkAd,
     DianomiAd,
-    InFeedAd,
     TripleAds,
     MobileWealthicaVideo,
+  },
+
+  data() {
+    return { adIndex: 0 };
   },
 
   computed: {
@@ -118,6 +111,15 @@ export default {
 
     urlParams() {
       return this.getUrlParams(this.$route);
+    },
+
+    displayedItems() {
+      if (!this.shouldShowAd || this.adIndex === 0) return this.companies;
+
+      const displayedItems = _.clone(this.companies);
+      displayedItems.splice(this.adIndex, 0, { ad: true });
+
+      return displayedItems;
     },
 
     // TODO fixed 5 cards per row is bad for responsive display
@@ -135,6 +137,12 @@ export default {
 
   title() {
     return 'Company Index';
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setAdIndex();
+    });
   },
 
   methods: {
@@ -159,6 +167,25 @@ export default {
         perPage: Number(perPage) || 60,
       };
     },
+
+    // Find an index to inject ad
+    setAdIndex() {
+      if (!this.shouldShowAd) return;
+
+      const indexMapping = {
+        '(min-width: 1200px)': 5,
+        '(min-width: 992px) and (max-width: 1199px)': 4,
+        '(min-width: 768px) and (max-width: 991px)': 3,
+        '(min-width: 480px) and (max-width: 767px)': 2,
+        '(max-width: 479px)': 1,
+      };
+
+      Object.keys(indexMapping).forEach((mediaQuery) => {
+        if (window.matchMedia(mediaQuery).matches) {
+          this.adIndex = indexMapping[mediaQuery];
+        }
+      });
+    },
   },
 };
 </script>
@@ -171,16 +198,52 @@ export default {
   max-width 100%
   padding 0 20px 20px
   margin 0 auto
+
 .companies
   margin-top 20px
+  display flex
+  align-items flex-start
+  flex-wrap wrap
+  margin-left -10px
+  margin-right -10px
+
   .card-info
     min-height 224px // TODO put card-related styling in the separate company cardview component
   .card-picture
     background-color white
 
-  .first-row, .second-row
-    display flex
-    align-items flex-start
-    flex-wrap wrap
+.card-view-container
+  margin-bottom 30px
+  margin-left 10px
+  margin-right 10px
+
+  &--ad
+    width 100% !important
+    margin-bottom 0
+    margin-top -30px
+
+@media (min-width 1200px)
+  .card-view-container
+    width calc(100%/5 - 20px)
+
+@media (min-width 992px) and (max-width 1199px)
+  .card-view-container
+    width calc(100%/4 - 20px)
+
+@media (min-width 768px) and (max-width 991px)
+  .card-view-container
+    width calc(100%/3 - 20px)
+
+@media (min-width 480px) and (max-width 767px)
+  .card-view-container
+    width calc(100%/2 - 20px)
+
+@media (max-width 479px)
+  .card-view-container
+    width 100%
+
+@media (max-width 991px)
+  .container
+    padding 0 10px
 
 </style>
