@@ -3,6 +3,8 @@
     <leaderboard-ad :ad-slot="slots.CompaniesLeaderboard" />
 
     <div class="container">
+      <mobile-wealthica-video class="d-lg-none" />
+
       <cards-view-filters
         title="Public Companies"
         search-placeholder="Filter by name or symbol"
@@ -92,6 +94,7 @@ import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
 import TripleAds from '../components/Ads/TripleAds.vue';
+import MobileWealthicaVideo from '../components/Ads/MobileWealthicaVideo.vue';
 
 export default {
   name: 'Companies',
@@ -106,6 +109,7 @@ export default {
     DianomiAd,
     InFeedAd,
     TripleAds,
+    MobileWealthicaVideo,
   },
 
   computed: {
@@ -116,6 +120,7 @@ export default {
       return this.getUrlParams(this.$route);
     },
 
+    // TODO fixed 5 cards per row is bad for responsive display
     firstFiveCompanies() {
       return this.companies.length <= 5 ? this.companies : this.companies.slice(0, 5);
     },
@@ -172,5 +177,10 @@ export default {
     min-height 224px // TODO put card-related styling in the separate company cardview component
   .card-picture
     background-color white
+
+  .first-row, .second-row
+    display flex
+    align-items flex-start
+    flex-wrap wrap
 
 </style>

@@ -141,8 +141,7 @@ export default {
         opacity 1
   &-view
     border 1px solid #E9E9EA
-    width 18%
-    width calc(20% - 16px)
+    width calc((100% - 20px*4)/5)
     margin-left 10px
     margin-right 10px
     border 1px solid #E9E9EA
@@ -150,6 +149,12 @@ export default {
     font-size initial
     vertical-align top
     margin-bottom 30px
+
+    &:nth-child(5n+1)
+      margin-left 0
+    &:nth-child(5n)
+      margin-right 0
+
     h6
       font-size 15px
       text-transform uppercase
@@ -173,10 +178,6 @@ export default {
       margin-bottom 13px
     > a:hover
       text-decoration none
-  &-view:first-child, &-view:nth-child(5n+1)
-    margin-left 0
-  &-view:last-child, &-view:nth-child(5n)
-    margin-right 0
   &-picture
     width 64px
     height 64px
@@ -240,4 +241,54 @@ export default {
     background-image url('~assets/svgs/social-linkedin.svg')
   &-facebook:after
     background-image url('~assets/svgs/social-facebook.svg')
+
+@media (min-width 1200px)
+  .card-view
+    width calc((100% - 20px*4)/5)
+    margin-left 10px
+    margin-right 10px
+
+    &:nth-child(5n+1)
+      margin-left 0
+    &:nth-child(5n)
+      margin-right 0
+
+@media (min-width 992px) and (max-width 1199px)
+  .card-view
+    width calc((100% - 20px*3)/4)
+    margin-left 10px
+    margin-right 10px
+
+    &:nth-child(4n+1)
+      margin-left 0
+    &:nth-child(4n)
+      margin-right 0
+
+@media (min-width 768px) and (max-width 991px)
+  .card-view
+    width calc((100% - 20px*2)/3)
+    margin-left 10px
+    margin-right 10px
+
+    &:nth-child(3n+1)
+      margin-left 0
+    &:nth-child(3n)
+      margin-right 0
+
+@media (min-width 480px) and (max-width 767px)
+  .card-view
+    width calc((100% - 20px)/2)
+    margin-left 10px
+    margin-right 10px
+
+    &:nth-child(2n+1)
+      margin-left 0
+    &:nth-child(2n)
+      margin-right 0
+
+@media (max-width 479px)
+  .card-view
+    width 100%
+    margin-left 0
+    margin-right 0
 </style>

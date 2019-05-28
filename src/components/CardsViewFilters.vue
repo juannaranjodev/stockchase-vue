@@ -279,7 +279,7 @@ export default {
         color black
         text-decoration underline
     &-filter
-      padding-bottom 10px
+      padding-bottom 5px
     &-search
       margin-top 10px
       border 1px solid rgba(0,0,0,0.1)
@@ -384,6 +384,7 @@ export default {
       display block
     & > .col-md-4
       float left
+      margin-bottom 5px
     & > .col-md-4:first-child
       padding-left 0
     & > .col-md-4:nth-child(2)
