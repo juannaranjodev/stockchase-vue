@@ -60,12 +60,12 @@ export default function createRouter() {
       { path: '/expert/index/:character/:type', component: Experts },
       // Company profile
       { path: '/company/view/:id', component: Company },
-      { path: '/company/view/:id/:symbol', component: Company },
-      { path: '/company/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Company },
+      { path: '/company/view/:id/:slug', component: Company },
+      { path: '/company/view/:id/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Company },
       // Expert profile
       { path: '/expert/view/:id', component: Expert },
-      { path: '/expert/view/:id/:name', component: Expert },
-      { path: '/expert/view/:id/sort/date/page/:page/direction/desc/max/:perPage', component: Expert },
+      { path: '/expert/view/:id/:slug', component: Expert },
+      { path: '/expert/view/:id/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Expert },
     ],
   });
 

@@ -63,17 +63,12 @@
           <div class="opinions-container">
             <opinions-list :items="opinions" />
 
-            <div class="opinions-count">
-              Showing {{ startPosition | formatNumber }} to {{ endPosition | formatNumber }}
-              of {{ numTotalOpinions | formatNumber }} entries
-            </div>
-
-            <link-ad :ad-slot="slots.CompanyLink" />
-
             <number-pagination
-              :num-total-pages="numOpinionPages"
-              :current-page="currentPage"
-              :url-pattern="urlPattern"
+              :num-total-items="numTotalOpinions"
+              :num-page-items="opinions.length"
+              :current-page="urlParams.page"
+              :per-page="urlParams.perPage"
+              :url-pattern="`/company/view/${company.id}/sort/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
             />
           </div>
 
@@ -213,32 +208,12 @@ export default {
     ...mapGetters(['user', 'company', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
     slots: () => slots,
 
+    urlParams() {
+      return this.getUrlParams(this.$route);
+    },
+
     title() {
       return `${this.company.name} (${this.company.symbol})`;
-    },
-
-    currentPage() {
-      return Number(this.$route.params.page) || 1;
-    },
-
-    perPage() {
-      return Number(this.$route.params.perPage) || 15;
-    },
-
-    numOpinionPages() {
-      return Math.ceil(this.numTotalOpinions / this.perPage);
-    },
-
-    startPosition() {
-      return (this.currentPage - 1) * this.perPage + 1;
-    },
-
-    endPosition() {
-      return this.startPosition + this.opinions.length - 1;
-    },
-
-    urlPattern() {
-      return `/company/view/${this.company.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`;
     },
 
     disqusIdentifier() {
@@ -288,12 +263,7 @@ export default {
   },
 
   asyncData({ store, route }) {
-    return store.dispatch('FETCH_COMPANY', {
-      id: route.params.id,
-      symbol: route.params.symbol,
-      page: +route.params.page,
-      perPage: +route.params.perPage,
-    });
+    return store.dispatch('FETCH_COMPANY', this.methods.getUrlParams(route));
   },
 
   title() {
@@ -336,6 +306,26 @@ export default {
   },
 
   methods: {
+    getUrlParams(route) {
+      const {
+        id,
+        slug,
+        sortBy = 'date',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        id,
+        slug,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 15,
+      };
+    },
+
     onTabChange(tabIndex) {
       if (tabIndex === 1) {
         // Trigger window resize to adjust the disqus comments height
@@ -395,10 +385,6 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
-
-.opinions-count
-  color black
-  margin 5px 0
 
 .overview
   &-section

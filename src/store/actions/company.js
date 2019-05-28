@@ -21,8 +21,9 @@ export default {
   }),
 
   FETCH_COMPANY: ({ commit }, urlParams) => {
-    const { id, symbol } = urlParams;
-    let { page, perPage } = urlParams;
+    const {
+      id, slug, page, perPage,
+    } = urlParams;
 
     // Redirect not found paths to company index according to v1 company controller logic
     if (!/^\d+$/.test(id)) return Promise.reject({ url: '/company' });
@@ -31,11 +32,9 @@ export default {
       if (!company) return Promise.reject({ url: '/company' });
 
       // Redirect urls with wrong slugs to the canonical slug
-      if (!page && symbol !== company.slug) return Promise.reject({ url: company.url, code: 301 });
+      if (!page && slug !== company.slug) return Promise.reject({ url: company.url, code: 301 });
 
       commit('SET_COMPANY', company);
-      page = page || 1;
-      perPage = perPage || 15;
 
       return api.fetchCompanyOpinionsByPage(id, page, perPage).then((result) => {
         const { rows: pageOpinions, count: numOpinions } = result;
