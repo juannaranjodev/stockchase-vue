@@ -154,7 +154,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Company.getCompaniesByPage = function (page = 1, limit = 25) {
     return sequelize.query(`
-      SELECT
+      SELECT SQL_CALC_FOUND_ROWS
         c.id,
         c.name,
         c.symbol,
@@ -169,12 +169,12 @@ module.exports = (sequelize, DataTypes) => {
         FROM New_opinion AS o
         GROUP BY o.company_id
         ORDER BY latest_opinion_date DESC) AS o
-        ON o.company_id = c.id
-      WHERE
-        c.id <> 1970
-      ORDER BY o.latest_opinion_date desc
+      ON o.company_id = c.id
+      WHERE c.id <> 1970
+      ORDER BY o.latest_opinion_date DESC
       LIMIT :limit
-      OFFSET :offset`, {
+      OFFSET :offset
+    `, {
       replacements: {
         limit,
         offset: (page - 1) * limit,

@@ -1,12 +1,5 @@
 <template>
-  <div
-    v-if="shouldShowAd"
-    class="ad-container d-none d-lg-block"
-  >
-    <div class="ad">
-      <div :id="slotId" />
-    </div>
-  </div>
+  <div :id="slotId" />
 </template>
 
 <script>
@@ -14,19 +7,23 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'SideAdx',
+  name: 'GenericAdx',
+
   props: {
     slotId: {
       type: String,
       default: '',
     },
   },
+
   computed: {
     ...mapGetters(['shouldShowAd']),
   },
+
   watch: {
     shouldShowAd(should) {
       if (!should) return;
+
       this.$nextTick(() => {
         googletag.cmd.push(() => { googletag.display(this.slotId); });
       });
@@ -34,12 +31,3 @@ export default {
   },
 };
 </script>
-
-<style lang="stylus" scoped>
-.ad-container
-  padding 0
-  .ad
-    width 300px
-    height 250px
-    margin 0 auto
-</style>

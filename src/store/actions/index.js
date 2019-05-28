@@ -15,6 +15,7 @@ export default {
     // /opinions/view/:id or /opinions/market/view/:id
     // redirects to anchor link
     if (dateParam === 'view') {
+      // :page param here is opinion id
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 });
 
       // Redirect to the canonical url (with 301 code for SEO purpose)
@@ -24,8 +25,9 @@ export default {
     // /opinions/market
     // shows recent content
     if (type === 'comments' && !page && !dateParam) dateParam = 'recent';
-
-    const method = type === 'opinions' ? 'fetchDailyOpinions' : 'fetchDailyMarketComments';
+    const method = type === 'comments'
+      ? 'fetchDailyMarketComments'
+      : 'fetchDailyOpinions';
 
     return api[method](dateParam)
       .then((result) => {
@@ -173,11 +175,8 @@ export default {
       page = page || 1;
       perPage = perPage || 15;
 
-      return Promise.all([
-        api.countCompanyOpinions(id),
-        api.fetchCompanyOpinionsByPage(id, page, perPage),
-      ]).then((result) => {
-        const [numOpinions, pageOpinions] = result;
+      return api.fetchCompanyOpinionsByPage(id, page, perPage).then((result) => {
+        const { rows: pageOpinions, count: numOpinions } = result;
 
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
@@ -204,7 +203,6 @@ export default {
       perPage = perPage || 15;
 
       return Promise.all([
-        api.countExpertOpinions(id),
         api.fetchExpertOpinionsByPage(id, page, perPage),
         api.fetchExpertTopPicks(id, 5),
         api.fetchExpertFirstOpinionDate(id),
@@ -213,20 +211,35 @@ export default {
         api.fetchCountExpertTopPicksCompaniesFromDate(id, momentLast2Years),
       ]).then((result) => {
         const [
-          numOpinions, pageOpinions, topPicks, firstOpinionDate, countTotalTopPicks,
-          countLast2YearsTopPicks, countLast2YearsTopPicksCompanies,
+          { rows: pageOpinions, count: numOpinions }, topPicks, firstOpinionDate,
+          countTotalTopPicks, countLast2YearsTopPicks, countLast2YearsTopPicksCompanies,
         ] = result;
         const expertRatingOverviewSummary = {
           countTotalTopPicks,
           countLast2YearsTopPicks,
           countLast2YearsTopPicksCompanies,
         };
+
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
         commit('SET_EXPERT_RATING_OVERVIEW_SUMMARY', expertRatingOverviewSummary);
       });
+    });
+  },
+
+  FETCH_TOP_PICKS: ({ commit }, urlParams) => {
+    let { page, perPage } = urlParams;
+
+    page = page || 1;
+    perPage = perPage || 15;
+
+    return api.fetchTopPicksByPage(page, perPage).then((result) => {
+      const { rows: pageOpinions, count: numOpinions } = result;
+
+      commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
+      commit('SET_OPINIONS', pageOpinions);
     });
   },
 };

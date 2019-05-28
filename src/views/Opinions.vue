@@ -1,15 +1,20 @@
 <template>
   <div class="opinions-container">
+    <leaderboard-ad :ad-slot="slots.OpinionsLeaderboard" />
+
     <div class="container">
       <opinions-header :type="type" />
+
       <opinions-slider
-        v-if="isOpinions"
+        v-if="type === 'opinions'"
         :items="items"
         :page="currentPage"
       />
-      <link-ad />
+
+      <link-ad :ad-slot="slots.OpinionsLink" />
+
       <opinions-summary
-        v-if="!isOpinions"
+        v-if="type === 'comments'"
         :items="items"
       />
 
@@ -20,7 +25,7 @@
           :num-date-items="items.length"
         />
         <opinions-list :items="pageItems" />
-        <link-ad class="d-none d-lg-block" />
+        <link-ad :ad-slot="slots.OpinionsLink" />
         <date-pagination
           bottom
           :url-pattern="urlPattern"
@@ -29,7 +34,7 @@
       </div>
 
       <dianomi-ad />
-      <link-ad class="d-none d-lg-block" />
+      <footer-link-ad :ad-slot="slots.OpinionsFooterLink" />
     </div>
   </div>
 </template>
@@ -37,11 +42,15 @@
 <script>
 /* global DISQUSWIDGETS */
 import { mapGetters } from 'vuex';
+import { slots } from '../components/Ads/config';
+
 import * as c from '../constants';
 import OpinionsHeader from '../components/Opinions/Header.vue';
 import OpinionsSlider from '../components/Opinions/Slider.vue';
 import OpinionsSummary from '../components/Opinions/Summary.vue';
+import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import DatePagination from '../components/DatePagination.vue';
 import OpinionsList from '../components/Opinions/List.vue';
@@ -51,7 +60,9 @@ export default {
 
   components: {
     OpinionsHeader,
+    LeaderboardAd,
     LinkAd,
+    FooterLinkAd,
     OpinionsSlider,
     OpinionsSummary,
     DianomiAd,
@@ -68,6 +79,7 @@ export default {
 
   computed: {
     ...mapGetters(['opinions', 'adFree', 'user']),
+    slots: () => slots,
 
     pageItems() {
       // Skip number paging & show all opinions for the date
@@ -78,7 +90,7 @@ export default {
     },
 
     currentPage() {
-      return +this.$route.params.page || 1;
+      return Number(this.$route.params.page) || 1;
     },
 
     items() {
@@ -90,7 +102,7 @@ export default {
     },
 
     urlPattern() {
-      return this.isOpinions ? '/opinions/:date' : '/opinions/market/:date';
+      return this.type === 'comments' ? '/opinions/market/:date' : '/opinions/:date';
     },
 
     routeHash() {

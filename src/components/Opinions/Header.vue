@@ -2,9 +2,12 @@
   <div class="header">
     <div class="header-left">
       <h2 class="title">
-        Latest Expert Opinions
+        {{ type === 'toppicks' ? 'Top Picks' : 'Latest Expert Opinions' }}
       </h2>
-      <div class="links">
+      <div
+        v-if="type !== 'toppicks'"
+        class="links"
+      >
         <a
           :class="{ link: true, active: type === 'opinions' }"
           href="/opinions/recent"
@@ -15,6 +18,7 @@
         >Market</a>
       </div>
     </div>
+
     <div class="header-right">
       <a
         v-if="shouldShowAd"
@@ -89,10 +93,10 @@ export default {
       color white
       pointer-events none
 
-  .subscribe
-    color black
-    text-decoration underline
-    font-size 15px
+.subscribe
+  color black
+  text-decoration underline
+  font-size 15px
 
 @media (max-width 991px)
   .header

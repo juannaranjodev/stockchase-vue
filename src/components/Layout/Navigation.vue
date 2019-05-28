@@ -18,7 +18,12 @@
             >
           </a>
         </div>
-        <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/(?!market)/) }">
+        <div
+          :class="{
+            'link-container': true,
+            active: isActive(/^\/opinions\/(?!(market|recenttop))/),
+          }"
+        >
           <a href="/opinions/recent">All Opinions</a>
         </div>
         <div :class="{ 'link-container': true, active: isActive(/^\/opinions\/market/) }">
@@ -49,7 +54,7 @@
     </nav>
     <nav class="inner inner--sm d-lg-none">
       <a
-        :class="{ link: true, active: isActive(/^\/opinions\/(?!market)/) }"
+        :class="{ link: true, active: isActive(/^\/opinions\/(?!(market|recenttop))/) }"
         href="/opinions/recent"
       >
         <span class="link__icon"><img src="~assets/svgs/icon_opinions.svg"></span>

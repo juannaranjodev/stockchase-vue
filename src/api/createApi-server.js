@@ -115,7 +115,7 @@ export default function createAPI() {
     async fetchDiscoverPosts() {
       const parser = new Parser();
 
-      const feed = await parser.parseURL('http://stockchase.com/discover/feed');
+      const feed = await parser.parseURL('http://stockchase.com/discover/feed/');
 
       return _(feed.items).slice(0, 3).map(item => ({
         title: item.title,
@@ -269,20 +269,12 @@ export default function createAPI() {
       };
     },
 
-    async countCompanyOpinions(id) {
-      return Opinion.countCompanyOpinions(id);
-    },
-
     async fetchCompanyOpinionsByPage(id, page, perPage) {
       return Opinion.getCompanyOpinionsByPage(id, page, perPage);
     },
 
     async fetchExpertById(id) {
       return Expert.getExpertById(id);
-    },
-
-    async countExpertOpinions(id) {
-      return Opinion.countExpertOpinions(id);
     },
 
     async fetchExpertOpinionsByPage(id, page, perPage) {
@@ -315,6 +307,10 @@ export default function createAPI() {
 
     async getCompaniesByTerm(term = null, page = 1, limit = 60) {
       return Company.getCompaniesByTerm(term, page, limit);
+    },
+
+    async fetchTopPicksByPage(page, perPage) {
+      return Opinion.getTopPicksByPage(page, perPage);
     },
   };
 }

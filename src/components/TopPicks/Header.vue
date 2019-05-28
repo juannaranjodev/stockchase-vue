@@ -3,14 +3,21 @@
     <div class="header">
       <div class="header-left">
         <h2 class="title">
-          What the experts are saying about {{ company.symbol }}
+          Top Picks
         </h2>
+      </div>
+      <div class="header-right">
+        <a
+          v-if="shouldShowAd"
+          href="/premium"
+          class="subscribe d-none d-lg-inline"
+        >Too many ads? Remove ads !</a>
       </div>
     </div>
     <div class="header">
       <div class="header-left">
         <per-page-control
-          :pattern="`/company/view/${company.id}/sort/date/page/1/direction/desc/max/:perPage`"
+          :pattern="`/opinions/recenttop/sort/date/page/1/direction/desc/max/:perPage`"
         />
       </div>
     </div>
@@ -29,7 +36,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['company']),
+    ...mapGetters(['shouldShowAd']),
   },
 };
 </script>
@@ -58,6 +65,11 @@ export default {
   line-height 1.1
   margin-bottom 0
   text-align center
+
+.subscribe
+  color black
+  text-decoration underline
+  font-size 15px
 
 @media (max-width 991px)
   .header

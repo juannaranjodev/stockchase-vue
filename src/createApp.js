@@ -3,30 +3,24 @@ import { sync } from 'vuex-router-sync';
 
 // TODO extract the following `Vue.use` to separate 'plugin' files
 import BootstrapVue from 'bootstrap-vue';
-
 import VueDisqus from 'vue-disqus';
-
 import SocialSharing from 'vue-social-sharing';
+import NoSsr from 'vue-no-ssr';
 
-import NoSSR from 'vue-no-ssr';
-
-import Ads from 'vue-google-adsense';
 import * as filters from './util/filters';
 import mixins from './mixins';
 import createRouter from './router';
 import createStore from './store';
 import App from './App.vue';
 
+Vue.use(require('vue-script2'));
+
 Vue.use(BootstrapVue);
 Vue.use(VueDisqus);
 Vue.use(SocialSharing);
-// eslint-disable-next-line vue/match-component-file-name
-Vue.component('no-ssr', NoSSR);
-Vue.use(require('vue-script2'));
 
-Vue.use(Ads.Adsense);
-Vue.use(Ads.InArticleAdsense);
-Vue.use(Ads.InFeedAdsense);
+/* eslint-disable-next-line vue/match-component-file-name */
+Vue.component('no-ssr', NoSsr);
 
 // register global mixins.
 Object.keys(mixins).forEach(key => Vue.mixin(mixins[key]));

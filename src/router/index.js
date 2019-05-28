@@ -25,6 +25,7 @@ const Expert = () => import('../views/Expert.vue');
 const ExpertRating = () => import('../views/ExpertRating.vue');
 const Companies = () => import('../views/Companies.vue');
 const Company = () => import('../views/Company.vue');
+const TopPicks = () => import('../views/TopPicks.vue');
 
 // route-level code splitting
 const createListView = type => () => import('../views/createListView').then(m => m.default(type));
@@ -36,6 +37,9 @@ export default function createRouter() {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', component: Home },
+      // Top Picks listing
+      { path: '/opinions/recenttop', component: TopPicks },
+      { path: '/opinions/recenttop/sort/:sort/page/:page/direction/:direction/max/:perPage', component: TopPicks },
       // Market comments listing
       { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
