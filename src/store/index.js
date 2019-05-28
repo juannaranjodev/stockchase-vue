@@ -28,15 +28,19 @@ export default function createStore() {
       premiumCompanies: [],
       topExperts: [],
       worstExperts: [],
-      experts: [],
       disqusComments: [],
-      totalExperts: 0,
+
+      // expert index
+      numTotalExperts: 0,
+      experts: [],
       searchedExperts: [],
       totalSearchedExperts: 0,
 
       // company index
       numTotalCompanies: 0,
       companies: [],
+      searchedCompanies: [],
+      totalSearchedCompanies: 0,
 
       // For company & expert profile page
       // TODO consider moving these data to separate modules

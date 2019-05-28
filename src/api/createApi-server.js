@@ -13,39 +13,6 @@ const { Company } = db;
 
 export default function createAPI() {
   return {
-    async getExpertsTotalByCharacter(character, type = 'L') {
-      return Expert.getExpertsTotalByCharacter(character, type === 'L' ? 'LastName' : 'FirstName');
-    },
-
-    async getExpertsByFirstCharacter(character, type = 'L', page = 1, limit = 15) {
-      return Expert.getExpertsByCharacter(
-        character,
-        type === 'L' ? 'LastName' : 'FirstName',
-        page,
-        limit,
-      );
-    },
-
-    async getExpertsByName(term, page = 1, limit = 15) {
-      const experts = await Expert.getExpertsByName(term, page, limit);
-
-      return {
-        experts,
-      };
-    },
-
-    async getTotalExperts(term = null) {
-      return Expert.getTotalExperts(term);
-    },
-
-    async getExpertsByPage(page = 1, limit = 15) {
-      const experts = await Expert.getExpertsByPage(page, limit);
-
-      return {
-        experts,
-      };
-    },
-
     async fetchDailyOpinions(dateParam) {
       const recentDate = await Opinion.getRecentOpinionDate();
       let date = dateParam;
@@ -286,6 +253,10 @@ export default function createAPI() {
 
     async fetchCompaniesByPage(page, perPage, filters) {
       return Company.getCompaniesByPage(page, perPage, filters);
+    },
+
+    async fetchExpertsByPage(page, perPage, filters) {
+      return Expert.getExpertsByPage(page, perPage, filters);
     },
   };
 }

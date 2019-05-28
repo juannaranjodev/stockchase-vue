@@ -24,32 +24,32 @@
 
       <div
         v-if="companies.length"
-        class="companies"
+        class="companies-list card-view-list"
       >
         <div
-          v-for="(company, index) in displayedItems"
+          v-for="(item, index) in displayedItems"
           :key="index"
-          :class="{ 'card-view-container': true, 'card-view-container--ad': company.ad }"
+          :class="{ 'card-view-container': true, 'card-view-container--ad': item.ad }"
         >
           <in-feed-ad
-            v-if="company.ad"
+            v-if="item.ad"
             :ad-slot="slots.CompaniesInFeed"
           />
           <card-view
             v-else
             image-size="large"
-            :image-src="company.logo"
-            :name="company.name"
-            :title="company.name"
-            :sub-title="`${company.symbol}`"
-            :footnote="`${company.opinions_count} opinions`"
-            :card-link="company.url"
+            :image-src="item.logo"
+            :name="item.name"
+            :title="item.name"
+            :sub-title="`${item.symbol}`"
+            :footnote="`${item.opinions_count} opinions`"
+            :card-link="item.url"
           />
         </div>
       </div>
       <div v-else>
         <p class="text-center">
-          No matched companies.
+          No matching companies.
         </p>
       </div>
 
@@ -63,7 +63,6 @@
       />
 
       <dianomi-ad />
-
       <footer-link-ad :ad-slot="slots.CompaniesFooterLink" />
     </div>
   </div>
@@ -120,14 +119,6 @@ export default {
       displayedItems.splice(this.adIndex, 0, { ad: true });
 
       return displayedItems;
-    },
-
-    // TODO fixed 5 cards per row is bad for responsive display
-    firstFiveCompanies() {
-      return this.companies.length <= 5 ? this.companies : this.companies.slice(0, 5);
-    },
-    theRestOfCompanies() {
-      return this.companies.length > 5 ? this.companies.slice(5) : [];
     },
   },
 
@@ -192,6 +183,10 @@ export default {
 
 <style lang="stylus">
 @import '~assets/css/global.css'
+@import '~assets/css/cardview.styl'
+</style>
+
+<style lang="stylus" scoped>
 .container
   box-sizing border-box
   width 1140px
@@ -199,48 +194,13 @@ export default {
   padding 0 20px 20px
   margin 0 auto
 
-.companies
+.companies-list
   margin-top 20px
-  display flex
-  align-items flex-start
-  flex-wrap wrap
-  margin-left -10px
-  margin-right -10px
 
-  .card-info
+  >>> .card-info
     min-height 224px // TODO put card-related styling in the separate company cardview component
-  .card-picture
+  >>> .card-picture
     background-color white
-
-.card-view-container
-  margin-bottom 30px
-  margin-left 10px
-  margin-right 10px
-
-  &--ad
-    width 100% !important
-    margin-bottom 0
-    margin-top -30px
-
-@media (min-width 1200px)
-  .card-view-container
-    width calc(100%/5 - 20px)
-
-@media (min-width 992px) and (max-width 1199px)
-  .card-view-container
-    width calc(100%/4 - 20px)
-
-@media (min-width 768px) and (max-width 991px)
-  .card-view-container
-    width calc(100%/3 - 20px)
-
-@media (min-width 480px) and (max-width 767px)
-  .card-view-container
-    width calc(100%/2 - 20px)
-
-@media (max-width 479px)
-  .card-view-container
-    width 100%
 
 @media (max-width 991px)
   .container

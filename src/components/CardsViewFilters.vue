@@ -231,7 +231,7 @@ export default {
       // TODO verify this logic
       const pattern = this.targetSearch === 'companies'
         ? '/company/index/:character/C'
-        : '/expert/index/:character/L';
+        : '/expert/index/:character/F';
 
       window.location = e.target.value === 'all'
         ? this.resetUri

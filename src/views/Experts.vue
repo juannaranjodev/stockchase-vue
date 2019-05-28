@@ -3,12 +3,15 @@
     <leaderboard-ad :ad-slot="slots.ExpertsLeaderboard" />
 
     <div class="container">
+      <mobile-wealthica-video class="d-lg-none" />
+
       <cards-view-filters
-        :title="title"
-        :search-placeholder="searchPlaceholder"
+        title="Stock Experts"
+        search-placeholder="Filter by expert name"
         target-search="experts"
         :reset-uri="'/expert'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+        :pattern="`/expert/index/:character/:type/sort/:sort/page/:page/direction/:direction/max/:perPage`"
+        :current-limit="urlParams.perPage"
       />
 
       <triple-ads>
@@ -20,65 +23,48 @@
 
       <link-ad :ad-slot="slots.ExpertsLink" />
 
-      <div class="experts">
+      <div
+        v-if="experts.length"
+        class="experts-list card-view-list"
+      >
         <div
-          v-if="firstFiveExperts.length"
-          class="first-row"
+          v-for="(item, index) in displayedItems"
+          :key="index"
+          :class="{ 'card-view-container': true, 'card-view-container--ad': item.ad }"
         >
-          <card-view
-            v-for="(expert, index) in firstFiveExperts"
-            :key="index"
-            image-size="small"
-            :image-src="expert.avatar"
-            :name="expert.name"
-            :title="expert.name"
-            :sub-title="`${expert.title} at ${expert.company}`"
-            :footnote="`${expert.total_opinion} opinions`"
-            :social-links="expert.social_links || {}"
-            :card-link="expert.url"
-            :rating="expert.rating"
-            :total-wins="expert.totalWins"
-            :total-loses="expert.totalLoses"
+          <in-feed-ad
+            v-if="item.ad"
+            :ad-slot="slots.ExpertsInFeed"
           />
-        </div>
-        <div v-else>
-          <p class="text-center">
-            No matched experts.
-          </p>
-        </div>
-
-        <in-feed-ad :ad-slot="slots.ExpertsInFeed" />
-
-        <div
-          v-if="theRestOfExperts.length"
-          class="second-row"
-        >
           <card-view
-            v-for="(expert, index) in theRestOfExperts"
-            :key="index"
+            v-else
             image-size="small"
-            :image-src="expert.avatar"
-            :name="expert.name"
-            :title="expert.name"
-            :sub-title="`${expert.title} at ${expert.company}`"
-            :footnote="`${expert.total_opinion} opinions`"
-            :social-links="expert.social_links || {}"
-            :card-link="expert.url"
-            :rating="expert.rating"
-            :total-wins="expert.totalWins"
-            :total-loses="expert.totalLoses"
+            :image-src="item.avatar"
+            :name="item.name"
+            :title="item.name"
+            :sub-title="`${item.title} at ${item.company}`"
+            :footnote="`${item.opinions_count} opinions`"
+            :social-links="item.social_links || {}"
+            :card-link="item.url"
+            :rating="item.rating"
+            :total-wins="item.totalWins"
+            :total-loses="item.totalLoses"
           />
         </div>
       </div>
+      <div v-else>
+        <p class="text-center">
+          No matching experts.
+        </p>
+      </div>
 
-      <paginator
-        :type="paginator.type"
-        :sort="paginator.sort"
-        :direction="paginator.direction"
-        :total-items="totalExperts"
-        :per-page="paginator.perPage"
-        :main="'/expert'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+      <number-pagination
+        :num-total-items="numTotalExperts"
+        :num-page-items="experts.length"
+        :current-page="urlParams.page"
+        :per-page="urlParams.perPage"
+        :search="urlParams.search"
+        :url-pattern="`/expert/index/${urlParams.character}/${urlParams.type}/sort/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
       />
 
       <dianomi-ad />
@@ -89,17 +75,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
-import Paginator from '../components/Paginator.vue';
+import NumberPagination from '../components/NumberPagination.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
 import InFeedAd from '../components/Ads/InFeedAd.vue';
 import TripleAds from '../components/Ads/TripleAds.vue';
+import MobileWealthicaVideo from '../components/Ads/MobileWealthicaVideo.vue';
 
 export default {
   name: 'Experts',
@@ -107,103 +95,115 @@ export default {
   components: {
     CardsViewFilters,
     CardView,
-    Paginator,
+    NumberPagination,
     LeaderboardAd,
     LinkAd,
     FooterLinkAd,
     DianomiAd,
     InFeedAd,
     TripleAds,
+    MobileWealthicaVideo,
   },
 
   data() {
-    const { params } = this.$route;
-
-    return {
-      title: 'Stock Experts',
-      searchPlaceholder: 'Filter by expert name',
-      paginator: {
-        type: params.type ? params.type : 'F',
-        sort: params.sort ? params.sort : 'FirstName',
-        direction: params.direction ? params.direction : 'desc',
-        perPage: Number(params.perPage) || 15,
-      },
-    };
+    return { adIndex: 0 };
   },
 
   computed: {
-    ...mapGetters(['experts', 'totalExperts', 'shouldShowAd']),
+    ...mapGetters(['experts', 'numTotalExperts', 'shouldShowAd']),
     slots: () => slots,
 
-    firstFiveExperts() {
-      return this.experts.length <= 5 ? this.experts : this.experts.slice(0, 5);
+    urlParams() {
+      return this.getUrlParams(this.$route);
     },
 
-    theRestOfExperts() {
-      return this.experts.length > 5 ? this.experts.slice(5) : [];
+    displayedItems() {
+      if (!this.shouldShowAd || this.adIndex === 0) return this.experts;
+
+      const displayedItems = _.clone(this.experts);
+      displayedItems.splice(this.adIndex, 0, { ad: true });
+
+      return displayedItems;
     },
   },
 
   asyncData({ store, route }) {
-    const {
-      params, query,
-    } = route;
-    const {
-      page, perPage, character, type,
-    } = params;
-
-    let promises = null;
-
-    // TODO get experts list and count in the same query/call to get consistent results
-    if (query && query.search) { // if doing a search query
-      promises = [
-        store.dispatch('FETCH_EXPERTS_BY_NAME', {
-          term: decodeURI(query.search),
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_TOTAL_EXPERTS', { term: decodeURI(query.search) }),
-      ];
-    } else if (character) {
-      promises = [
-        store.dispatch('FETCH_EXPERTS_BY_CHARACTER', {
-          character,
-          type,
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_EXPERTS_TOTAL_BY_CHARACTER', {
-          character,
-          type,
-        }),
-      ];
-    } else {
-      promises = [
-        store.dispatch('FETCH_EXPERTS', {
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_TOTAL_EXPERTS', { term: null }),
-      ];
-    }
-
-    return promises ? Promise.all(promises) : null;
+    return store.dispatch('FETCH_EXPERTS', this.methods.getUrlParams(route));
   },
 
   title() {
     return 'Stock Experts Index';
   },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setAdIndex();
+    });
+  },
+
+  methods: {
+    getUrlParams(route) {
+      const { query } = route;
+      const {
+        character = 'all',
+        type = 'F',
+        sortBy = 'FirstName',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        search: query.search ? decodeURI(query.search) : undefined,
+        character,
+        type,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 15,
+      };
+    },
+
+    // Find an index to inject ad
+    setAdIndex() {
+      if (!this.shouldShowAd) return;
+
+      const indexMapping = {
+        '(min-width: 1200px)': 5,
+        '(min-width: 992px) and (max-width: 1199px)': 4,
+        '(min-width: 768px) and (max-width: 991px)': 3,
+        '(min-width: 480px) and (max-width: 767px)': 2,
+        '(max-width: 479px)': 1,
+      };
+
+      Object.keys(indexMapping).forEach((mediaQuery) => {
+        if (window.matchMedia(mediaQuery).matches) {
+          this.adIndex = indexMapping[mediaQuery];
+        }
+      });
+    },
+  },
 };
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~assets/css/global.css'
+@import '~assets/css/cardview.styl'
+</style>
+
+<style lang="stylus" scoped>
 .container
   box-sizing border-box
   width 1140px
   max-width 100%
   padding 0 20px 20px
   margin 0 auto
-.experts
+
+.experts-list
   margin-top 20px
+
+@media (max-width 991px)
+  .container
+    padding 0 10px
+
 </style>

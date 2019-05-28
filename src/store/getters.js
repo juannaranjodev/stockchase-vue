@@ -98,8 +98,8 @@ export default {
     return state.experts;
   },
 
-  totalExperts(state) {
-    return state.totalExperts;
+  numTotalExperts(state) {
+    return state.numTotalExperts;
   },
 
   searchedExperts(state) {
