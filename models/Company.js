@@ -153,11 +153,11 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Company.getCompaniesByPage = function (page = 1, perPage = 25, {
-    // NOTE note all filter params are handled (for example desc, sortBy...). This is the same
-    // situation as v1
+    // NOTE not all filter params are handled (for example desc, sortBy...). This is the same
+    // situation as v1. Only handled filter params are listed here
     search, // normal search query
-    character = 'all', // search by start character (alphabetical filter)
-    type = 'C', // search start character in company names. 'S' to search in company symbols.
+    character = 'all', // filter by start character (alphabetical filter)
+    type = 'C', // filter start character in company names. 'S' to filter in company symbols.
   }) {
     const conditions = [{ id: { [Op.ne]: 1970 } }];
 
@@ -187,7 +187,6 @@ module.exports = (sequelize, DataTypes) => {
       where: conditions.length === 1 ? conditions[0] : sequelize.and(...conditions),
       attributes: {
         include: [
-          [sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'latest_opinion_date'],
           [sequelize.fn('COUNT', sequelize.col('Opinions.company_id')), 'opinions_count'],
         ],
       },
@@ -202,7 +201,7 @@ module.exports = (sequelize, DataTypes) => {
       group: ['Company.id'],
       offset: (page - 1) * perPage,
       limit: perPage,
-      order: [[sequelize.col('latest_opinion_date'), 'DESC']],
+      order: [[sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'DESC']],
     }).then(result => ({ ...result, count: result.count.length }));
   };
 

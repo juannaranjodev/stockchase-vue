@@ -36,32 +36,40 @@ export default function createRouter() {
     scrollBehavior: () => ({ y: 0 }),
     routes: [
       { path: '/', component: Home },
+
       // Top Picks listing
       { path: '/opinions/recenttop', component: TopPicks },
       { path: '/opinions/recenttop/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: TopPicks },
+
       // Market comments listing
       { path: '/opinions/market', component: createListView('comments') },
       { path: '/opinions/market/:date', component: createListView('comments') },
       { path: '/opinions/market/:date/:page', component: createListView('comments') },
+
       // Opinions listing
       { path: '/opinions/:date', component: createListView('opinions') },
       { path: '/opinions/:date/:page', component: createListView('opinions') },
+
       // Top/worst experts
       { path: '/expert/top', component: TopWorstExpertList },
+
       // Companies index. :type can be C (to search in company name) or F for symbol
-      // NOTE: In v1 it's currently '.../desc/:sortBy...'. It should be '../sort/:sortBy' but we're
-      // keeping the exact v1 behavior for now.
       { path: '/company', component: Companies },
       { path: '/company/index/:character/:type', component: Companies },
+      // NOTE: In v1 it's currently '.../desc/:sortBy...'. It should be '../sort/:sortBy' but we're
+      // keeping the exact v1 behavior for now.
       { path: '/company/index/:character/:type/desc/:sortBy/page/:page/direction/:direction/max/:perPage', component: Companies },
+
       // Experts index. :type can be F (to search in first name) or L for last name
       { path: '/expert', component: Experts },
       { path: '/expert/index/:character/:type/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Experts },
       { path: '/expert/index/:character/:type', component: Experts },
+
       // Company profile
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:slug', component: Company },
       { path: '/company/view/:id/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Company },
+
       // Expert profile
       { path: '/expert/view/:id', component: Expert },
       { path: '/expert/view/:id/:slug', component: Expert },
