@@ -138,11 +138,11 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Expert.getExpertsByPage = function (page = 1, perPage = 25, {
-    // NOTE note all filter params are handled (for example desc, sortBy...). This is the same
-    // situation as v1
+    // NOTE not all filter params are handled (for example desc, sortBy...). This is the same
+    // situation as v1. Only handled filter params are listed here
     search, // normal search query
-    character = 'all', // search by start character (alphabetical filter)
-    type = 'F', // search start character in FirstName. 'L' to search in LastName.
+    character = 'all', // filter by start character (alphabetical filter)
+    type = 'F', // filter start character in FirstName. 'L' to filter in LastName.
   }) {
     const conditions = [{ id: { [Op.ne]: 1176 } }];
 

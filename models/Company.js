@@ -153,11 +153,11 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Company.getCompaniesByPage = function (page = 1, perPage = 25, {
-    // NOTE note all filter params are handled (for example desc, sortBy...). This is the same
-    // situation as v1
+    // NOTE not all filter params are handled (for example desc, sortBy...). This is the same
+    // situation as v1. Only handled filter params are listed here
     search, // normal search query
-    character = 'all', // search by start character (alphabetical filter)
-    type = 'C', // search start character in company names. 'S' to search in company symbols.
+    character = 'all', // filter by start character (alphabetical filter)
+    type = 'C', // filter start character in company names. 'S' to filter in company symbols.
   }) {
     const conditions = [{ id: { [Op.ne]: 1970 } }];
 
