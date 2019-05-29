@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 const _ = require('lodash');
 
-module.exports = function (ratings) {
+module.exports = function (ratings = []) {
   const result = {};
 
   result.rating = _.meanBy(ratings, ({
@@ -16,7 +16,6 @@ module.exports = function (ratings) {
     if (_.some([big_win, win, big_lose, lose], Number)) return 3;
     return null;
   });
-  result.ratings_count = ratings.length;
 
   result.totalWins = _.sumBy(ratings, ({ big_win, win }) => big_win + win);
   result.totalLoses = _.sumBy(ratings, ({ big_lose, lose }) => big_lose + lose);

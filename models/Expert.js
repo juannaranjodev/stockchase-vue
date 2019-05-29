@@ -160,38 +160,45 @@ module.exports = (sequelize, DataTypes) => {
       ));
     }
 
+    // First query to get the correct experts total count & list of experts for the page with
+    // correct ordering by latest opinion date.
     return Expert.findAndCountAll({
       col: 'id',
       distinct: true,
       where: conditions.length === 1 ? conditions[0] : sequelize.and(...conditions),
       attributes: {
         include: [
-          [sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'latest_opinion_date'],
           [sequelize.fn('COUNT', sequelize.col('Opinions.expert_id')), 'opinions_count'],
         ],
       },
       include: [
         {
           model: sequelize.models.Opinion,
-          attributes: ['Date', 'expert_id'],
+          attributes: [
+            'expert_id',
+            'Date',
+          ],
         },
-        { model: sequelize.models.ExpertRating },
       ],
       // TODO find a way to not rely on `group` since it turns result.count into an array
       subQuery: false,
       group: ['Expert.id'],
       offset: (page - 1) * perPage,
       limit: perPage,
-      order: [[sequelize.col('latest_opinion_date'), 'DESC']],
-    }).then((result) => {
+      order: [[sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'DESC']],
+    }).then(result => sequelize.models.ExpertRating.findAll({
+      // Second query to find all expert ratings for the returned experts to calculate rating
+      where: { expert_id: { [Op.in]: _.map(result.rows, 'id') } },
+    }).then((expertRatings) => {
       const rows = result.rows.map((row) => {
         const expert = row.toJSON();
-        // TODO fix expert.ExpertRatings only containing 1 item causing incorrect rating calc
-        const rating = calculateRating(expert.ExpertRatings);
+        const ratings = expertRatings
+          .filter(rating => rating.expert_id === expert.id)
+          .map(rating => rating.toJSON());
 
         return {
           ...expert,
-          ...rating,
+          ...calculateRating(ratings),
         };
       });
 
@@ -199,7 +206,7 @@ module.exports = (sequelize, DataTypes) => {
         rows,
         count: result.count.length,
       };
-    });
+    }));
   };
 
   Expert.getNewestExperts = function (limit = 15) {

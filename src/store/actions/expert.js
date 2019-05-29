@@ -22,9 +22,6 @@ export default {
   }) => api.fetchExpertsByPage(page, perPage, { search, character, type }).then((result) => {
     const { rows: pageExperts, count: numExperts } = result;
 
-    console.log('-----------------', pageExperts.length, numExperts);
-    console.log('-----------------', pageExperts[0]);
-
     commit('SET_NUM_TOTAL_EXPERTS', numExperts);
     commit('SET_EXPERTS', pageExperts);
   }),
