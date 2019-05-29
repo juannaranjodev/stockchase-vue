@@ -174,10 +174,7 @@ module.exports = (sequelize, DataTypes) => {
       include: [
         {
           model: sequelize.models.Opinion,
-          attributes: [
-            'expert_id',
-            'Date',
-          ],
+          attributes: ['Date', 'expert_id'],
         },
       ],
       // TODO find a way to not rely on `group` since it turns result.count into an array
@@ -192,9 +189,7 @@ module.exports = (sequelize, DataTypes) => {
     }).then((expertRatings) => {
       const rows = result.rows.map((row) => {
         const expert = row.toJSON();
-        const ratings = expertRatings
-          .filter(rating => rating.expert_id === expert.id)
-          .map(rating => rating.toJSON());
+        const ratings = expertRatings.filter(rating => rating.expert_id === expert.id);
 
         return {
           ...expert,
