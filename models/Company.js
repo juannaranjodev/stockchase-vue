@@ -152,90 +152,58 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Company.getCompaniesByPage = function (page = 1, limit = 25) {
-    return sequelize.query(`
-      SELECT SQL_CALC_FOUND_ROWS
-        c.id,
-        c.name,
-        c.symbol,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date
-      FROM New_company AS c
-      LEFT JOIN (
-        SELECT
-          o.company_id,
-          COUNT(o.company_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.company_id
-        ORDER BY latest_opinion_date DESC) AS o
-      ON o.company_id = c.id
-      WHERE c.id <> 1970
-      ORDER BY o.latest_opinion_date DESC
-      LIMIT :limit
-      OFFSET :offset
-    `, {
-      replacements: {
-        limit,
-        offset: (page - 1) * limit,
-      },
-      type: sequelize.QueryTypes.SELECT,
-      model: Company,
-      mapToModel: true,
-    });
-  };
+  Company.getCompaniesByPage = function (page = 1, perPage = 25, {
+    // NOTE note all filter params are handled (for example desc, sortBy...). This is the same
+    // situation as v1
+    search, // normal search query
+    character = 'all', // search by start character (alphabetical filter)
+    type = 'C', // search start character in company names. 'S' to search in company symbols.
+  }) {
+    const conditions = [{ id: { [Op.ne]: 1970 } }];
 
-  Company.getCompaniesByTerm = function (term = null, page = 1, limit = 25) {
-    return sequelize.query(`
-      SELECT
-        c.id,
-        c.name,
-        c.symbol,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date
-      FROM New_company AS c
-      LEFT JOIN (
-        SELECT
-          o.company_id,
-          COUNT(o.company_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.company_id
-        ORDER BY latest_opinion_date DESC) AS o
-        ON o.company_id = c.id
-      WHERE
-        c.id <> 1970 &&
-        ( LOWER(c.name) LIKE :term OR LOWER(c.symbol) LIKE :term )
-      ORDER BY o.latest_opinion_date desc
-      LIMIT :limit
-      OFFSET :offset`, {
-      replacements: {
-        term: `%${term.toLowerCase()}%`,
-        limit,
-        offset: (page - 1) * limit,
-      },
-      type: sequelize.QueryTypes.SELECT,
-      model: Company,
-      mapToModel: true,
-    });
-  };
+    if (search) {
+      conditions.push(sequelize.or(
+        sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('name')),
+          { [Op.like]: `%${search}%` },
+        ),
+        sequelize.where(
+          sequelize.fn('LOWER', sequelize.col('symbol')),
+          { [Op.like]: `%${search}%` },
+        ),
+      ));
+    }
 
-  Company.getTotalCompanies = function (term = null) {
-    return Company.count({
-      where: term ? {
-        [Op.and]: [
-          {
-            id: { [Op.ne]: 1970 },
-          },
-          sequelize.where(
-            sequelize.fn('lower', sequelize.col('name')),
-            {
-              [Op.like]: `%${term}%`,
-            },
-          ),
+    if (character !== 'all') {
+      conditions.push(sequelize.where(
+        sequelize.fn('LOWER', sequelize.col(type === 'C' ? 'name' : 'symbol')),
+        character === '0-9' ? { [Op.regexp]: '^[0-9]' } : { [Op.like]: `${character}%` },
+      ));
+    }
+
+    return Company.findAndCountAll({
+      col: 'id',
+      distinct: true,
+      where: conditions.length === 1 ? conditions[0] : sequelize.and(...conditions),
+      attributes: {
+        include: [
+          [sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'latest_opinion_date'],
+          [sequelize.fn('COUNT', sequelize.col('Opinions.company_id')), 'opinions_count'],
         ],
-      } : { id: { [Op.ne]: 1970 } },
-    });
+      },
+      include: [
+        {
+          model: sequelize.models.Opinion,
+          attributes: ['Date', 'company_id'],
+        },
+      ],
+      // TODO find a way to not rely on `group` since it turns result.count into an array
+      subQuery: false,
+      group: ['Company.id'],
+      offset: (page - 1) * perPage,
+      limit: perPage,
+      order: [[sequelize.col('latest_opinion_date'), 'DESC']],
+    }).then(result => ({ ...result, count: result.count.length }));
   };
 
   Company.searchCompanies = function (term = null, limit = 15) {
@@ -259,61 +227,6 @@ module.exports = (sequelize, DataTypes) => {
       rows: companies.slice(0, limit),
       total: companies.length,
     }));
-  };
-
-  Company.getCompaniesByCharacter = function (character, column = 'name', page = 1, limit = 15) {
-    return sequelize.query(`
-      SELECT SQL_CALC_FOUND_ROWS
-        c.id,
-        c.name,
-        c.symbol,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date
-      FROM New_company AS c
-      LEFT JOIN (
-        SELECT
-          o.company_id,
-          COUNT(o.company_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-          FROM New_opinion
-          AS o
-          GROUP BY o.company_id
-          ORDER BY latest_opinion_date DESC) AS o
-        ON o.company_id = c.id
-      WHERE
-        c.id <> 1970
-        && ( LOWER(c.${column}) ${character === '0-9' ? 'RLIKE' : 'LIKE'} :term )
-      ORDER BY o.latest_opinion_date desc
-      LIMIT :limit
-      OFFSET :offset
-    `, {
-      replacements: {
-        term: character === '0-9' ? `^[${character}]` : `${character}%`,
-        limit,
-        offset: (page - 1) * limit,
-      },
-      type: sequelize.QueryTypes.SELECT,
-      model: Company,
-      mapToModel: true,
-    });
-  };
-
-  Company.getCompaniesTotalByCharacter = function (character, column = 'name') {
-    return Company.count({
-      where: {
-        [Op.and]: [
-          {
-            id: { [Op.ne]: 1970 },
-          },
-          sequelize.where(
-            sequelize.fn('lower', sequelize.col(column)),
-            {
-              [Op.like]: `${character}%`,
-            },
-          ),
-        ],
-      },
-    });
   };
 
   return Company;

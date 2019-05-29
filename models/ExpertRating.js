@@ -42,6 +42,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // This is necessary because the table does not have a primary key column
+  // https://stackoverflow.com/questions/29233896/sequelize-table-without-column-id
+  // NOTE this workaround is not ideal since it causes problems in other areas. We should add an id
+  // column to the db model instead.
   ExpertRating.removeAttribute('id');
 
   // Get ratings by expert id

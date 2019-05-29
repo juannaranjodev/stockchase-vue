@@ -52,7 +52,8 @@ module.exports = {
       ignoreRegExpLiterals: true,
       ignoreStrings: true,
       ignoreTemplateLiterals: true,
-      ignorePattern: "url\\(\\'data\\:",
+      // ignoring url(data:...) in css and urls in string template literal `/...`
+      ignorePattern: "(url\\(\\'data\\:|\\`\\/.*)",
     }],
   }
 }

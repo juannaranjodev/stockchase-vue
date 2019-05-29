@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const { Op } = require('sequelize');
 const slugify = require('../helper/slugify');
+const calculateRating = require('../helper/calculateRating');
 
 module.exports = (sequelize, DataTypes) => {
   const Expert = sequelize.define('Expert', {
@@ -136,69 +137,76 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Expert.getTotalExperts = async function (term = null) {
-    return Expert.count({
-      where: term ? {
-        [Op.and]: [
-          {
-            id: { [Op.ne]: 1176 },
-          },
-          sequelize.where(
-            sequelize.fn('lower', sequelize.col('name')),
-            {
-              [Op.like]: `%${term}%`,
-            },
-          ),
-        ],
-      } : { id: { [Op.ne]: 1176 } },
-    });
-  };
+  Expert.getExpertsByPage = function (page = 1, perPage = 25, {
+    // NOTE note all filter params are handled (for example desc, sortBy...). This is the same
+    // situation as v1
+    search, // normal search query
+    character = 'all', // search by start character (alphabetical filter)
+    type = 'F', // search start character in FirstName. 'L' to search in LastName.
+  }) {
+    const conditions = [{ id: { [Op.ne]: 1176 } }];
 
-  Expert.getExpertsByPage = async function (page = 1, limit = 25) {
-    return sequelize.query(`
-      SELECT
-        e.id,
-        e.name,
-        e.FirstName AS first_name,
-        e.LastName AS last_name,
-        e.TITLE as title,
-        e.COMPANY as company,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date,
-        e.avatar as avatar_path
-      FROM New_expert AS e
-      LEFT JOIN (
-        SELECT
-          o.expert_id,
-          COUNT(o.expert_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.expert_id
-        ORDER BY latest_opinion_date DESC) AS o
-        ON o.expert_id = e.id
-      WHERE e.id <> 1176
-      ORDER BY o.latest_opinion_date desc
-      LIMIT :limit
-      OFFSET :offset`, {
-      replacements: {
-        limit,
-        offset: (page - 1) * limit,
+    if (search) {
+      conditions.push(sequelize.where(
+        sequelize.fn('LOWER', sequelize.col('name')),
+        { [Op.like]: `%${search}%` },
+      ));
+    }
+
+    if (character !== 'all') {
+      conditions.push(sequelize.where(
+        sequelize.fn('LOWER', sequelize.col(type === 'F' ? 'FirstName' : 'LastName')),
+        character === '0-9' ? { [Op.regexp]: '^[0-9]' } : { [Op.like]: `${character}%` },
+      ));
+    }
+
+    // First query to get the correct experts total count & list of experts for the page with
+    // correct ordering by latest opinion date.
+    return Expert.findAndCountAll({
+      col: 'id',
+      distinct: true,
+      where: conditions.length === 1 ? conditions[0] : sequelize.and(...conditions),
+      attributes: {
+        include: [
+          [sequelize.fn('COUNT', sequelize.col('Opinions.expert_id')), 'opinions_count'],
+        ],
       },
-      type: sequelize.QueryTypes.SELECT,
-      model: Expert,
-      mapToModel: true,
       include: [
-        { model: sequelize.models.ExpertRating },
+        {
+          model: sequelize.models.Opinion,
+          attributes: [
+            'expert_id',
+            'Date',
+          ],
+        },
       ],
-    }).then(experts => Promise.all(_.map(experts, async (expert) => {
-      const overallRatings = await sequelize.models
-        .ExpertRating.getOverallRatingsByExpert(expert.id);
+      // TODO find a way to not rely on `group` since it turns result.count into an array
+      subQuery: false,
+      group: ['Expert.id'],
+      offset: (page - 1) * perPage,
+      limit: perPage,
+      order: [[sequelize.fn('MAX', sequelize.col('Opinions.Date')), 'DESC']],
+    }).then(result => sequelize.models.ExpertRating.findAll({
+      // Second query to find all expert ratings for the returned experts to calculate rating
+      where: { expert_id: { [Op.in]: _.map(result.rows, 'id') } },
+    }).then((expertRatings) => {
+      const rows = result.rows.map((row) => {
+        const expert = row.toJSON();
+        const ratings = expertRatings
+          .filter(rating => rating.expert_id === expert.id)
+          .map(rating => rating.toJSON());
+
+        return {
+          ...expert,
+          ...calculateRating(ratings),
+        };
+      });
 
       return {
-        ...expert.toJSON(),
-        ...overallRatings,
+        rows,
+        count: result.count.length,
       };
-    })));
+    }));
   };
 
   Expert.getNewestExperts = function (limit = 15) {
@@ -220,53 +228,6 @@ module.exports = (sequelize, DataTypes) => {
       LIMIT 0, :limit`, {
       replacements: { limit },
     });
-  };
-
-  Expert.getExpertsByName = function (term, page = 1, limit = 15) {
-    return sequelize.query(`
-      SELECT
-        e.id,
-        e.name,
-        e.FirstName AS first_name,
-        e.LastName AS last_name,
-        e.TITLE as title,
-        e.COMPANY as company,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date,
-        e.avatar as avatar_path
-      FROM New_expert AS e
-      LEFT JOIN (
-        SELECT
-          o.expert_id,
-          COUNT(o.expert_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.expert_id
-        ORDER BY latest_opinion_date DESC) AS o
-        ON o.expert_id = e.id
-      WHERE
-        e.id <> 1176 &&
-        ( LOWER(e.name) LIKE :term )
-      ORDER BY o.latest_opinion_date desc
-      LIMIT :limit
-      OFFSET :offset`, {
-      replacements: {
-        term: `%${term.toLowerCase()}%`,
-        limit,
-        offset: (page - 1) * limit,
-      },
-      type: sequelize.QueryTypes.SELECT,
-      model: Expert,
-      mapToModel: true,
-    }).then(experts => Promise.all(_.map(experts, async (expert) => {
-      const overallRatings = await sequelize.models
-        .ExpertRating.getOverallRatingsByExpert(expert.id);
-
-      return {
-        ...expert.toJSON(),
-        ...overallRatings,
-      };
-    })));
   };
 
   Expert.searchExperts = function (term, limit = 5) {
@@ -296,99 +257,20 @@ module.exports = (sequelize, DataTypes) => {
     }));
   };
 
-  Expert.getExpertsByCharacter = function (character, column = 'FirstName', page = 1, limit = 15) {
-    return sequelize.query(`
-      SELECT SQL_CALC_FOUND_ROWS
-        e.id,
-        e.name,
-        e.FirstName AS first_name,
-        e.LastName AS last_name,
-        e.TITLE as title,
-        e.COMPANY as company,
-        IFNULL(o.total_opinion, 0) AS total_opinion,
-        o.latest_opinion_date,
-        e.avatar as avatar_path
-      FROM New_expert AS e
-      LEFT JOIN (
-        SELECT
-          o.expert_id,
-          COUNT(o.expert_id) AS total_opinion,
-          MAX(o.Date) AS latest_opinion_date
-        FROM New_opinion AS o
-        GROUP BY o.expert_id
-        ORDER BY latest_opinion_date DESC) AS o
-        ON o.expert_id = e.id
-      WHERE
-        e.id <> 1176
-        && ( LOWER(e.${column}) ${character === '0-9' ? 'RLIKE' : 'LIKE'} :term )
-      ORDER BY o.latest_opinion_date desc
-      LIMIT :limit
-      OFFSET :offset`, {
-      replacements: {
-        term: character === '0-9' ? `^[${character}]` : `${character}%`,
-        limit,
-        offset: (page - 1) * limit,
-      },
-      type: sequelize.QueryTypes.SELECT,
-      model: Expert,
-      mapToModel: true,
-    }).then(experts => Promise.all(_.map(experts, async (expert) => {
-      const overallRatings = await sequelize.models
-        .ExpertRating.getOverallRatingsByExpert(expert.id);
-
-      return {
-        ...expert.toJSON(),
-        ...overallRatings,
-      };
-    })));
-  };
-
-  Expert.getExpertsTotalByCharacter = function (character, column = 'FirstName') {
-    return Expert.count({
-      where: {
-        [Op.and]: [
-          {
-            id: { [Op.ne]: 1176 },
-          },
-          sequelize.where(
-            sequelize.fn('lower', sequelize.col(column)),
-            {
-              [Op.like]: `${character}%`,
-            },
-          ),
-        ],
-      },
-    });
-  };
-
   Expert.getExpertById = function (id) {
     return Expert.findByPk(id, {
       include: [
         { model: sequelize.models.SocialRating },
         { model: sequelize.models.ExpertRating },
       ],
-    }).then((expert) => {
-      /* eslint-disable camelcase */
-      const result = expert.toJSON();
+    }).then((result) => {
+      const expert = result.toJSON();
+      const rating = calculateRating(expert.ExpertRatings);
 
-      result.rating = _.meanBy(expert.ExpertRatings, ({
-        big_win, win, big_lose, lose,
-      }) => {
-        const score = _.sum([big_win, win]) - _.sum([big_lose, lose]);
-
-        if (score > 10) return 5;
-        if (score < 11 && score > 0) return 4;
-        if (score > -11 && score < 0) return 2;
-        if (score < -11) return 1;
-        if (_.some([big_win, win, big_lose, lose], Number)) return 3;
-        return null;
-      });
-
-      result.totalWins = _.sumBy(expert.ExpertRatings, ({ big_win, win }) => big_win + win);
-      result.totalLoses = _.sumBy(expert.ExpertRatings, ({ big_lose, lose }) => big_lose + lose);
-
-      return result;
-      /* eslint-enable camelcase */
+      return {
+        ...expert,
+        ...rating,
+      };
     });
   };
 

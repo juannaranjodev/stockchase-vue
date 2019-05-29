@@ -106,22 +106,6 @@ export default {
       commit('UPDATE_OPINION', opinion);
     }),
 
-  RATE_COMPANY: ({ commit, state }, { id, rating }) => api.rateCompany({ id, rating })
-    .then((response) => {
-      const company = _.clone(state.company);
-      company.SocialRatings = company.SocialRatings || [];
-      const ratingIndex = _.findIndex(company.SocialRatings, { id: response.id });
-
-      // If existing rating found, replace it with the new one
-      if (ratingIndex !== -1) {
-        company.SocialRatings[ratingIndex] = response;
-      } else {
-        company.SocialRatings.push(response);
-      }
-
-      commit('SET_COMPANY', company);
-    }),
-
   RATE_EXPERT: ({ commit, state }, { id, rating }) => api.rateExpert({ id, rating })
     .then((response) => {
       const expert = _.clone(state.expert);
@@ -156,64 +140,6 @@ export default {
 
   FETCH_DISQUS_COMMENTS_COUNT: ({ commit }) => api.fetchDisqusComments()
     .then(comments => commit('SET_DISQUS_COMMENTS', comments)),
-
-  FETCH_COMPANY: ({ commit }, urlParams) => {
-    const { id, symbol } = urlParams;
-    let { page, perPage } = urlParams;
-
-    // Redirect not found paths to company index according to v1 company controller logic
-    if (!/^\d+$/.test(id)) return Promise.reject({ url: '/company' });
-
-    return api.fetchCompanyById(id).then((company) => {
-      if (!company) return Promise.reject({ url: '/company' });
-
-      // Redirect urls with wrong slugs to the canonical slug
-      if (!page && symbol !== company.slug) return Promise.reject({ url: company.url, code: 301 });
-
-      commit('SET_COMPANY', company);
-      page = page || 1;
-      perPage = perPage || 15;
-
-      return api.fetchCompanyOpinionsByPage(id, page, perPage).then((result) => {
-        const { rows: pageOpinions, count: numOpinions } = result;
-
-        commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
-        commit('SET_OPINIONS', pageOpinions);
-      });
-    });
-  },
-
-  FETCH_EXPERT: ({ commit }, urlParams) => {
-    const { id, name } = urlParams;
-    let { page, perPage } = urlParams;
-
-    // Redirect not found paths to expert index according to v1 expert controller logic
-    if (!/^\d+$/.test(id)) return Promise.reject({ url: '/expert' });
-
-    return api.fetchExpertById(id).then((expert) => {
-      if (!expert) return Promise.reject({ url: '/company' });
-
-      // Redirect urls with wrong slugs to the canonical url
-      if (!page && name !== expert.slug) return Promise.reject({ url: expert.url, code: 301 });
-
-      commit('SET_EXPERT', expert);
-      page = page || 1;
-      perPage = perPage || 15;
-
-      return Promise.all([
-        api.fetchExpertOpinionsByPage(id, page, perPage),
-        api.fetchExpertTopPicks(id, 5),
-        api.fetchExpertFirstOpinionDate(id),
-      ]).then((result) => {
-        const [{ rows: pageOpinions, count: numOpinions }, topPicks, firstOpinionDate] = result;
-
-        commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
-        commit('SET_OPINIONS', pageOpinions);
-        commit('SET_EXPERT_TOP_PICKS', topPicks);
-        commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
-      });
-    });
-  },
 
   FETCH_TOP_PICKS: ({ commit }, urlParams) => {
     let { page, perPage } = urlParams;

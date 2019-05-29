@@ -121,6 +121,7 @@ export default {
     text-align center
     a:hover
       text-decoration none
+
   &-social-links
     padding 0
     list-style none
@@ -141,15 +142,11 @@ export default {
         opacity 1
   &-view
     border 1px solid #E9E9EA
-    width 18%
-    width calc(20% - 16px)
-    margin-left 10px
-    margin-right 10px
-    border 1px solid #E9E9EA
     display inline-block
     font-size initial
     vertical-align top
-    margin-bottom 30px
+    width 100%
+
     h6
       font-size 15px
       text-transform uppercase
@@ -173,10 +170,6 @@ export default {
       margin-bottom 13px
     > a:hover
       text-decoration none
-  &-view:first-child, &-view:nth-child(5n+1)
-    margin-left 0
-  &-view:last-child, &-view:nth-child(5n)
-    margin-right 0
   &-picture
     width 64px
     height 64px
@@ -240,4 +233,5 @@ export default {
     background-image url('~assets/svgs/social-linkedin.svg')
   &-facebook:after
     background-image url('~assets/svgs/social-facebook.svg')
+
 </style>

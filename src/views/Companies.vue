@@ -3,13 +3,15 @@
     <leaderboard-ad :ad-slot="slots.CompaniesLeaderboard" />
 
     <div class="container">
+      <mobile-wealthica-video class="d-lg-none" />
+
       <cards-view-filters
-        :title="title"
-        :search-placeholder="searchPlaceholder"
+        title="Public Companies"
+        search-placeholder="Filter by name or symbol"
         target-search="companies"
         :reset-uri="'/company'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
-        :current-limit="paginator.perPage"
+        :pattern="`/company/index/:character/:type/desc/:sortBy/page/1/direction/:direction/max/:perPage`"
+        :current-limit="urlParams.perPage"
       />
 
       <triple-ads>
@@ -20,61 +22,47 @@
 
       <link-ad :ad-slot="slots.CompaniesLink" />
 
-      <div class="companies">
+      <div
+        v-if="companies.length"
+        class="companies-list card-view-list"
+      >
         <div
-          v-if="firstFiveCompanies.length"
-          class="first-row"
+          v-for="(item, index) in displayedItems"
+          :key="index"
+          :class="{ 'card-view-container': true, 'card-view-container--ad': item.ad }"
         >
-          <card-view
-            v-for="(company, index) in firstFiveCompanies"
-            :key="index"
-            image-size="large"
-            :image-src="company.logo"
-            :name="company.name"
-            :title="company.name"
-            :sub-title="`${company.symbol}`"
-            :footnote="`${company.total_opinion} opinions`"
-            :card-link="company.url"
+          <in-feed-ad
+            v-if="item.ad"
+            :ad-slot="slots.CompaniesInFeed"
           />
-        </div>
-        <div v-else>
-          <p class="text-center">
-            No matched companies.
-          </p>
-        </div>
-
-        <in-feed-ad :ad-slot="slots.CompaniesInFeed" />
-
-        <div
-          v-if="theRestOfCompanies.length"
-          class="second-row"
-        >
           <card-view
-            v-for="(company, index) in theRestOfCompanies"
-            :key="index"
+            v-else
             image-size="large"
-            :image-src="company.logo"
-            :name="company.name"
-            :title="company.name"
-            :sub-title="`${company.symbol}`"
-            :footnote="`${company.total_opinion} opinions`"
-            :card-link="company.url"
+            :image-src="item.logo"
+            :name="item.name"
+            :title="item.name"
+            :sub-title="`${item.symbol}`"
+            :footnote="`${item.opinions_count} opinions`"
+            :card-link="item.url"
           />
         </div>
       </div>
+      <div v-else>
+        <p class="text-center">
+          No matching companies.
+        </p>
+      </div>
 
-      <paginator
-        :type="paginator.type"
-        :sort="paginator.sort"
-        :direction="paginator.direction"
-        :total-items="totalCompanies"
-        :per-page="paginator.perPage"
-        :main="'/company'"
-        :pattern="'/index/all/:type/sort/:sort/page/:page/direction/:direction/max/:perPage'"
+      <number-pagination
+        :num-total-items="numTotalCompanies"
+        :num-page-items="companies.length"
+        :current-page="urlParams.page"
+        :per-page="urlParams.perPage"
+        :search="urlParams.search"
+        :url-pattern="`/company/index/${urlParams.character}/${urlParams.type}/desc/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
       />
 
       <dianomi-ad />
-
       <footer-link-ad :ad-slot="slots.CompaniesFooterLink" />
     </div>
   </div>
@@ -82,17 +70,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 import { slots } from '../components/Ads/config';
 
 import CardView from '../components/CardView.vue';
 import CardsViewFilters from '../components/CardsViewFilters.vue';
-import Paginator from '../components/Paginator.vue';
+import NumberPagination from '../components/NumberPagination.vue';
 import LeaderboardAd from '../components/Ads/LeaderboardAd.vue';
 import LinkAd from '../components/Ads/LinkAd.vue';
+import InFeedAd from '../components/Ads/InFeedAd.vue';
 import FooterLinkAd from '../components/Ads/FooterLinkAd.vue';
 import DianomiAd from '../components/Ads/DianomiAd.vue';
-import InFeedAd from '../components/Ads/InFeedAd.vue';
 import TripleAds from '../components/Ads/TripleAds.vue';
+import MobileWealthicaVideo from '../components/Ads/MobileWealthicaVideo.vue';
 
 export default {
   name: 'Companies',
@@ -100,107 +90,120 @@ export default {
   components: {
     CardsViewFilters,
     CardView,
-    Paginator,
+    NumberPagination,
     LeaderboardAd,
     LinkAd,
+    InFeedAd,
     FooterLinkAd,
     DianomiAd,
-    InFeedAd,
     TripleAds,
+    MobileWealthicaVideo,
   },
 
   data() {
-    const { params } = this.$route;
-
-    return {
-      title: 'Public Companies',
-      searchPlaceholder: 'Filter by name or symbol',
-      paginator: {
-        type: params.type ? params.type : 'C',
-        sort: params.sort ? params.sort : 'name',
-        direction: params.direction ? params.direction : 'desc',
-        perPage: Number(params.perPage) || 60,
-      },
-    };
+    return { adIndex: 0 };
   },
 
   computed: {
-    ...mapGetters(['companies', 'totalCompanies', 'shouldShowAd']),
+    ...mapGetters(['companies', 'numTotalCompanies', 'shouldShowAd']),
     slots: () => slots,
 
-    firstFiveCompanies() {
-      return this.companies.length <= 5 ? this.companies : this.companies.slice(0, 5);
+    urlParams() {
+      return this.getUrlParams(this.$route);
     },
-    theRestOfCompanies() {
-      return this.companies.length > 5 ? this.companies.slice(5) : [];
+
+    displayedItems() {
+      if (!this.shouldShowAd || this.adIndex === 0) return this.companies;
+
+      const displayedItems = _.clone(this.companies);
+      displayedItems.splice(this.adIndex, 0, { ad: true });
+
+      return displayedItems;
     },
   },
 
   asyncData({ store, route }) {
-    const {
-      params, query,
-    } = route;
-    const {
-      page, perPage, character, type,
-    } = params;
-
-    let promises = null;
-
-    // TODO get companies list and count in the same query/call to get consistent results
-    if (query && query.search) { // if doing a search query
-      promises = [
-        store.dispatch('FETCH_COMPANIES_BY_NAME', {
-          term: decodeURI(query.search),
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_TOTAL_COMPANIES', { term: decodeURI(query.search) }),
-      ];
-    } else if (character) {
-      promises = [
-        store.dispatch('FETCH_COMPANIES_BY_CHARACTER', {
-          character,
-          type,
-          page: Number(page) || 1,
-          limit: Number(perPage) || 15,
-        }),
-        store.dispatch('FETCH_COMPANIES_TOTAL_BY_CHARACTER', {
-          character,
-          type,
-        }),
-      ];
-    } else {
-      promises = [
-        store.dispatch('FETCH_COMPANIES', {
-          page: Number(page) || 1,
-          limit: Number(perPage) || 60,
-        }),
-        store.dispatch('FETCH_TOTAL_COMPANIES', { term: null }),
-      ];
-    }
-
-    return promises ? Promise.all(promises) : null;
+    return store.dispatch('FETCH_COMPANIES', this.methods.getUrlParams(route));
   },
 
   title() {
     return 'Company Index';
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setAdIndex();
+    });
+  },
+
+  methods: {
+    getUrlParams(route) {
+      const { query } = route;
+      const {
+        character = 'all',
+        type = 'C',
+        sortBy = 'name',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        search: query.search ? decodeURI(query.search) : undefined,
+        character,
+        type,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 60,
+      };
+    },
+
+    // Find an index to inject ad
+    setAdIndex() {
+      if (!this.shouldShowAd) return;
+
+      const indexMapping = {
+        '(min-width: 1200px)': 5,
+        '(min-width: 992px) and (max-width: 1199px)': 4,
+        '(min-width: 768px) and (max-width: 991px)': 3,
+        '(min-width: 480px) and (max-width: 767px)': 2,
+        '(max-width: 479px)': 1,
+      };
+
+      Object.keys(indexMapping).forEach((mediaQuery) => {
+        if (window.matchMedia(mediaQuery).matches) {
+          this.adIndex = indexMapping[mediaQuery];
+        }
+      });
+    },
   },
 };
 </script>
 
 <style lang="stylus">
 @import '~assets/css/global.css'
+@import '~assets/css/cardview.styl'
+</style>
+
+<style lang="stylus" scoped>
 .container
   box-sizing border-box
   width 1140px
   max-width 100%
   padding 0 20px 20px
   margin 0 auto
-.companies
+
+.companies-list
   margin-top 20px
-  .card-info
+
+  >>> .card-info
     min-height 224px // TODO put card-related styling in the separate company cardview component
-  .card-picture
+  >>> .card-picture
     background-color white
+
+@media (max-width 991px)
+  .container
+    padding 0 10px
 
 </style>
