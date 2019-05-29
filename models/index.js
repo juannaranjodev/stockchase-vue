@@ -24,6 +24,7 @@ const db = {
   User: sequelize.import('User', require('./User')),
   UserMeta: sequelize.import('UserMeta', require('./UserMeta')),
   UserStock: sequelize.import('UserStock', require('./UserStock')),
+  TopPickPerformance: sequelize.import('TopPickPerformance', require('./TopPickPerformance')),
 };
 
 Object.keys(db).forEach((modelName) => {

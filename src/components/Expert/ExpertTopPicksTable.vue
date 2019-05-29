@@ -1,6 +1,6 @@
 <template>
   <div class="expert-top-picks">
-    <h5>2 Years Top Picks Portfolio (27 Top Pick)</h5>
+    <h5>{{ period | displayPeriodName }} Top Picks Portfolio ({{ topPicks.length }} Top Pick)</h5>
     <table class="table expert-top-picks-table">
       <thead>
         <tr>
@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="opinion in expertTopPicks"
+          v-for="opinion in topPicks"
           :key="`top-pick-${opinion.id}`"
         >
           <td>
@@ -102,10 +102,18 @@ export default {
   },
 
   props: {
+    topPicks: {
+      type: Array,
+      default: () => [],
+    },
+    period: {
+      type: String,
+      required: true,
+    },
   },
 
   computed: {
-    ...mapGetters(['user', 'expert', 'expertTopPicks']),
+    ...mapGetters(['user', 'expert']),
   },
 
   methods: {

@@ -10,11 +10,17 @@
           </div>
 
           <div class="overview-section__right">
-            <expert-rating-table />
+            <expert-rating-table
+              :period="selectedPeriod"
+              @changePeriod="changePeriod"
+            />
           </div>
         </div>
 
-        <expert-top-picks-table />
+        <expert-top-picks-table
+          :period="selectedPeriod"
+          :top-picks="topPicksForSelectedPeriod"
+        />
       </div>
     </div>
   </div>
@@ -22,6 +28,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
+import { modelPeriodName } from '../util/filters';
 
 import ExpertRatingOverview from '../components/Expert/ExpertRatingOverview.vue';
 import ExpertRatingTable from '../components/Expert/ExpertRatingTable.vue';
@@ -38,11 +46,19 @@ export default {
 
   data() {
     return {
+      selectedPeriod: 'one_month', // 'six_months', 'one_year', 'two_years', 'five_years'
     };
   },
 
   computed: {
-    ...mapGetters(['expert']),
+    ...mapGetters(['expert', 'expertTopPicksHavingPerformance']),
+
+    topPicksForSelectedPeriod() {
+      return _.filter(
+        this.expertTopPicksHavingPerformance,
+        topPick => topPick.TopPickPerformance[this.selectedPeriod] !== null,
+      );
+    },
   },
 
   asyncData({ store, route }) {
@@ -54,13 +70,10 @@ export default {
     });
   },
 
-  mounted() {
-  },
-
-  beforeDestroy() {
-  },
-
   methods: {
+    changePeriod(period) {
+      this.selectedPeriod = modelPeriodName(period);
+    },
   },
 };
 </script>

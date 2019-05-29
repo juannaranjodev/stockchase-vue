@@ -204,15 +204,17 @@ export default {
 
       return Promise.all([
         api.fetchExpertOpinionsByPage(id, page, perPage),
-        api.fetchExpertTopPicks(id, 5),
+        api.fetchExpertTopPicks(id, 30),
         api.fetchExpertFirstOpinionDate(id),
         api.fetchCountExpertTopPicksFromDate(id),
         api.fetchCountExpertTopPicksFromDate(id, momentLast2Years),
         api.fetchCountExpertTopPicksCompaniesFromDate(id, momentLast2Years),
+        api.fetchExpertTopPicksHavingPerformance(id),
       ]).then((result) => {
         const [
           { rows: pageOpinions, count: numOpinions }, topPicks, firstOpinionDate,
           countTotalTopPicks, countLast2YearsTopPicks, countLast2YearsTopPicksCompanies,
+          topPicksHavingPerformance,
         ] = result;
         const expertRatingOverviewSummary = {
           countTotalTopPicks,
@@ -225,6 +227,7 @@ export default {
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
         commit('SET_EXPERT_RATING_OVERVIEW_SUMMARY', expertRatingOverviewSummary);
+        commit('SET_EXPERT_TOP_PICKS_HAVING_PERFORMANCE', topPicksHavingPerformance);
       });
     });
   },

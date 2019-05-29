@@ -60,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
             { model: sequelize.models.Ownership },
             { model: sequelize.models.Source },
             { model: sequelize.models.SocialRating },
+            { model: sequelize.models.TopPickPerformance },
             {
               model: sequelize.models.Company,
               include: [sequelize.models.Sector],
@@ -91,6 +92,7 @@ module.exports = (sequelize, DataTypes) => {
     Opinion.belongsTo(models.Subject);
     Opinion.belongsTo(models.Signal);
     Opinion.belongsTo(models.Ownership);
+    Opinion.hasOne(models.TopPickPerformance);
     Opinion.hasMany(models.SocialRating, {
       foreignKey: 'content_id',
       constraints: false,
@@ -251,6 +253,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       limit,
     });
+  };
+
+  // Get all the top picks having performance by expert id
+  Opinion.getExpertTopPicksHavingPerformance = function (expertId) {
+    return Opinion.scope('includeAll').findAll({
+      where: {
+        company_id: { [Op.ne]: 1970 }, expert_id: expertId, signal_id: 16,
+      },
+    }).then(topPicks => _.filter(topPicks, 'TopPickPerformance'));
   };
 
   // Get market comments for a given date

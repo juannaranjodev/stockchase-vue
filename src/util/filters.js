@@ -55,3 +55,37 @@ export function stripTags(value) {
 export function topPickDate(date) {
   return moment(date).format('MMMM Do, YYYY');
 }
+
+export function displayPeriodName(period) {
+  switch (period) {
+    case 'one_month':
+      return '1 Month';
+    case 'six_months':
+      return '6 Months';
+    case 'twelve_months':
+      return '12 Months';
+    case 'two_years':
+      return '2 Years';
+    case 'five_years':
+      return '5 Years';
+    default:
+      return period;
+  }
+}
+
+export function modelPeriodName(period) {
+  switch (period) {
+    case '1 Month':
+      return 'one_month';
+    case '6 Months':
+      return 'six_months';
+    case '12 Months':
+      return 'twelve_months';
+    case '2 Years':
+      return 'two_years';
+    case '5 Years':
+      return 'five_years';
+    default:
+      return period;
+  }
+}

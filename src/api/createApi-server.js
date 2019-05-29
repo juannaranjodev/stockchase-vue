@@ -297,6 +297,10 @@ export default function createAPI() {
       return Opinion.countExpertTopPicksCompaniesFromDate(id, from);
     },
 
+    async fetchExpertTopPicksHavingPerformance(id) {
+      return Opinion.getExpertTopPicksHavingPerformance(id);
+    },
+
     async getCompaniesWithOpinions(page = 1, limit = 25) {
       return Company.getCompaniesByPage(page, limit);
     },

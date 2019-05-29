@@ -103,6 +103,10 @@ export default {
     Vue.set(state, 'expertRatingOverviewSummary', expertRatingOverviewSummary);
   },
 
+  SET_EXPERT_TOP_PICKS_HAVING_PERFORMANCE: (state, topPicksHavingPerformance) => {
+    Vue.set(state, 'expertTopPicksHavingPerformance', topPicksHavingPerformance);
+  },
+
   SET_EXPERT_JOIN_DATE: (state, expertJoinDate) => {
     Vue.set(state, 'expertJoinDate', expertJoinDate);
   },

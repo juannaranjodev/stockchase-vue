@@ -102,6 +102,10 @@ export default {
     return state.expertRatingOverviewSummary;
   },
 
+  expertTopPicksHavingPerformance(state) {
+    return state.expertTopPicksHavingPerformance;
+  },
+
   totalExperts(state) {
     return state.totalExperts;
   },

@@ -81,6 +81,8 @@
       <tr
         v-for="rating in ratings"
         :key="`expert-rating-table-${expert.id}-${rating.period}`"
+        :class="{ active: rating.period === selectedPeriod }"
+        @click="$emit('changePeriod', rating.period)"
       >
         <td class="period-name">
           {{ rating.period }}
@@ -127,6 +129,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
+import { displayPeriodName } from '../../util/filters';
+
 import ExpertRating from '../ExpertRating.vue';
 
 export default {
@@ -134,8 +138,23 @@ export default {
 
   components: { ExpertRating },
 
+  props: {
+    changePeriod: {
+      type: Function,
+      default: () => {},
+    },
+    period: {
+      type: String,
+      required: true,
+    },
+  },
+
   computed: {
     ...mapGetters(['expert']),
+
+    selectedPeriod() {
+      return displayPeriodName(this.period);
+    },
 
     ratings() {
       const results = [];
@@ -203,11 +222,17 @@ export default {
       img
         margin-right: 4px
   tbody
+    tr
+      cursor pointer
+      &.active
+        background-color rgba(255, 243, 221, 0.61)
     td
-      font-size: 15px
-      color: #000000
-      vertical-align: middle
-      padding: 6px 8px
+      font-size 15px
+      color #000000
+      vertical-align middle
+      padding 6px 8px
+      border-top 0
+
     .period-name
       opacity: 0.5
       font-size: 14px
