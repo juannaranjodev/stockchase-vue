@@ -49,6 +49,7 @@
             :rating="item.rating"
             :total-wins="item.totalWins"
             :total-loses="item.totalLoses"
+            :rating-enabled="true"
           />
         </div>
       </div>

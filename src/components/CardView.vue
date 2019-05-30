@@ -25,7 +25,7 @@
         </li>
       </ul>
       <a
-        v-if="user.premium && rating !== null"
+        v-if="user.premium && ratingEnabled"
         class="card-rating-link"
         :href="`${cardLink}/rating`"
       >
@@ -81,6 +81,9 @@ export default {
     cardLink: {
       type: String,
       default: '',
+    },
+    ratingEnabled: {
+      type: Boolean,
     },
     rating: {
       type: Number,
@@ -212,9 +215,14 @@ export default {
   &-view:hover &-footnote
     background-color #DDD
   &-rating-link
-    position: absolute
-    bottom: 15px
-    left: 62px
+    position absolute
+    bottom 15px
+    left 0
+    width 100%
+    display flex
+    align-items center
+    justify-content center
+
 .icon
   width 20px
   height 20px
