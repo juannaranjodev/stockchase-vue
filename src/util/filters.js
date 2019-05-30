@@ -89,3 +89,20 @@ export function modelPeriodName(period) {
       return period;
   }
 }
+
+export function displayPerformanceName(performance) {
+  switch (performance) {
+    case 'big_win':
+      return 'BIG WIN';
+    case 'win':
+      return 'WIN';
+    case 'no_change':
+      return 'NEUTRAL';
+    case 'lose':
+      return 'LOSE';
+    case 'big_lose':
+      return 'BIG LOSE';
+    default:
+      return performance;
+  }
+}

@@ -236,6 +236,19 @@ export default function createAPI() {
       });
     },
 
+    async fetchCompanyQuoteBySymbol(symbol) {
+      return new Promise((resolve) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${symbol}`,
+          json: true,
+        }, (err, response, body) => {
+          if (err) return resolve({}); // do not throw
+
+          return resolve(body || {});
+        });
+      });
+    },
+
     async fetchCompanyById(id) {
       const company = await Company.getCompanyById(id);
 
@@ -293,12 +306,34 @@ export default function createAPI() {
       return Opinion.countExpertTopPicksFromDate(id, from);
     },
 
-    async fetchCountExpertTopPicksCompaniesFromDate(id, from) {
-      return Opinion.countExpertTopPicksCompaniesFromDate(id, from);
-    },
-
     async fetchExpertTopPicksHavingPerformance(id) {
-      return Opinion.getExpertTopPicksHavingPerformance(id);
+      const topPicks = await Opinion.getExpertTopPicksHavingPerformance(id);
+      const results = [];
+      /* eslint-disable-next-line no-plusplus */
+      for (let i = 0; i < topPicks.length; i++) {
+        const {
+          id: topPickId,
+          Company: company,
+          price,
+          date,
+          TopPickPerformance,
+        } = topPicks[i];
+        /* eslint-disable-next-line no-await-in-loop */
+        const quote = await this.fetchCompanyQuoteBySymbol(company.symbol);
+        const diffByQuote = quote.price - price;
+        const performanceByQuote = diffByQuote * 100 / price;
+        results.push({
+          id: topPickId,
+          Company: company,
+          price,
+          date,
+          TopPickPerformance,
+          diffByQuote,
+          performanceByQuote,
+          quoteDate: quote.quote_date,
+        });
+      }
+      return results;
     },
 
     async getCompaniesWithOpinions(page = 1, limit = 25) {

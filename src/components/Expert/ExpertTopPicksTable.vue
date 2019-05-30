@@ -66,15 +66,15 @@
           <td>
             <div class="opinion-performance">
               <div class="opinion-performance-price">
-                $-16.49 (-52.22%)
+                ${{ opinion.diffByQuote | round }} ({{ opinion.performanceByQuote | round }}%)
               </div>
               <div class="opinion-performance-date">
-                {{ new Date() | topPickDate }}
+                {{ opinion.quoteDate | topPickDate }}
               </div>
             </div>
           </td>
           <td>
-            LOSE
+            {{ opinion.TopPickPerformance[period] | displayPerformanceName }}
           </td>
           <td>
             <div class="add-watch-list">
