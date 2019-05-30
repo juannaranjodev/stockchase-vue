@@ -5,7 +5,11 @@
         <div class="overview-section">
           <div class="overview-section__left">
             <div class="overview-section__block">
-              <expert-rating-overview />
+              <expert-rating-overview
+                :count-top-picks-analyzed="countTopPicksAnalyzed"
+                :count2-years-top-picks-analyzed="count2YearsTopPicksAnalyzed"
+                :count-companies2-years-top-picks-analyzed="countCompanies2YearsTopPicksAnalyzed"
+              />
             </div>
           </div>
 
@@ -46,7 +50,7 @@ export default {
 
   data() {
     return {
-      selectedPeriod: 'one_month', // 'six_months', 'one_year', 'two_years', 'five_years'
+      selectedPeriod: 'one_month', // 'six_months', 'twelve_months', 'two_years', 'five_years'
     };
   },
 
@@ -58,6 +62,27 @@ export default {
         this.expertTopPicksHavingPerformance,
         topPick => topPick.TopPickPerformance[this.selectedPeriod] !== null,
       );
+    },
+
+    countTopPicksAnalyzed() {
+      return this.expertTopPicksHavingPerformance.length;
+    },
+
+    count2YearsTopPicksAnalyzed() {
+      return _.size(_.filter(
+        this.expertTopPicksHavingPerformance,
+        topPick => topPick.TopPickPerformance.two_years !== null,
+      ));
+    },
+
+    countCompanies2YearsTopPicksAnalyzed() {
+      return _.size(_.groupBy(
+        _.filter(
+          this.expertTopPicksHavingPerformance,
+          topPick => topPick.TopPickPerformance.two_years !== null,
+        ),
+        'company_id',
+      ));
     },
   },
 

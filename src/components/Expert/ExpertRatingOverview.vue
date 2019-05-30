@@ -61,14 +61,17 @@
           <img
             v-if="myRating"
             :src="myRatingImage"
-            width="35"
+            width="24"
           >
           <img
             v-else
             src="~assets/images/smileys/smiley-glasses.png"
             width="24"
           >
-          <span v-if="myRating">You, and {{ numSameRatings }} Others</span>
+          <span
+            v-if="myRating"
+            class="expert-overview__feedback-text"
+          >You, and {{ numSameRatings }} Others</span>
           <span
             v-else
             class="expert-overview__feedback-text"
@@ -80,12 +83,12 @@
     </div>
     <div class="expert-overview__description">
       <p class="expert-overview__description-text">
-        We analyzed {{ expertRatingOverviewSummary.countTotalTopPicks }}
+        We analyzed {{ countTopPicksAnalyzed }}
         top picks opinion from Jon Case.
       </p>
       <p class="expert-overview__description-text">
-        Jon Case made {{ expertRatingOverviewSummary.countLast2YearsTopPicks }}
-        top picks covering {{ expertRatingOverviewSummary.countLast2YearsTopPicksCompanies }}
+        Jon Case made {{ count2YearsTopPicksAnalyzed }}
+        top picks covering {{ countCompanies2YearsTopPicksAnalyzed }}
         companies that can be analyzed for a 2 year investing horizon.
       </p>
       <!-- eslint-disable max-len -->
@@ -125,6 +128,21 @@ export default {
 
   components: {
     UserReactions,
+  },
+
+  props: {
+    countTopPicksAnalyzed: {
+      type: Number,
+      default: 0,
+    },
+    count2YearsTopPicksAnalyzed: {
+      type: Number,
+      default: 0,
+    },
+    countCompanies2YearsTopPicksAnalyzed: {
+      type: Number,
+      default: 0,
+    },
   },
 
   computed: {
@@ -280,15 +298,6 @@ export default {
 
     &:hover
       background-color #FF2E50
-  &-rating
-    color #06c
-    display flex
-    align-items center
-    font-size 15px
-
-    &.no-rating
-      img
-        opacity 0.6
 
   @media (max-width 767px)
     .expert
