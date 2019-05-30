@@ -48,7 +48,7 @@
         </div>
       </div>
       <div v-else>
-        <p class="text-center">
+        <p class="text-center empty-result">
           No matching companies.
         </p>
       </div>
@@ -201,6 +201,9 @@ export default {
     min-height 224px // TODO put card-related styling in the separate company cardview component
   >>> .card-picture
     background-color white
+
+.empty-result
+  margin 20px auto
 
 @media (max-width 991px)
   .container

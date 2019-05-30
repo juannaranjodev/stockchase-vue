@@ -54,7 +54,7 @@
         </div>
       </div>
       <div v-else>
-        <p class="text-center">
+        <p class="text-center empty-result">
           No matching experts.
         </p>
       </div>
@@ -147,7 +147,8 @@ export default {
       const { query } = route;
       const {
         character = 'all',
-        type = 'F',
+        // NOTE type should be 'F' for FirstName, using 'C' now for exact same url as v1
+        type = 'C',
         sortBy = 'FirstName',
         direction = 'desc',
         page,
@@ -202,6 +203,9 @@ export default {
 
 .experts-list
   margin-top 20px
+
+.empty-result
+  margin 20px auto
 
 @media (max-width 991px)
   .container
