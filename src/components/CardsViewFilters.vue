@@ -179,7 +179,7 @@ export default {
 
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
-        window.location = `/company?search=${query}`;
+        window.location = `/${this.targetSearch === 'companies' ? 'company' : 'expert'}?search=${query}`;
       }
     },
 

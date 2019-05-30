@@ -10,7 +10,7 @@
         search-placeholder="Filter by expert name"
         target-search="experts"
         :reset-uri="'/expert'"
-        :pattern="`/expert/index/:character/:type/sort/:sort/page/:page/direction/:direction/max/:perPage`"
+        :pattern="`/expert/index/:character/:type/sort/:sortBy/page/1/direction/:direction/max/:perPage`"
         :current-limit="urlParams.perPage"
       />
 
