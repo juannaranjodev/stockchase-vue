@@ -7,7 +7,15 @@
             :src="imageSrc"
           >
         </div>
-        <h6>{{ title }}</h6>
+        <h6>
+          <span
+            v-for="(word, index) in titleWords"
+            :key="index"
+            :class="{ highlighted: word.highlighted }"
+          >
+            {{ word.text }}
+          </span>
+        </h6>
         <p>{{ subTitle }}</p>
       </a>
       <ul
@@ -102,6 +110,17 @@ export default {
   computed: {
     ...mapGetters(['user']),
 
+    searchQuery() {
+      return this.$route.query.search;
+    },
+
+    titleWords() {
+      return this.title.split(/\s+/).map(text => ({
+        text,
+        highlighted: this.searchQuery && text.search(new RegExp(this.searchQuery, 'i')) > -1,
+      }));
+    },
+
     twitterUrl() {
       return (this.socialLinks && this.socialLinks.twitter) || '';
     },
@@ -164,7 +183,10 @@ export default {
       display -webkit-box
       -webkit-line-clamp 2
       -webkit-box-orient vertical
-      max-height 2.4
+      max-height 2.4em
+
+      span.highlighted
+        background-color #fff3d3
 
     p
       color #8990A5
