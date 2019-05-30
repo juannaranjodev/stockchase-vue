@@ -62,10 +62,8 @@
       <number-pagination
         :num-total-items="numTotalExperts"
         :num-page-items="experts.length"
-        :current-page="urlParams.page"
-        :per-page="urlParams.perPage"
-        :search="urlParams.search"
-        :url-pattern="`/expert/index/${urlParams.character}/${urlParams.type}/sort/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
+        :url-pattern="`/expert/index/:character/:type/sort/:sortBy/page/:page/direction/:direction/max/:perPage`"
+        :url-params="urlParams"
       />
 
       <dianomi-ad />

@@ -112,21 +112,13 @@ export default {
       type: Number,
       default: 1,
     },
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    perPage: {
-      type: Number,
-      default: 15,
-    },
-    search: {
-      type: String,
-      default: '',
-    },
     urlPattern: {
       type: String,
       default: '',
+    },
+    urlParams: {
+      type: Object,
+      default: () => ({}),
     },
   },
 
@@ -138,6 +130,10 @@ export default {
       firstPage = Math.max(lastPage - 4, 1);
 
       return _.map(new Array(lastPage - firstPage + 1), (page, index) => firstPage + index);
+    },
+
+    currentPage() {
+      return this.urlParams.page;
     },
 
     prevPage() {
@@ -165,11 +161,11 @@ export default {
     },
 
     numTotalPages() {
-      return Math.ceil(this.numTotalItems / this.perPage);
+      return Math.ceil(this.numTotalItems / this.urlParams.perPage);
     },
 
     startPosition() {
-      return (this.currentPage - 1) * this.perPage + 1;
+      return (this.currentPage - 1) * this.urlParams.perPage + 1;
     },
 
     endPosition() {
@@ -179,8 +175,20 @@ export default {
 
   methods: {
     getPageUrl(page) {
-      const url = this.urlPattern.replace(':page', page);
-      return this.search ? `${url}?search=${this.search}` : url;
+      const {
+        id, character, type, sortBy, direction, perPage, search,
+      } = this.urlParams;
+
+      const url = this.urlPattern
+        .replace(':id', id)
+        .replace(':character', character)
+        .replace(':type', type)
+        .replace(':sortBy', sortBy)
+        .replace(':direction', direction)
+        .replace(':perPage', perPage)
+        .replace(':page', page);
+
+      return search ? `${url}?search=${search}` : url;
     },
   },
 };
