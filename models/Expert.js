@@ -256,17 +256,20 @@ module.exports = (sequelize, DataTypes) => {
     return Expert.findByPk(id, {
       include: [
         { model: sequelize.models.SocialRating },
-        { model: sequelize.models.ExpertRating },
+        // NOTE the ExpertRating include below only returns 1 record due to ExpertRating table not
+        // having an id primaryKey. That's why we need to have a separate query for ExpertRatings.
+        // Adding an id column to the table might fix this.
+        // { model: sequelize.models.ExpertRating },
       ],
-    }).then((result) => {
+    }).then(result => sequelize.models.ExpertRating.getRatingsByExpert(id).then((ratings) => {
       const expert = result.toJSON();
-      const rating = calculateRating(expert.ExpertRatings);
+      const rating = calculateRating(ratings);
 
       return {
         ...expert,
         ...rating,
       };
-    });
+    }));
   };
 
   Expert.getLatestExperts = function (limit = 15) {
