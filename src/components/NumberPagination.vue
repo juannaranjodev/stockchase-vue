@@ -1,5 +1,8 @@
 <template>
-  <div class="pgntn-container">
+  <div
+    v-if="numTotalItems > 0"
+    class="pgntn-container"
+  >
     <div class="pgntn-count">
       Showing {{ startPosition | round }} to {{ endPosition | round }}
       of {{ numTotalItems | round }} entries
