@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="shouldShowAd"
-    class="triple-ads clear d-none d-lg-block"
-  >
+  <div class="triple-ads clear d-none d-lg-block">
     <div class="triple-ads__content">
       <p><slot /></p>
     </div>
@@ -15,8 +12,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import UnlockExpertRatings from './UnlockExpertRatings.vue';
 import WhatIsWealthica from './WhatIsWealthica.vue';
 import AskPeterHodson from './AskPeterHodson.vue';
@@ -28,10 +23,6 @@ export default {
     UnlockExpertRatings,
     WhatIsWealthica,
     AskPeterHodson,
-  },
-
-  computed: {
-    ...mapGetters(['shouldShowAd']),
   },
 };
 </script>

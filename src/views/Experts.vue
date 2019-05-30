@@ -10,7 +10,7 @@
         search-placeholder="Filter by expert name"
         target-search="experts"
         :reset-uri="'/expert'"
-        :pattern="`/expert/index/:character/:type/sort/:sort/page/:page/direction/:direction/max/:perPage`"
+        :pattern="`/expert/index/:character/:type/sort/:sortBy/page/1/direction/:direction/max/:perPage`"
         :current-limit="urlParams.perPage"
       />
 
@@ -49,11 +49,12 @@
             :rating="item.rating"
             :total-wins="item.totalWins"
             :total-loses="item.totalLoses"
+            :rating-enabled="true"
           />
         </div>
       </div>
       <div v-else>
-        <p class="text-center">
+        <p class="text-center empty-result">
           No matching experts.
         </p>
       </div>
@@ -61,10 +62,8 @@
       <number-pagination
         :num-total-items="numTotalExperts"
         :num-page-items="experts.length"
-        :current-page="urlParams.page"
-        :per-page="urlParams.perPage"
-        :search="urlParams.search"
-        :url-pattern="`/expert/index/${urlParams.character}/${urlParams.type}/sort/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
+        :url-pattern="`/expert/index/:character/:type/sort/:sortBy/page/:page/direction/:direction/max/:perPage`"
+        :url-params="urlParams"
       />
 
       <dianomi-ad />
@@ -146,7 +145,8 @@ export default {
       const { query } = route;
       const {
         character = 'all',
-        type = 'F',
+        // NOTE type should be 'F' for FirstName, using 'C' now for exact same url as v1
+        type = 'C',
         sortBy = 'FirstName',
         direction = 'desc',
         page,
@@ -201,6 +201,9 @@ export default {
 
 .experts-list
   margin-top 20px
+
+.empty-result
+  margin 20px auto
 
 @media (max-width 991px)
   .container

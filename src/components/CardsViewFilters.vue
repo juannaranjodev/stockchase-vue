@@ -166,7 +166,8 @@ export default {
 
       const url = this.pattern
         .replace(':character', query.search ? 'all' : params.character || 'all')
-        .replace(':type', this.targetSearch === 'companies' ? 'C' : params.type || 'F')
+        // NOTE in Expert type should be 'F' for 'FirstName', using 'C' now for exact same url as v1
+        .replace(':type', 'C')
         .replace(':sortBy', this.targetSearch === 'companies' ? 'name' : params.sortBy || 'FirstName')
         .replace(':direction', params.direction || 'desc')
         .replace(':perPage', perPage);
@@ -179,7 +180,7 @@ export default {
 
       if (this.$refs.search.value.length >= 3) {
         const query = encodeURI(this.$refs.search.value);
-        window.location = `/company?search=${query}`;
+        window.location = `/${this.targetSearch === 'companies' ? 'company' : 'expert'}?search=${query}`;
       }
     },
 
@@ -227,11 +228,11 @@ export default {
     },
 
     onAlphabeticalChange(e) {
-      // Defaults to searching last name for experts and name for companies
-      // TODO verify this logic
+      // Defaults to searching first name for experts and name for companies
+      // NOTE in Expert type should be 'F' for 'FirstName', using 'C' now for exact same url as v1
       const pattern = this.targetSearch === 'companies'
         ? '/company/index/:character/C'
-        : '/expert/index/:character/F';
+        : '/expert/index/:character/C';
 
       window.location = e.target.value === 'all'
         ? this.resetUri

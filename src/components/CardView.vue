@@ -7,7 +7,15 @@
             :src="imageSrc"
           >
         </div>
-        <h6>{{ title }}</h6>
+        <h6>
+          <span
+            v-for="(word, index) in titleWords"
+            :key="index"
+            :class="{ highlighted: word.highlighted }"
+          >
+            {{ word.text }}
+          </span>
+        </h6>
         <p>{{ subTitle }}</p>
       </a>
       <ul
@@ -25,7 +33,7 @@
         </li>
       </ul>
       <a
-        v-if="user.premium && rating !== null"
+        v-if="user.premium && ratingEnabled"
         class="card-rating-link"
         :href="`${cardLink}/rating`"
       >
@@ -82,6 +90,9 @@ export default {
       type: String,
       default: '',
     },
+    ratingEnabled: {
+      type: Boolean,
+    },
     rating: {
       type: Number,
       default: null,
@@ -98,6 +109,17 @@ export default {
 
   computed: {
     ...mapGetters(['user']),
+
+    searchQuery() {
+      return this.$route.query.search;
+    },
+
+    titleWords() {
+      return this.title.split(/\s+/).map(text => ({
+        text,
+        highlighted: this.searchQuery && text.search(new RegExp(this.searchQuery, 'i')) > -1,
+      }));
+    },
 
     twitterUrl() {
       return (this.socialLinks && this.socialLinks.twitter) || '';
@@ -161,7 +183,10 @@ export default {
       display -webkit-box
       -webkit-line-clamp 2
       -webkit-box-orient vertical
-      max-height 2.4
+      max-height 2.4em
+
+      span.highlighted
+        background-color #fff3d3
 
     p
       color #8990A5
@@ -212,9 +237,14 @@ export default {
   &-view:hover &-footnote
     background-color #DDD
   &-rating-link
-    position: absolute
-    bottom: 15px
-    left: 62px
+    position absolute
+    bottom 15px
+    left 0
+    width 100%
+    display flex
+    align-items center
+    justify-content center
+
 .icon
   width 20px
   height 20px

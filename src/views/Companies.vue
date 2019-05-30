@@ -48,7 +48,7 @@
         </div>
       </div>
       <div v-else>
-        <p class="text-center">
+        <p class="text-center empty-result">
           No matching companies.
         </p>
       </div>
@@ -56,10 +56,8 @@
       <number-pagination
         :num-total-items="numTotalCompanies"
         :num-page-items="companies.length"
-        :current-page="urlParams.page"
-        :per-page="urlParams.perPage"
-        :search="urlParams.search"
-        :url-pattern="`/company/index/${urlParams.character}/${urlParams.type}/desc/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
+        :url-pattern="`/company/index/:character/:type/desc/:sortBy/page/:page/direction/:direction/max/:perPage`"
+        :url-params="urlParams"
       />
 
       <dianomi-ad />
@@ -201,6 +199,9 @@ export default {
     min-height 224px // TODO put card-related styling in the separate company cardview component
   >>> .card-picture
     background-color white
+
+.empty-result
+  margin 20px auto
 
 @media (max-width 991px)
   .container
