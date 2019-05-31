@@ -23,6 +23,13 @@
 
       <link-ad :ad-slot="slots.ExpertsLink" />
 
+      <h2
+        v-if="urlParams.character !== 'all'"
+        class="card-view-list-header"
+      >
+        All experts with last name that starts with {{ urlParams.character.toUpperCase() }}
+      </h2>
+
       <div
         v-if="experts.length"
         class="experts-list card-view-list"

@@ -22,6 +22,13 @@
 
       <link-ad :ad-slot="slots.CompaniesLink" />
 
+      <h2
+        v-if="urlParams.character !== 'all'"
+        class="card-view-list-header"
+      >
+        All companies with name that starts with {{ urlParams.character.toUpperCase() }}
+      </h2>
+
       <div
         v-if="companies.length"
         class="companies-list card-view-list"
