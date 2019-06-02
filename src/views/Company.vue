@@ -322,6 +322,7 @@ export default {
         direction,
         page: Number(page) || 1,
         perPage: Number(perPage) || 15,
+        original: route.params,
       };
     },
 
