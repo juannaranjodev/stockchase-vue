@@ -28,7 +28,7 @@ export default {
 
   FETCH_EXPERT: ({ commit }, urlParams) => {
     const {
-      id, slug, page, perPage,
+      id, slug, page, perPage, original,
     } = urlParams;
 
     // Redirect not found paths to expert index according to v1 expert controller logic
@@ -38,7 +38,9 @@ export default {
       if (!expert) return Promise.reject({ url: '/company' });
 
       // Redirect urls with wrong slugs to the canonical url
-      if (!page && slug !== expert.slug) return Promise.reject({ url: expert.url, code: 301 });
+      if (!original.page && slug !== expert.slug) {
+        return Promise.reject({ url: expert.url, code: 301 });
+      }
 
       commit('SET_EXPERT', expert);
 

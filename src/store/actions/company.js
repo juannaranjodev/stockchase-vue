@@ -22,7 +22,7 @@ export default {
 
   FETCH_COMPANY: ({ commit }, urlParams) => {
     const {
-      id, slug, page, perPage,
+      id, slug, page, perPage, original,
     } = urlParams;
 
     // Redirect not found paths to company index according to v1 company controller logic
@@ -32,7 +32,9 @@ export default {
       if (!company) return Promise.reject({ url: '/company' });
 
       // Redirect urls with wrong slugs to the canonical slug
-      if (!page && slug !== company.slug) return Promise.reject({ url: company.url, code: 301 });
+      if (!original.page && slug !== company.slug) {
+        return Promise.reject({ url: company.url, code: 301 });
+      }
 
       commit('SET_COMPANY', company);
 
