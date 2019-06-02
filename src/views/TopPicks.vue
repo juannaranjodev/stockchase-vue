@@ -21,9 +21,8 @@
         <number-pagination
           :num-total-items="numTotalOpinions"
           :num-page-items="opinions.length"
-          :current-page="urlParams.page"
-          :per-page="urlParams.perPage"
-          :url-pattern="`/opinions/recenttop/sort/${urlParams.sortBy}/page/:page/direction/${urlParams.direction}/max/${urlParams.perPage}`"
+          :url-pattern="`/opinions/recenttop/sort/:sortBy/page/:page/direction/:direction/max/:perPage`"
+          :url-params="urlParams"
         />
       </div>
 
