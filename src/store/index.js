@@ -35,7 +35,6 @@ export default function createStore() {
       experts: [],
       searchedExperts: [],
       totalSearchedExperts: 0,
-      expertRatingOverviewSummary: {},
 
       // company index
       numTotalCompanies: 0,

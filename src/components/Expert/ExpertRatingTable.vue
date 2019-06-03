@@ -159,7 +159,7 @@ export default {
     ratings() {
       const results = [];
       ['1 Month', '6 Months', '12 Months', '2 Years', '5 Years'].forEach((period) => {
-        const ratingMatched = this.expert.expertRatings.find(rating => rating.period === period);
+        const ratingMatched = this.expert.ratings.find(rating => rating.period === period);
         if (ratingMatched) {
           /* eslint-disable camelcase */
           const {
@@ -174,7 +174,7 @@ export default {
           else if (periodScore < 11 && periodScore > 0) periodRating = 4;
           else if (periodScore > -11 && periodScore < 0) periodRating = 2;
           else if (periodScore < -11) periodRating = 3;
-          else periodRating = 0;
+          else periodRating = 1;
 
           ratingMatched.rating = periodRating;
           results.push(ratingMatched);
@@ -186,11 +186,11 @@ export default {
     totalTopPicks() {
       const result = {};
       /* eslint-disable camelcase */
-      result.bigWins = _.sumBy(this.expert.expertRatings, ({ big_win }) => big_win);
-      result.wins = _.sumBy(this.expert.expertRatings, ({ win }) => win);
-      result.noChanges = _.sumBy(this.expert.expertRatings, ({ no_change }) => no_change);
-      result.bigLoses = _.sumBy(this.expert.expertRatings, ({ big_lose }) => big_lose);
-      result.loses = _.sumBy(this.expert.expertRatings, ({ lose }) => lose);
+      result.bigWins = _.sumBy(this.expert.ratings, ({ big_win }) => big_win);
+      result.wins = _.sumBy(this.expert.ratings, ({ win }) => win);
+      result.noChanges = _.sumBy(this.expert.ratings, ({ no_change }) => no_change);
+      result.bigLoses = _.sumBy(this.expert.ratings, ({ big_lose }) => big_lose);
+      result.loses = _.sumBy(this.expert.ratings, ({ lose }) => lose);
       /* eslint-enable camelcase */
       return result;
     },

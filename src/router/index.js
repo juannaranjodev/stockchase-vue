@@ -74,7 +74,7 @@ export default function createRouter() {
       // Expert profile
       { path: '/expert/view/:id', component: Expert },
       { path: '/expert/view/:id/:slug', component: Expert },
-      { path: '/expert/view/:id/:name/rating', component: ExpertRating },
+      { path: '/expert/view/:id/:slug/rating', component: ExpertRating },
       { path: '/expert/view/:id/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Expert },
     ],
   });

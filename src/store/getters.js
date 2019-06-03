@@ -98,16 +98,8 @@ export default {
     return state.experts;
   },
 
-  expertRatingOverviewSummary(state) {
-    return state.expertRatingOverviewSummary;
-  },
-
   expertTopPicksHavingPerformance(state) {
     return state.expertTopPicksHavingPerformance;
-  },
-
-  totalExperts(state) {
-    return state.totalExperts;
   },
 
   numTotalExperts(state) {

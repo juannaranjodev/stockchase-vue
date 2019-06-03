@@ -87,17 +87,33 @@ export default {
   },
 
   asyncData({ store, route }) {
-    return store.dispatch('FETCH_EXPERT', {
-      id: route.params.id,
-      name: route.params.name,
-      page: +route.params.page,
-      perPage: +route.params.perPage,
-    });
+    return store.dispatch('FETCH_EXPERT', this.methods.getUrlParams(route));
   },
 
   methods: {
     changePeriod(period) {
       this.selectedPeriod = modelPeriodName(period);
+    },
+
+    getUrlParams(route) {
+      const {
+        id,
+        slug,
+        sortBy = 'date',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        id,
+        slug,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 15,
+        original: route.params,
+      };
     },
   },
 };

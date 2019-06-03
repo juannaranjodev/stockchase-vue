@@ -16,7 +16,7 @@
             </div>
 
             <div class="expert-top-picks">
-              {{ expertRatingOverviewSummary.countTotalTopPicks }} TOP PICKS
+              {{ countTopPicksAnalyzed }} TOP PICKS
             </div>
           </div>
 
@@ -146,7 +146,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['user', 'expert', 'expertRatingOverviewSummary']),
+    ...mapGetters(['user', 'expert']),
 
     myRating() {
       const ratings = this.expert.SocialRatings || [];

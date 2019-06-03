@@ -268,6 +268,7 @@ module.exports = (sequelize, DataTypes) => {
       return {
         ...expert,
         ...rating,
+        ratings,
       };
     }));
   };
