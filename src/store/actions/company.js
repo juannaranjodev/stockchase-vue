@@ -28,6 +28,9 @@ export default {
     // Redirect not found paths to company index according to v1 company controller logic
     if (!/^\d+$/.test(id)) return Promise.reject({ url: '/company' });
 
+    // Redirect old Google company id 4807 to 1833
+    if (Number(id) === 4807) return Promise.reject({ url: '/company/view/1833' });
+
     return api.fetchCompanyById(id).then((company) => {
       if (!company) return Promise.reject({ url: '/company' });
 
