@@ -262,7 +262,7 @@ module.exports = (sequelize, DataTypes) => {
         // { model: sequelize.models.ExpertRating },
       ],
     }).then(result => sequelize.models.ExpertRating.getRatingsByExpert(id).then((ratings) => {
-      if (!result) return;
+      if (!result || !result.id) return;
 
       const expert = result.toJSON();
       const rating = calculateRating(ratings);

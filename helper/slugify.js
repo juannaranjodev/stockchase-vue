@@ -30,11 +30,13 @@ function urlTitle(source, separator = '-', lowercase = false) {
 
 module.exports = {
   expert: function(name) {
+    if (!name) return;
     // Converted from original slugify code from v1 expert controller (php/codeigniter):
     // $url_name = ucwords(url_title($expert['name']));
     return ucwords(urlTitle(name));
   },
   company: function(symbol) {
+    if (!symbol) return;
     // Converted from original slugify code from v1 company controller (php/codeigniter):
     // $url_name = strtoupper(url_title(str_replace('(Dead)', '', $company['symbol'])));
     return strtoupper(urlTitle(symbol.replace('(Dead)', '')));

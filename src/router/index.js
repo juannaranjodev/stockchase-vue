@@ -65,6 +65,10 @@ export default function createRouter() {
       { path: '/expert/index/:character/:type/sort/:sortBy/page/:page/direction/:direction/max/:perPage', component: Experts },
       { path: '/expert/index/:character/:type', component: Experts },
 
+      // Redirect old company & other urls to new one for SEO purpose
+      { path: '/company/view/4807*', redirect: '/company/view/1833' },
+      { path: '/company/find/Partners_REIT', redirect: '/discover/28-canadian-reit-stocks-etfs-with-expert-predictions-2019/' },
+
       // Company profile
       { path: '/company/view/:id', component: Company },
       { path: '/company/view/:id/:slug', component: Company },
