@@ -12,16 +12,16 @@ export const slots = {
   //   - Make sure to have adx slot definitions in index.template.html before setting ads to adx
 
   // GLOBAL (DEFAULT) AD SLOTS
-  Leaderboard: ['adsense', '5979276843'],
+  Leaderboard: ['adx', 'div-gpt-ad-1559573943906-0'],
   SideSquare: ['adsense', '7415387688'],
-  InFeed: ['adsense', '5979276843'],
+  InFeed: ['adx', 'div-gpt-ad-1559574540467-0'],
   Link: ['adsense', '3572899802'],
   FooterLink: ['adsense', '8007723438'],
   // Uncomment to enable MobileFooter ad
   // MobileFooter: ['adx', 'div-gpt-ad-9004875-9'],
 
   // PAGE AD SLOT OVERRIDES (for all slots except MobileFooter)
-  HomeLeaderboard: ['adsense', '7608715995'],
+  // HomeLeaderboard: ['adsense', '7608715995'],
   // HomeSideSquare: ['adsense', '7415387688'],
   // HomeInFeed: ['adsense', '5979276843'],
   // HomeLink: ['adsense', '3572899802'],

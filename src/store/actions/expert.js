@@ -35,7 +35,7 @@ export default {
     if (!/^\d+$/.test(id)) return Promise.reject({ url: '/expert' });
 
     return api.fetchExpertById(id).then((expert) => {
-      if (!expert) return Promise.reject({ url: '/company' });
+      if (!expert) return Promise.reject({ url: '/expert' });
 
       // Redirect urls with wrong slugs to the canonical url
       if (!original.page && slug !== expert.slug) {
