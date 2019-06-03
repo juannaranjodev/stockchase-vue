@@ -223,6 +223,7 @@ export default function createAPI() {
 
     async fetchCompanyById(id) {
       const company = await Company.getCompanyById(id);
+      if (!company) return null;
 
       const [data, quote] = await Promise.all([
         new Promise((resolve) => {

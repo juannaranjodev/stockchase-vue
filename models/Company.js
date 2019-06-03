@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
+        if (!this.symbol) return;
+
         return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
       },
     },
@@ -144,6 +146,8 @@ module.exports = (sequelize, DataTypes) => {
         { model: sequelize.models.SocialRating },
       ],
     }).then((company) => {
+      if (!company || !company.id) return;
+
       const result = company.toJSON();
       [result.latest_top_pick] = company.Opinions;
       delete result.Opinions;

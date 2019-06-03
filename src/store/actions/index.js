@@ -17,8 +17,8 @@ export default {
       // :page param here is opinion id
       if (!/^\d+$/.test(page)) return Promise.reject({ code: 404 });
 
-      // Redirect to the canonical url (with 301 code for SEO purpose)
-      return api.getOpinionUrl(page).then(url => Promise.reject({ url, code: 301 }));
+      // Redirect to the canonical url
+      return api.getOpinionUrl(page).then(url => Promise.reject({ url }));
     }
 
     // /opinions/market

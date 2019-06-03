@@ -33,7 +33,7 @@ export default {
 
       // Redirect urls with wrong slugs to the canonical slug
       if (!original.page && slug !== company.slug) {
-        return Promise.reject({ url: company.url, code: 301 });
+        return Promise.reject({ url: company.url });
       }
 
       commit('SET_COMPANY', company);

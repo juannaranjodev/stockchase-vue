@@ -4,7 +4,8 @@
 
 <script>
 /* global googletag */
-import { mapGetters } from 'vuex';
+/* eslint-disable max-len */
+import { adxSlots } from './config';
 
 export default {
   name: 'GenericAdx',
@@ -16,18 +17,15 @@ export default {
     },
   },
 
-  computed: {
-    ...mapGetters(['shouldShowAd']),
-  },
+  mounted() {
+    this.$nextTick(() => {
+      const adxSlot = adxSlots[this.slotId];
 
-  watch: {
-    shouldShowAd(should) {
-      if (!should) return;
-
-      this.$nextTick(() => {
-        googletag.cmd.push(() => { googletag.display(this.slotId); });
+      googletag.cmd.push(() => {
+        googletag.defineSlot(adxSlot[0], adxSlot[1], this.slotId).addService(googletag.pubads());
+        googletag.display(this.slotId);
       });
-    },
+    });
   },
 };
 </script>
