@@ -4,8 +4,6 @@
 
 <script>
 /* global googletag */
-import { mapGetters } from 'vuex';
-
 export default {
   name: 'GenericAdx',
 
@@ -16,18 +14,10 @@ export default {
     },
   },
 
-  computed: {
-    ...mapGetters(['shouldShowAd']),
-  },
-
-  watch: {
-    shouldShowAd(should) {
-      if (!should) return;
-
-      this.$nextTick(() => {
-        googletag.cmd.push(() => { googletag.display(this.slotId); });
-      });
-    },
+  mounted() {
+    this.$nextTick(() => {
+      googletag.cmd.push(() => { googletag.display(this.slotId); });
+    });
   },
 };
 </script>
