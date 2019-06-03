@@ -62,7 +62,9 @@
               </a>
             </div>
           </td>
-          <td />
+          <td>
+            <top-pick-status />
+          </td>
           <td>
             <div class="opinion-performance">
               <div class="opinion-performance-price">
@@ -94,11 +96,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import TopPickStatus from './TopPickStatus';
 
 export default {
   name: 'ExpertTopPicksTable',
 
   components: {
+    TopPickStatus,
   },
 
   props: {
