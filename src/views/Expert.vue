@@ -34,15 +34,12 @@
               :items="opinions"
               :chart-enabled="true"
             />
-            <div class="opinions-count">
-              Showing {{ startPosition | formatNumber }} to {{ endPosition | formatNumber }}
-              of {{ numTotalOpinions | formatNumber }} entries
-            </div>
-            <link-ad :ad-slot="slots.ExpertLink" />
+
             <number-pagination
-              :num-total-pages="numOpinionPages"
-              :current-page="currentPage"
-              :url-pattern="urlPattern"
+              :num-total-items="numTotalOpinions"
+              :num-page-items="opinions.length"
+              :url-pattern="`/expert/view/:id/sort/:sortBy/page/:page/direction/:direction/max/:perPage`"
+              :url-params="urlParams"
             />
           </div>
 
@@ -174,32 +171,12 @@ export default {
     ...mapGetters(['user', 'expert', 'opinions', 'numTotalOpinions', 'shouldShowAd']),
     slots: () => slots,
 
+    urlParams() {
+      return this.getUrlParams(this.$route);
+    },
+
     title() {
       return this.expert.name;
-    },
-
-    currentPage() {
-      return Number(this.$route.params.page) || 1;
-    },
-
-    perPage() {
-      return Number(this.$route.params.perPage) || 15;
-    },
-
-    numOpinionPages() {
-      return Math.ceil(this.numTotalOpinions / this.perPage);
-    },
-
-    startPosition() {
-      return (this.currentPage - 1) * this.perPage + 1;
-    },
-
-    endPosition() {
-      return this.startPosition + this.opinions.length - 1;
-    },
-
-    urlPattern() {
-      return `/expert/view/${this.expert.id}/sort/date/page/:page/direction/desc/max/${this.perPage}`;
     },
 
     disqusIdentifier() {
@@ -249,12 +226,7 @@ export default {
   },
 
   asyncData({ store, route }) {
-    return store.dispatch('FETCH_EXPERT', {
-      id: route.params.id,
-      name: route.params.name,
-      page: +route.params.page,
-      perPage: +route.params.perPage,
-    });
+    return store.dispatch('FETCH_EXPERT', this.methods.getUrlParams(route));
   },
 
   title() {
@@ -298,6 +270,27 @@ export default {
   },
 
   methods: {
+    getUrlParams(route) {
+      const {
+        id,
+        slug,
+        sortBy = 'date',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        id,
+        slug,
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 15,
+        original: route.params,
+      };
+    },
+
     onTabChange(tabIndex) {
       if (tabIndex === 1) {
         // Trigger window resize to adjust the disqus comments height
@@ -361,10 +354,6 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
-
-.opinions-count
-  color black
-  margin 5px 0
 
 .overview
   &-section

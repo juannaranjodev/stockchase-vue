@@ -1,7 +1,7 @@
 'use strict';
 
-const _ = require('lodash');
 const slugify = require('../helper/slugify');
+const calculateRating = require('../helper/calculateRating');
 
 module.exports = (sequelize, DataTypes) => {
   const ExpertRating = sequelize.define('ExpertRating', {
@@ -42,6 +42,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // This is necessary because the table does not have a primary key column
+  // https://stackoverflow.com/questions/29233896/sequelize-table-without-column-id
+  // NOTE this workaround is not ideal since it causes problems in other areas. We should add an id
+  // column to the db model instead.
   ExpertRating.removeAttribute('id');
 
   // Get ratings by expert id
@@ -57,32 +60,9 @@ module.exports = (sequelize, DataTypes) => {
     return ExpertRating.findAll({
       where: { expert_id: expertId },
       order: [['big_win', 'DESC']],
-    }).then((expertRatings) => {
-      /* eslint-disable camelcase */
-      const rating = _.meanBy(expertRatings, ({
-        big_win, win, big_lose, lose,
-      }) => {
-        const score = _.sum([big_win, win]) - _.sum([big_lose, lose]);
-
-        if (score > 10) return 5;
-        if (score < 11 && score > 0) return 4;
-        if (score > -11 && score < 0) return 2;
-        if (score < -11) return 1;
-        if (_.some([big_win, win, big_lose, lose], Number)) return 3;
-        return 0;
-      });
-
-      const totalWins = _.sumBy(expertRatings, ({ big_win, win }) => big_win + win);
-      const totalLoses = _.sumBy(expertRatings, ({ big_lose, lose }) => big_lose + lose);
-      /* eslint-enable camelcase */
-
-      return {
-        rating,
-        totalLoses,
-        totalWins,
-      };
-    });
+    }).then(expertRatings => calculateRating(expertRatings));
   };
+
   // Get top/worst experts
   ExpertRating.getTopOrWorstExperts = async function (top = true, limit = 25) {
     const order = top ? 'DESC' : 'ASC';

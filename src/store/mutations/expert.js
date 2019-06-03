@@ -17,8 +17,8 @@ export default {
     Vue.set(state, 'searchedExperts', experts);
   },
 
-  SET_TOTAL_EXPERTS: (state, total = 0) => {
-    Vue.set(state, 'totalExperts', total);
+  SET_NUM_TOTAL_EXPERTS: (state, total = 0) => {
+    Vue.set(state, 'numTotalExperts', total);
   },
 
   SET_EXPERTS: (state, experts = []) => {

@@ -17,17 +17,12 @@
 
       <div class="opinions-container">
         <opinions-list :items="opinions" />
-        <div class="opinions-count">
-          Showing {{ startPosition | round }} to {{ endPosition | round }}
-          of {{ numTotalOpinions | round }} entries
-        </div>
-
-        <link-ad :ad-slot="slots.TopPicksLink" />
 
         <number-pagination
-          :num-total-pages="numOpinionPages"
-          :current-page="currentPage"
-          :url-pattern="urlPattern"
+          :num-total-items="numTotalOpinions"
+          :num-page-items="opinions.length"
+          :url-pattern="`/opinions/recenttop/sort/:sortBy/page/:page/direction/:direction/max/:perPage`"
+          :url-params="urlParams"
         />
       </div>
 
@@ -71,36 +66,13 @@ export default {
     ...mapGetters(['user', 'opinions', 'numTotalOpinions']),
     slots: () => slots,
 
-    currentPage() {
-      return Number(this.$route.params.page) || 1;
-    },
-
-    perPage() {
-      return Number(this.$route.params.perPage) || 15;
-    },
-
-    numOpinionPages() {
-      return Math.ceil(this.numTotalOpinions / this.perPage);
-    },
-
-    startPosition() {
-      return (this.currentPage - 1) * this.perPage + 1;
-    },
-
-    endPosition() {
-      return this.startPosition + this.opinions.length - 1;
-    },
-
-    urlPattern() {
-      return `/opinions/recenttop/sort/date/page/:page/direction/desc/max/${this.perPage}`;
+    urlParams() {
+      return this.getUrlParams(this.$route);
     },
   },
 
   asyncData({ store, route }) {
-    return store.dispatch('FETCH_TOP_PICKS', {
-      page: Number(route.params.page),
-      perPage: Number(route.params.perPage),
-    });
+    return store.dispatch('FETCH_TOP_PICKS', this.methods.getUrlParams(route));
   },
 
   title() {
@@ -114,6 +86,24 @@ export default {
   updated() {
     if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({ reset: true });
   },
+
+  methods: {
+    getUrlParams(route) {
+      const {
+        sortBy = 'date',
+        direction = 'desc',
+        page,
+        perPage,
+      } = route.params;
+
+      return {
+        sortBy,
+        direction,
+        page: Number(page) || 1,
+        perPage: Number(perPage) || 15,
+      };
+    },
+  },
 };
 </script>
 
@@ -124,10 +114,6 @@ export default {
   max-width 100%
   padding 0 20px
   margin 0 auto
-
-.opinions-count
-  color black
-  margin 5px 0
 
 .triple-ads
   margin-top -17px

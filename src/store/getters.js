@@ -110,6 +110,10 @@ export default {
     return state.totalExperts;
   },
 
+  numTotalExperts(state) {
+    return state.numTotalExperts;
+  },
+
   searchedExperts(state) {
     return state.searchedExperts;
   },
@@ -138,8 +142,8 @@ export default {
     return state.companies;
   },
 
-  totalCompanies(state) {
-    return state.totalCompanies;
+  numTotalCompanies(state) {
+    return state.numTotalCompanies;
   },
 
   searchedCompanies(state) {

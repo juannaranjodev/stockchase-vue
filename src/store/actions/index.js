@@ -106,22 +106,6 @@ export default {
       commit('UPDATE_OPINION', opinion);
     }),
 
-  RATE_COMPANY: ({ commit, state }, { id, rating }) => api.rateCompany({ id, rating })
-    .then((response) => {
-      const company = _.clone(state.company);
-      company.SocialRatings = company.SocialRatings || [];
-      const ratingIndex = _.findIndex(company.SocialRatings, { id: response.id });
-
-      // If existing rating found, replace it with the new one
-      if (ratingIndex !== -1) {
-        company.SocialRatings[ratingIndex] = response;
-      } else {
-        company.SocialRatings.push(response);
-      }
-
-      commit('SET_COMPANY', company);
-    }),
-
   RATE_EXPERT: ({ commit, state }, { id, rating }) => api.rateExpert({ id, rating })
     .then((response) => {
       const expert = _.clone(state.expert);

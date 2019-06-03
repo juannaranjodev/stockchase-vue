@@ -13,52 +13,6 @@ const { Company } = db;
 
 export default function createAPI() {
   return {
-    async getExpertsTotalByCharacter(character, type = 'L') {
-      return Expert.getExpertsTotalByCharacter(character, type === 'L' ? 'LastName' : 'FirstName');
-    },
-
-    async getExpertsByFirstCharacter(character, type = 'L', page = 1, limit = 15) {
-      return Expert.getExpertsByCharacter(
-        character,
-        type === 'L' ? 'LastName' : 'FirstName',
-        page,
-        limit,
-      );
-    },
-
-    async getCompaniesTotalByCharacter(character, type = 'C') {
-      return Company.getCompaniesTotalByCharacter(character, type === 'C' ? 'name' : 'symbol');
-    },
-
-    async getCompaniesByFirstCharacter(character, type = 'C', page = 1, limit = 15) {
-      return Company.getCompaniesByCharacter(
-        character,
-        type === 'C' ? 'name' : 'symbol',
-        page,
-        limit,
-      );
-    },
-
-    async getExpertsByName(term, page = 1, limit = 15) {
-      const experts = await Expert.getExpertsByName(term, page, limit);
-
-      return {
-        experts,
-      };
-    },
-
-    async getTotalExperts(term = null) {
-      return Expert.getTotalExperts(term);
-    },
-
-    async getExpertsByPage(page = 1, limit = 15) {
-      const experts = await Expert.getExpertsByPage(page, limit);
-
-      return {
-        experts,
-      };
-    },
-
     async fetchDailyOpinions(dateParam) {
       const recentDate = await Opinion.getRecentOpinionDate();
       let date = dateParam;
@@ -340,16 +294,16 @@ export default function createAPI() {
       return Company.getCompaniesByPage(page, limit);
     },
 
-    async getTotalCompanies(term = null) {
-      return Company.getTotalCompanies(term);
-    },
-
-    async getCompaniesByTerm(term = null, page = 1, limit = 60) {
-      return Company.getCompaniesByTerm(term, page, limit);
-    },
-
     async fetchTopPicksByPage(page, perPage) {
       return Opinion.getTopPicksByPage(page, perPage);
+    },
+
+    async fetchCompaniesByPage(page, perPage, filters) {
+      return Company.getCompaniesByPage(page, perPage, filters);
+    },
+
+    async fetchExpertsByPage(page, perPage, filters) {
+      return Expert.getExpertsByPage(page, perPage, filters);
     },
   };
 }

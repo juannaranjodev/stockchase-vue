@@ -5,8 +5,8 @@ export default {
     Vue.set(state, 'companies', companies);
   },
 
-  SET_TOTAL_COMPANIES: (state, total = 0) => {
-    Vue.set(state, 'totalCompanies', total);
+  SET_NUM_TOTAL_COMPANIES: (state, total = 0) => {
+    Vue.set(state, 'numTotalCompanies', total);
   },
 
   SET_TOTAL_SEARCHED_COMPANIES: (state, total = 0) => {

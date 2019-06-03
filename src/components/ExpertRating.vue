@@ -1,12 +1,13 @@
 <template>
   <five-star-rating
+    v-if="rating > 0"
     :rating="rating"
-    :title="
-      rating > 0
-        ? `Score: ${formattedRating}\nTotal wins: ${totalWins}\nTotal loses: ${totalLoses}`
-        : 'Expert rating not available'
-    "
+    :title="`Score: ${formattedRating}\nTotal wins: ${totalWins}\nTotal loses: ${totalLoses}`"
   />
+  <span
+    v-else
+    class="no-rating"
+  >Expert rating not available.</span>
 </template>
 
 <script>
@@ -39,3 +40,10 @@ export default {
   },
 };
 </script>
+
+<style lang="stylus" scoped>
+.no-rating
+  color #8990A5
+  font-size 13px
+  font-weight normal
+</style>
