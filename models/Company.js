@@ -144,6 +144,8 @@ module.exports = (sequelize, DataTypes) => {
         { model: sequelize.models.SocialRating },
       ],
     }).then((company) => {
+      if (!company) return;
+
       const result = company.toJSON();
       [result.latest_top_pick] = company.Opinions;
       delete result.Opinions;
