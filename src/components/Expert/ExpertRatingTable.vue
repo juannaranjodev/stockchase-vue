@@ -23,7 +23,8 @@
           </div>
           {{ totalTopPicks.bigWins }}
           <span class="percentage">
-            ({{ totalTopPicks.bigWins | percentageAgainst(expert.totalWins) | formatPercentage }})
+            ({{ totalTopPicks.bigWins | percentageAgainst(totalTopPicks.total)
+              | formatPercentage }})
           </span>
         </th>
         <th>
@@ -36,7 +37,7 @@
           </div>
           {{ totalTopPicks.wins }}
           <span class="percentage">
-            ({{ totalTopPicks.wins | percentageAgainst(expert.totalWins) | formatPercentage }})
+            ({{ totalTopPicks.wins | percentageAgainst(totalTopPicks.total) | formatPercentage }})
           </span>
         </th>
         <th>
@@ -48,6 +49,10 @@
             NEUTRAL
           </div>
           {{ totalTopPicks.noChanges }}
+          <span class="percentage">
+            ({{ totalTopPicks.noChanges | percentageAgainst(totalTopPicks.total)
+              | formatPercentage }})
+          </span>
         </th>
         <th>
           <div class="th-description">
@@ -59,7 +64,7 @@
           </div>
           {{ totalTopPicks.loses }}
           <span class="percentage">
-            ({{ totalTopPicks.loses | percentageAgainst(expert.totalLoses) | formatPercentage }})
+            ({{ totalTopPicks.loses | percentageAgainst(totalTopPicks.total) | formatPercentage }})
           </span>
         </th>
         <th>
@@ -72,7 +77,8 @@
           </div>
           {{ totalTopPicks.bigLoses }}
           <span class="percentage">
-            ({{ totalTopPicks.bigLoses | percentageAgainst(expert.totalLoses) | formatPercentage }})
+            ({{ totalTopPicks.bigLoses | percentageAgainst(totalTopPicks.total)
+              | formatPercentage }})
           </span>
         </th>
       </tr>
@@ -97,28 +103,31 @@
         <td>
           {{ rating.big_win || 0 }}
           <span class="percentage">
-            ({{ rating.big_win | percentageAgainst(expert.totalWins) | formatPercentage }})
+            ({{ rating.big_win | percentageAgainst(rating.total) | formatPercentage }})
           </span>
         </td>
         <td>
           {{ rating.win || 0 }}
           <span class="percentage">
-            ({{ rating.win | percentageAgainst(expert.totalWins) | formatPercentage }})
+            ({{ rating.win | percentageAgainst(rating.total) | formatPercentage }})
           </span>
         </td>
         <td>
           {{ rating.no_change || 0 }}
+          <span class="percentage">
+            ({{ rating.no_change | percentageAgainst(rating.total) | formatPercentage }})
+          </span>
         </td>
         <td>
           {{ rating.lose || 0 }}
           <span class="percentage">
-            ({{ rating.lose | percentageAgainst(expert.totalLoses) | formatPercentage }})
+            ({{ rating.lose | percentageAgainst(rating.total) | formatPercentage }})
           </span>
         </td>
         <td>
           {{ rating.big_lose || 0 }}
           <span class="percentage">
-            ({{ rating.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }})
+            ({{ rating.big_lose | percentageAgainst(rating.total) | formatPercentage }})
           </span>
         </td>
       </tr>
@@ -167,6 +176,7 @@ export default {
             win,
             big_lose,
             lose,
+            no_change,
           } = ratingMatched;
           const periodScore = big_win + win - big_lose - lose;
           let periodRating = null;
@@ -177,6 +187,7 @@ export default {
           else periodRating = 1;
 
           ratingMatched.rating = periodRating;
+          ratingMatched.total = big_win + win + big_lose + lose + no_change;
           results.push(ratingMatched);
         }
       });
@@ -191,6 +202,8 @@ export default {
       result.noChanges = _.sumBy(this.expert.ratings, ({ no_change }) => no_change);
       result.bigLoses = _.sumBy(this.expert.ratings, ({ big_lose }) => big_lose);
       result.loses = _.sumBy(this.expert.ratings, ({ lose }) => lose);
+      result.total = result.bigWins + result.wins + result.noChanges
+        + result.bigLoses + result.loses;
       /* eslint-enable camelcase */
       return result;
     },
@@ -230,7 +243,7 @@ export default {
       font-size 15px
       color #000000
       vertical-align middle
-      padding 6px 8px
+      padding 6px
       border-top 0
 
     .period-name
