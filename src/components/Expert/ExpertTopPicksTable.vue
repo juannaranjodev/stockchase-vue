@@ -63,7 +63,11 @@
             </div>
           </td>
           <td>
-            <top-pick-status />
+            <top-pick-status
+              :current="opinion.current"
+              :lowest="opinion.lowest"
+              :highest="opinion.highest"
+            />
           </td>
           <td>
             <div class="opinion-performance">

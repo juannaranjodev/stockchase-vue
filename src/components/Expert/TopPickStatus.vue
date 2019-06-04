@@ -6,7 +6,10 @@
         <div
           v-b-tooltip.hover
           class="status-pointer"
-          :style="{ width: position + '%' }"
+          :style="{
+            width: `calc(${position}% + 6px`,
+            display: showStatus ? 'block' : 'none',
+          }"
           :title="`Low: $${lowest}\nHigh: $${highest}\nCurrent: $${current}`"
         >
           <img

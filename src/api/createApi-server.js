@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import request from 'request';
 import Parser from 'rss-parser';
+import moment from 'moment';
 import * as c from '../constants';
 import db from '../../models';
 
@@ -190,6 +191,23 @@ export default function createAPI() {
       });
     },
 
+    async fetchCompanyPriceHistory(symbol, from) {
+      const fromDate = !from
+        ? moment().subtract(52, 'weeks').format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD');
+
+      return new Promise((resolve) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${symbol}/history?from=${fromDate}`,
+          json: true,
+        }, (err, response, body) => {
+          if (err) return resolve({}); // do not throw
+
+          return resolve(body || {});
+        });
+      });
+    },
+
     async fetchCompanyQuoteBySymbol(symbol) {
       return new Promise((resolve) => {
         request({
@@ -276,15 +294,20 @@ export default function createAPI() {
         const quote = await this.fetchCompanyQuoteBySymbol(company.symbol);
         const diffByQuote = quote.price - price;
         const performanceByQuote = diffByQuote * 100 / price;
+        /* eslint-disable-next-line no-await-in-loop */
+        const history = await this.fetchCompanyPriceHistory(company.symbol);
         results.push({
           id: topPickId,
           Company: company,
-          price,
+          price: Number(price),
           date,
           TopPickPerformance,
           diffByQuote,
           performanceByQuote,
           quoteDate: quote.quote_date,
+          lowest: history.low ? history.low.value : quote.price,
+          highest: history.high ? history.high.value : quote.price,
+          current: quote.price,
         });
       }
       return results;
