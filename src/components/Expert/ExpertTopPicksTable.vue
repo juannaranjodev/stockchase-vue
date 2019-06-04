@@ -71,7 +71,11 @@
           </td>
           <td>
             <div class="opinion-performance">
-              <div class="opinion-performance-price">
+              <div
+                class="opinion-performance-price"
+                :style="{ color: opinion.diffByQuote > 0 ? '#0f9d58' : '#d23f31' }"
+              >
+                {{ opinion.diffByQuote > 0 ? '+' : '' }}
                 ${{ opinion.diffByQuote | round }} ({{ opinion.performanceByQuote | round }}%)
               </div>
               <div class="opinion-performance-date">
