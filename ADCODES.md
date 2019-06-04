@@ -1,5 +1,7 @@
 # Ad codes
 
+https://developers.google.com/doubleclick-gpt/common_implementation_mistakes
+
 ## Adsense codes:
 
 ```
@@ -131,3 +133,39 @@ Ad unit body code:
 googletag.cmd.push(function() { googletag.display('div-gpt-ad-1559574540467-0'); });
 </script>
 </div>
+```
+
+## OLD ADX CODES
+
+```
+//Adslot 0 declaration (used for homepage square ad)
+googletag.defineSlot('/21762661285/stockchase.com_InPost_DesktopMobile_300x250_BTF', [300, 250], 'div-gpt-ad-1557498114578-0')
+  .addService(googletag.pubads());
+//Adslot 1 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_CompaniesSquare_300x250_ATF', [[300,250]], 'div-gpt-ad-9004875-1')
+  .addService(googletag.pubads()));
+//Adslot 2 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/DiscoverWideHorizontalTop_Desktop_728x90_ATF_Flex', [[728,90],'fluid'], 'div-gpt-ad-9004875-2')
+  .addService(googletag.pubads()));
+//Adslot 3 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_DiscoverWideHorizontalTop_Desktop_970x250_ATF_Flex', [[970,250],'fluid'], 'div-gpt-ad-9004875-3')
+  .addService(googletag.pubads()));
+//Adslot 4 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_ExpertsSquare_300x250_ATF', [[300,250]], 'div-gpt-ad-9004875-4')
+  .addService(googletag.pubads()));
+//Adslot 5 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_InPost_DesktopMobile_300x250_BTF', [[300,250]], 'div-gpt-ad-9004875-5')
+  .addService(googletag.pubads()));
+//Adslot 6 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/Sidebar_Desktop_300x600', [[300,600]], 'div-gpt-ad-9004875-6')
+  .addService(googletag.pubads()));
+//Adslot 7 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_SiteWideHorizontalMiddleTable_728x90_BTF_Flex', [[728,90],'fluid'], 'div-gpt-ad-9004875-7')
+  .addService(googletag.pubads()));
+//Adslot 8 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_SiteWideHorizontalTop_Desktop_728x90_ATF_Flex', [[728,90],'fluid'], 'div-gpt-ad-9004875-8')
+  .addService(googletag.pubads()));
+//Adslot 9 declaration
+gptadslots.push(googletag.defineSlot('/21762661285/stockchase.com_StickyBottom_Mobile_300x50', [[300,50]], 'div-gpt-ad-9004875-9')
+  .addService(googletag.pubads()));
+```

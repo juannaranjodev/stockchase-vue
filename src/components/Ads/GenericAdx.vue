@@ -4,6 +4,9 @@
 
 <script>
 /* global googletag */
+/* eslint-disable max-len */
+import { adxSlots } from './config';
+
 export default {
   name: 'GenericAdx',
 
@@ -16,7 +19,12 @@ export default {
 
   mounted() {
     this.$nextTick(() => {
-      googletag.cmd.push(() => { googletag.display(this.slotId); });
+      const adxSlot = adxSlots[this.slotId];
+
+      googletag.cmd.push(() => {
+        googletag.defineSlot(adxSlot[0], adxSlot[1], this.slotId).addService(googletag.pubads());
+        googletag.display(this.slotId);
+      });
     });
   },
 };
