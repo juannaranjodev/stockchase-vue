@@ -39,7 +39,7 @@ export default {
 
       // Redirect urls with wrong slugs to the canonical url
       if (!original.page && slug !== expert.slug) {
-        return Promise.reject({ url: expert.url, code: 301 });
+        return Promise.reject({ url: expert.url });
       }
 
       commit('SET_EXPERT', expert);
