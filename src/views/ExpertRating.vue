@@ -81,7 +81,7 @@ export default {
           this.expertTopPicksHavingPerformance,
           topPick => topPick.TopPickPerformance.two_years !== null,
         ),
-        'company_id',
+        'companyId',
       ));
     },
   },

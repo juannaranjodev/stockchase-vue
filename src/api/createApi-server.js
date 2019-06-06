@@ -290,6 +290,7 @@ export default function createAPI() {
           price,
           date,
           TopPickPerformance,
+          company_id: companyId,
         } = topPicks[i];
         /* eslint-disable-next-line no-await-in-loop */
         const quote = await this.fetchCompanyQuoteBySymbol(company.symbol);
@@ -309,6 +310,7 @@ export default function createAPI() {
           lowest: history.low ? history.low.value : quote.price,
           highest: history.high ? history.high.value : quote.price,
           current: quote.price,
+          companyId,
         });
       }
       return results;

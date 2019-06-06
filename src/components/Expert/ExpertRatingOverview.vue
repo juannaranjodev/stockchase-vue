@@ -84,7 +84,7 @@
     <div class="expert-overview__description">
       <p class="expert-overview__description-text">
         We analyzed {{ countTopPicksAnalyzed }}
-        top picks opinion from Jon Case.
+        top picks opinion from {{ expert.name }}.
       </p>
       <p class="expert-overview__description-text">
         Jon Case made {{ count2YearsTopPicksAnalyzed }}
