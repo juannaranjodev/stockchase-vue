@@ -201,7 +201,7 @@ export default function createAPI() {
 
       const cachedValue = cache.get(`${symbol}-history-${fromDate}`);
       if (cachedValue !== undefined) {
-        return cachedValue;
+        return Promise.resolve(cachedValue);
       }
 
       return new Promise((resolve) => {
@@ -221,7 +221,7 @@ export default function createAPI() {
     async fetchCompanyQuoteBySymbol(symbol) {
       const cachedValue = cache.get(`${symbol}-quote`);
       if (cachedValue !== undefined) {
-        return cachedValue;
+        return Promise.resolve(cachedValue);
       }
 
       return new Promise((resolve) => {
