@@ -212,7 +212,7 @@ export default function createAPI() {
           if (err) return resolve({}); // do not throw
 
           const result = body || {};
-          cache.set(`${symbol}-history-${fromDate}`, result, 1800); // Cache 30 min
+          cache.set(`${symbol}-history-${fromDate}`, result); // Default cache 30 min
           return resolve(result);
         });
       });
@@ -232,7 +232,7 @@ export default function createAPI() {
           if (err) return resolve({}); // do not throw
 
           const result = body || {};
-          cache.set(`${symbol}-quote`, result, 1800); // Cache 30 min
+          cache.set(`${symbol}-quote`, result); // Default cache 30 min
           return resolve(result);
         });
       });
