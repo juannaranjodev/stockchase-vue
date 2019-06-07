@@ -1,10 +1,13 @@
-/* eslint-disable no-console */
 import _ from 'lodash';
 import request from 'request';
 import Parser from 'rss-parser';
 import moment from 'moment';
 import * as c from '../constants';
 import db from '../../models';
+/* eslint-disable no-console */
+const NodeCache = require('node-cache');
+
+const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 min
 
 const { Opinion } = db;
 const { Expert } = db;
@@ -196,6 +199,12 @@ export default function createAPI() {
         ? moment().subtract(52, 'weeks').format('YYYY-MM-DD')
         : moment().format('YYYY-MM-DD');
 
+      const cachedValue = cache.get(`${symbol}-history-${fromDate}`);
+      if (cachedValue !== undefined) {
+        console.log('cached history');
+        return cachedValue;
+      }
+
       return new Promise((resolve) => {
         request({
           url: `http://data.wealthica.com/api/securities/${symbol}/history?from=${fromDate}`,
@@ -203,12 +212,20 @@ export default function createAPI() {
         }, (err, response, body) => {
           if (err) return resolve({}); // do not throw
 
-          return resolve(body || {});
+          const result = body || {};
+          cache.set(`${symbol}-history-${fromDate}`, result, 1800); // Cache 30 min
+          return resolve(result);
         });
       });
     },
 
     async fetchCompanyQuoteBySymbol(symbol) {
+      const cachedValue = cache.get(`${symbol}-quote`);
+      if (cachedValue !== undefined) {
+        console.log('cached quote');
+        return cachedValue;
+      }
+
       return new Promise((resolve) => {
         request({
           url: `http://data.wealthica.com/api/securities/${symbol}`,
@@ -216,7 +233,9 @@ export default function createAPI() {
         }, (err, response, body) => {
           if (err) return resolve({}); // do not throw
 
-          return resolve(body || {});
+          const result = body || {};
+          cache.set(`${symbol}-quote`, result, 1800); // Cache 30 min
+          return resolve(result);
         });
       });
     },
