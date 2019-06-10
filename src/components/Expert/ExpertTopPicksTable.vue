@@ -7,7 +7,7 @@
           <th>STOCK</th>
           <th>Top Pick</th>
           <th>LOW / HIGH</th>
-          <th>Performance</th>
+          <th>Performance to date</th>
           <th />
           <th />
         </tr>
