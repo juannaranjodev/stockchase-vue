@@ -11,9 +11,12 @@
       <div class="expert-meta">
         <div class="expert-meta__content">
           <div class="expert-meta__left">
-            <div class="expert-name">
+            <a
+              class="expert-name"
+              :href="expert.url"
+            >
               {{ expert.name }}
-            </div>
+            </a>
 
             <div class="expert-top-picks">
               {{ countTopPicksAnalyzed }} TOP PICKS
@@ -273,6 +276,8 @@ export default {
       color #25292B
       font-weight bold
       line-height 22px
+      &:hover
+        cursor pointer
 
     &-top-picks
       opacity 0.35
