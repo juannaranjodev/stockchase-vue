@@ -106,3 +106,26 @@ export function displayPerformanceName(performance) {
       return performance;
   }
 }
+
+export function periodDate(opinionDate, period) {
+  const resultDate = moment(opinionDate);
+  switch (period) {
+    case 'one_month':
+      resultDate.add(1, 'months');
+      break;
+    case 'six_months':
+      resultDate.add(6, 'months');
+      break;
+    case 'twelve_months':
+      resultDate.add(1, 'years');
+      break;
+    case 'two_years':
+      resultDate.add(2, 'years');
+      break;
+    case 'five_years':
+      resultDate.add(5, 'years');
+      break;
+    default:
+  }
+  return resultDate.format('MMMM Do, YYYY');
+}

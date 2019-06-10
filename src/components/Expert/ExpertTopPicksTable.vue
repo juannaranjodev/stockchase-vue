@@ -6,9 +6,9 @@
         <tr>
           <th>STOCK</th>
           <th>Top Pick</th>
+          <th />
           <th>LOW / HIGH</th>
           <th>Performance to date</th>
-          <th />
           <th />
         </tr>
       </thead>
@@ -63,6 +63,16 @@
             </div>
           </td>
           <td>
+            <div class="period-performance">
+              <div class="period-performance-result">
+                {{ opinion.TopPickPerformance[period] | displayPerformanceName }}
+              </div>
+              <div class="period-performance-date">
+                {{ opinion.date | periodDate(period) }}
+              </div>
+            </div>
+          </td>
+          <td>
             <top-pick-status
               :current="opinion.current"
               :lowest="opinion.lowest"
@@ -82,9 +92,6 @@
                 {{ opinion.quoteDate | topPickDate }}
               </div>
             </div>
-          </td>
-          <td>
-            {{ opinion.TopPickPerformance[period] | displayPerformanceName }}
           </td>
           <td>
             <div class="add-watch-list">
@@ -126,9 +133,6 @@ export default {
 
   computed: {
     ...mapGetters(['user', 'expert']),
-  },
-
-  methods: {
   },
 };
 </script>
@@ -228,4 +232,8 @@ export default {
     font-size 14px
     &:hover
       cursor: pointer
+  .period-performance
+    &-date
+      color #555
+      opacity 0.5
 </style>
