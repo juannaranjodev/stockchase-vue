@@ -181,6 +181,12 @@ export default {
     this.destroyTippy();
   },
 
+  mounted() {
+    this.$nextTick(() => {
+      this.initTippy();
+    });
+  },
+
   methods: {
     initTippy() {
       tippy(this.$refs.userReactions, {
@@ -284,6 +290,25 @@ export default {
       font-size 14px
       font-weight bold
 
+    &-rating
+      color #06c
+      display flex
+      align-items center
+      font-size 15px
+
+      &.no-rating
+        img
+          opacity 0.6
+
+      &:hover
+        cursor pointer
+        color #09f
+
+        img
+          opacity 1 !important
+
+      span
+        margin-left 10px
   .review-expert
     color white
     text-decoration none
