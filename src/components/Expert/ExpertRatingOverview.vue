@@ -39,14 +39,20 @@
       </div>
     </div>
     <div class="expert-overview__feedback">
-      <div class="expert-comments">
+      <a
+        class="expert-comments"
+        :href="`${expert.url}#comments`"
+      >
         <img
           src="~assets/svgs/message.svg"
           width="23"
           height="22"
         >
-        <span class="expert-overview__feedback-text">0 comments</span>
-      </div>
+        <span
+          class="disqus-comment-count expert-overview__feedback-text"
+          :data-disqus-url="absoluteUrl"
+        >0 Comments</span>
+      </a>
       <div class="expert-reactions">
         <div style="display: none">
           <div ref="reactionsTooltip">
@@ -113,6 +119,7 @@
 </template>
 
 <script>
+/* global DISQUSWIDGETS */
 import { mapGetters } from 'vuex';
 import _ from 'lodash';
 
@@ -169,12 +176,20 @@ export default {
       const ratings = this.expert.SocialRatings || [];
       return _.countBy(ratings, 'rating')[myRating.rating] - 1;
     },
+
+    absoluteUrl() {
+      return `${this.origin}${this.expert.url}`;
+    },
   },
 
   watch: {
     myRating() {
       this.resetTippy();
     },
+  },
+
+  beforeMount() {
+    this.origin = window.location.origin;
   },
 
   beforeDestroy() {
@@ -185,6 +200,10 @@ export default {
     this.$nextTick(() => {
       this.initTippy();
     });
+  },
+
+  updated() {
+    if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({ reset: true });
   },
 
   methods: {
@@ -307,8 +326,18 @@ export default {
         img
           opacity 1 !important
 
+        .expert-overview__feedback-text
+          color #06c
+          opacity 0.7
+
       span
         margin-left 10px
+    &-comments
+      &:hover
+        text-decoration none
+        .expert-overview__feedback-text
+          color #06c
+          opacity 0.7
   .review-expert
     color white
     text-decoration none
@@ -328,6 +357,7 @@ export default {
 
     &:hover
       background-color #FF2E50
+
 
   @media (max-width 767px)
     .expert
