@@ -24,9 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const baseUrl = process.env.APP_URL || 'https://stockchase.com';
-        if (!this.symbol) return;
+        const nologoUrl = `${baseUrl}/assets/no_logo.png`;
+        if (!this.symbol || !this.active) return nologoUrl;
 
-        return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${baseUrl}/assets/no_logo.png`;
+        return `https://data.wealthica.com/api/securities/${this.symbol.replace(/ ?\([^)]+\)/g, '')}/logo?default=${nologoUrl}`;
       },
     },
     slug: {
