@@ -166,8 +166,9 @@ module.exports = (sequelize, DataTypes) => {
           result.no_change = totalNoChangesById[expertRating.expert_id];
         }
 
-        result.totalWins = expertRating.win + expertRating.big_win;
-        result.totalLoses = expertRating.lose + expertRating.big_lose;
+        result.totalWins = result.win + result.big_win;
+        result.totalLoses = result.lose + result.big_lose;
+        result.total = result.totalWins + result.totalLoses + result.no_change;
 
         if (!expertRating.expertRank) {
           const diffWinsAndLoses = result.totalWins - result.totalLoses;

@@ -61,7 +61,7 @@
             {{ expert.big_lose || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+            {{ expert.big_lose | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -72,7 +72,7 @@
             {{ expert.lose || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+            {{ expert.lose | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -82,6 +82,9 @@
           >
             {{ expert.no_change || 0 }}
           </a>
+          <span class="expert-tp-count-percent">
+            {{ expert.no_change | percentageAgainst(expert.total) | formatPercentage }}
+          </span>
         </td>
         <td>
           <a
@@ -91,7 +94,7 @@
             {{ expert.win || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
+            {{ expert.win | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -102,7 +105,7 @@
             {{ expert.big_win || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
+            {{ expert.big_win | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
