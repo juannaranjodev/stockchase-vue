@@ -4,7 +4,7 @@
       <tr>
         <th>Rank</th>
         <th>Name</th>
-        <th>Period</th>
+        <th>Rating</th>
         <th>Big Lose</th>
         <th>Lose</th>
         <th>No Change</th>
