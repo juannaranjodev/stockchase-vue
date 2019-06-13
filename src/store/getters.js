@@ -98,6 +98,10 @@ export default {
     return state.experts;
   },
 
+  expertTopPicksHavingPerformance(state) {
+    return state.expertTopPicksHavingPerformance;
+  },
+
   numTotalExperts(state) {
     return state.numTotalExperts;
   },

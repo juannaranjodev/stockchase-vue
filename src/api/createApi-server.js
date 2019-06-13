@@ -1,9 +1,13 @@
-/* eslint-disable no-console */
 import _ from 'lodash';
 import request from 'request';
 import Parser from 'rss-parser';
+import moment from 'moment';
 import * as c from '../constants';
 import db from '../../models';
+/* eslint-disable no-console */
+const NodeCache = require('node-cache');
+
+const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 min
 
 const { Opinion } = db;
 const { Expert } = db;
@@ -190,6 +194,50 @@ export default function createAPI() {
       });
     },
 
+    async fetchCompanyPriceHistory(symbol, from) {
+      const fromDate = !from
+        ? moment().subtract(52, 'weeks').format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD');
+
+      const cachedValue = cache.get(`${symbol}-history-${fromDate}`);
+      if (cachedValue !== undefined) {
+        return Promise.resolve(cachedValue);
+      }
+
+      return new Promise((resolve) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${symbol}/history?from=${fromDate}`,
+          json: true,
+        }, (err, response, body) => {
+          if (err) return resolve({}); // do not throw
+
+          const result = body || {};
+          cache.set(`${symbol}-history-${fromDate}`, result); // Default cache 30 min
+          return resolve(result);
+        });
+      });
+    },
+
+    async fetchCompanyQuoteBySymbol(symbol) {
+      const cachedValue = cache.get(`${symbol}-quote`);
+      if (cachedValue !== undefined) {
+        return Promise.resolve(cachedValue);
+      }
+
+      return new Promise((resolve) => {
+        request({
+          url: `http://data.wealthica.com/api/securities/${symbol}`,
+          json: true,
+        }, (err, response, body) => {
+          if (err) return resolve({}); // do not throw
+
+          const result = body || {};
+          cache.set(`${symbol}-quote`, result); // Default cache 30 min
+          return resolve(result);
+        });
+      });
+    },
+
     async fetchCompanyById(id) {
       const company = await Company.getCompanyById(id);
       if (!company) return null;
@@ -246,6 +294,47 @@ export default function createAPI() {
 
     async fetchExpertTopPicks(id, limit) {
       return Opinion.getExpertTopPicks(id, limit);
+    },
+
+    async fetchCountExpertTopPicksFromDate(id, from) {
+      return Opinion.countExpertTopPicksFromDate(id, from);
+    },
+
+    async fetchExpertTopPicksHavingPerformance(id) {
+      const topPicks = await Opinion.getExpertTopPicksHavingPerformance(id);
+      const results = [];
+      /* eslint-disable-next-line no-plusplus */
+      for (let i = 0; i < topPicks.length; i++) {
+        const {
+          id: topPickId,
+          Company: company,
+          price,
+          date,
+          TopPickPerformance,
+          company_id: companyId,
+        } = topPicks[i];
+        /* eslint-disable-next-line no-await-in-loop */
+        const quote = await this.fetchCompanyQuoteBySymbol(company.symbol);
+        const diffByQuote = quote.price - price;
+        const performanceByQuote = diffByQuote * 100 / price;
+        /* eslint-disable-next-line no-await-in-loop */
+        const history = await this.fetchCompanyPriceHistory(company.symbol);
+        results.push({
+          id: topPickId,
+          Company: company,
+          price: Number(price),
+          date,
+          TopPickPerformance,
+          diffByQuote,
+          performanceByQuote,
+          quoteDate: quote.quote_date,
+          lowest: history.low ? history.low.value : quote.price,
+          highest: history.high ? history.high.value : quote.price,
+          current: quote.price,
+          companyId,
+        });
+      }
+      return results;
     },
 
     async getCompaniesWithOpinions(page = 1, limit = 25) {

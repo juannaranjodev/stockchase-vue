@@ -48,13 +48,20 @@ export default {
         api.fetchExpertOpinionsByPage(id, page, perPage),
         api.fetchExpertTopPicks(id, 5),
         api.fetchExpertFirstOpinionDate(id),
+        api.fetchExpertTopPicksHavingPerformance(id),
       ]).then((result) => {
-        const [{ rows: pageOpinions, count: numOpinions }, topPicks, firstOpinionDate] = result;
+        const [
+          { rows: pageOpinions, count: numOpinions },
+          topPicks,
+          firstOpinionDate,
+          topPicksHavingPerformance,
+        ] = result;
 
         commit('SET_NUM_TOTAL_OPINIONS', numOpinions);
         commit('SET_OPINIONS', pageOpinions);
         commit('SET_EXPERT_TOP_PICKS', topPicks);
         commit('SET_EXPERT_JOIN_DATE', firstOpinionDate);
+        commit('SET_EXPERT_TOP_PICKS_HAVING_PERFORMANCE', topPicksHavingPerformance);
       });
     });
   },
