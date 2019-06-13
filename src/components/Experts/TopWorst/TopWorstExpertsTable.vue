@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable max-len -->
   <table class="table top-worst-experts-table">
     <thead>
       <tr>
@@ -46,6 +47,14 @@
         <td>
           <div class="expert-period">
             {{ expert.period }}
+            <div
+              v-if="expert.period === 'Overall'"
+              v-b-tooltip.hover
+              class="overall-description"
+              title="Overall rating is a mash-up of the results available on each investing horizon."
+            >
+              <span class="info-mark">i</span>
+            </div>
           </div>
           <expert-rating
             :rating="expert.rate"
@@ -122,6 +131,7 @@
       </tr>
     </tbody>
   </table>
+  <!-- eslint-enable max-len -->
 </template>
 
 <script>
@@ -223,6 +233,22 @@ export default {
       margin: 0
       font-size: 12px
       opacity: 0.35
+
+  .expert-period
+    display flex
+    .overall-description
+      width 11px
+      height 11px
+      background #afb5d7
+      margin-left 2px
+      border-radius 50%
+      .info-mark
+        font-size 9px
+        font-style oblique
+        font-weight bold
+        vertical-align top
+        margin-left 4px
+        color white
 
   .expert-tp-count-percent
     font-size: 12px
