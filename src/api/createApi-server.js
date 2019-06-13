@@ -177,12 +177,12 @@ export default function createAPI() {
     },
 
     async fetchDisqusComments() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         request({
           url: `https://disqus.com/api/3.0/forums/listPosts.json?limit=51&forum=${process.env.DISQUS_SHORTNAME}&api_key=${process.env.DISQUS_PUBLIC_KEY}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return reject(err);
+          if (err) return resolve([]); // Silently fail
 
           // Sometimes due to rate limit disqus would return a string here instead of an array
           return resolve(_.isArray(body.response) ? body.response : []);
