@@ -5,12 +5,30 @@
       <tr>
         <th>Rank</th>
         <th>Name</th>
-        <th>Rating</th>
-        <th>Big Lose</th>
-        <th>Lose</th>
-        <th>No Change</th>
-        <th>Win</th>
-        <th>Big Win</th>
+        <th>
+          Rating
+          <info-tooltip title="Star rating is based on the most wins in the investing horizon. If the expert has the mostly BIG WIN (+20% Gain) he gets 5 stars, mostly WIN (3% to 20% Gain) he gets 4 star, mostly Neutral (-3% to 3% Gain/Loss) he gets 3 stars, mostly LOSS (-20% to -3%) he gets 2 stars and mostly BIG LOSS (> -20% loss) he gets 1 star." />
+        </th>
+        <th>
+          Big Lose
+          <info-tooltip title="> -20% loss" />
+        </th>
+        <th>
+          Lose
+          <info-tooltip title="-20% to -3%" />
+        </th>
+        <th>
+          No Change
+          <info-tooltip title="-3% to 3% Gain/Loss" />
+        </th>
+        <th>
+          Win
+          <info-tooltip title="3% to 20% Gain" />
+        </th>
+        <th>
+          Big Win
+          <info-tooltip title="+20% Gain" />
+        </th>
         <th />
       </tr>
     </thead>
@@ -47,14 +65,10 @@
         <td>
           <div class="expert-period">
             {{ expert.period }}
-            <div
+            <info-tooltip
               v-if="expert.period === 'Overall'"
-              v-b-tooltip.hover
-              class="overall-description"
               title="Overall rating is a mash-up of the results available on each investing horizon."
-            >
-              <span class="info-mark">i</span>
-            </div>
+            />
           </div>
           <expert-rating
             :rating="expert.rate"
@@ -136,12 +150,14 @@
 
 <script>
 import ExpertRating from '../../ExpertRating.vue';
+import InfoTooltip from './InfoTooltip';
 
 export default {
   name: 'TopWorstExpertsTable',
 
   components: {
     ExpertRating,
+    InfoTooltip,
   },
 
   props: {
