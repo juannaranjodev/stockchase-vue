@@ -13,7 +13,9 @@
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
+      :sort-by="sortBy"
       @changeTab="changeTab"
+      @changeSortBy="changeSortBy"
     />
     <top-worst-expert-table :experts="experts" />
     <div
@@ -45,6 +47,7 @@ export default {
   data() {
     return {
       selectedTab: 'top', // Or 'worst',
+      sortBy: 'Overall', // Or '1 Month', '6 Months', '12 Months', '2 Years', '5 Years'
     };
   },
 
@@ -74,6 +77,10 @@ export default {
   methods: {
     changeTab(tab) {
       this.selectedTab = tab;
+    },
+
+    changeSortBy(value) {
+      this.sortBy = value;
     },
   },
 };
