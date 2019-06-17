@@ -17,7 +17,7 @@
       @changeTab="changeTab"
       @changeSortBy="changeSortBy"
     />
-    <top-worst-expert-table :experts="experts" />
+    <top-worst-expert-table :experts="sortedExperts" />
     <div
       id="disclaimer"
       class="top-worst-experts-container-disclaimer"
@@ -56,6 +56,53 @@ export default {
 
     experts() {
       return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
+    },
+
+    sortedExperts() {
+      const sortedExperts = [];
+      const expertsById = {};
+      let beforeExpertId = null;
+      let periodRate = 0;
+      let indices = [];
+      const sortedExpertIds = [];
+      let idx;
+      for (idx = 0; idx < this.experts.length; idx += 1) {
+        const {
+          expert_id: expertId, name, period, rate,
+        } = this.experts[idx];
+        if (beforeExpertId !== expertId) {
+          if (beforeExpertId) {
+            expertsById[beforeExpertId] = { indices, periodRate, name };
+            sortedExpertIds.push(expertId);
+          }
+          beforeExpertId = expertId;
+          indices = [];
+          periodRate = 0;
+        }
+        indices.push(idx);
+
+        if (period === this.sortBy) {
+          periodRate = rate;
+        }
+      }
+      expertsById[beforeExpertId] = { indices, periodRate, name: this.experts[idx - 1].name };
+      sortedExpertIds.push(this.experts[idx - 1].expert_id);
+
+      sortedExpertIds.sort((a, b) => {
+        if (expertsById[a].periodRate === expertsById[b].periodRate) {
+          return expertsById[a].name.toLowerCase() < expertsById[b].name.toLowerCase() ? -1 : 1;
+        }
+
+        return expertsById[a].periodRate - expertsById[b].periodRate;
+      });
+
+      sortedExpertIds.forEach((id) => {
+        expertsById[id].indices.forEach((index) => {
+          sortedExperts.push(this.experts[index]);
+        });
+      });
+
+      return sortedExperts;
     },
   },
 
