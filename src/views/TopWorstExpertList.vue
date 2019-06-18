@@ -17,7 +17,11 @@
       @changeTab="changeTab"
       @changeSortBy="changeSortBy"
     />
-    <top-worst-expert-table :experts="sortedExperts" />
+    <top-worst-expert-table
+      :experts="sortedExperts"
+      :order-by="orderBy"
+      @toggleOrderBy="toggleOrderBy"
+    />
     <div
       id="disclaimer"
       class="top-worst-experts-container-disclaimer"
@@ -47,7 +51,8 @@ export default {
   data() {
     return {
       selectedTab: 'top', // Or 'worst',
-      sortBy: 'Overall', // Or '1 Month', '6 Months', '12 Months', '2 Years', '5 Years'
+      sortBy: 'Overall', // Or '1 Month', '6 Months', '12 Months', '2 Years', '5 Years',
+      orderBy: 'ASC', // Or 'DESC',
     };
   },
 
@@ -96,6 +101,10 @@ export default {
         return expertsById[a].periodRate - expertsById[b].periodRate;
       });
 
+      if (this.orderBy === 'DESC') {
+        sortedExpertIds.reverse();
+      }
+
       sortedExpertIds.forEach((id) => {
         expertsById[id].indices.forEach((index) => {
           sortedExperts.push(this.experts[index]);
@@ -128,6 +137,10 @@ export default {
 
     changeSortBy(value) {
       this.sortBy = value;
+    },
+
+    toggleOrderBy() {
+      this.orderBy = this.orderBy === 'ASC' ? 'DESC' : 'ASC';
     },
   },
 };

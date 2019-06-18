@@ -6,8 +6,20 @@
         <th>Rank</th>
         <th>Name</th>
         <th>
-          Rating
-          <info-tooltip title="Star rating is based on the most wins in the investing horizon. If the expert has the mostly BIG WIN (+20% Gain) he gets 5 stars, mostly WIN (3% to 20% Gain) he gets 4 star, mostly Neutral (-3% to 3% Gain/Loss) he gets 3 stars, mostly LOSS (-20% to -3%) he gets 2 stars and mostly BIG LOSS (> -20% loss) he gets 1 star." />
+          <div
+            class="header-column-ranking"
+            @click="$emit('toggleOrderBy')"
+          >
+            Rating
+            <info-tooltip title="Star rating is based on the most wins in the investing horizon. If the expert has the mostly BIG WIN (+20% Gain) he gets 5 stars, mostly WIN (3% to 20% Gain) he gets 4 star, mostly Neutral (-3% to 3% Gain/Loss) he gets 3 stars, mostly LOSS (-20% to -3%) he gets 2 stars and mostly BIG LOSS (> -20% loss) he gets 1 star." />
+            <i
+              :class="{
+                fas: true,
+                'fa-angle-down': orderBy === 'ASC',
+                'fa-angle-up': orderBy === 'DESC',
+              }"
+            />
+          </div>
         </th>
         <th>
           Big Lose
@@ -165,6 +177,12 @@ export default {
       type: Array,
       required: true,
     },
+
+    orderBy: {
+      type: String,
+      required: true,
+      validator: value => ['ASC', 'DESC'].indexOf(value) !== -1,
+    },
   },
 
   data() {
@@ -281,4 +299,10 @@ export default {
   .fas
     &:hover
       cursor: pointer
+
+  .header-column-ranking
+    &:hover
+      cursor pointer
+    i
+      margin-left 24px
 </style>
