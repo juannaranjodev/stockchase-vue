@@ -5,7 +5,6 @@ import moment from 'moment';
 import NodeCache from 'node-cache';
 import * as c from '../constants';
 import db from '../../models';
-/* eslint-disable no-console */
 
 const cache = new NodeCache();
 
@@ -61,9 +60,7 @@ export default function createAPI() {
         ? await Opinion.getOpinionsByDate(date)
         : await Opinion.getMarketCommentsByDate(date);
       const opinionIndex = opinions.findIndex(o => o.id === Number(id));
-      console.assert(opinionIndex > -1);
       const pageIndex = Math.floor(opinionIndex / c.PER_PAGE) + 1;
-      console.assert(pageIndex > 0);
 
       return isOpinion
         ? `/opinions/${date}/${pageIndex}#${id}`
