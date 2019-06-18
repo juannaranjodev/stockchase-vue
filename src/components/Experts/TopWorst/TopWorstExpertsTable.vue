@@ -50,7 +50,7 @@
         :key="`${expert.expert_id}-${rateIndex}`"
       >
         <td>
-          <span v-if="expert.expertRank">{{ expert.expertRank }}</span>
+          <span v-if="expert.expertRank">{{ rateIndex + 1 }}</span>
         </td>
         <td>
           <div

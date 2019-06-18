@@ -89,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
           FROM new_expert_rates
           GROUP BY expert_id
           ORDER BY rate ${order}, wins ${order}
-          LIMIT :limit
+          ${limit ? 'LIMIT :limit' : ''}
         ) AS top_rates,
         new_expert_rates,
         New_expert

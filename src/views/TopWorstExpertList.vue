@@ -59,8 +59,14 @@ export default {
   computed: {
     ...mapGetters(['shouldShowTopAndWorstExperts', 'user', 'topExperts', 'worstExperts']),
 
+    otherExperts() {
+      return this.worstExperts
+        .filter(expert => !this.topExperts
+          .find(e => e.expert_id === expert.expert_id));
+    },
+
     experts() {
-      return this.selectedTab === 'top' ? this.topExperts : this.worstExperts;
+      return this.selectedTab === 'top' ? this.topExperts : this.otherExperts;
     },
 
     sortedExperts() {
@@ -78,7 +84,7 @@ export default {
         if (beforeExpertId !== expertId) {
           if (beforeExpertId) {
             expertsById[beforeExpertId] = { indices, periodRate, name };
-            sortedExpertIds.push(expertId);
+            sortedExpertIds.push(beforeExpertId);
           }
           beforeExpertId = expertId;
           indices = [];
@@ -91,7 +97,7 @@ export default {
         }
       }
       expertsById[beforeExpertId] = { indices, periodRate, name: this.experts[idx - 1].name };
-      sortedExpertIds.push(this.experts[idx - 1].expert_id);
+      sortedExpertIds.push(beforeExpertId);
 
       sortedExpertIds.sort((a, b) => {
         if (expertsById[a].periodRate === expertsById[b].periodRate) {
