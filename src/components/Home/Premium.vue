@@ -18,9 +18,9 @@
 
       <div class="premium__stock-ideas">
         <div class="premium__stock-ideas-content">
-          Discover the new <a href="/expert/top">Top 25 and Worst 25 experts</a>. This month's
-          Premium-Exclusive Best Stock Ideas newsletter has been sent and features Dividend All
-          Stars. The stock ideas include :
+          Discover the new <a href="/expert/top">Top 25 and Worst 25 experts</a>.
+          This month's Premium-Exclusive Best Stock Ideas newsletter
+          has been sent and features Defensive Stocks. The stock ideas include :
         </div>
         <div class="premium__stocks">
           <a

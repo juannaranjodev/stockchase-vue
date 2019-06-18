@@ -2,12 +2,11 @@ import _ from 'lodash';
 import request from 'request';
 import Parser from 'rss-parser';
 import moment from 'moment';
+import NodeCache from 'node-cache';
 import * as c from '../constants';
 import db from '../../models';
-/* eslint-disable no-console */
-const NodeCache = require('node-cache');
 
-const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 min
+const cache = new NodeCache();
 
 const { Opinion } = db;
 const { Expert } = db;
@@ -61,9 +60,7 @@ export default function createAPI() {
         ? await Opinion.getOpinionsByDate(date)
         : await Opinion.getMarketCommentsByDate(date);
       const opinionIndex = opinions.findIndex(o => o.id === Number(id));
-      console.assert(opinionIndex > -1);
       const pageIndex = Math.floor(opinionIndex / c.PER_PAGE) + 1;
-      console.assert(pageIndex > 0);
 
       return isOpinion
         ? `/opinions/${date}/${pageIndex}#${id}`
@@ -176,19 +173,19 @@ export default function createAPI() {
     },
 
     async fetchPremiumCompanies() {
-      const symbols = ['MRU-T', 'ENB-T', 'FTS-T', 'BNS-T'];
+      const symbols = ['ADW.A-T', 'WCN-T', 'MRU-T'];
       const companies = await Company.getCompaniesBySymbols(symbols);
 
       return _.sortBy(companies, company => symbols.indexOf(company.symbol));
     },
 
     async fetchDisqusComments() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         request({
           url: `https://disqus.com/api/3.0/forums/listPosts.json?limit=51&forum=${process.env.DISQUS_SHORTNAME}&api_key=${process.env.DISQUS_PUBLIC_KEY}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return reject(err);
+          if (err) return resolve([]); // Silently fail
 
           // Sometimes due to rate limit disqus would return a string here instead of an array
           return resolve(_.isArray(body.response) ? body.response : []);
@@ -211,11 +208,8 @@ export default function createAPI() {
           url: `http://data.wealthica.com/api/securities/${symbol}/history?from=${fromDate}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return resolve({}); // do not throw
-
-          const result = body || {};
-          cache.set(`${symbol}-history-${fromDate}`, result); // Default cache 30 min
-          return resolve(result);
+          if (body) cache.set(`${symbol}-history-${fromDate}`, body, 3600); // 1 hour
+          return resolve(body || {});
         });
       });
     },
@@ -231,11 +225,8 @@ export default function createAPI() {
           url: `http://data.wealthica.com/api/securities/${symbol}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return resolve({}); // do not throw
-
-          const result = body || {};
-          cache.set(`${symbol}-quote`, result); // Default cache 30 min
-          return resolve(result);
+          if (body) cache.set(`${symbol}-quote`, body, 3600); // 1 hour
+          return resolve(body || {});
         });
       });
     },
@@ -243,29 +234,29 @@ export default function createAPI() {
     async fetchCompanyById(id) {
       const company = await Company.getCompanyById(id);
       if (!company) return null;
+      let data = {};
+      let quote;
 
-      const [data, quote] = await Promise.all([
-        new Promise((resolve) => {
-          request({
-            url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
-            json: true,
-          }, (err, response, body) => {
-            if (err) return resolve({}); // do not throw
+      if (company.active) {
+        [data, quote] = await Promise.all([
+          new Promise((resolve) => {
+            const cachedValue = cache.get(`${company.symbol}-company`);
+            if (cachedValue !== undefined) {
+              return resolve(cachedValue);
+            }
 
-            return resolve(body || {});
-          });
-        }),
-        new Promise((resolve) => {
-          request({
-            url: `http://data.wealthica.com/api/securities/${company.symbol}`,
-            json: true,
-          }, (err, response, body) => {
-            if (err) return resolve({}); // do not throw
+            return request({
+              url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
+              json: true,
+            }, (err, response, body) => {
+              if (body) cache.set(`${company.symbol}-company`, body, 14400); // 4 hours
+              return resolve(body || {});
+            });
+          }),
 
-            return resolve(body || {});
-          });
-        }),
-      ]);
+          this.fetchCompanyQuoteBySymbol(company.symbol),
+        ]);
+      }
 
       return {
         ...company,
