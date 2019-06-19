@@ -1,15 +1,46 @@
 <template>
+  <!-- eslint-disable max-len -->
   <table class="table top-worst-experts-table">
     <thead>
       <tr>
         <th>Rank</th>
         <th>Name</th>
-        <th>Period</th>
-        <th>Big Lose</th>
-        <th>Lose</th>
-        <th>No Change</th>
-        <th>Win</th>
-        <th>Big Win</th>
+        <th>
+          <div
+            class="header-column-ranking"
+            @click="$emit('toggleOrderBy')"
+          >
+            Rating
+            <info-tooltip title="Star rating is based on the most wins in the investing horizon. If the expert has the mostly BIG WIN (+20% Gain) he gets 5 stars, mostly WIN (3% to 20% Gain) he gets 4 star, mostly Neutral (-3% to 3% Gain/Loss) he gets 3 stars, mostly LOSS (-20% to -3%) he gets 2 stars and mostly BIG LOSS (> -20% loss) he gets 1 star." />
+            <i
+              :class="{
+                fas: true,
+                'fa-angle-down': orderBy === 'ASC',
+                'fa-angle-up': orderBy === 'DESC',
+              }"
+            />
+          </div>
+        </th>
+        <th>
+          Big Lose
+          <info-tooltip title="> -20% loss" />
+        </th>
+        <th>
+          Lose
+          <info-tooltip title="-20% to -3%" />
+        </th>
+        <th>
+          No Change
+          <info-tooltip title="-3% to 3% Gain/Loss" />
+        </th>
+        <th>
+          Win
+          <info-tooltip title="3% to 20% Gain" />
+        </th>
+        <th>
+          Big Win
+          <info-tooltip title="+20% Gain" />
+        </th>
         <th />
       </tr>
     </thead>
@@ -19,7 +50,7 @@
         :key="`${expert.expert_id}-${rateIndex}`"
       >
         <td>
-          <span v-if="expert.expertRank">{{ expert.expertRank }}</span>
+          <span v-if="expert.expertRank">{{ rateIndex + 1 }}</span>
         </td>
         <td>
           <div
@@ -46,6 +77,10 @@
         <td>
           <div class="expert-period">
             {{ expert.period }}
+            <info-tooltip
+              v-if="expert.period === 'Overall'"
+              title="Overall rating is a mash-up of the results available on each investing horizon."
+            />
           </div>
           <expert-rating
             :rating="expert.rate"
@@ -61,7 +96,7 @@
             {{ expert.big_lose || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.big_lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+            {{ expert.big_lose | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -72,7 +107,7 @@
             {{ expert.lose || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.lose | percentageAgainst(expert.totalLoses) | formatPercentage }}
+            {{ expert.lose | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -82,6 +117,9 @@
           >
             {{ expert.no_change || 0 }}
           </a>
+          <span class="expert-tp-count-percent">
+            {{ expert.no_change | percentageAgainst(expert.total) | formatPercentage }}
+          </span>
         </td>
         <td>
           <a
@@ -91,7 +129,7 @@
             {{ expert.win || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.win | percentageAgainst(expert.totalWins) | formatPercentage }}
+            {{ expert.win | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -102,7 +140,7 @@
             {{ expert.big_win || 0 }}
           </a>
           <span class="expert-tp-count-percent">
-            {{ expert.big_win | percentageAgainst(expert.totalWins) | formatPercentage }}
+            {{ expert.big_win | percentageAgainst(expert.total) | formatPercentage }}
           </span>
         </td>
         <td>
@@ -119,22 +157,31 @@
       </tr>
     </tbody>
   </table>
+  <!-- eslint-enable max-len -->
 </template>
 
 <script>
 import ExpertRating from '../../ExpertRating.vue';
+import InfoTooltip from './InfoTooltip';
 
 export default {
   name: 'TopWorstExpertsTable',
 
   components: {
     ExpertRating,
+    InfoTooltip,
   },
 
   props: {
     experts: {
       type: Array,
       required: true,
+    },
+
+    orderBy: {
+      type: String,
+      required: true,
+      validator: value => ['ASC', 'DESC'].indexOf(value) !== -1,
     },
   },
 
@@ -221,6 +268,22 @@ export default {
       font-size: 12px
       opacity: 0.35
 
+  .expert-period
+    display flex
+    .overall-description
+      width 11px
+      height 11px
+      background #afb5d7
+      margin-left 2px
+      border-radius 50%
+      .info-mark
+        font-size 9px
+        font-style oblique
+        font-weight bold
+        vertical-align top
+        margin-left 4px
+        color white
+
   .expert-tp-count-percent
     font-size: 12px
     opacity: 0.35
@@ -236,4 +299,10 @@ export default {
   .fas
     &:hover
       cursor: pointer
+
+  .header-column-ranking
+    &:hover
+      cursor pointer
+    i
+      margin-left 24px
 </style>

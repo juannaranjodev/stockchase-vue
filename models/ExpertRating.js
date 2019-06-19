@@ -64,8 +64,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Get top/worst experts
-  ExpertRating.getTopOrWorstExperts = async function (top = true, limit = 25) {
+  ExpertRating.getTopOrWorstExperts = async function (top = true) {
     const order = top ? 'DESC' : 'ASC';
+    const limit = top ? 25 : 0;
     return sequelize.query(`
       SELECT
         new_expert_rates.*,
@@ -89,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
           FROM new_expert_rates
           GROUP BY expert_id
           ORDER BY rate ${order}, wins ${order}
-          LIMIT :limit
+          ${limit ? 'LIMIT :limit' : ''}
         ) AS top_rates,
         new_expert_rates,
         New_expert
@@ -166,8 +167,9 @@ module.exports = (sequelize, DataTypes) => {
           result.no_change = totalNoChangesById[expertRating.expert_id];
         }
 
-        result.totalWins = expertRating.win + expertRating.big_win;
-        result.totalLoses = expertRating.lose + expertRating.big_lose;
+        result.totalWins = result.win + result.big_win;
+        result.totalLoses = result.lose + result.big_lose;
+        result.total = result.totalWins + result.totalLoses + result.no_change;
 
         if (!expertRating.expertRank) {
           const diffWinsAndLoses = result.totalWins - result.totalLoses;
