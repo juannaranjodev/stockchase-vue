@@ -64,8 +64,9 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // Get top/worst experts
-  ExpertRating.getTopOrWorstExperts = async function (top = true, limit = 25) {
+  ExpertRating.getTopOrWorstExperts = async function (top = true) {
     const order = top ? 'DESC' : 'ASC';
+    const limit = top ? 25 : 0;
     return sequelize.query(`
       SELECT
         new_expert_rates.*,

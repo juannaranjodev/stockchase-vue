@@ -1,5 +1,4 @@
 <template>
-  <!-- eslint-disable max-len -->
   <div
     v-if="shouldShowTopAndWorstExperts"
     class="container"
@@ -9,7 +8,10 @@
     </div>
     <div class="top-worst-experts-container-subtitle">
       <strong>Premium Exclusive</strong><br>
-      Here are the Top 25 and Other stock experts ranking according to Top Picks performance so far. We analyzed the performance of the expert's top picks as if they were bought on the date the expert chose it as a Top Pick and sold at the end of the chosen investing horizon. Ratings are updated weekly.
+      Here are the Top 25 and Other stock experts ranking according to Top Picks performance
+      so far. We analyzed the performance of the expert's top picks as if they were bought
+      on the date the expert chose it as a Top Pick and sold at the end of the chosen
+      investing horizon. Ratings are updated weekly.
     </div>
     <top-worst-experts-tab-list
       :tab="selectedTab"
@@ -32,7 +34,6 @@
       This information is provided for illustrative purposes only.
     </div>
   </div>
-  <!-- eslint-enable max-len -->
 </template>
 
 <script>

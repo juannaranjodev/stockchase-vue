@@ -89,9 +89,7 @@ export default function createAPI() {
     },
 
     async fetchTopOrWorstExperts(isTop) {
-      return isTop
-        ? ExpertRating.getTopOrWorstExperts(isTop)
-        : ExpertRating.getTopOrWorstExperts(isTop, 0);
+      return ExpertRating.getTopOrWorstExperts(isTop);
     },
 
     async fetchNewestCompanies(num) {
