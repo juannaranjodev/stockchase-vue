@@ -12,7 +12,7 @@
       :class="{ 'btn-tab': true, 'btn-tab--active': tab === 'worst' }"
       @click="$emit('changeTab', 'worst')"
     >
-      Worst 25
+      Others
     </b-button>
     <div class="space-fill" />
     <b-form-select
