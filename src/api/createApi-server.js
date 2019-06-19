@@ -2,12 +2,11 @@ import _ from 'lodash';
 import request from 'request';
 import Parser from 'rss-parser';
 import moment from 'moment';
+import NodeCache from 'node-cache';
 import * as c from '../constants';
 import db from '../../models';
-/* eslint-disable no-console */
-const NodeCache = require('node-cache');
 
-const cache = new NodeCache({ stdTTL: 1800 }); // Cache for 30 min
+const cache = new NodeCache();
 
 const { Opinion } = db;
 const { Expert } = db;
@@ -61,9 +60,7 @@ export default function createAPI() {
         ? await Opinion.getOpinionsByDate(date)
         : await Opinion.getMarketCommentsByDate(date);
       const opinionIndex = opinions.findIndex(o => o.id === Number(id));
-      console.assert(opinionIndex > -1);
       const pageIndex = Math.floor(opinionIndex / c.PER_PAGE) + 1;
-      console.assert(pageIndex > 0);
 
       return isOpinion
         ? `/opinions/${date}/${pageIndex}#${id}`
@@ -209,11 +206,8 @@ export default function createAPI() {
           url: `http://data.wealthica.com/api/securities/${symbol}/history?from=${fromDate}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return resolve({}); // do not throw
-
-          const result = body || {};
-          cache.set(`${symbol}-history-${fromDate}`, result); // Default cache 30 min
-          return resolve(result);
+          if (body) cache.set(`${symbol}-history-${fromDate}`, body, 3600); // 1 hour
+          return resolve(body || {});
         });
       });
     },
@@ -229,11 +223,8 @@ export default function createAPI() {
           url: `http://data.wealthica.com/api/securities/${symbol}`,
           json: true,
         }, (err, response, body) => {
-          if (err) return resolve({}); // do not throw
-
-          const result = body || {};
-          cache.set(`${symbol}-quote`, result); // Default cache 30 min
-          return resolve(result);
+          if (body) cache.set(`${symbol}-quote`, body, 3600); // 1 hour
+          return resolve(body || {});
         });
       });
     },
@@ -247,25 +238,21 @@ export default function createAPI() {
       if (company.active) {
         [data, quote] = await Promise.all([
           new Promise((resolve) => {
-            request({
+            const cachedValue = cache.get(`${company.symbol}-company`);
+            if (cachedValue !== undefined) {
+              return resolve(cachedValue);
+            }
+
+            return request({
               url: `http://data.wealthica.com/api/securities/${company.symbol}/company`,
               json: true,
             }, (err, response, body) => {
-              if (err) return resolve(); // do not throw
-
-              return resolve(body);
-            });
-          }),
-          new Promise((resolve) => {
-            request({
-              url: `http://data.wealthica.com/api/securities/${company.symbol}`,
-              json: true,
-            }, (err, response, body) => {
-              if (err) return resolve({}); // do not throw
-
+              if (body) cache.set(`${company.symbol}-company`, body, 14400); // 4 hours
               return resolve(body || {});
             });
           }),
+
+          this.fetchCompanyQuoteBySymbol(company.symbol),
         ]);
       }
 
